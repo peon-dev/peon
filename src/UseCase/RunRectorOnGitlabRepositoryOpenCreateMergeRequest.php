@@ -8,7 +8,7 @@ use Acme\Application\Procedures\RunRector;
 use Acme\Gitlab\CloneGitlabRepository;
 use Acme\Gitlab\OpenGitlabMergeRequest;
 
-final class RunRectorOnGitlabRepositoryAndCreateMergeRequest
+final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 {
     private CloneGitlabRepository $cloneGitlabRepository;
 
