@@ -5,12 +5,12 @@ namespace Acme\UseCase;
 
 use Acme\Domain\Application\Procedures\InstallComposer;
 use Acme\Domain\Application\Procedures\RunRector;
-use Acme\Domain\Gitlab\CloneGitlabRepository;
+use Acme\Domain\Gitlab\CheckoutGitlabRepository;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 
 final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 {
-    private CloneGitlabRepository $cloneGitlabRepository;
+    private CheckoutGitlabRepository $checkoutGitlabRepository;
 
     private InstallComposer $installComposer;
 
@@ -20,13 +20,13 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 
 
     public function __construct(
-        CloneGitlabRepository $cloneGitlabRepository,
+        CheckoutGitlabRepository $checkoutGitlabRepository,
         InstallComposer $installComposer,
         RunRector $runRector,
         OpenGitlabMergeRequest $createMergeRequest
     )
     {
-        $this->cloneGitlabRepository = $cloneGitlabRepository;
+        $this->checkoutGitlabRepository = $checkoutGitlabRepository;
         $this->installComposer = $installComposer;
         $this->runRector = $runRector;
         $this->createMergeRequest = $createMergeRequest;
@@ -35,7 +35,7 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 
     public function __invoke(string $gitlabRepositoryName): void
     {
-        $application = ($this->cloneGitlabRepository)($gitlabRepositoryName);
+        $application = ($this->checkoutGitlabRepository)($gitlabRepositoryName);
 
         ($this->installComposer)($application);
         ($this->runRector)($application);

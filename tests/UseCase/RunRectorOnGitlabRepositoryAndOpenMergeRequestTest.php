@@ -6,7 +6,7 @@ namespace Acme\Tests\UseCase;
 use Acme\Domain\Application\Application;
 use Acme\Domain\Application\Procedures\InstallComposer;
 use Acme\Domain\Application\Procedures\RunRector;
-use Acme\Domain\Gitlab\CloneGitlabRepository;
+use Acme\Domain\Gitlab\CheckoutGitlabRepository;
 use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
@@ -42,9 +42,9 @@ class RunRectorOnGitlabRepositoryAndOpenMergeRequestTest extends TestCase
 
 
 
-    private function getCloneGitlabRepository(): CloneGitlabRepository
+    private function getCloneGitlabRepository(): CheckoutGitlabRepository
     {
-        return new class () implements CloneGitlabRepository {
+        return new class () implements CheckoutGitlabRepository {
             public function __invoke(string $repositoryName): GitlabApplication
             {
                 return new GitlabApplication();
