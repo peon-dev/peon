@@ -13,7 +13,7 @@ use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
 require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
 
 $checkoutGitlabRepository = new ShellCheckoutGitlabRepository(
-    __DIR__ . '/../../rectorbot-repositories'
+    __DIR__ . '/../../rectorbot-repositories/gitlab'
 );
 
 $installComposer = new class implements InstallComposer {
@@ -28,9 +28,11 @@ $openGitlabMergeRequest = new class implements OpenGitlabMergeRequest {
     public function __invoke(GitlabApplication $gitlabApplication): void { }
 };
 
+$repositoryName = $argv[1] ?? throw new InvalidArgumentException('Missing repository name CLI parameter');
+
 (new RunRectorOnGitlabRepositoryOpenCreateMergeRequest(
     $checkoutGitlabRepository,
     $installComposer,
     $runRector,
     $openGitlabMergeRequest
-))('');
+))($repositoryName);
