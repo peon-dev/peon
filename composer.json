@@ -11,7 +11,8 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.4.0",
-        "symfony/dotenv": "^5.2"
+        "symfony/dotenv": "^5.2",
+        "nette/utils": "^3.2"
     },
     "autoload": {
         "psr-4": {
