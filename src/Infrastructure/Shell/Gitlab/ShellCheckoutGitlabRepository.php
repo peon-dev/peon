@@ -8,9 +8,18 @@ use Acme\Domain\Gitlab\GitlabApplication;
 
 final class ShellCheckoutGitlabRepository implements CheckoutGitlabRepository
 {
+    private string $repositoriesCommonDirectory;
+
+
+    public function __construct(string $repositoriesCommonDirectory)
+    {
+        $this->repositoriesCommonDirectory = $repositoriesCommonDirectory;
+    }
+
+
     public function __invoke(string $repositoryName): GitlabApplication
     {
-        shell_exec('');
+        $repositoryDirectory = $this->repositoriesCommonDirectory . '/' . $repositoryName;
 
         return new GitlabApplication();
     }

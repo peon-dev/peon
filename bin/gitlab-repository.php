@@ -12,7 +12,9 @@ use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
 
 require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
 
-$checkoutGitlabRepository = new ShellCheckoutGitlabRepository();
+$checkoutGitlabRepository = new ShellCheckoutGitlabRepository(
+    __DIR__ . '/../../rectorbot-repositories'
+);
 
 $installComposer = new class implements InstallComposer {
     public function __invoke(Application $application): void { }

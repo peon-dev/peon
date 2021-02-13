@@ -4,3 +4,5 @@
 .env.*.local
 
 .phpunit.result.cache
+
+var/
