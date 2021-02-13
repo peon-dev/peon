@@ -1,0 +1,17 @@
+{
+    "name": "janmikes/rector-domain-model-playground",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jan Mikeš",
+            "email": "j.mikes@me.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Acme\\": "src"
+        }
+    }
+}
