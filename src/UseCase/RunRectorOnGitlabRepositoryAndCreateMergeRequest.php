@@ -7,19 +7,20 @@ use Acme\Application\Application;
 
 final class RunRectorOnGitlabRepositoryAndCreateMergeRequest
 {
-    public function __invoke(string $repository): void
+    public function __invoke(string $gitlabRepositoryName): void
     {
-        $application = $this->prepareApplication($repository);
+        $application = $this->prepareApplication($gitlabRepositoryName);
 
         $this->runRector($application);
 
-        $this->createMergeRequest($repository, $application);
+        $this->createMergeRequest($gitlabRepositoryName, $application);
     }
 
 
-    private function prepareApplication(): Application
+    private function prepareApplication(string $gitlabRepositoryName): Application
     {
         // get source code, PHP app -> composer install, what else?
+        return new Application($gitlabRepositoryName);
     }
 
 
@@ -28,4 +29,7 @@ final class RunRectorOnGitlabRepositoryAndCreateMergeRequest
     }
 
 
+    private function createMergeRequest(string $repository, Application $application): void
+    {
+    }
 }
