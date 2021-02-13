@@ -13,7 +13,7 @@ jobs:
             coverage: none # default is xdebug
             extensions: mbstring # needed by phpunit
 
-      -   run: composer install --no-progress
+      -   run: composer install --dev --no-progress
 
       -   run: vendor/bin/phpunit tests
 
@@ -28,6 +28,6 @@ jobs:
               coverage: none # default is xdebug
               extensions: mbstring # needed by phpunit
 
-        -   run: composer install --no-progress
+        -   run: composer install --dev --no-progress
 
         -   run: vendor/bin/phpstan src tests
