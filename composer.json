@@ -8,10 +8,20 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.4.0",
+        "symfony/dotenv": "^5.2"
+    },
     "autoload": {
         "psr-4": {
             "Acme\\": "src"
         }
+    },
+    "autoload-dev": {
+        "Acme\\Tests\\": "tests"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }
