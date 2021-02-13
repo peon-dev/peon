@@ -3,12 +3,12 @@ declare (strict_types=1);
 
 namespace Acme\Tests\UseCase;
 
-use Acme\Application\Application;
-use Acme\Application\Procedures\InstallComposer;
-use Acme\Application\Procedures\RunRector;
-use Acme\Gitlab\CloneGitlabRepository;
-use Acme\Gitlab\GitlabApplication;
-use Acme\Gitlab\OpenGitlabMergeRequest;
+use Acme\Domain\Application\Application;
+use Acme\Domain\Application\Procedures\InstallComposer;
+use Acme\Domain\Application\Procedures\RunRector;
+use Acme\Domain\Gitlab\CloneGitlabRepository;
+use Acme\Domain\Gitlab\GitlabApplication;
+use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
 use PHPUnit\Framework\TestCase;
 

@@ -3,10 +3,10 @@ declare (strict_types=1);
 
 namespace Acme\UseCase;
 
-use Acme\Application\Procedures\InstallComposer;
-use Acme\Application\Procedures\RunRector;
-use Acme\Gitlab\CloneGitlabRepository;
-use Acme\Gitlab\OpenGitlabMergeRequest;
+use Acme\Domain\Application\Procedures\InstallComposer;
+use Acme\Domain\Application\Procedures\RunRector;
+use Acme\Domain\Gitlab\CloneGitlabRepository;
+use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 
 final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 {
