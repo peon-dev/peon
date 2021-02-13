@@ -1,7 +1,7 @@
 <?php
 declare (strict_types=1);
 
-namespace Acme\Gitlab;
+namespace Acme\Domain\Gitlab;
 
 interface OpenGitlabMergeRequest
 {

@@ -1,7 +1,7 @@
 <?php
 declare (strict_types=1);
 
-namespace Acme\Application;
+namespace Acme\Domain\Application;
 
 interface Application
 {

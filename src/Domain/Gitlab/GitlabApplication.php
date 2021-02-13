@@ -1,9 +1,9 @@
 <?php
 declare (strict_types=1);
 
-namespace Acme\Gitlab;
+namespace Acme\Domain\Gitlab;
 
-use Acme\Application\Application;
+use Acme\Domain\Application\Application;
 
 final class GitlabApplication implements Application
 {
