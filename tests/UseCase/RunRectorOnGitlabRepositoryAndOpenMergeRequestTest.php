@@ -47,7 +47,7 @@ class RunRectorOnGitlabRepositoryAndOpenMergeRequestTest extends TestCase
         return new class () implements CheckoutGitlabRepository {
             public function __invoke(string $repositoryName): GitlabApplication
             {
-                return new GitlabApplication();
+                return new GitlabApplication('');
             }
         };
     }

@@ -32,7 +32,7 @@ final class ShellCheckoutGitlabRepository implements CheckoutGitlabRepository
             $this->cloneRepository($repositoryDirectory, $repositoryUrl);
         }
 
-        return new GitlabApplication();
+        return new GitlabApplication($repositoryDirectory);
     }
 
 

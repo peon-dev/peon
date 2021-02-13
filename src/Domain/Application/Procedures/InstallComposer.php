@@ -7,5 +7,8 @@ use Acme\Domain\Application\Application;
 
 interface InstallComposer
 {
+    /**
+     * @throws MissingComposerFile
+     */
     public function __invoke(Application $application): void;
 }

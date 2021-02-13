@@ -5,4 +5,5 @@ namespace Acme\Domain\Application;
 
 interface Application
 {
+    public function getDirectory(): string;
 }

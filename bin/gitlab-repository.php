@@ -7,6 +7,7 @@ use Acme\Domain\Application\Procedures\InstallComposer;
 use Acme\Domain\Application\Procedures\RunRector;
 use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
+use Acme\Infrastructure\Shell\Application\Procedures\ShellInstallComposer;
 use Acme\Infrastructure\Shell\Gitlab\ShellCheckoutGitlabRepository;
 use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
 
@@ -16,9 +17,7 @@ $checkoutGitlabRepository = new ShellCheckoutGitlabRepository(
     __DIR__ . '/../../rectorbot-repositories/gitlab'
 );
 
-$installComposer = new class implements InstallComposer {
-    public function __invoke(Application $application): void { }
-};
+$installComposer = new ShellInstallComposer();
 
 $runRector = new class implements RunRector {
     public function __invoke(Application $application): void { }
