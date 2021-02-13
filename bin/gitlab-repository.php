@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Acme\Domain\Application\Application;
-use Acme\Domain\Application\Procedures\InstallComposer;
 use Acme\Domain\Application\Procedures\RunRector;
 use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
