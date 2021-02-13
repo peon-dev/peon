@@ -3,6 +3,12 @@ declare (strict_types=1);
 
 namespace Acme\Tests\UseCase;
 
+use Acme\Application\Application;
+use Acme\Application\Procedures\InstallComposer;
+use Acme\Application\Procedures\RunRector;
+use Acme\Gitlab\CloneGitlabRepository;
+use Acme\Gitlab\GitlabApplication;
+use Acme\Gitlab\OpenGitlabMergeRequest;
 use Acme\UseCase\RunRectorOnGitlabRepositoryAndCreateMergeRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -13,8 +19,60 @@ class RunRectorOnGitlabRepositoryAndCreateMergeRequestTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
 
-        $useCase = new RunRectorOnGitlabRepositoryAndCreateMergeRequest();
+        $cloneGitlabRepository = $this->getCloneGitlabRepository();
+        $installComposer = $this->getInstallComposer();
+        $runRector = $this->getRunRector();
+        $OpenGitlabMergeRequest = $this->getOpenGitlabMergeRequest();
 
-        $useCase->__invoke('');
+        $useCase = new RunRectorOnGitlabRepositoryAndCreateMergeRequest(
+            $cloneGitlabRepository,
+            $installComposer,
+            $runRector,
+            $OpenGitlabMergeRequest
+        );
+
+        $useCase->__invoke('acme/foo');
+
+        // $this->assertRepositoryHasBeenCloned();
+        // $this->assertRectorHasBeenRun();
+        // $this->assertComposerHasBeenInstalled();
+        // $this->assertMergeRequestHasBeenOpened();
+    }
+
+
+
+
+    private function getCloneGitlabRepository(): CloneGitlabRepository
+    {
+        return new class () implements CloneGitlabRepository {
+            public function __invoke(string $repositoryName): GitlabApplication
+            {
+                return new GitlabApplication();
+            }
+        };
+    }
+
+
+    private function getInstallComposer(): InstallComposer
+    {
+        return new class implements InstallComposer {
+            public function __invoke(Application $application): void { }
+        };
+    }
+
+
+    private function getRunRector(): RunRector
+    {
+        return new class implements RunRector {
+            public function __invoke(Application $application): void { }
+        };
+    }
+
+
+    private function getOpenGitlabMergeRequest(): OpenGitlabMergeRequest
+    {
+        return new class implements OpenGitlabMergeRequest {
+            public function __invoke(GitlabApplication $gitlabApplication): void { }
+        };
     }
 }
