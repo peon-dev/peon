@@ -6,3 +6,5 @@
 .phpunit.result.cache
 
 var/
+
+docker-compose.override.yml
