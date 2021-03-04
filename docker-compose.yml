@@ -5,3 +5,13 @@ services:
         volumes:
             - .:/var/www
         working_dir: /var/www
+        depends_on:
+            - composer
+
+    composer:
+        build: .
+        volumes:
+            - .:/var/www
+        working_dir: /var/www
+        entrypoint: "composer"
+        command: [ "install", "--no-scripts", "--no-interaction" ]
