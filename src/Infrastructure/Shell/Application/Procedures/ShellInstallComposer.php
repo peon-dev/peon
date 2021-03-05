@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace Acme\Infrastructure\Shell\Application\Procedures;
 
 use Acme\Domain\Application\Application;
-use Acme\Domain\Application\Procedures\InstallComposer;
-use Acme\Domain\Application\Procedures\MissingComposerFile;
+use Acme\Domain\Application\Procedures\Composer\InstallComposer;
+use Acme\Domain\Application\Procedures\Composer\MissingComposerFile;
 
 final class ShellInstallComposer implements InstallComposer
 {

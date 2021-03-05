@@ -3,8 +3,8 @@ declare (strict_types=1);
 
 namespace Acme\Infrastructure\Shell\Gitlab;
 
+use Acme\Domain\Application\Application;
 use Acme\Domain\Gitlab\CheckoutGitlabRepository;
-use Acme\Domain\Gitlab\GitlabApplication;
 
 final class ShellCheckoutGitlabRepository implements CheckoutGitlabRepository
 {
@@ -17,7 +17,7 @@ final class ShellCheckoutGitlabRepository implements CheckoutGitlabRepository
     }
 
 
-    public function __invoke(string $repositoryName): GitlabApplication
+    public function __invoke(string $repositoryName): Application
     {
         $repositoryDirectory = $this->repositoriesCommonDirectory . '/' . $repositoryName;
 
@@ -32,7 +32,7 @@ final class ShellCheckoutGitlabRepository implements CheckoutGitlabRepository
             $this->cloneRepository($repositoryDirectory, $repositoryUrl);
         }
 
-        return new GitlabApplication($repositoryDirectory);
+        return new Application($repositoryDirectory);
     }
 
 

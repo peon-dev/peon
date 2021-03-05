@@ -4,10 +4,9 @@ declare (strict_types=1);
 namespace Acme\Tests\UseCase;
 
 use Acme\Domain\Application\Application;
-use Acme\Domain\Application\Procedures\InstallComposer;
-use Acme\Domain\Application\Procedures\RunRector;
+use Acme\Domain\Application\Procedures\Composer\InstallComposer;
+use Acme\Domain\Application\Procedures\Rector\RunRector;
 use Acme\Domain\Gitlab\CheckoutGitlabRepository;
-use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
 use PHPUnit\Framework\TestCase;
@@ -45,9 +44,9 @@ class RunRectorOnGitlabRepositoryAndOpenMergeRequestTest extends TestCase
     private function getCloneGitlabRepository(): CheckoutGitlabRepository
     {
         return new class () implements CheckoutGitlabRepository {
-            public function __invoke(string $repositoryName): GitlabApplication
+            public function __invoke(string $repositoryName): Application
             {
-                return new GitlabApplication('');
+                return new Application('');
             }
         };
     }
@@ -72,7 +71,7 @@ class RunRectorOnGitlabRepositoryAndOpenMergeRequestTest extends TestCase
     private function getOpenGitlabMergeRequest(): OpenGitlabMergeRequest
     {
         return new class implements OpenGitlabMergeRequest {
-            public function __invoke(GitlabApplication $gitlabApplication): void { }
+            public function __invoke(Application $application): void { }
         };
     }
 }

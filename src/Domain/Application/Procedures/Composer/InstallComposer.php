@@ -1,11 +1,14 @@
 <?php
 declare (strict_types=1);
 
-namespace Acme\Domain\Application\Procedures;
+namespace Acme\Domain\Application\Procedures\Composer;
 
 use Acme\Domain\Application\Application;
 
-interface RunRector
+interface InstallComposer
 {
+    /**
+     * @throws MissingComposerFile
+     */
     public function __invoke(Application $application): void;
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Acme\Domain\Application\Application;
-use Acme\Domain\Application\Procedures\RunRector;
+use Acme\Domain\Application\Procedures\Rector\RunRector;
 use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 use Acme\Infrastructure\Shell\Application\Procedures\ShellInstallComposer;
@@ -23,7 +23,7 @@ $runRector = new class implements RunRector {
 };
 
 $openGitlabMergeRequest = new class implements OpenGitlabMergeRequest {
-    public function __invoke(GitlabApplication $gitlabApplication): void { }
+    public function __invoke(Application $application): void { }
 };
 
 $repositoryName = $argv[1] ?? throw new InvalidArgumentException('Missing repository name CLI parameter');
