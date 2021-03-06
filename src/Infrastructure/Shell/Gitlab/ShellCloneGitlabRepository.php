@@ -4,9 +4,9 @@ declare (strict_types=1);
 namespace Acme\Infrastructure\Shell\Gitlab;
 
 use Acme\Domain\Application\Application;
-use Acme\Domain\Gitlab\CheckoutGitlabRepository;
+use Acme\Domain\Gitlab\CloneGitlabRepository;
 
-final class ShellCheckoutGitlabRepository implements CheckoutGitlabRepository
+final class ShellCloneGitlabRepository implements CloneGitlabRepository
 {
     private string $repositoriesCommonDirectory;
 

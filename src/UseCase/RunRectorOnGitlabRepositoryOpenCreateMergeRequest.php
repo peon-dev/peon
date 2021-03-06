@@ -5,12 +5,12 @@ namespace Acme\UseCase;
 
 use Acme\Domain\Application\Procedures\Composer\InstallComposer;
 use Acme\Domain\Application\Procedures\Rector\RunRector;
-use Acme\Domain\Gitlab\CheckoutGitlabRepository;
+use Acme\Domain\Gitlab\CloneGitlabRepository;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 
 final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 {
-    private CheckoutGitlabRepository $checkoutGitlabRepository;
+    private CloneGitlabRepository $checkoutGitlabRepository;
 
     private InstallComposer $installComposer;
 
@@ -20,7 +20,7 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
 
 
     public function __construct(
-        CheckoutGitlabRepository $checkoutGitlabRepository,
+        CloneGitlabRepository $checkoutGitlabRepository,
         InstallComposer $installComposer,
         RunRector $runRector,
         OpenGitlabMergeRequest $openMergeRequest
@@ -33,16 +33,21 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequest
     }
 
 
-    public function __invoke(string $gitlabRepositoryName): void
+    public function __invoke(string $remoteUri, string $username, string $accessToken): void
     {
-        $application = ($this->checkoutGitlabRepository)($gitlabRepositoryName);
+        $application = ($this->checkoutGitlabRepository)($remoteUri, $username, $accessToken);
+        $remoteHead = 'master';
+        $application->checkoutGitReference($remoteHead);
+        $application->installComposer();
+        $application->runRector();
 
-        ($this->installComposer)($application);
-        ($this->runRector)($application);
+        if ($application->hasUncommittedChanges()) {
+            $localHead = 'improvements';
 
-        // if changes
-            // git checkout new branch + commit + push
-            ($this->openMergeRequest)($application);
-        // endif
+            $application->checkoutNewGitBranch($localHead);
+            $application->commitAndPushChanges();
+
+            ($this->openMergeRequest)($application->getRepositoryName(), $remoteHead, $localHead);
+        }
     }
 }

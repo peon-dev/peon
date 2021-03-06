@@ -7,12 +7,12 @@ use Acme\Domain\Application\Procedures\Rector\RunRector;
 use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 use Acme\Infrastructure\Shell\Application\Procedures\ShellInstallComposer;
-use Acme\Infrastructure\Shell\Gitlab\ShellCheckoutGitlabRepository;
+use Acme\Infrastructure\Shell\Gitlab\ShellCloneGitlabRepository;
 use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
 
 require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
 
-$checkoutGitlabRepository = new ShellCheckoutGitlabRepository(
+$checkoutGitlabRepository = new ShellCloneGitlabRepository(
     __DIR__ . '/../../rectorbot-repositories/gitlab'
 );
 
