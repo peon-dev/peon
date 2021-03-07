@@ -6,6 +6,8 @@ namespace PHPMate\UseCase;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
+use PHPMate\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Domain\Gitlab\GitlabRepository;
 use PHPMate\Domain\Rector\Rector;
 
 final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
@@ -21,10 +23,11 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
     public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
     {
         $directory = __DIR__ . '/../../var'; // TODO: Some service should provide this
-        $repositoryName = ''; // TODO: Some service should extract repository name from remoteUri
-        $remoteUri = ''; // TODO: some magic, add $username + $accesstoken into $remoteUri
 
-        $this->git->clone($directory, $remoteUri);
+        $authentication = new GitlabAuthentication($username, $personalAccessToken);
+        $gitlabRepository = GitlabRepository::createWithAuthentication($repositoryUri, $authentication);
+
+        $this->git->clone($directory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
         $this->composer->installInDirectory($directory);
         $this->rector->runInDirectory($directory);
@@ -35,7 +38,7 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
             $this->git->checkoutNewBranch($directory, $branchWithChanges);
             $this->git->commitChanges($directory, 'Changes by PHP Mate');
 
-            $this->gitlabApi->openMergeRequest($repositoryName, $personalAccessToken, $branchWithChanges);
+            $this->gitlabApi->openMergeRequest($gitlabRepository, $branchWithChanges);
         }
     }
 }

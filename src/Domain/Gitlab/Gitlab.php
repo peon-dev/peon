@@ -6,5 +6,5 @@ namespace PHPMate\Domain\Gitlab;
 
 interface Gitlab
 {
-    public function openMergeRequest(string $repositoryName, string $personalAccessToken, string $branchWithChanges): void;
+    public function openMergeRequest(GitlabRepository $gitlabRepository, string $branchWithChanges): void;
 }
