@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\": "src"
+            "PHPMate\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Acme\\Tests\\": "tests"
+            "PHPMate\\Tests\\": "tests"
         }
     },
     "require-dev": {

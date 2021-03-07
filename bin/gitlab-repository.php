@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Acme\Domain\Composer\Composer;
-use Acme\Domain\Git\Git;
-use Acme\Domain\Gitlab\GitlabApi;
-use Acme\Domain\Rector\Rector;
-use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
+use PHPMate\Domain\Composer\Composer;
+use PHPMate\Domain\Git\Git;
+use PHPMate\Domain\Gitlab\GitlabApi;
+use PHPMate\Domain\Rector\Rector;
+use PHPMate\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

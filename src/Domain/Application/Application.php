@@ -1,10 +1,10 @@
 <?php
 declare (strict_types=1);
 
-namespace Acme\Domain\Application;
+namespace PHPMate\Domain\Application;
 
-use Acme\Domain\Composer\Composer;
-use Acme\Domain\Rector\Rector;
+use PHPMate\Domain\Composer\Composer;
+use PHPMate\Domain\Rector\Rector;
 
 final class Application
 {

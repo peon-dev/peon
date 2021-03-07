@@ -1,14 +1,14 @@
 <?php
 declare (strict_types=1);
 
-namespace Acme\UseCase;
+namespace PHPMate\UseCase;
 
-use Acme\Domain\Application\Application;
-use Acme\Domain\Composer\Composer;
-use Acme\Domain\Git\Git;
-use Acme\Domain\Gitlab\GitlabApi;
-use Acme\Domain\Gitlab\GitlabRepository;
-use Acme\Domain\Rector\Rector;
+use PHPMate\Domain\Application\Application;
+use PHPMate\Domain\Composer\Composer;
+use PHPMate\Domain\Git\Git;
+use PHPMate\Domain\Gitlab\GitlabApi;
+use PHPMate\Domain\Gitlab\GitlabRepository;
+use PHPMate\Domain\Rector\Rector;
 
 final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
 {

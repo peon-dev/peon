@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\Domain\Git;
+namespace PHPMate\Domain\Git;
 
 interface Git
 {

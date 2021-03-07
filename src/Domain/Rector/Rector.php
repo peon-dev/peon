@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\Domain\Rector;
+namespace PHPMate\Domain\Rector;
 
 interface Rector
 {
