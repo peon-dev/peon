@@ -12,7 +12,8 @@
     "require": {
         "php": ">=8.0.0",
         "symfony/dotenv": "^5.2",
-        "nette/utils": "^3.2"
+        "nette/utils": "^3.2",
+        "guzzlehttp/psr7": "^1.7"
     },
     "autoload": {
         "psr-4": {
