@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Git\Git;
-use PHPMate\Domain\Gitlab\GitlabApi;
+use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
 
@@ -23,13 +23,15 @@ $git = new class implements Git {
     public function commitChanges(string $directory, string $commitMessage): void {}
 };
 
-$gitlabApi = new class implements GitlabApi {};
+$gitlabApi = new class implements Gitlab {};
 
 $composer = new class implements Composer {
-    public function install(string $directory): void {}
+    public function installInDirectory(string $directory): void {}
 };
 
-$rector = new class implements Rector {};
+$rector = new class implements Rector {
+    public function runInDirectory(string $directory): void {}
+};
 
 $repositoryUri = $argv[1] ?? throw new InvalidArgumentException('Missing repositoryUri (1st) CLI parameter');
 $username = $argv[2] ?? throw new InvalidArgumentException('Missing username (2nd) CLI parameter');

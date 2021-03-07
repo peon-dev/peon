@@ -6,5 +6,5 @@ namespace PHPMate\Domain\Rector;
 
 interface Rector
 {
-
+    public function runInDirectory(string $directory): void;
 }
