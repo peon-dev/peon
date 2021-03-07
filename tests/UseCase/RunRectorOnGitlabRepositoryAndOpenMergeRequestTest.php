@@ -8,7 +8,7 @@ use Acme\Domain\Application\Procedures\Composer\InstallComposer;
 use Acme\Domain\Application\Procedures\Rector\RunRector;
 use Acme\Domain\Gitlab\CloneGitlabRepository;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
-use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
+use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
 use PHPUnit\Framework\TestCase;
 
 class RunRectorOnGitlabRepositoryAndOpenMergeRequestTest extends TestCase
@@ -23,7 +23,7 @@ class RunRectorOnGitlabRepositoryAndOpenMergeRequestTest extends TestCase
         $runRector = $this->getRunRector();
         $OpenGitlabMergeRequest = $this->getOpenGitlabMergeRequest();
 
-        $useCase = new RunRectorOnGitlabRepositoryOpenCreateMergeRequest(
+        $useCase = new RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase(
             $cloneGitlabRepository,
             $installComposer,
             $runRector,

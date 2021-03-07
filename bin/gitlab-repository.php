@@ -8,7 +8,7 @@ use Acme\Domain\Gitlab\GitlabApplication;
 use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
 use Acme\Infrastructure\Shell\Application\Procedures\ShellInstallComposer;
 use Acme\Infrastructure\Shell\Gitlab\ShellCloneGitlabRepository;
-use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
+use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
 
 require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
 
@@ -28,7 +28,7 @@ $openGitlabMergeRequest = new class implements OpenGitlabMergeRequest {
 
 $repositoryName = $argv[1] ?? throw new InvalidArgumentException('Missing repository name CLI parameter');
 
-(new RunRectorOnGitlabRepositoryOpenCreateMergeRequest(
+(new RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase(
     $checkoutGitlabRepository,
     $installComposer,
     $runRector,
