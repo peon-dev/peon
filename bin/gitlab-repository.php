@@ -2,35 +2,42 @@
 
 declare(strict_types=1);
 
-use Acme\Domain\Application\Application;
-use Acme\Domain\Application\Procedures\Rector\RunRector;
-use Acme\Domain\Gitlab\GitlabApplication;
-use Acme\Domain\Gitlab\OpenGitlabMergeRequest;
-use Acme\Infrastructure\Shell\Application\Procedures\ShellInstallComposer;
-use Acme\Infrastructure\Shell\Gitlab\ShellCheckoutGitlabRepository;
-use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequest;
+use Acme\Domain\Composer\Composer;
+use Acme\Domain\Git\Git;
+use Acme\Domain\Gitlab\GitlabApi;
+use Acme\Domain\Rector\Rector;
+use Acme\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
 
-require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$checkoutGitlabRepository = new ShellCheckoutGitlabRepository(
-    __DIR__ . '/../../rectorbot-repositories/gitlab'
-);
+$dotenv = new Symfony\Component\Dotenv\Dotenv();
+$dotenv->loadEnv(__DIR__ . '/../.env');
 
-$installComposer = new ShellInstallComposer();
-
-$runRector = new class implements RunRector {
-    public function __invoke(Application $application): void { }
+$git = new class implements Git {
+    public function clone(string $directory, string $remoteUri): void {}
+    public function hasUncommittedChanges(string $directory): bool
+    {
+        return false;
+    }
+    public function checkoutNewBranch(string $directory, string $branch): void {}
+    public function commitChanges(string $directory, string $commitMessage): void {}
 };
 
-$openGitlabMergeRequest = new class implements OpenGitlabMergeRequest {
-    public function __invoke(Application $application): void { }
+$gitlabApi = new class implements GitlabApi {};
+
+$composer = new class implements Composer {
+    public function install(string $directory): void {}
 };
 
-$repositoryName = $argv[1] ?? throw new InvalidArgumentException('Missing repository name CLI parameter');
+$rector = new class implements Rector {};
 
-(new RunRectorOnGitlabRepositoryOpenCreateMergeRequest(
-    $checkoutGitlabRepository,
-    $installComposer,
-    $runRector,
-    $openGitlabMergeRequest
-))($repositoryName);
+$repositoryUri = $argv[1] ?? throw new InvalidArgumentException('Missing repositoryUri (1st) CLI parameter');
+$username = $argv[2] ?? throw new InvalidArgumentException('Missing username (2nd) CLI parameter');
+$personalAccessToken = $argv[3] ?? throw new InvalidArgumentException('Missing personalAccessToken (3rd) CLI parameter');
+
+(new RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase(
+    $git,
+    $gitlabApi,
+    $composer,
+    $rector
+))('', '', '');

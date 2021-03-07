@@ -3,17 +3,23 @@ declare (strict_types=1);
 
 namespace Acme\Domain\Application;
 
+use Acme\Domain\Composer\Composer;
+use Acme\Domain\Rector\Rector;
+
 final class Application
 {
-    public function __construct(
-        private string $directory
-    ) {
-
+    public static function createFromDirectory(string $directory): Application
+    {
+        return new self();
     }
 
-
-    public function getDirectory(): string
+    public function installComposer(Composer $composer): void
     {
-        return $this->directory;
+        // TODO: not implemented
+    }
+
+    public function runRector(Rector $rector): void
+    {
+        // TODO: not implemented
     }
 }
