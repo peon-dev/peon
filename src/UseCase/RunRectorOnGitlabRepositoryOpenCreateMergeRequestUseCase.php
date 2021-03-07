@@ -28,7 +28,7 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
 
         $this->git->clone($directory, $remoteUri);
 
-        $application = Application::createFromDirectory($directory);
+        $application = Application::fromDirectory($directory);
 
         $application->installComposer($this->composer);
         $application->runRector($this->rector);

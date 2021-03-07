@@ -8,7 +8,7 @@ use PHPMate\Domain\Rector\Rector;
 
 final class Application
 {
-    public static function createFromDirectory(string $directory): Application
+    public static function fromDirectory(string $directory): Application
     {
         return new self();
     }
