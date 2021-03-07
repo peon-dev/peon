@@ -14,7 +14,6 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
 {
     public function __construct(
         private Git $git,
-        private GitlabRepository $gitlabRepository,
         private GitlabApi $gitlabApi,
         private Composer $composer,
         private Rector $rector

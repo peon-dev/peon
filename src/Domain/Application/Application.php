@@ -6,9 +6,20 @@ namespace Acme\Domain\Application;
 use Acme\Domain\Composer\Composer;
 use Acme\Domain\Rector\Rector;
 
-interface Application
+final class Application
 {
-    public static function createFromDirectory(string $directory);
-    public function installComposer(Composer $composer);
-    public function runRector(Rector $rector);
+    public static function createFromDirectory(string $directory): Application
+    {
+        return new self();
+    }
+
+    public function installComposer(Composer $composer): void
+    {
+        // TODO: not implemented
+    }
+
+    public function runRector(Rector $rector): void
+    {
+        // TODO: not implemented
+    }
 }

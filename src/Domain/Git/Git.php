@@ -10,7 +10,7 @@ interface Git
 
     public function hasUncommittedChanges(string $directory): bool;
 
-    public function checkoutNewBranch(string $directory, string $branch): bool;
+    public function checkoutNewBranch(string $directory, string $branch): void;
 
-    public function commitChanges(string $directory, string $commitMessage);
+    public function commitChanges(string $directory, string $commitMessage): void;
 }
