@@ -9,5 +9,5 @@ interface Composer
     /**
      * @throws ComposerJsonFileMissing
      */
-    public function install(string $directory): void;
+    public function installInDirectory(string $directory): void;
 }
