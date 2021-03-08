@@ -3,6 +3,8 @@ declare (strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use League\Flysystem\Filesystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
@@ -22,14 +24,18 @@ final class RunRectorOnGitlabRepositoryUseCase
 
     public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
     {
-        $directory = __DIR__ . '/../../var'; // TODO: Some service should provide this
+        // TODO: Some service should provide this
+        $directory = __DIR__ . '/../../var';
+        $filesystem = new Filesystem(
+            new LocalFilesystemAdapter($directory)
+        );
 
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $gitlabRepository = GitlabRepository::createWithAuthentication($repositoryUri, $authentication);
 
         $this->git->clone($directory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
-        $this->composer->installInDirectory($directory);
+        $this->composer->installInDirectory($filesystem);
         $this->rector->runInDirectory($directory);
 
         if ($this->git->hasUncommittedChanges($directory)) {
