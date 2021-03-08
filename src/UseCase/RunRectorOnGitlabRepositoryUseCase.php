@@ -10,7 +10,7 @@ use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
 use PHPMate\Domain\Rector\Rector;
 
-final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
+final class RunRectorOnGitlabRepositoryUseCase
 {
     public function __construct(
         private Git $git,
@@ -36,7 +36,7 @@ final class RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase
             $branchWithChanges = 'improvements';
 
             $this->git->checkoutNewBranch($directory, $branchWithChanges);
-            $this->git->commitChanges($directory, 'Changes by PHP Mate');
+            $this->git->commitAndPushChanges($directory, 'Changes by PHP Mate');
 
             $this->gitlabApi->openMergeRequest($gitlabRepository, $branchWithChanges);
         }

@@ -6,7 +6,7 @@ use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Rector\Rector;
-use PHPMate\UseCase\RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase;
+use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -20,7 +20,7 @@ $git = new class implements Git {
         return false;
     }
     public function checkoutNewBranch(string $directory, string $branch): void {}
-    public function commitChanges(string $directory, string $commitMessage): void {}
+    public function commitAndPushChanges(string $directory, string $commitMessage): void {}
 };
 
 $gitlabApi = new class implements Gitlab {};
@@ -37,7 +37,7 @@ $repositoryUri = $argv[1] ?? throw new InvalidArgumentException('Missing reposit
 $username = $argv[2] ?? throw new InvalidArgumentException('Missing username (2nd) CLI parameter');
 $personalAccessToken = $argv[3] ?? throw new InvalidArgumentException('Missing personalAccessToken (3rd) CLI parameter');
 
-(new RunRectorOnGitlabRepositoryOpenCreateMergeRequestUseCase(
+(new RunRectorOnGitlabRepositoryUseCase(
     $git,
     $gitlabApi,
     $composer,

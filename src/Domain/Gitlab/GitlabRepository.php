@@ -17,13 +17,14 @@ final class GitlabRepository
     /**
      * @throws RepositoryUriNotCompatible
      */
-    private function __construct(string $repositoryUri)
+    private function __construct(string $repositoryUri, GitlabAuthentication $authentication)
     {
         if (Strings::startsWith($repositoryUri, 'https://') === false) {
             throw new RepositoryUriNotCompatible();
         }
 
         $this->repositoryUri = $repositoryUri;
+        $this->authentication = $authentication;
     }
 
 
@@ -32,10 +33,7 @@ final class GitlabRepository
      */
     public static function createWithAuthentication(string $repositoryUri, GitlabAuthentication $authentication): self
     {
-        $repository = new self($repositoryUri);
-        $repository->authentication = $authentication;
-
-        return $repository;
+        return new self($repositoryUri, $authentication);
     }
 
 

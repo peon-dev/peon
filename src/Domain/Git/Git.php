@@ -12,5 +12,5 @@ interface Git
 
     public function checkoutNewBranch(string $directory, string $branch): void;
 
-    public function commitChanges(string $directory, string $commitMessage): void;
+    public function commitAndPushChanges(string $directory, string $commitMessage): void;
 }
