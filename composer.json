@@ -29,7 +29,8 @@
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^0.12.76"
+        "phpstan/phpstan": "^0.12.76",
+        "phpstan/phpstan-phpunit": "^0.12.18"
     },
     "scripts": {
         "phpstan": "vendor/bin/phpstan analyse"
