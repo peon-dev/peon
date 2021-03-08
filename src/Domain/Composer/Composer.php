@@ -18,9 +18,9 @@ final class Composer
      * @throws ComposerJsonFileMissing
      * @throws FilesystemException
      */
-    public function installInDirectory(FilesystemReader $filesystem): void
+    public function installInDirectory(FilesystemReader $workingDirectory): void
     {
-        if ($filesystem->fileExists('composer.json') === false) {
+        if ($workingDirectory->fileExists('composer.json') === false) {
             throw new ComposerJsonFileMissing();
         }
 

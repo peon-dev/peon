@@ -25,24 +25,23 @@ final class RunRectorOnGitlabRepositoryUseCase
     public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
     {
         // TODO: Some service should provide this
-        $directory = __DIR__ . '/../../var';
-        $filesystem = new Filesystem(
-            new LocalFilesystemAdapter($directory)
+        $workingDirectory = new Filesystem(
+            new LocalFilesystemAdapter(__DIR__ . '/../../var')
         );
 
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $gitlabRepository = GitlabRepository::createWithAuthentication($repositoryUri, $authentication);
 
-        $this->git->clone($directory, $gitlabRepository->getAuthenticatedRepositoryUri());
+        $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
-        $this->composer->installInDirectory($filesystem);
-        $this->rector->runInDirectory($directory);
+        $this->composer->installInDirectory($workingDirectory);
+        $this->rector->runInDirectory($workingDirectory);
 
-        if ($this->git->hasUncommittedChanges($directory)) {
+        if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $branchWithChanges = 'improvements';
 
-            $this->git->checkoutNewBranch($directory, $branchWithChanges);
-            $this->git->commitAndPushChanges($directory, 'Changes by PHP Mate');
+            $this->git->checkoutNewBranch($workingDirectory, $branchWithChanges);
+            $this->git->commitAndPushChanges($workingDirectory, 'Changes by PHP Mate');
 
             $this->gitlabApi->openMergeRequest($gitlabRepository, $branchWithChanges);
         }
