@@ -6,7 +6,17 @@ namespace PHPMate\Domain\Rector;
 
 use League\Flysystem\FilesystemReader;
 
-interface Rector
+final class Rector
 {
-    public function runInDirectory(FilesystemReader $workingDirectory): void;
+    public function __construct(
+        private RectorBinary $rectorBinary
+    ) {}
+
+    /**
+     * @throws RectorConfigFileMissing
+     */
+    public function runInDirectory(FilesystemReader $workingDirectory): void
+    {
+        $this->rectorBinary->exec($workingDirectory, 'process --dry-run');
+    }
 }
