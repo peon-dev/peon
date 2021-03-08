@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Git;
 
-use League\Flysystem\FilesystemReader;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 interface Git
 {
-    public function clone(FilesystemReader $workingDirectory, string $remoteUri): void;
+    public function clone(WorkingDirectory $workingDirectory, string $remoteUri): void;
 
-    public function hasUncommittedChanges(FilesystemReader $workingDirectory): bool;
+    public function hasUncommittedChanges(WorkingDirectory $workingDirectory): bool;
 
-    public function checkoutNewBranch(FilesystemReader $workingDirectory, string $branch): void;
+    public function checkoutNewBranch(WorkingDirectory $workingDirectory, string $branch): void;
 
-    public function commitAndPushChanges(FilesystemReader $workingDirectory, string $commitMessage): void;
+    public function commitAndPushChanges(WorkingDirectory $workingDirectory, string $commitMessage): void;
 }

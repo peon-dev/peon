@@ -3,9 +3,8 @@ declare (strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use League\Flysystem\Filesystem;
-use League\Flysystem\Local\LocalFilesystemAdapter;
 use PHPMate\Domain\Composer\Composer;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
@@ -18,30 +17,26 @@ final class RunRectorOnGitlabRepositoryUseCase
         private Git $git,
         private Gitlab $gitlabApi,
         private Composer $composer,
-        private Rector $rector
+        private Rector $rector,
+        private WorkingDirectory $workingDirectory
     ) {}
 
 
     public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
     {
-        // TODO: Some service should provide this
-        $workingDirectory = new Filesystem(
-            new LocalFilesystemAdapter(__DIR__ . '/../../var')
-        );
-
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $gitlabRepository = GitlabRepository::createWithAuthentication($repositoryUri, $authentication);
 
-        $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
+        $this->git->clone($this->workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
-        $this->composer->installInDirectory($workingDirectory);
-        $this->rector->runInDirectory($workingDirectory);
+        $this->composer->installInDirectory($this->workingDirectory);
+        $this->rector->runInDirectory($this->workingDirectory);
 
-        if ($this->git->hasUncommittedChanges($workingDirectory)) {
+        if ($this->git->hasUncommittedChanges($this->workingDirectory)) {
             $branchWithChanges = 'improvements';
 
-            $this->git->checkoutNewBranch($workingDirectory, $branchWithChanges);
-            $this->git->commitAndPushChanges($workingDirectory, 'Changes by PHP Mate');
+            $this->git->checkoutNewBranch($this->workingDirectory, $branchWithChanges);
+            $this->git->commitAndPushChanges($this->workingDirectory, 'Changes by PHP Mate');
 
             $this->gitlabApi->openMergeRequest($gitlabRepository, $branchWithChanges);
         }

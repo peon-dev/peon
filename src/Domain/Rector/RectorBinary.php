@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Rector;
 
-use League\Flysystem\FilesystemReader;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 interface RectorBinary
 {
-    public function exec(FilesystemReader $workingDirectory, string $command): void;
+    public function execInDirectory(WorkingDirectory $workingDirectory, string $command): void;
 }
