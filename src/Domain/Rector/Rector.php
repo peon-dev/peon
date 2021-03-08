@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Rector;
 
-use League\Flysystem\FilesystemReader;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 final class Rector
 {
@@ -15,8 +15,12 @@ final class Rector
     /**
      * @throws RectorConfigFileMissing
      */
-    public function runInDirectory(FilesystemReader $workingDirectory): void
+    public function runInDirectory(WorkingDirectory $workingDirectory): void
     {
-        $this->rectorBinary->exec($workingDirectory, 'process --dry-run');
+        if ($workingDirectory->fileExists('rector.php') === false) {
+            throw new RectorConfigFileMissing();
+        }
+
+        $this->rectorBinary->execInDirectory($workingDirectory, 'process --dry-run');
     }
 }

@@ -7,6 +7,7 @@ use League\Flysystem\FilesystemReader;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\Composer\ComposerJsonFileMissing;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
@@ -19,26 +20,28 @@ class ComposerTest extends TestCase
 
         $composer = new Composer($composerBinary);
 
-        $filesystem = $this->createMock(FilesystemReader::class);
-        $filesystem->method('fileExists')
+        $workingDirectory = $this->createMock(WorkingDirectory::class);
+        $workingDirectory->method('fileExists')
             ->with('composer.json')
             ->willReturn(false);
 
-        $composer->installInDirectory($filesystem);
+        $composer->installInDirectory($workingDirectory);
     }
 
     public function testInstallInDirectory(): void
     {
+        $workingDirectory = $this->createMock(WorkingDirectory::class);
+        $workingDirectory->method('fileExists')->willReturn(true);
+
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
-            ->method('exec')
-            ->with('install');
+            ->method('execInDirectory')
+            ->with(
+                $workingDirectory,
+                'install'
+            );
 
         $composer = new Composer($composerBinary);
-
-        $filesystem = $this->createStub(FilesystemReader::class);
-        $filesystem->method('fileExists')->willReturn(true);
-
-        $composer->installInDirectory($filesystem);
+        $composer->installInDirectory($workingDirectory);
     }
 }
