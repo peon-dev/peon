@@ -10,14 +10,14 @@ use Nette\Utils\Strings;
 final class GitlabRepository
 {
     /**
-     * @throws RepositoryUriNotCompatible
+     * @throws InvalidGitlabRepositoryUri
      */
     public function __construct(
         private string $repositoryUri,
         private GitlabAuthentication $authentication
     ) {
         if (Strings::startsWith($repositoryUri, 'https://') === false) {
-            throw new RepositoryUriNotCompatible();
+            throw new InvalidGitlabRepositoryUri();
         }
     }
 

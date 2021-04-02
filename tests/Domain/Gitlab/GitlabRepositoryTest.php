@@ -5,7 +5,7 @@ namespace PHPMate\Tests\Domain\Gitlab;
 
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Domain\Gitlab\RepositoryUriNotCompatible;
+use PHPMate\Domain\Gitlab\InvalidGitlabRepositoryUri;
 use PHPUnit\Framework\TestCase;
 
 class GitlabRepositoryTest extends TestCase
@@ -20,7 +20,7 @@ class GitlabRepositoryTest extends TestCase
 
     public function testGetAuthenticatedRepositoryUriUProtocol(): void
     {
-        $this->expectException(RepositoryUriNotCompatible::class);
+        $this->expectException(InvalidGitlabRepositoryUri::class);
 
         $authentication = new GitlabAuthentication('janmikes', 'PAT');
         new GitlabRepository('git@gitlab.com:janmikes/repository.git', $authentication);
