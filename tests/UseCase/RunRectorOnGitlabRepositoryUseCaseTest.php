@@ -11,9 +11,16 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 {
     public function test(): void
     {
-        $container = ContainerFactory::createContainer();
+        $container = ContainerFactory::create();
         $useCase = $container->get(RunRectorOnGitlabRepositoryUseCase::class);
 
         self::assertInstanceOf(RunRectorOnGitlabRepositoryUseCase::class, $useCase);
+
+        // Populate values in `.env.test.local`
+        $repositoryUri = $_ENV['TEST_GITLAB_REPOSITORY'];
+        $username = $_ENV['TEST_GITLAB_USERNAME'];
+        $personalAccessToken = $_ENV['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
+
+        $useCase->__invoke($repositoryUri, $username, $personalAccessToken);
     }
 }

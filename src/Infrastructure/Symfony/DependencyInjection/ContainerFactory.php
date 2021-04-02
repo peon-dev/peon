@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class ContainerFactory
 {
-    public static function createContainer(): ContainerBuilder
+    public static function create(): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder();
         $loader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__));

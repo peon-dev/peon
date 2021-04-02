@@ -18,7 +18,6 @@ final class RunRectorOnGitlabRepositoryUseCase
         private Gitlab $gitlab,
         private Composer $composer,
         private Rector $rector,
-        private WorkingDirectory $workingDirectory
     ) {}
 
 
@@ -27,16 +26,18 @@ final class RunRectorOnGitlabRepositoryUseCase
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
 
-        $this->git->clone($this->workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
+        $workingDirectory = '';
 
-        $this->composer->installInDirectory($this->workingDirectory);
-        $this->rector->runInDirectory($this->workingDirectory);
+        $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
-        if ($this->git->hasUncommittedChanges($this->workingDirectory)) {
+        $this->composer->installInDirectory($workingDirectory);
+        $this->rector->runInDirectory($workingDirectory);
+
+        if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $branchWithChanges = 'improvements';
 
-            $this->git->checkoutNewBranch($this->workingDirectory, $branchWithChanges);
-            $this->git->commitAndPushChanges($this->workingDirectory, 'Changes by PHP Mate');
+            $this->git->checkoutNewBranch($workingDirectory, $branchWithChanges);
+            $this->git->commitAndPushChanges($workingDirectory, 'Changes by PHP Mate');
 
             $this->gitlab->openMergeRequest($gitlabRepository, $branchWithChanges);
         }
