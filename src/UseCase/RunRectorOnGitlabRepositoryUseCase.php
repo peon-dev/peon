@@ -15,7 +15,7 @@ final class RunRectorOnGitlabRepositoryUseCase
 {
     public function __construct(
         private Git $git,
-        private Gitlab $gitlabApi,
+        private Gitlab $gitlab,
         private Composer $composer,
         private Rector $rector,
         private WorkingDirectory $workingDirectory
@@ -38,7 +38,7 @@ final class RunRectorOnGitlabRepositoryUseCase
             $this->git->checkoutNewBranch($this->workingDirectory, $branchWithChanges);
             $this->git->commitAndPushChanges($this->workingDirectory, 'Changes by PHP Mate');
 
-            $this->gitlabApi->openMergeRequest($gitlabRepository, $branchWithChanges);
+            $this->gitlab->openMergeRequest($gitlabRepository, $branchWithChanges);
         }
     }
 }
