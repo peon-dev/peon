@@ -20,6 +20,7 @@ final class Git
         $this->gitBinary->execInDirectory($workingDirectory, $command);
     }
 
+
     public function hasUncommittedChanges(WorkingDirectory $workingDirectory): bool
     {
         $output = $this->gitBinary->execInDirectory($workingDirectory, 'status --porcelain');
@@ -27,12 +28,14 @@ final class Git
         return $output === '';
     }
 
+
     public function checkoutNewBranch(WorkingDirectory $workingDirectory, string $branch): void
     {
         $command = sprintf('checkout -b %s', $branch);
 
         $this->gitBinary->execInDirectory($workingDirectory, $command);
     }
+
 
     public function commitAndPushChanges(WorkingDirectory $workingDirectory, string $commitMessage): void
     {
