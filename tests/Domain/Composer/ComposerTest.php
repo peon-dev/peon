@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Domain\Composer;
 
-use League\Flysystem\FilesystemReader;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\Composer\ComposerJsonFileMissing;

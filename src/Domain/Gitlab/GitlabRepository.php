@@ -39,8 +39,8 @@ final class GitlabRepository
 
     public function getAuthenticatedRepositoryUri(): string
     {
-        $username = $this->authentication->getUsername();
-        $password = $this->authentication->getPersonalAccessToken();
+        $username = $this->authentication->username;
+        $password = $this->authentication->personalAccessToken;
 
         $uri = (new Uri($this->repositoryUri))
             ->withUserInfo($username, $password);
