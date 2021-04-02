@@ -26,7 +26,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
 
-        $workingDirectory = '';
+        $workingDirectory = new WorkingDirectory(__DIR__ . '/../../var/TEST'); // TODO: create via some factory
 
         $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 

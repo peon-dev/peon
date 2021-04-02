@@ -15,7 +15,7 @@ class ShellExecGitBinary implements GitBinary
     {
         $command = sprintf(
             'cd %s && %s %s',
-            $workingDirectory->getPath(),
+            $workingDirectory->path,
             self::BINARY_EXECUTABLE,
             $command
         );

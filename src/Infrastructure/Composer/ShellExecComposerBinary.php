@@ -15,7 +15,7 @@ final class ShellExecComposerBinary implements ComposerBinary
     {
         $command = sprintf(
             'cd %s && %s %s',
-            $workingDirectory->getPath(),
+            $workingDirectory->path,
             self::BINARY_EXECUTABLE,
             $command
         );

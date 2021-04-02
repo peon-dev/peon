@@ -4,9 +4,19 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\FileSystem;
 
-interface WorkingDirectory
-{
-    public function getPath(): string;
+use JetBrains\PhpStorm\Immutable;
 
-    public function fileExists(string $file): bool;
+#[Immutable]
+class WorkingDirectory // TODO: final
+{
+    public function __construct(
+        public string $path,
+    ) {
+    }
+
+    public function fileExists(string $file): bool
+    {
+        // TODO: use filesystem reader
+        return file_exists($this->path . '/' . $file);
+    }
 }
