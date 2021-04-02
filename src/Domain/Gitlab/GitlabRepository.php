@@ -9,31 +9,16 @@ use Nette\Utils\Strings;
 
 final class GitlabRepository
 {
-    private string $repositoryUri;
-
-    private GitlabAuthentication $authentication;
-
-
     /**
      * @throws RepositoryUriNotCompatible
      */
-    private function __construct(string $repositoryUri, GitlabAuthentication $authentication)
-    {
+    public function __construct(
+        private string $repositoryUri,
+        private GitlabAuthentication $authentication
+    ) {
         if (Strings::startsWith($repositoryUri, 'https://') === false) {
             throw new RepositoryUriNotCompatible();
         }
-
-        $this->repositoryUri = $repositoryUri;
-        $this->authentication = $authentication;
-    }
-
-
-    /**
-     * @throws RepositoryUriNotCompatible
-     */
-    public static function createWithAuthentication(string $repositoryUri, GitlabAuthentication $authentication): self
-    {
-        return new self($repositoryUri, $authentication);
     }
 
 

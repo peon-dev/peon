@@ -25,7 +25,7 @@ final class RunRectorOnGitlabRepositoryUseCase
     public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
     {
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
-        $gitlabRepository = GitlabRepository::createWithAuthentication($repositoryUri, $authentication);
+        $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
 
         $this->git->clone($this->workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 

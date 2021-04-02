@@ -13,7 +13,7 @@ class GitlabRepositoryTest extends TestCase
     public function testGetAuthenticatedRepositoryUri(): void
     {
         $authentication = new GitlabAuthentication('janmikes', 'PAT');
-        $repository = GitlabRepository::createWithAuthentication('https://gitlab.com/janmikes/repository.git', $authentication);
+        $repository = new GitlabRepository('https://gitlab.com/janmikes/repository.git', $authentication);
 
         self::assertSame('https://janmikes:PAT@gitlab.com/janmikes/repository.git', $repository->getAuthenticatedRepositoryUri());
     }
@@ -23,6 +23,6 @@ class GitlabRepositoryTest extends TestCase
         $this->expectException(RepositoryUriNotCompatible::class);
 
         $authentication = new GitlabAuthentication('janmikes', 'PAT');
-        GitlabRepository::createWithAuthentication('git@gitlab.com:janmikes/repository.git', $authentication);
+        new GitlabRepository('git@gitlab.com:janmikes/repository.git', $authentication);
     }
 }
