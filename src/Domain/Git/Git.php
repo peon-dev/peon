@@ -15,27 +15,30 @@ final class Git
 
     public function clone(WorkingDirectory $workingDirectory, string $remoteUri): void
     {
-        // TODO
-       $this->gitBinary->execInDirectory($workingDirectory, '');
+        $command = sprintf('clone %s .', $remoteUri);
+
+        $this->gitBinary->execInDirectory($workingDirectory, $command);
     }
 
     public function hasUncommittedChanges(WorkingDirectory $workingDirectory): bool
     {
-        // TODO
-        $this->gitBinary->execInDirectory($workingDirectory, '');
+        $output = $this->gitBinary->execInDirectory($workingDirectory, 'status --porcelain');
 
-        return false;
+        return $output === '';
     }
 
     public function checkoutNewBranch(WorkingDirectory $workingDirectory, string $branch): void
     {
-        // TODO
-        $this->gitBinary->execInDirectory($workingDirectory, '');
+        $command = sprintf('checkout -b %s', $branch);
+
+        $this->gitBinary->execInDirectory($workingDirectory, $command);
     }
 
     public function commitAndPushChanges(WorkingDirectory $workingDirectory, string $commitMessage): void
     {
-        // TODO
-        $this->gitBinary->execInDirectory($workingDirectory, '');
+        $commitCommand = sprintf('commit -a -m "%s"', $commitMessage);
+
+        $this->gitBinary->execInDirectory($workingDirectory, $commitCommand);
+        $this->gitBinary->execInDirectory($workingDirectory, 'push');
     }
 }

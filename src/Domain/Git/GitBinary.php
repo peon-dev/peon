@@ -8,5 +8,5 @@ use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 interface GitBinary
 {
-    public function execInDirectory(WorkingDirectory $workingDirectory, string $command): void;
+    public function execInDirectory(WorkingDirectory $workingDirectory, string $command): string;
 }

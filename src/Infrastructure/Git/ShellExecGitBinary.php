@@ -11,7 +11,7 @@ class ShellExecGitBinary implements GitBinary
 {
     private const BINARY_EXECUTABLE = 'git';
 
-    public function execInDirectory(WorkingDirectory $workingDirectory, string $command): void
+    public function execInDirectory(WorkingDirectory $workingDirectory, string $command): string
     {
         $command = sprintf(
             'cd %s && %s %s',
@@ -20,6 +20,6 @@ class ShellExecGitBinary implements GitBinary
             $command
         );
 
-        shell_exec($command);
+        return trim((string) shell_exec($command));
     }
 }
