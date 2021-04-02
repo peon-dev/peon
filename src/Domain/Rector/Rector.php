@@ -21,6 +21,6 @@ final class Rector
             throw new RectorConfigFileMissing();
         }
 
-        $this->rectorBinary->execInDirectory($workingDirectory, 'process --dry-run');
+        $this->rectorBinary->execInDirectory($workingDirectory, 'process');
     }
 }

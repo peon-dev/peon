@@ -21,7 +21,7 @@ class RectorTest extends TestCase
             ->method('execInDirectory')
             ->with(
                 $workingDirectory,
-                'process --dry-run'
+                'process'
             );
 
         $rector = new Rector($rectorBinary);

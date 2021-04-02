@@ -28,7 +28,7 @@ final class Git
     {
         $output = $this->gitBinary->execInDirectory($workingDirectory, 'status --porcelain');
 
-        return $output === '';
+        return $output !== '';
     }
 
 
@@ -43,13 +43,13 @@ final class Git
     public function commitAndPushChanges(WorkingDirectory $workingDirectory, string $commitMessage): void
     {
         $commitCommand = sprintf(
-            'commit -c "user.name=%s" -c "user.email=%s" -a -m "%s"',
+            '-c "user.name=%s" -c "user.email=%s" commit -a -m "%s"',
             self::USER_NAME,
             self::USER_EMAIL,
             $commitMessage,
         );
 
         $this->gitBinary->execInDirectory($workingDirectory, $commitCommand);
-        $this->gitBinary->execInDirectory($workingDirectory, 'push');
+        $this->gitBinary->execInDirectory($workingDirectory, 'push -u origin head');
     }
 }
