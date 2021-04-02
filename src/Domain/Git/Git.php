@@ -50,6 +50,6 @@ final class Git
         );
 
         $this->gitBinary->execInDirectory($workingDirectory, $commitCommand);
-        $this->gitBinary->execInDirectory($workingDirectory, 'push -u origin head');
+        $this->gitBinary->execInDirectory($workingDirectory, 'push -u origin --all');
     }
 }
