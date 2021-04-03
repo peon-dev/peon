@@ -9,7 +9,7 @@ use PHPMate\Domain\FileSystem\WorkingDirectory;
 final class Git
 {
     private const USER_NAME = 'PHPMate';
-    private const USER_EMAIL = 'j.mikes@me.com';
+    private const USER_EMAIL = 'bot@phpmate.io';
 
     public function __construct(
         private GitBinary $gitBinary
@@ -42,8 +42,16 @@ final class Git
 
     public function commitAndPushChanges(WorkingDirectory $workingDirectory, string $commitMessage): void
     {
+        $this->gitBinary->execInDirectory($workingDirectory, sprintf(
+            'config user.name %s', self::USER_NAME
+        ));
+
+        $this->gitBinary->execInDirectory($workingDirectory, sprintf(
+            'config user.email %s', self::USER_EMAIL
+        ));
+
         $commitCommand = sprintf(
-            '-c "user.name=%s" -c "user.email=%s" commit -a -m "%s"',
+            'commit --author="%s <%s>" -a -m "%s"',
             self::USER_NAME,
             self::USER_EMAIL,
             $commitMessage,
