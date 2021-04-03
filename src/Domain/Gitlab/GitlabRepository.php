@@ -44,4 +44,11 @@ final class GitlabRepository
 
         return str_replace('.git', '', trim($path, '/'));
     }
+
+
+    public function getUrl(): string
+    {
+        $uri = (new Uri($this->repositoryUri));
+        return $uri->getScheme() . '://' . $uri->getHost();
+    }
 }

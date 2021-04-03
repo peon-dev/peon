@@ -26,12 +26,10 @@ final class HttpGitlabClient implements Gitlab
 
     private function createClient(GitlabRepository $repository): Client
     {
-        $uri = $repository->getAuthenticatedRepositoryUri();
-        $domain = $uri->getScheme() . '://' . $uri->getHost();
         $personalAccessToken = $repository->authentication->personalAccessToken;
 
         $client = new Client();
-        $client->setUrl($domain);
+        $client->setUrl($repository->getUrl());
         $client->authenticate($personalAccessToken, Client::AUTH_HTTP_TOKEN);
 
         return $client;
