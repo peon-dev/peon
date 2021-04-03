@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Gitlab;
 
 use GuzzleHttp\Psr7\Uri;
+use JetBrains\PhpStorm\Immutable;
 use Nette\Utils\Strings;
 
+#[Immutable]
 final class GitlabRepository
 {
     /**
@@ -14,7 +16,7 @@ final class GitlabRepository
      */
     public function __construct(
         private string $repositoryUri,
-        private GitlabAuthentication $authentication
+        public GitlabAuthentication $authentication
     ) {
         if (Strings::startsWith($repositoryUri, 'https://') === false) {
             throw new InvalidGitlabRepositoryUri();
