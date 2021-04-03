@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Git;
 
 use PHPMate\Domain\FileSystem\WorkingDirectory;
+use Psr\Http\Message\UriInterface;
 
 final class Git
 {
@@ -16,9 +17,9 @@ final class Git
     ) {}
 
 
-    public function clone(WorkingDirectory $workingDirectory, string $remoteUri): void
+    public function clone(WorkingDirectory $workingDirectory, UriInterface $remoteUri): void
     {
-        $command = sprintf('clone %s .', $remoteUri);
+        $command = sprintf('clone %s .', (string) $remoteUri);
 
         $this->gitBinary->execInDirectory($workingDirectory, $command);
     }
@@ -29,6 +30,12 @@ final class Git
         $output = $this->gitBinary->execInDirectory($workingDirectory, 'status --porcelain');
 
         return $output !== '';
+    }
+
+
+    public function getCurrentBranch(WorkingDirectory $workingDirectory): string
+    {
+        return $this->gitBinary->execInDirectory($workingDirectory, 'rev-parse --abbrev-ref HEAD');
     }
 
 

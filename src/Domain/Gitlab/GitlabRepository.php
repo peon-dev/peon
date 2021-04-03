@@ -7,6 +7,7 @@ namespace PHPMate\Domain\Gitlab;
 use GuzzleHttp\Psr7\Uri;
 use JetBrains\PhpStorm\Immutable;
 use Nette\Utils\Strings;
+use Psr\Http\Message\UriInterface;
 
 #[Immutable]
 final class GitlabRepository
@@ -24,7 +25,7 @@ final class GitlabRepository
     }
 
 
-    public function getAuthenticatedRepositoryUri(): string
+    public function getAuthenticatedRepositoryUri(): UriInterface
     {
         $username = $this->authentication->username;
         $password = $this->authentication->personalAccessToken;
@@ -32,6 +33,15 @@ final class GitlabRepository
         $uri = (new Uri($this->repositoryUri))
             ->withUserInfo($username, $password);
 
-        return (string) $uri;
+        return $uri;
+    }
+
+
+    public function getProject(): string
+    {
+        $uri = (new Uri($this->repositoryUri));
+        $path = $uri->getPath();
+
+        return str_replace('.git', '', trim($path, '/'));
     }
 }

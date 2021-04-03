@@ -15,7 +15,7 @@ class GitlabRepositoryTest extends TestCase
         $authentication = new GitlabAuthentication('janmikes', 'PAT');
         $repository = new GitlabRepository('https://gitlab.com/janmikes/repository.git', $authentication);
 
-        self::assertSame('https://janmikes:PAT@gitlab.com/janmikes/repository.git', $repository->getAuthenticatedRepositoryUri());
+        self::assertSame('https://janmikes:PAT@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedRepositoryUri());
     }
 
     public function testGetAuthenticatedRepositoryUriUProtocol(): void
@@ -24,5 +24,13 @@ class GitlabRepositoryTest extends TestCase
 
         $authentication = new GitlabAuthentication('janmikes', 'PAT');
         new GitlabRepository('git@gitlab.com:janmikes/repository.git', $authentication);
+    }
+
+    public function testGetProject(): void
+    {
+        $authentication = new GitlabAuthentication('janmikes', 'PAT');
+        $repository = new GitlabRepository('https://gitlab.com/janmikes/repository.git', $authentication);
+
+        self::assertSame('janmikes/repository', $repository->getProject());
     }
 }
