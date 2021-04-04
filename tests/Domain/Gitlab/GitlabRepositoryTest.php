@@ -12,8 +12,7 @@ class GitlabRepositoryTest extends TestCase
 {
     public function testGetAuthenticatedRepositoryUri(): void
     {
-        $authentication = new GitlabAuthentication('janmikes', 'PAT');
-        $repository = new GitlabRepository('https://gitlab.com/janmikes/repository.git', $authentication);
+        $repository = self::createGitlabRepository('https://gitlab.com/janmikes/repository.git');
 
         self::assertSame('https://janmikes:PAT@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedRepositoryUri());
     }
@@ -23,15 +22,13 @@ class GitlabRepositoryTest extends TestCase
     {
         $this->expectException(InvalidGitlabRepositoryUri::class);
 
-        $authentication = new GitlabAuthentication('janmikes', 'PAT');
-        new GitlabRepository('git@gitlab.com:janmikes/repository.git', $authentication);
+        self::createGitlabRepository('git@gitlab.com:janmikes/repository.git');
     }
 
 
     public function testGetProject(): void
     {
-        $authentication = new GitlabAuthentication('janmikes', 'PAT');
-        $repository = new GitlabRepository('https://gitlab.com/janmikes/repository.git', $authentication);
+        $repository = self::createGitlabRepository('https://gitlab.com/janmikes/repository.git');
 
         self::assertSame('janmikes/repository', $repository->getProject());
     }
@@ -42,16 +39,26 @@ class GitlabRepositoryTest extends TestCase
      */
     public function testGetUrl(string $expected, string $repositoryUri): void
     {
-        $authentication = new GitlabAuthentication('janmikes', 'PAT');
-        $repository = new GitlabRepository($repositoryUri, $authentication);
+        $repository = self::createGitlabRepository($repositoryUri);
 
         self::assertSame($expected, $repository->getUrl());
     }
 
 
+    /**
+     * @return \Generator<string[]>
+     */
     public function provideTestGetUrlData(): \Generator
     {
         yield ['https://gitlab.com', 'https://gitlab.com/janmikes/repository.git'];
         yield ['https://gitlab.server.com', 'https://gitlab.server.com/janmikes/repository.git'];
+    }
+
+
+    private static function createGitlabRepository(string $repositoryUri): GitlabRepository
+    {
+        $authentication = new GitlabAuthentication('janmikes', 'PAT');
+
+        return new GitlabRepository($repositoryUri, $authentication);
     }
 }

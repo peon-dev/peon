@@ -41,12 +41,17 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($workingDirectory);
-            $branchWithChanges = 'improvements';
+            $branchWithChanges = 'improvements'; // TODO: dynamic
 
             $this->git->checkoutNewBranch($workingDirectory, $branchWithChanges);
-            $this->git->commitAndPushChanges($workingDirectory, 'Changes by PHP Mate');
+            $this->git->commitAndPushChanges($workingDirectory, 'Rector changes');
 
-            $this->gitlab->openMergeRequest($gitlabRepository, $mainBranch, $branchWithChanges);
+            $this->gitlab->openMergeRequest(
+                $gitlabRepository,
+                $mainBranch,
+                $branchWithChanges,
+                'Rector run by PHPMate'
+            );
         }
 
         // TODO: cleanup

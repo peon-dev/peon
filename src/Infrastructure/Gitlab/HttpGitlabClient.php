@@ -10,7 +10,12 @@ use PHPMate\Domain\Gitlab\GitlabRepository;
 
 final class HttpGitlabClient implements Gitlab
 {
-    public function openMergeRequest(GitlabRepository $gitlabRepository, string $targetBranch, string $branchWithChanges): void
+    public function openMergeRequest(
+        GitlabRepository $gitlabRepository,
+        string $targetBranch,
+        string $branchWithChanges,
+        string $title,
+    ): void
     {
         $client = $this->createClient($gitlabRepository);
         $project = $gitlabRepository->getProject();
@@ -19,7 +24,7 @@ final class HttpGitlabClient implements Gitlab
             $project,
             $branchWithChanges,
             $targetBranch,
-            'PHPMate changes' // TODO dynamic
+            $title,
         );
     }
 
