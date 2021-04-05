@@ -11,11 +11,11 @@ final class ShellExecRectorBinary implements RectorBinary
 {
     private const BINARY_EXECUTABLE = 'vendor/bin/rector';
 
-    public function execInDirectory(WorkingDirectory $workingDirectory, string $command): void
+    public function execInDirectory(string $workingDirectory, string $command): void
     {
         $command = sprintf(
             'cd %s && %s %s',
-            $workingDirectory->path,
+            $workingDirectory,
             self::BINARY_EXECUTABLE,
             $command
         );

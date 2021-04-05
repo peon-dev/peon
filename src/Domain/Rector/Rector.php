@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Rector;
 
-use PHPMate\Domain\FileSystem\WorkingDirectory;
+use League\Flysystem\FilesystemReader;
 
 final class Rector
 {
     public function __construct(
-        private RectorBinary $rectorBinary
+        private RectorBinary $rectorBinary,
+        private FilesystemReader $filesystemReader
     ) {}
 
     /**
      * @throws RectorConfigFileMissing
      */
-    public function runInDirectory(WorkingDirectory $workingDirectory): void
+    public function runInDirectory(string $workingDirectory): void
     {
-        if ($workingDirectory->fileExists('rector.php') === false) {
+        if ($this->filesystemReader->fileExists($workingDirectory . '/rector.php') === false) {
             throw new RectorConfigFileMissing();
         }
 
