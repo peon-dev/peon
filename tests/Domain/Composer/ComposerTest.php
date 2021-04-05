@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Domain\Composer;
 
+use League\Flysystem\FilesystemReader;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\Composer\ComposerJsonFileMissing;
-use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
@@ -17,20 +17,24 @@ class ComposerTest extends TestCase
 
         $composerBinary = $this->createStub(ComposerBinary::class);
 
-        $composer = new Composer($composerBinary);
-
-        $workingDirectory = $this->createMock(WorkingDirectory::class);
-        $workingDirectory->method('fileExists')
-            ->with('composer.json')
+        $filesystemReader = $this->createMock(FilesystemReader::class);
+        $filesystemReader->method('fileExists')
+            ->with('./composer.json')
             ->willReturn(false);
 
-        $composer->installInDirectory($workingDirectory);
+        $composer = new Composer($composerBinary, $filesystemReader);
+
+        $composer->installInDirectory('.');
     }
 
     public function testInstallInDirectory(): void
     {
-        $workingDirectory = $this->createMock(WorkingDirectory::class);
-        $workingDirectory->method('fileExists')->willReturn(true);
+        $workingDirectory = '.';
+
+        $filesystemReader = $this->createMock(FilesystemReader::class);
+        $filesystemReader->method('fileExists')
+            ->with('./composer.json')
+            ->willReturn(true);
 
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
@@ -40,7 +44,7 @@ class ComposerTest extends TestCase
                 'install'
             );
 
-        $composer = new Composer($composerBinary);
+        $composer = new Composer($composerBinary, $filesystemReader);
         $composer->installInDirectory($workingDirectory);
     }
 }
