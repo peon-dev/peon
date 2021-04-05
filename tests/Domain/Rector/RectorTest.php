@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Domain\Rector;
 
-use PHPMate\Domain\FileSystem\WorkingDirectory;
+use League\Flysystem\FilesystemReader;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
 use PHPMate\Domain\Rector\RectorConfigFileMissing;
@@ -13,8 +13,10 @@ class RectorTest extends TestCase
 {
     public function testRunInDirectory(): void
     {
-        $workingDirectory = $this->createStub(WorkingDirectory::class);
-        $workingDirectory->method('fileExists')->willReturn(true);
+        $filesystemReader = $this->createStub(FilesystemReader::class);
+        $filesystemReader->method('fileExists')->willReturn(true);
+
+        $workingDirectory = '';
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
@@ -24,7 +26,7 @@ class RectorTest extends TestCase
                 'process'
             );
 
-        $rector = new Rector($rectorBinary);
+        $rector = new Rector($rectorBinary, $filesystemReader);
         $rector->runInDirectory($workingDirectory);
     }
 
@@ -34,11 +36,12 @@ class RectorTest extends TestCase
 
         $rectorBinary = $this->createStub(RectorBinary::class);
 
-        $rector = new Rector($rectorBinary);
+        $filesystemReader = $this->createStub(FilesystemReader::class);
+        $filesystemReader->method('fileExists')->willReturn(false);
 
-        $workingDirectory = $this->createMock(WorkingDirectory::class);
-        $workingDirectory->method('fileExists')->willReturn(false);
+        $workingDirectory = '';
 
+        $rector = new Rector($rectorBinary, $filesystemReader);
         $rector->runInDirectory($workingDirectory);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Infrastructure\Rector;
 
-use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPMate\Domain\Rector\RectorBinary;
 
 final class ShellExecRectorBinary implements RectorBinary
