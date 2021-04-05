@@ -47,7 +47,5 @@ final class RunRectorOnGitlabRepositoryUseCase
                 'Rector run by PHPMate'
             );
         }
-
-        // TODO: cleanup
     }
 }

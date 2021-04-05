@@ -21,6 +21,16 @@ final class WorkingDirectoryProvider
 
         $this->filesystemOperator->createDirectory($directory);
 
+        $this->registerShutdown($directory);
+
         return $directory;
+    }
+
+
+    private function registerShutdown(string $directory): void
+    {
+        register_shutdown_function(function() use ($directory) {
+            $this->filesystemOperator->deleteDirectory($directory);
+        });
     }
 }
