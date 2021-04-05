@@ -6,6 +6,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
+use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Gitlab\Gitlab;
@@ -15,10 +16,18 @@ use PHPMate\Infrastructure\Composer\ShellExecComposerBinary;
 use PHPMate\Infrastructure\Git\ShellExecGitBinary;
 use PHPMate\Infrastructure\Gitlab\HttpGitlabClient;
 use PHPMate\Infrastructure\Rector\ShellExecRectorBinary;
+use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 return static function(ContainerConfigurator $configurator): void
 {
+    $parameters = $configurator->parameters();
+
+    $parameters->set(
+      ConfigParameters::WORKING_DIRECTORY_PROVIDER_BASE_DIR,
+      __DIR__ . '/../../../../var/working_directories',
+    );
+
     $services = $configurator->services();
 
     $services->defaults()
@@ -39,4 +48,9 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(RectorBinary::class, ShellExecRectorBinary::class);
 
     $services->set(RunRectorOnGitlabRepositoryUseCase::class);
+
+    $services->set(WorkingDirectoryProvider::class)
+        ->args([
+            param(ConfigParameters::WORKING_DIRECTORY_PROVIDER_BASE_DIR)
+        ]);
 };

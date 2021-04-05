@@ -3,11 +3,8 @@ declare (strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use Nette\Utils\FileSystem;
-use Nette\Utils\Random;
-use Nette\Utils\Strings;
 use PHPMate\Domain\Composer\Composer;
-use PHPMate\Domain\FileSystem\WorkingDirectory;
+use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
@@ -21,6 +18,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         private Gitlab $gitlab,
         private Composer $composer,
         private Rector $rector,
+        private WorkingDirectoryProvider $workingDirectoryProvider,
     ) {}
 
 
@@ -28,11 +26,7 @@ final class RunRectorOnGitlabRepositoryUseCase
     {
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
-
-        // TODO: temporary hack, create via some factory
-        $dir = __DIR__ . '/../../var/' . Random::generate();
-        FileSystem::createDir($dir);
-        $workingDirectory = new WorkingDirectory($dir);
+        $workingDirectory = $this->workingDirectoryProvider->provide();
 
         $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
