@@ -19,7 +19,6 @@ class ComposerTest extends TestCase
         $filesystemReader = $this->getFilesystemReader(false);
 
         $composer = new Composer($composerBinary, $filesystemReader);
-
         $composer->installInDirectory('.');
     }
 

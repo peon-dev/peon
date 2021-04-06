@@ -13,12 +13,8 @@ class RectorTest extends TestCase
 {
     public function testRunInDirectory(): void
     {
-        $filesystemReader = $this->createMock(FilesystemReader::class);
-        $filesystemReader->method('fileExists')
-            ->with('./rector.php')
-            ->willReturn(true);
-
         $workingDirectory = '.';
+        $filesystemReader = $this->getFilesystemReader(true);
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
@@ -37,13 +33,20 @@ class RectorTest extends TestCase
         $this->expectException(RectorConfigFileMissing::class);
 
         $rectorBinary = $this->createStub(RectorBinary::class);
-
-        $filesystemReader = $this->createMock(FilesystemReader::class);
-        $filesystemReader->method('fileExists')
-            ->with('./rector.php')
-            ->willReturn(false);
+        $filesystemReader = $this->getFilesystemReader(false);
 
         $rector = new Rector($rectorBinary, $filesystemReader);
         $rector->runInDirectory('.');
+    }
+
+
+    private function getFilesystemReader(bool $rectorConfigFileExists): FilesystemReader
+    {
+        $filesystemReader = $this->createMock(FilesystemReader::class);
+        $filesystemReader->method('fileExists')
+            ->with('./rector.php')
+            ->willReturn($rectorConfigFileExists);
+
+        return $filesystemReader;
     }
 }
