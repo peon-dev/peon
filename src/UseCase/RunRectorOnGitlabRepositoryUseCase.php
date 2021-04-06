@@ -28,6 +28,14 @@ final class RunRectorOnGitlabRepositoryUseCase
         $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
         $workingDirectory = $this->workingDirectoryProvider->provide();
 
+        /*
+         * TODO: what if MR by PHPMate for this procedure already exists?
+         * Options:
+         *   - Comment to the MR (bump)
+         *   - Checkout existing branch, run procedure and if changes, make commit
+         *   - New fresh branch (duplicate)
+         */
+
         $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
         $this->composer->installInDirectory($workingDirectory);
