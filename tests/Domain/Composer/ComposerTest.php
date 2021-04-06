@@ -16,25 +16,18 @@ class ComposerTest extends TestCase
         $this->expectException(ComposerJsonFileMissing::class);
 
         $composerBinary = $this->createStub(ComposerBinary::class);
-
-        $filesystemReader = $this->createMock(FilesystemReader::class);
-        $filesystemReader->method('fileExists')
-            ->with('./composer.json')
-            ->willReturn(false);
+        $filesystemReader = $this->getFilesystemReader(false);
 
         $composer = new Composer($composerBinary, $filesystemReader);
 
         $composer->installInDirectory('.');
     }
 
+
     public function testInstallInDirectory(): void
     {
         $workingDirectory = '.';
-
-        $filesystemReader = $this->createMock(FilesystemReader::class);
-        $filesystemReader->method('fileExists')
-            ->with('./composer.json')
-            ->willReturn(true);
+        $filesystemReader = $this->getFilesystemReader(true);
 
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
@@ -46,5 +39,16 @@ class ComposerTest extends TestCase
 
         $composer = new Composer($composerBinary, $filesystemReader);
         $composer->installInDirectory($workingDirectory);
+    }
+
+
+    private function getFilesystemReader(bool $composerJsonFileExists): FilesystemReader
+    {
+        $filesystemReader = $this->createMock(FilesystemReader::class);
+        $filesystemReader->method('fileExists')
+            ->with('./composer.json')
+            ->willReturn($composerJsonFileExists);
+
+        return $filesystemReader;
     }
 }
