@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\FilesystemReader;
+use League\Flysystem\FilesystemWriter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
@@ -24,7 +30,7 @@ return static function(ContainerConfigurator $configurator): void
     $parameters = $configurator->parameters();
 
     $parameters->set(
-      ConfigParameters::WORKING_DIRECTORY_PROVIDER_BASE_DIR,
+      ConfigParameters::WORKING_DIRECTORY_BASE_DIR,
       __DIR__ . '/../../../../var/working_directories',
     );
 
@@ -36,7 +42,21 @@ return static function(ContainerConfigurator $configurator): void
         ->public(); // Allow access services via container in tests
 
 
-    // TODO: Cannot autowire service "PHPMate\Domain\Composer\Composer": argument "$filesystemReader"
+    // TODO: remove filesystem and create own implementation
+
+    $services->set(FilesystemAdapter::class, LocalFilesystemAdapter::class)
+        ->args([
+            param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
+        ]);
+    $services->set(Filesystem::class);
+    $services->alias(FilesystemWriter::class, Filesystem::class);
+    $services->alias(FilesystemReader::class, Filesystem::class);
+    $services->alias(FilesystemOperator::class, Filesystem::class);
+
+    $services->set(WorkingDirectoryProvider::class)
+        ->args([
+            param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
+        ]);
 
     $services->set(Composer::class);
     $services->set(ComposerBinary::class, ShellExecComposerBinary::class);
@@ -51,8 +71,4 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(RunRectorOnGitlabRepositoryUseCase::class);
 
-    $services->set(WorkingDirectoryProvider::class)
-        ->args([
-            param(ConfigParameters::WORKING_DIRECTORY_PROVIDER_BASE_DIR)
-        ]);
 };

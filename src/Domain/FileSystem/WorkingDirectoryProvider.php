@@ -4,33 +4,33 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\FileSystem;
 
-use League\Flysystem\FilesystemOperator;
+use League\Flysystem\FilesystemWriter;
 use Nette\Utils\Random;
 
 final class WorkingDirectoryProvider
 {
     public function __construct(
         private string $baseDir,
-        private FilesystemOperator $filesystemOperator
+        private FilesystemWriter $filesystemWriter
     ) {}
 
 
     public function provide(): string
     {
-        $directory = $this->baseDir . '/' . Random::generate();
+        $directory = Random::generate();
 
-        $this->filesystemOperator->createDirectory($directory);
+        $this->filesystemWriter->createDirectory($directory);
 
         $this->registerShutdown($directory);
 
-        return $directory;
+        return $this->baseDir . '/' . $directory;
     }
 
 
     private function registerShutdown(string $directory): void
     {
         register_shutdown_function(function() use ($directory) {
-            $this->filesystemOperator->deleteDirectory($directory);
+            $this->filesystemWriter->deleteDirectory($directory);
         });
     }
 }
