@@ -28,6 +28,7 @@ class RectorTest extends TestCase
         $rector->runInDirectory($workingDirectory);
     }
 
+
     public function testRunInDirectoryWillThrowExceptionWhenConfigMissing(): void
     {
         $this->expectException(RectorConfigFileMissing::class);

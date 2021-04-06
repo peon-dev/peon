@@ -36,6 +36,8 @@ return static function(ContainerConfigurator $configurator): void
         ->public(); // Allow access services via container in tests
 
 
+    // TODO: Cannot autowire service "PHPMate\Domain\Composer\Composer": argument "$filesystemReader"
+
     $services->set(Composer::class);
     $services->set(ComposerBinary::class, ShellExecComposerBinary::class);
 
