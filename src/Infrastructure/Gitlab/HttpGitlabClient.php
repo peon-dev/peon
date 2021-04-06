@@ -34,7 +34,7 @@ final class HttpGitlabClient implements Gitlab
         $personalAccessToken = $repository->authentication->personalAccessToken;
 
         $client = new Client();
-        $client->setUrl($repository->getUrl());
+        $client->setUrl($repository->getGitlabInstanceUrl());
         $client->authenticate($personalAccessToken, Client::AUTH_HTTP_TOKEN);
 
         return $client;

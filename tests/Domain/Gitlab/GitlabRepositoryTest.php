@@ -35,20 +35,20 @@ class GitlabRepositoryTest extends TestCase
 
 
     /**
-     * @dataProvider provideTestGetUrlData
+     * @dataProvider provideTestGetGitlabInstanceUrl
      */
-    public function testGetUrl(string $expected, string $repositoryUri): void
+    public function testGetGitlabInstanceUrl(string $expected, string $repositoryUri): void
     {
         $repository = self::createGitlabRepository($repositoryUri);
 
-        self::assertSame($expected, $repository->getUrl());
+        self::assertSame($expected, $repository->getGitlabInstanceUrl());
     }
 
 
     /**
      * @return \Generator<string[]>
      */
-    public function provideTestGetUrlData(): \Generator
+    public function provideTestGetGitlabInstanceUrl(): \Generator
     {
         yield ['https://gitlab.com', 'https://gitlab.com/janmikes/repository.git'];
         yield ['https://gitlab.server.com', 'https://gitlab.server.com/janmikes/repository.git'];

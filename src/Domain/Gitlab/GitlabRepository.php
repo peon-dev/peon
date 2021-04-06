@@ -46,9 +46,10 @@ final class GitlabRepository
     }
 
 
-    public function getUrl(): string
+    public function getGitlabInstanceUrl(): string
     {
         $uri = (new Uri($this->repositoryUri));
+
         return $uri->getScheme() . '://' . $uri->getHost();
     }
 }
