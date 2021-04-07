@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Composer;
 
-use League\Flysystem\FilesystemReader;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 final class Composer
 {
     public function __construct(
         private ComposerBinary $composerBinary,
-        private FilesystemReader $filesystemReader,
     ) {}
 
 
     /**
      * @throws ComposerJsonFileMissing
      */
-    public function installInWorkingDirectory(string $workingDirectory): void
+    public function installInWorkingDirectory(WorkingDirectory $workingDirectory): void
     {
-        if ($this->filesystemReader->fileExists($workingDirectory . '/composer.json') === false) {
+        if ($workingDirectory->fileExists('composer.json') === false) {
             throw new ComposerJsonFileMissing();
         }
 
