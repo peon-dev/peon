@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
+use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Gitlab\Gitlab;
@@ -14,6 +15,7 @@ use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
 use PHPMate\Infrastructure\Composer\ShellExecComposerBinary;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemWorkingDirectoryProvider;
+use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\Git\ShellExecGitBinary;
 use PHPMate\Infrastructure\Gitlab\HttpGitlabClient;
 use PHPMate\Infrastructure\Rector\ShellExecRectorBinary;
@@ -48,6 +50,9 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(Git::class);
     $services->set(GitBinary::class, ShellExecGitBinary::class);
+
+    $services->set(PHPMateBranchNameProvider::class);
+    $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
 
     $services->set(Gitlab::class, HttpGitlabClient::class);
 
