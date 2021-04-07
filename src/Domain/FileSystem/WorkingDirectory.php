@@ -8,5 +8,5 @@ interface WorkingDirectory
 {
     public function getAbsolutePath(): string;
 
-    public function fileExists(): bool;
+    public function fileExists(string $file): bool;
 }
