@@ -3,6 +3,7 @@ name: Tests
 on: push
 
 jobs:
+  # TODO: Separate end to end tests into parallel job
   tests:
     runs-on: ubuntu-latest
     steps:
