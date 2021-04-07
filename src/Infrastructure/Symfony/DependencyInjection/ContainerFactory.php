@@ -16,6 +16,11 @@ class ContainerFactory
         $loader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__));
         $loader->load('config.php');
 
+        $envSpecificConfig = 'config_' . $_ENV['APP_ENV'] . '.php';
+        if (is_file(__DIR__ . '/' . $envSpecificConfig)) {
+            $loader->load($envSpecificConfig);
+        }
+
         $containerBuilder->compile();
 
         return $containerBuilder;
