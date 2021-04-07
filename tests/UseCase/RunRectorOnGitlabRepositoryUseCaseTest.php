@@ -24,6 +24,9 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
         $username = $_ENV['TEST_GITLAB_USERNAME'];
         $personalAccessToken = $_ENV['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
 
+        var_dump($_ENV['TEST_GITLAB_USERNAME']);
+        var_dump($_SERVER['TEST_GITLAB_USERNAME']);
+
         $useCase->__invoke($repositoryUri, $username, $personalAccessToken);
     }
 }
