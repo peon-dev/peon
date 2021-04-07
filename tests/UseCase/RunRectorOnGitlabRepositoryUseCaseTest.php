@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 {
-    // TODO: test needs dynamic branch, because of parallel processing
     // TODO: we need to verify MR is created, how?
     // TODO: test should clean after itself, how? (delete branch + MR?)
     public function test(): void

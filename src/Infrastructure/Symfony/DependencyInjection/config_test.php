@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use PHPMate\Domain\Git\BranchNameProvider;
-use PHPMate\Infrastructure\Git\RandomPostfixBranchNameProvider;
+use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -17,6 +17,6 @@ return static function(ContainerConfigurator $configurator): void
         ->public(); // Allow access services via container in tests
 
 
-    $services->set(RandomPostfixBranchNameProvider::class);
-    $services->alias(BranchNameProvider::class, RandomPostfixBranchNameProvider::class);
+    $services->set(StatefulRandomPostfixBranchNameProvider::class);
+    $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
 };
