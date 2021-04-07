@@ -11,25 +11,25 @@ use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
 {
-    public function testRunInDirectory(): void
+    public function testRunInWorkingDirectory(): void
     {
         $workingDirectory = '.';
         $filesystemReader = $this->getFilesystemReader(true);
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
-            ->method('execInDirectory')
+            ->method('execInWorkingDirectory')
             ->with(
                 $workingDirectory,
                 'process'
             );
 
         $rector = new Rector($rectorBinary, $filesystemReader);
-        $rector->runInDirectory($workingDirectory);
+        $rector->runInWorkingDirectory($workingDirectory);
     }
 
 
-    public function testRunInDirectoryWillThrowExceptionWhenConfigMissing(): void
+    public function testRunInWorkingDirectoryWillThrowExceptionWhenConfigMissing(): void
     {
         $this->expectException(RectorConfigFileMissing::class);
 
@@ -37,7 +37,7 @@ class RectorTest extends TestCase
         $filesystemReader = $this->getFilesystemReader(false);
 
         $rector = new Rector($rectorBinary, $filesystemReader);
-        $rector->runInDirectory('.');
+        $rector->runInWorkingDirectory('.');
     }
 
 

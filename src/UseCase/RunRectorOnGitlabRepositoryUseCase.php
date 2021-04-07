@@ -38,8 +38,8 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
-        $this->composer->installInDirectory($workingDirectory);
-        $this->rector->runInDirectory($workingDirectory);
+        $this->composer->installInWorkingDirectory($workingDirectory);
+        $this->rector->runInWorkingDirectory($workingDirectory);
 
         if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($workingDirectory);

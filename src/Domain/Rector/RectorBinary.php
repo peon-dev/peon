@@ -6,5 +6,5 @@ namespace PHPMate\Domain\Rector;
 
 interface RectorBinary
 {
-    public function execInDirectory(string $workingDirectory, string $command): void;
+    public function execInWorkingDirectory(string $workingDirectory, string $command): void;
 }

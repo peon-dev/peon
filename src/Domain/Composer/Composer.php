@@ -17,12 +17,12 @@ final class Composer
     /**
      * @throws ComposerJsonFileMissing
      */
-    public function installInDirectory(string $workingDirectory): void
+    public function installInWorkingDirectory(string $workingDirectory): void
     {
         if ($this->filesystemReader->fileExists($workingDirectory . '/composer.json') === false) {
             throw new ComposerJsonFileMissing();
         }
 
-        $this->composerBinary->execInDirectory($workingDirectory,'install');
+        $this->composerBinary->execInWorkingDirectory($workingDirectory,'install');
     }
 }

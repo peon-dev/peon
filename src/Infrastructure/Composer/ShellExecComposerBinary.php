@@ -10,7 +10,7 @@ final class ShellExecComposerBinary implements ComposerBinary
 {
     private const BINARY_EXECUTABLE = 'composer';
 
-    public function execInDirectory(string $workingDirectory, string $command): void
+    public function execInWorkingDirectory(string $workingDirectory, string $command): void
     {
         $command = sprintf(
             'cd %s && %s %s',
