@@ -5,6 +5,7 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
+use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
@@ -19,6 +20,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         private Composer $composer,
         private Rector $rector,
         private WorkingDirectoryProvider $workingDirectoryProvider,
+        private BranchNameProvider $branchNameProvider,
     ) {}
 
 
@@ -43,7 +45,7 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($workingDirectory);
-            $branchWithChanges = 'improvements'; // TODO: dynamic
+            $branchWithChanges = $this->branchNameProvider->provideForProcedure('rector');
 
             $this->git->checkoutNewBranch($workingDirectory, $branchWithChanges);
             $this->git->commitAndPushChanges($workingDirectory, 'Rector changes');
