@@ -5,6 +5,7 @@ on: push
 jobs:
   tests:
     runs-on: ubuntu-latest
+    en
     steps:
       -   uses: actions/checkout@v2
       -   uses: shivammathur/setup-php@v2
@@ -15,7 +16,10 @@ jobs:
 
       -   run: composer install --dev --no-progress
 
-      -   run: vendor/bin/phpunit tests
+      -   env:
+              TEST_GITLAB_PERSONAL_ACCESS_TOKEN: ${{ secrets.TEST_GITLAB_PERSONAL_ACCESS_TOKEN }}
+              TEST_GITLAB_USERNAME: ${{ secrets.TEST_GITLAB_USERNAME }}
+          run: vendor/bin/phpunit tests
 
 
   phpstan:
