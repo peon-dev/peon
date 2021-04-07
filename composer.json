@@ -14,7 +14,6 @@
         "symfony/dotenv": "^5.2",
         "nette/utils": "^3.2",
         "guzzlehttp/psr7": "^1.7",
-        "league/flysystem": "^2.0",
         "jetbrains/phpstorm-attributes": "^1.0",
         "symfony/dependency-injection": "^5.2",
         "symfony/config": "^5.2",
