@@ -18,6 +18,10 @@ Repository URI **MUST** be https clone url of your repository *(example: https:/
 docker-compose run php bin/run-rector-on-gitlab.php <repositoryUri> <username> <personalAccessToken>
 ```
 
+## Testing
+
+In order to run end-to-end tests, you need to create `.env.test.local` and provide variable values there (see `.env.test` for list of variables).
+
 ## Xdebug
 
 To run with xdebug create `docker-compose.override.yml` and configure environment in:
