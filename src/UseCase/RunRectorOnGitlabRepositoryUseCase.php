@@ -24,6 +24,7 @@ final class RunRectorOnGitlabRepositoryUseCase
     ) {}
 
 
+    // TODO: use command DTO instead of parameters
     public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
     {
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
@@ -40,7 +41,11 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
 
+        // TODO: build application using buildpacks instead
         $this->composer->installInWorkingDirectory($workingDirectory);
+
+        // TODO: add support for config in specific directory
+        // TODO: add support for multiple projects (monorepo), strategy "all at once" - foreach iteration
         $this->rector->runInWorkingDirectory($workingDirectory);
 
         if ($this->git->hasUncommittedChanges($workingDirectory)) {

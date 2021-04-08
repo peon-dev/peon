@@ -6,6 +6,7 @@ namespace PHPMate\Domain\Rector;
 
 use PHPMate\Domain\FileSystem\WorkingDirectory;
 
+// TODO: once we have buildpacks, need to run in docker image with volume
 final class Rector
 {
     public function __construct(

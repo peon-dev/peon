@@ -22,6 +22,7 @@ final class Composer
             throw new ComposerJsonFileMissing();
         }
 
+        // TODO: temporarily add --ignore-platform-reqs
         $this->composerBinary->execInWorkingDirectory($workingDirectory,'install');
     }
 }
