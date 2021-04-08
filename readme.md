@@ -1,17 +1,21 @@
-# Rector bot
+# PHPMate
 
 ## Usage
 
-To get into Docker container:
+To get into Docker container (etc for development or debugging):
 
 ```shell
 docker-compose run --rm php bash
 ```
 
-In container:
+### Rector on Gitlab repository
+
+This will run Rector on your Gitlab repository and if there are any changes, open MR for you.
+
+Repository URI **MUST** be https clone url of your repository *(example: https://gitlab.com/phpmate-dogfood/rector.git)*.
 
 ```shell
-php bin/gitlab-repository.php <repository/name>
+docker-compose run php bin/run-rector-on-gitlab.php <repositoryUri> <username> <personalAccessToken>
 ```
 
 ## Xdebug
@@ -23,5 +27,5 @@ services:
     php:
         environment:
             XDEBUG_CONFIG: "client_host=192.168.64.1"
-            PHP_IDE_CONFIG: "serverName=rectorbot"
+            PHP_IDE_CONFIG: "serverName=phpmate"
 ```
