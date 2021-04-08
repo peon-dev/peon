@@ -17,7 +17,7 @@ use PHPMate\Infrastructure\Composer\ShellExecComposerBinary;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemWorkingDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\Git\ShellExecGitBinary;
-use PHPMate\Infrastructure\Gitlab\HttpGitlabClient;
+use PHPMate\Infrastructure\Gitlab\HttpGitlab;
 use PHPMate\Infrastructure\Rector\ShellExecRectorBinary;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
@@ -54,8 +54,8 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(PHPMateBranchNameProvider::class);
     $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
 
-    $services->set(HttpGitlabClient::class);
-    $services->alias(Gitlab::class, HttpGitlabClient::class);
+    $services->set(HttpGitlab::class);
+    $services->alias(Gitlab::class, HttpGitlab::class);
 
     $services->set(Rector::class);
     $services->set(RectorBinary::class, ShellExecRectorBinary::class);

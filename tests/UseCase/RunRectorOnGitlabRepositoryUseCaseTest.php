@@ -7,46 +7,68 @@ use Gitlab\Client;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Infrastructure\Gitlab\HttpGitlabClient;
+use PHPMate\Infrastructure\Gitlab\HttpGitlab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
 class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 {
-    public function test(): void
+    private string $branchName;
+    private string $repositoryUri;
+    private string $username;
+    private string $personalAccessToken;
+    private GitlabRepository $gitlabRepository;
+    private RunRectorOnGitlabRepositoryUseCase $useCase;
+    private Client $gitlabHttpClient;
+
+
+    protected function setUp(): void
     {
+        // Populate values in `.env.test.local`
+        $this->repositoryUri = $_SERVER['TEST_GITLAB_REPOSITORY'];
+        $this->username = $_SERVER['TEST_GITLAB_USERNAME'];
+        $this->personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
+
         $container = ContainerFactory::create();
 
+        /** @var RunRectorOnGitlabRepositoryUseCase $useCase */
         $useCase = $container->get(RunRectorOnGitlabRepositoryUseCase::class);
-        self::assertInstanceOf(RunRectorOnGitlabRepositoryUseCase::class, $useCase);
+        $this->useCase = $useCase;
 
-        // Populate values in `.env.test.local`
-        $repositoryUri = $_SERVER['TEST_GITLAB_REPOSITORY'];
-        $username = $_SERVER['TEST_GITLAB_USERNAME'];
-        $personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
-
-        $useCase->__invoke($repositoryUri, $username, $personalAccessToken);
-
+        /** @var BranchNameProvider $branchNameProvider */
         $branchNameProvider = $container->get(BranchNameProvider::class);
-        self::assertInstanceOf(BranchNameProvider::class, $branchNameProvider);
-        $branchName = $branchNameProvider->provideForProcedure('rector');
+        $this->branchName = $branchNameProvider->provideForProcedure('rector');
 
-        $gitlabRepository = $this->getGitlabRepository($repositoryUri, $username, $personalAccessToken);
-        $httpGitlab = $container->get(HttpGitlabClient::class);
-        self::assertInstanceOf(HttpGitlabClient::class, $httpGitlab);
-        $client = $httpGitlab->createClient($gitlabRepository);
-
-        $this->assertMergeRequestExists($client, $branchName);
-        $this->removeBranch($branchName);
+        /** @var HttpGitlab $httpGitlab */
+        $httpGitlab = $container->get(HttpGitlab::class);
+        $authentication = new GitlabAuthentication($this->username, $this->personalAccessToken);
+        $this->gitlabRepository = new GitlabRepository($this->repositoryUri, $authentication);
+        $this->gitlabHttpClient = $httpGitlab->createHttpClient($this->gitlabRepository);
     }
 
-    // TODO: teardown
 
-
-    private function assertMergeRequestExists(Client $client, string $branchName): void
+    protected function tearDown(): void
     {
-        $mergeRequests = $client->mergeRequests()->all(parameters: [
+        $this->removeBranch($this->gitlabRepository->getProject(), $this->branchName);
+    }
+
+
+    public function test(): void
+    {
+        $this->useCase->__invoke(
+            $this->repositoryUri,
+            $this->username,
+            $this->personalAccessToken
+        );
+
+        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+    }
+
+
+    private function assertMergeRequestExists(string $project, string $branchName): void
+    {
+        $mergeRequests = $this->gitlabHttpClient->mergeRequests()->all($project, [
             'state' => 'opened',
             'source_branch' => $branchName,
         ]);
@@ -57,16 +79,8 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     }
 
 
-    private function removeBranch(string $branchName): void
+    private function removeBranch(string $project, string $branchName): void
     {
         // TODO
-    }
-
-
-    private function getGitlabRepository(string $repositoryUri, string $username, string $personalAccessToken): GitlabRepository
-    {
-        $authentication = new GitlabAuthentication($username, $personalAccessToken);
-
-        return new GitlabRepository($repositoryUri, $authentication);
     }
 }

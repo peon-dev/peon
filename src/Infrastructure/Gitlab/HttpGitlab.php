@@ -8,7 +8,7 @@ use Gitlab\Client;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Gitlab\GitlabRepository;
 
-final class HttpGitlabClient implements Gitlab
+final class HttpGitlab implements Gitlab
 {
     public function openMergeRequest(
         GitlabRepository $gitlabRepository,
@@ -17,7 +17,7 @@ final class HttpGitlabClient implements Gitlab
         string $title,
     ): void
     {
-        $client = $this->createClient($gitlabRepository);
+        $client = $this->createHttpClient($gitlabRepository);
         $project = $gitlabRepository->getProject();
 
         $client->mergeRequests()->create(
@@ -29,7 +29,7 @@ final class HttpGitlabClient implements Gitlab
     }
 
 
-    public function createClient(GitlabRepository $repository): Client
+    public function createHttpClient(GitlabRepository $repository): Client
     {
         $personalAccessToken = $repository->authentication->personalAccessToken;
 
