@@ -81,6 +81,6 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
     private function removeBranch(string $project, string $branchName): void
     {
-        // TODO
+        $this->gitlabHttpClient->repositories()->deleteBranch($project, $branchName);
     }
 }
