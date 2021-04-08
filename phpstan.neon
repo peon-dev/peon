@@ -3,7 +3,8 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
-	level: max
-	paths:
-		- src
-		- tests
+    level: max
+    paths:
+        - bin
+        - src
+        - tests
