@@ -54,7 +54,8 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(PHPMateBranchNameProvider::class);
     $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
 
-    $services->set(Gitlab::class, HttpGitlabClient::class);
+    $services->set(HttpGitlabClient::class);
+    $services->alias(Gitlab::class, HttpGitlabClient::class);
 
     $services->set(Rector::class);
     $services->set(RectorBinary::class, ShellExecRectorBinary::class);

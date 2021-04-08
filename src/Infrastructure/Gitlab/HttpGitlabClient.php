@@ -29,7 +29,7 @@ final class HttpGitlabClient implements Gitlab
     }
 
 
-    private function createClient(GitlabRepository $repository): Client
+    public function createClient(GitlabRepository $repository): Client
     {
         $personalAccessToken = $repository->authentication->personalAccessToken;
 

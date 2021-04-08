@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\UseCase;
 
-use _HumbugBox5ccdb2ccdb35\Nette\DI\ContainerBuilder;
+use Gitlab\Client;
 use PHPMate\Domain\Git\BranchNameProvider;
+use PHPMate\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Domain\Gitlab\GitlabRepository;
+use PHPMate\Infrastructure\Gitlab\HttpGitlabClient;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
@@ -29,19 +32,41 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
         self::assertInstanceOf(BranchNameProvider::class, $branchNameProvider);
         $branchName = $branchNameProvider->provideForProcedure('rector');
 
-        $this->assertMergeRequestExists($branchName);
+        $gitlabRepository = $this->getGitlabRepository($repositoryUri, $username, $personalAccessToken);
+        $httpGitlab = $container->get(HttpGitlabClient::class);
+        self::assertInstanceOf(HttpGitlabClient::class, $httpGitlab);
+        $client = $httpGitlab->createClient($gitlabRepository);
+
+        $this->assertMergeRequestExists($client, $branchName);
         $this->removeBranch($branchName);
     }
 
+    // TODO: teardown
 
-    private function assertMergeRequestExists(string $branchName): void
+
+    private function assertMergeRequestExists(Client $client, string $branchName): void
     {
-        // TODO
+        $mergeRequests = $client->mergeRequests()->all(parameters: [
+            'state' => 'opened',
+            'source_branch' => $branchName,
+        ]);
+
+        self::assertCount(1, $mergeRequests);
+        self::assertSame('master', $mergeRequests[0]['target_branch']);
+        self::assertSame('Rector run by PHPMate', $mergeRequests[0]['title']);
     }
 
 
     private function removeBranch(string $branchName): void
     {
         // TODO
+    }
+
+
+    private function getGitlabRepository(string $repositoryUri, string $username, string $personalAccessToken): GitlabRepository
+    {
+        $authentication = new GitlabAuthentication($username, $personalAccessToken);
+
+        return new GitlabRepository($repositoryUri, $authentication);
     }
 }
