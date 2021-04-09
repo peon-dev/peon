@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Composer\Composer;
+use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
@@ -14,6 +15,11 @@ use PHPMate\Domain\Rector\Rector;
 
 final class RunRectorOnGitlabRepositoryUseCase
 {
+    /**
+     * @var string[]
+     */
+    public static array $rectorWorkingDirectories = [];
+
     public function __construct(
         private Git $git,
         private Gitlab $gitlab,
@@ -44,9 +50,9 @@ final class RunRectorOnGitlabRepositoryUseCase
         // TODO: build application using buildpacks instead
         $this->composer->installInWorkingDirectory($workingDirectory);
 
-        // TODO: add support for config in specific directory
-        // TODO: add support for multiple projects (monorepo), strategy "all at once" - foreach iteration
-        $this->rector->runInWorkingDirectory($workingDirectory);
+        foreach ($this->getRectorWorkingDirectories($workingDirectory) as $rectorWorkingDirectory) {
+            $this->rector->runInWorkingDirectory($rectorWorkingDirectory);
+        }
 
         if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($workingDirectory);
@@ -62,5 +68,25 @@ final class RunRectorOnGitlabRepositoryUseCase
                 'Rector run by PHPMate'
             );
         }
+    }
+
+
+    /**
+     * @return WorkingDirectory[]
+     */
+    private function getRectorWorkingDirectories(WorkingDirectory $workingDirectory): array
+    {
+        $workingDirectories = [];
+
+        if (count(self::$rectorWorkingDirectories) === 0) {
+            $workingDirectories = [$workingDirectory];
+        }
+
+        foreach (self::$rectorWorkingDirectories as $rectorWorkingDirectory) {
+            $subDirectory = $workingDirectory->getAbsolutePath() . '/' . $rectorWorkingDirectory;
+            $workingDirectories[] = new WorkingDirectory($subDirectory);
+        }
+
+        return $workingDirectories;
     }
 }

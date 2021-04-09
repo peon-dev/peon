@@ -22,6 +22,16 @@ final class TemporaryLocalFileSystemWorkingDirectoryProvider implements WorkingD
 
         FileSystem::createDir($directory);
 
-        return new TemporaryLocalFileSystemWorkingDirectory($directory);
+        $this->registerShutdown($directory);
+
+        return new WorkingDirectory($directory);
+    }
+
+
+    private function registerShutdown(string $directory): void
+    {
+        register_shutdown_function(static function() use ($directory) {
+            FileSystem::delete($directory);
+        });
     }
 }
