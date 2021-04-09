@@ -8,3 +8,5 @@
 var/
 
 docker-compose.override.yml
+
+projects-bin/

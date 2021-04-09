@@ -32,7 +32,7 @@ class ComposerTest extends TestCase
             ->method('execInWorkingDirectory')
             ->with(
                 $workingDirectory,
-                'install --ignore-platform-reqs'
+                'install --ignore-platform-reqs --no-scripts --no-interaction'
             );
 
         $composer = new Composer($composerBinary);
