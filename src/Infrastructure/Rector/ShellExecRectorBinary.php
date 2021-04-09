@@ -9,7 +9,7 @@ use PHPMate\Domain\Rector\RectorBinary;
 
 final class ShellExecRectorBinary implements RectorBinary
 {
-    private const BINARY_EXECUTABLE = 'vendor/bin/rector';
+    private const BINARY_EXECUTABLE = '../../vendor/bin/rector';
 
     public function execInWorkingDirectory(WorkingDirectory $workingDirectory, string $command): void
     {
