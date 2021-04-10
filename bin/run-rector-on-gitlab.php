@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use PHPMate\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Domain\Gitlab\GitlabRepository;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
@@ -21,4 +24,7 @@ $container = ContainerFactory::create();
 /** @var RunRectorOnGitlabRepositoryUseCase $useCase */
 $useCase = $container->get(RunRectorOnGitlabRepositoryUseCase::class);
 
-$useCase->__invoke($repositoryUri, $username, $personalAccessToken);
+$authentication = new GitlabAuthentication($username, $personalAccessToken);
+$gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
+
+$useCase->__invoke(new RunRectorOnGitlabRepository($gitlabRepository));

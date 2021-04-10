@@ -9,15 +9,13 @@ use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
 use PHPMate\Infrastructure\Gitlab\HttpGitlab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
 class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 {
     private string $branchName;
-    private string $repositoryUri;
-    private string $username;
-    private string $personalAccessToken;
     private GitlabRepository $gitlabRepository;
     private RunRectorOnGitlabRepositoryUseCase $useCase;
     private Client $gitlabHttpClient;
@@ -26,9 +24,9 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     protected function setUp(): void
     {
         // Populate values in `.env.test.local`
-        $this->repositoryUri = $_SERVER['TEST_GITLAB_REPOSITORY'];
-        $this->username = $_SERVER['TEST_GITLAB_USERNAME'];
-        $this->personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
+        $repositoryUri = $_SERVER['TEST_GITLAB_REPOSITORY'];
+        $username = $_SERVER['TEST_GITLAB_USERNAME'];
+        $personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
 
         $container = ContainerFactory::create();
 
@@ -42,8 +40,8 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
         /** @var HttpGitlab $httpGitlab */
         $httpGitlab = $container->get(HttpGitlab::class);
-        $authentication = new GitlabAuthentication($this->username, $this->personalAccessToken);
-        $this->gitlabRepository = new GitlabRepository($this->repositoryUri, $authentication);
+        $authentication = new GitlabAuthentication($username, $personalAccessToken);
+        $this->gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
         $this->gitlabHttpClient = $httpGitlab->createHttpClient($this->gitlabRepository);
     }
 
@@ -56,11 +54,7 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
     public function test(): void
     {
-        $this->useCase->__invoke(
-            $this->repositoryUri,
-            $this->username,
-            $this->personalAccessToken
-        );
+        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
