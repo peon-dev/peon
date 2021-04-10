@@ -9,8 +9,6 @@ use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
-use PHPMate\Domain\Gitlab\GitlabAuthentication;
-use PHPMate\Domain\Gitlab\GitlabRepository;
 use PHPMate\Domain\Rector\Rector;
 
 final class RunRectorOnGitlabRepositoryUseCase
@@ -30,11 +28,8 @@ final class RunRectorOnGitlabRepositoryUseCase
     ) {}
 
 
-    // TODO: use command DTO instead of parameters
-    public function __invoke(string $repositoryUri, string $username, string $personalAccessToken): void
+    public function __invoke(RunRectorOnGitlabRepository $command): void
     {
-        $authentication = new GitlabAuthentication($username, $personalAccessToken);
-        $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
         $workingDirectory = $this->workingDirectoryProvider->provide();
 
         /*
@@ -45,7 +40,7 @@ final class RunRectorOnGitlabRepositoryUseCase
          *   - New fresh branch (duplicate)
          */
 
-        $this->git->clone($workingDirectory, $gitlabRepository->getAuthenticatedRepositoryUri());
+        $this->git->clone($workingDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
 
         // TODO: build application using buildpacks instead
         $this->composer->installInWorkingDirectory($workingDirectory);
@@ -62,7 +57,7 @@ final class RunRectorOnGitlabRepositoryUseCase
             $this->git->commitAndPushChanges($workingDirectory, 'Rector changes');
 
             $this->gitlab->openMergeRequest(
-                $gitlabRepository,
+                $command->gitlabRepository,
                 $mainBranch,
                 $branchWithChanges,
                 'Rector run by PHPMate'
