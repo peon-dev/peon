@@ -6,7 +6,6 @@ namespace PHPMate\Domain\Rector;
 
 use PHPMate\Domain\FileSystem\WorkingDirectory;
 
-// TODO: once we have buildpacks, need to run in docker image with volume
 final class Rector
 {
     public function __construct(
@@ -14,14 +13,19 @@ final class Rector
     ) {}
 
     /**
-     * @throws RectorConfigFileMissing
+     * @param array<RectorProcessCommandConfiguration> $configurations
      */
-    public function process(WorkingDirectory $projectDirectory): void
+    public function process(WorkingDirectory $projectDirectory, array $configurations = []): void
+    // TODO write test for configurations
     {
-        if ($projectDirectory->fileExists('rector.php') === false) {
-            throw new RectorConfigFileMissing();
+        if ($configurations === []) {
+            $configurations = [new RectorProcessCommandConfiguration()];
         }
 
-        $this->rectorBinary->executeCommand($projectDirectory, 'process');
+        foreach ($configurations as $configuration) {
+            // TODO add arguments from $configuration to command
+
+            $this->rectorBinary->executeCommand($projectDirectory, 'process');
+        }
     }
 }
