@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\Composer;
 
 use PHPMate\Domain\Composer\ComposerBinary;
-use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 final class ShellExecComposerBinary implements ComposerBinary
 {
@@ -13,11 +12,11 @@ final class ShellExecComposerBinary implements ComposerBinary
 
     private const BINARY_EXECUTABLE = 'composer';
 
-    public function executeCommand(WorkingDirectory $projectDirectory, string $command): void
+    public function executeCommand(string $directory, string $command): void
     {
         $command = sprintf(
             'cd %s && COMPOSER_AUTH=\'%s\' %s %s', // TODO pass COMPOSER_AUTH somehow as argument
-            $projectDirectory->getAbsolutePath(),
+            $directory,
             self::$COMPOSER_AUTH,
             self::BINARY_EXECUTABLE,
             $command
