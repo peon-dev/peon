@@ -8,7 +8,7 @@ use PHPMate\Domain\Rector\RectorBinary;
 
 final class ShellExecRectorBinary implements RectorBinary
 {
-    private const BINARY_EXECUTABLE = '../../vendor/bin/rector'; // TODO must be in root
+    private const BINARY_EXECUTABLE = 'vendor/bin/rector'; // TODO must be dynamic, for non-standard installations
 
     public function executeCommand(string $directory, string $command): void
     {
