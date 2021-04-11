@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Docker;
 
-use PHPMate\Domain\FileSystem\WorkingDirectory;
-
 /**
  * @TODO implementation
  *
@@ -20,5 +18,5 @@ interface DockerImageBuilder
     /**
      * TODO
      */
-    public function build(WorkingDirectory $projectDirectory): string;
+    public function build(string $directory): string;
 }
