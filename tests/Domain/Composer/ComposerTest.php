@@ -11,21 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
 {
-    public function testInstallInWorkingDirectoryWillThrowExceptionWhenJsonFileMissing(): void
-    {
-        $this->expectException(ComposerJsonFileMissing::class);
-
-        $composerBinary = $this->createStub(ComposerBinary::class);
-        $projectDirectory = $this->getWorkingDirectory(false);
-
-        $composer = new Composer($composerBinary);
-        $composer->install($projectDirectory);
-    }
-
-
     public function testInstallInWorkingDirectory(): void
     {
-        $projectDirectory = $this->getWorkingDirectory(true);
+        $projectDirectory = '/';
 
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
@@ -37,16 +25,5 @@ class ComposerTest extends TestCase
 
         $composer = new Composer($composerBinary);
         $composer->install($projectDirectory);
-    }
-
-
-    private function getWorkingDirectory(bool $composerJsonFileExists): WorkingDirectory
-    {
-        $projectDirectory = $this->createMock(WorkingDirectory::class);
-        $projectDirectory->method('fileExists')
-            ->with('composer.json')
-            ->willReturn($composerJsonFileExists);
-
-        return $projectDirectory;
     }
 }
