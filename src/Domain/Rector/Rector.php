@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Rector;
 
-use PHPMate\Domain\FileSystem\WorkingDirectory;
-
 final class Rector
 {
     public function __construct(
@@ -15,7 +13,7 @@ final class Rector
     /**
      * @param array<RectorProcessCommandConfiguration> $configurations
      */
-    public function process(WorkingDirectory $projectDirectory, array $configurations = []): void
+    public function process(string $directory, array $configurations = []): void
     // TODO write test for configurations
     {
         if ($configurations === []) {
@@ -25,7 +23,7 @@ final class Rector
         foreach ($configurations as $configuration) {
             // TODO add arguments from $configuration to command
 
-            $this->rectorBinary->executeCommand($projectDirectory, 'process');
+            $this->rectorBinary->executeCommand($directory, 'process');
         }
     }
 }
