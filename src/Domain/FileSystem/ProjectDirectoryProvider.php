@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\FileSystem;
 
-interface WorkingDirectoryProvider
+interface ProjectDirectoryProvider
 {
     public function provide(): WorkingDirectory;
 }

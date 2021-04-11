@@ -16,13 +16,13 @@ final class Composer
     /**
      * @throws ComposerJsonFileMissing
      */
-    public function installInWorkingDirectory(WorkingDirectory $workingDirectory): void
+    public function install(WorkingDirectory $projectDirectory): void
     {
-        if ($workingDirectory->fileExists('composer.json') === false) {
+        if ($projectDirectory->fileExists('composer.json') === false) {
             throw new ComposerJsonFileMissing();
         }
 
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $this->composerBinary->execInWorkingDirectory($workingDirectory,'install --ignore-platform-reqs --no-scripts --no-interaction');
+        $this->composerBinary->executeCommand($projectDirectory,'install --ignore-platform-reqs --no-scripts --no-interaction');
     }
 }

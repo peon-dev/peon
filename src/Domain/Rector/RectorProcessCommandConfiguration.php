@@ -11,7 +11,7 @@ final class RectorProcessCommandConfiguration
 {
     public function __construct(
         public ?string $autoloadFile = null,
-        public ?string $workingDirectory = null,
+        public ?string $projectDirectory = null,
         public ?string $config = null,
     ) {}
 }

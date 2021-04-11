@@ -18,43 +18,43 @@ final class Git
     ) {}
 
 
-    public function clone(WorkingDirectory $workingDirectory, UriInterface $remoteUri): void
+    public function clone(WorkingDirectory $projectDirectory, UriInterface $remoteUri): void
     {
         $command = sprintf('clone %s .', (string) $remoteUri);
 
-        $this->gitBinary->execInWorkingDirectory($workingDirectory, $command);
+        $this->gitBinary->executeCommand($projectDirectory, $command);
     }
 
 
-    public function hasUncommittedChanges(WorkingDirectory $workingDirectory): bool
+    public function hasUncommittedChanges(WorkingDirectory $projectDirectory): bool
     {
-        $output = $this->gitBinary->execInWorkingDirectory($workingDirectory, 'status --porcelain');
+        $output = $this->gitBinary->executeCommand($projectDirectory, 'status --porcelain');
 
         return $output !== '';
     }
 
 
-    public function getCurrentBranch(WorkingDirectory $workingDirectory): string
+    public function getCurrentBranch(WorkingDirectory $projectDirectory): string
     {
-        return $this->gitBinary->execInWorkingDirectory($workingDirectory, 'rev-parse --abbrev-ref HEAD');
+        return $this->gitBinary->executeCommand($projectDirectory, 'rev-parse --abbrev-ref HEAD');
     }
 
 
-    public function checkoutNewBranch(WorkingDirectory $workingDirectory, string $branch): void
+    public function checkoutNewBranch(WorkingDirectory $projectDirectory, string $branch): void
     {
         $command = sprintf('checkout -b %s', $branch);
 
-        $this->gitBinary->execInWorkingDirectory($workingDirectory, $command);
+        $this->gitBinary->executeCommand($projectDirectory, $command);
     }
 
 
-    public function commitAndPushChanges(WorkingDirectory $workingDirectory, string $commitMessage): void
+    public function commitAndPushChanges(WorkingDirectory $projectDirectory, string $commitMessage): void
     {
-        $this->gitBinary->execInWorkingDirectory($workingDirectory, sprintf(
+        $this->gitBinary->executeCommand($projectDirectory, sprintf(
             'config user.name %s', self::USER_NAME
         ));
 
-        $this->gitBinary->execInWorkingDirectory($workingDirectory, sprintf(
+        $this->gitBinary->executeCommand($projectDirectory, sprintf(
             'config user.email %s', self::USER_EMAIL
         ));
 
@@ -65,7 +65,7 @@ final class Git
             $commitMessage,
         );
 
-        $this->gitBinary->execInWorkingDirectory($workingDirectory, $commitCommand);
-        $this->gitBinary->execInWorkingDirectory($workingDirectory, 'push -u origin --all');
+        $this->gitBinary->executeCommand($projectDirectory, $commitCommand);
+        $this->gitBinary->executeCommand($projectDirectory, 'push -u origin --all');
     }
 }

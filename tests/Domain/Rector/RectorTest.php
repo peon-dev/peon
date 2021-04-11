@@ -11,42 +11,42 @@ use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
 {
-    public function testRunInWorkingDirectory(): void
+    public function testProcess(): void
     {
-        $workingDirectory = $this->getWorkingDirectory(true);
+        $projectDirectory = $this->getWorkingDirectory(true);
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
-            ->method('execInWorkingDirectory')
+            ->method('executeCommand')
             ->with(
-                $workingDirectory,
+                $projectDirectory,
                 'process'
             );
 
         $rector = new Rector($rectorBinary);
-        $rector->runInWorkingDirectory($workingDirectory);
+        $rector->process($projectDirectory);
     }
 
 
-    public function testRunInWorkingDirectoryWillThrowExceptionWhenConfigMissing(): void
+    public function testProcessWillThrowExceptionWhenConfigMissing(): void
     {
         $this->expectException(RectorConfigFileMissing::class);
 
         $rectorBinary = $this->createStub(RectorBinary::class);
-        $workingDirectory = $this->getWorkingDirectory(false);
+        $projectDirectory = $this->getWorkingDirectory(false);
 
         $rector = new Rector($rectorBinary);
-        $rector->runInWorkingDirectory($workingDirectory);
+        $rector->process($projectDirectory);
     }
 
 
     private function getWorkingDirectory(bool $rectorConfigFileExists): WorkingDirectory
     {
-        $workingDirectory = $this->createMock(WorkingDirectory::class);
-        $workingDirectory->method('fileExists')
+        $projectDirectory = $this->createMock(WorkingDirectory::class);
+        $projectDirectory->method('fileExists')
             ->with('rector.php')
             ->willReturn($rectorConfigFileExists);
 
-        return $workingDirectory;
+        return $projectDirectory;
     }
 }

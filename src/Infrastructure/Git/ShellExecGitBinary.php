@@ -11,11 +11,11 @@ class ShellExecGitBinary implements GitBinary
 {
     private const BINARY_EXECUTABLE = 'git';
 
-    public function execInWorkingDirectory(WorkingDirectory $workingDirectory, string $command): string
+    public function executeCommand(WorkingDirectory $projectDirectory, string $command): string
     {
         $command = sprintf(
             'cd %s && %s %s',
-            $workingDirectory->getAbsolutePath(),
+            $projectDirectory->getAbsolutePath(),
             self::BINARY_EXECUTABLE,
             $command
         );

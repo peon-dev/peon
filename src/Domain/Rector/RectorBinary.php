@@ -8,5 +8,5 @@ use PHPMate\Domain\FileSystem\WorkingDirectory;
 
 interface RectorBinary
 {
-    public function execInWorkingDirectory(WorkingDirectory $workingDirectory, string $command): void;
+    public function executeCommand(WorkingDirectory $projectDirectory, string $command): void;
 }
