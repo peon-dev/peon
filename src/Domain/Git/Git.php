@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Git;
 
-use PHPMate\Domain\FileSystem\WorkingDirectory;
 use Psr\Http\Message\UriInterface;
 
 // TODO: cover with unit tests
@@ -18,43 +17,43 @@ final class Git
     ) {}
 
 
-    public function clone(WorkingDirectory $projectDirectory, UriInterface $remoteUri): void
+    public function clone(string $directory, UriInterface $remoteUri): void
     {
         $command = sprintf('clone %s .', (string) $remoteUri);
 
-        $this->gitBinary->executeCommand($projectDirectory, $command);
+        $this->gitBinary->executeCommand($directory, $command);
     }
 
 
-    public function hasUncommittedChanges(WorkingDirectory $projectDirectory): bool
+    public function hasUncommittedChanges(string $directory): bool
     {
-        $output = $this->gitBinary->executeCommand($projectDirectory, 'status --porcelain');
+        $output = $this->gitBinary->executeCommand($directory, 'status --porcelain');
 
         return $output !== '';
     }
 
 
-    public function getCurrentBranch(WorkingDirectory $projectDirectory): string
+    public function getCurrentBranch(string $directory): string
     {
-        return $this->gitBinary->executeCommand($projectDirectory, 'rev-parse --abbrev-ref HEAD');
+        return $this->gitBinary->executeCommand($directory, 'rev-parse --abbrev-ref HEAD');
     }
 
 
-    public function checkoutNewBranch(WorkingDirectory $projectDirectory, string $branch): void
+    public function checkoutNewBranch(string $directory, string $branch): void
     {
         $command = sprintf('checkout -b %s', $branch);
 
-        $this->gitBinary->executeCommand($projectDirectory, $command);
+        $this->gitBinary->executeCommand($directory, $command);
     }
 
 
-    public function commitAndPushChanges(WorkingDirectory $projectDirectory, string $commitMessage): void
+    public function commitAndPushChanges(string $directory, string $commitMessage): void
     {
-        $this->gitBinary->executeCommand($projectDirectory, sprintf(
+        $this->gitBinary->executeCommand($directory, sprintf(
             'config user.name %s', self::USER_NAME
         ));
 
-        $this->gitBinary->executeCommand($projectDirectory, sprintf(
+        $this->gitBinary->executeCommand($directory, sprintf(
             'config user.email %s', self::USER_EMAIL
         ));
 
@@ -65,7 +64,7 @@ final class Git
             $commitMessage,
         );
 
-        $this->gitBinary->executeCommand($projectDirectory, $commitCommand);
-        $this->gitBinary->executeCommand($projectDirectory, 'push -u origin --all');
+        $this->gitBinary->executeCommand($directory, $commitCommand);
+        $this->gitBinary->executeCommand($directory, 'push -u origin --all');
     }
 }
