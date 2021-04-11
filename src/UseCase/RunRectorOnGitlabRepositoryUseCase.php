@@ -5,7 +5,7 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\FileSystem\WorkingDirectory;
-use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
+use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
@@ -23,14 +23,14 @@ final class RunRectorOnGitlabRepositoryUseCase
         private Gitlab $gitlab,
         private Composer $composer,
         private Rector $rector,
-        private WorkingDirectoryProvider $workingDirectoryProvider,
+        private ProjectDirectoryProvider $projectDirectoryProvider,
         private BranchNameProvider $branchNameProvider,
     ) {}
 
 
     public function __invoke(RunRectorOnGitlabRepository $command): void
     {
-        $workingDirectory = $this->workingDirectoryProvider->provide();
+        $projectDirectory = $this->projectDirectoryProvider->provide();
 
         /*
          * TODO: what if MR by PHPMate for this procedure already exists?
@@ -40,21 +40,21 @@ final class RunRectorOnGitlabRepositoryUseCase
          *   - New fresh branch (duplicate)
          */
 
-        $this->git->clone($workingDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
+        $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
 
         // TODO: build application using buildpacks instead
-        $this->composer->installInWorkingDirectory($workingDirectory);
+        $this->composer->install($projectDirectory);
 
-        foreach ($this->getRectorWorkingDirectories($workingDirectory) as $rectorWorkingDirectory) {
-            $this->rector->runInWorkingDirectory($rectorWorkingDirectory);
+        foreach ($this->getRectorWorkingDirectories($projectDirectory) as $rectorWorkingDirectory) {
+            $this->rector->process($rectorWorkingDirectory);
         }
 
-        if ($this->git->hasUncommittedChanges($workingDirectory)) {
-            $mainBranch = $this->git->getCurrentBranch($workingDirectory);
+        if ($this->git->hasUncommittedChanges($projectDirectory)) {
+            $mainBranch = $this->git->getCurrentBranch($projectDirectory);
             $branchWithChanges = $this->branchNameProvider->provideForProcedure('rector');
 
-            $this->git->checkoutNewBranch($workingDirectory, $branchWithChanges);
-            $this->git->commitAndPushChanges($workingDirectory, 'Rector changes');
+            $this->git->checkoutNewBranch($projectDirectory, $branchWithChanges);
+            $this->git->commitAndPushChanges($projectDirectory, 'Rector changes');
 
             $this->gitlab->openMergeRequest(
                 $command->gitlabRepository,
@@ -69,16 +69,16 @@ final class RunRectorOnGitlabRepositoryUseCase
     /**
      * @return WorkingDirectory[]
      */
-    private function getRectorWorkingDirectories(WorkingDirectory $workingDirectory): array
+    private function getRectorWorkingDirectories(WorkingDirectory $projectDirectory): array
     {
         $workingDirectories = [];
 
         if (count(self::$rectorWorkingDirectories) === 0) {
-            $workingDirectories = [$workingDirectory];
+            $workingDirectories = [$projectDirectory];
         }
 
         foreach (self::$rectorWorkingDirectories as $rectorWorkingDirectory) {
-            $subDirectory = $workingDirectory->getAbsolutePath() . '/' . $rectorWorkingDirectory;
+            $subDirectory = $projectDirectory->getAbsolutePath() . '/' . $rectorWorkingDirectory;
             $workingDirectories[] = new WorkingDirectory($subDirectory);
         }
 

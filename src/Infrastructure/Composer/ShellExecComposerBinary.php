@@ -13,11 +13,11 @@ final class ShellExecComposerBinary implements ComposerBinary
 
     private const BINARY_EXECUTABLE = 'composer';
 
-    public function execInWorkingDirectory(WorkingDirectory $workingDirectory, string $command): void
+    public function executeCommand(WorkingDirectory $projectDirectory, string $command): void
     {
         $command = sprintf(
             'cd %s && COMPOSER_AUTH=\'%s\' %s %s', // TODO pass COMPOSER_AUTH somehow as argument
-            $workingDirectory->getAbsolutePath(),
+            $projectDirectory->getAbsolutePath(),
             self::$COMPOSER_AUTH,
             self::BINARY_EXECUTABLE,
             $command

@@ -7,9 +7,9 @@ namespace PHPMate\Infrastructure\FileSystem;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
 use PHPMate\Domain\FileSystem\WorkingDirectory;
-use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
+use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
 
-final class TemporaryLocalFileSystemWorkingDirectoryProvider implements WorkingDirectoryProvider
+final class TemporaryLocalFileSystemProjectDirectoryProvider implements ProjectDirectoryProvider
 {
     public function __construct(
         private string $baseDir

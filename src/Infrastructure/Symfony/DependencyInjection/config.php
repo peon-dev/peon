@@ -6,7 +6,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
-use PHPMate\Domain\FileSystem\WorkingDirectoryProvider;
+use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
@@ -14,7 +14,7 @@ use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
 use PHPMate\Infrastructure\Composer\ShellExecComposerBinary;
-use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemWorkingDirectoryProvider;
+use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\Git\ShellExecGitBinary;
 use PHPMate\Infrastructure\Gitlab\HttpGitlab;
@@ -39,11 +39,11 @@ return static function(ContainerConfigurator $configurator): void
         ->public(); // Allow access services via container in tests
 
 
-    $services->set(TemporaryLocalFileSystemWorkingDirectoryProvider::class)
+    $services->set(TemporaryLocalFileSystemProjectDirectoryProvider::class)
         ->args([
             param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
         ]);
-    $services->alias(WorkingDirectoryProvider::class, TemporaryLocalFileSystemWorkingDirectoryProvider::class);
+    $services->alias(ProjectDirectoryProvider::class, TemporaryLocalFileSystemProjectDirectoryProvider::class);
 
     $services->set(Composer::class);
     $services->set(ComposerBinary::class, ShellExecComposerBinary::class);

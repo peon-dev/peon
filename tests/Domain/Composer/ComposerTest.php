@@ -16,37 +16,37 @@ class ComposerTest extends TestCase
         $this->expectException(ComposerJsonFileMissing::class);
 
         $composerBinary = $this->createStub(ComposerBinary::class);
-        $workingDirectory = $this->getWorkingDirectory(false);
+        $projectDirectory = $this->getWorkingDirectory(false);
 
         $composer = new Composer($composerBinary);
-        $composer->installInWorkingDirectory($workingDirectory);
+        $composer->install($projectDirectory);
     }
 
 
     public function testInstallInWorkingDirectory(): void
     {
-        $workingDirectory = $this->getWorkingDirectory(true);
+        $projectDirectory = $this->getWorkingDirectory(true);
 
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
-            ->method('execInWorkingDirectory')
+            ->method('executeCommand')
             ->with(
-                $workingDirectory,
+                $projectDirectory,
                 'install --ignore-platform-reqs --no-scripts --no-interaction'
             );
 
         $composer = new Composer($composerBinary);
-        $composer->installInWorkingDirectory($workingDirectory);
+        $composer->install($projectDirectory);
     }
 
 
     private function getWorkingDirectory(bool $composerJsonFileExists): WorkingDirectory
     {
-        $workingDirectory = $this->createMock(WorkingDirectory::class);
-        $workingDirectory->method('fileExists')
+        $projectDirectory = $this->createMock(WorkingDirectory::class);
+        $projectDirectory->method('fileExists')
             ->with('composer.json')
             ->willReturn($composerJsonFileExists);
 
-        return $workingDirectory;
+        return $projectDirectory;
     }
 }

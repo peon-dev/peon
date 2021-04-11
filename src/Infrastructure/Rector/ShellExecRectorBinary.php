@@ -9,13 +9,13 @@ use PHPMate\Domain\Rector\RectorBinary;
 
 final class ShellExecRectorBinary implements RectorBinary
 {
-    private const BINARY_EXECUTABLE = '../../vendor/bin/rector';
+    private const BINARY_EXECUTABLE = '../../vendor/bin/rector'; // TODO must be in root
 
-    public function execInWorkingDirectory(WorkingDirectory $workingDirectory, string $command): void
+    public function executeCommand(WorkingDirectory $projectDirectory, string $command): void
     {
         $command = sprintf(
             'cd %s && %s %s',
-            $workingDirectory->getAbsolutePath(),
+            $projectDirectory->getAbsolutePath(),
             self::BINARY_EXECUTABLE,
             $command
         );

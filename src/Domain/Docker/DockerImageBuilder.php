@@ -20,5 +20,5 @@ interface DockerImageBuilder
     /**
      * TODO
      */
-    public function build(WorkingDirectory $workingDirectory): string;
+    public function build(WorkingDirectory $projectDirectory): string;
 }

@@ -16,12 +16,12 @@ final class Rector
     /**
      * @throws RectorConfigFileMissing
      */
-    public function runInWorkingDirectory(WorkingDirectory $workingDirectory): void
+    public function process(WorkingDirectory $projectDirectory): void
     {
-        if ($workingDirectory->fileExists('rector.php') === false) {
+        if ($projectDirectory->fileExists('rector.php') === false) {
             throw new RectorConfigFileMissing();
         }
 
-        $this->rectorBinary->execInWorkingDirectory($workingDirectory, 'process');
+        $this->rectorBinary->executeCommand($projectDirectory, 'process');
     }
 }
