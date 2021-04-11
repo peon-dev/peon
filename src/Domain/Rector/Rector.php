@@ -10,20 +10,10 @@ final class Rector
         private RectorBinary $rectorBinary,
     ) {}
 
-    /**
-     * @param array<RectorProcessCommandConfiguration> $configurations
-     */
-    public function process(string $directory, array $configurations = []): void
-    // TODO write test for configurations
+    public function process(string $directory, RectorProcessCommandConfiguration $configuration): void
     {
-        if ($configurations === []) {
-            $configurations = [new RectorProcessCommandConfiguration()];
-        }
-
-        foreach ($configurations as $configuration) {
-            // TODO add arguments from $configuration to command
-
-            $this->rectorBinary->executeCommand($directory, 'process');
-        }
+        // TODO write test for configurations
+        // TODO add arguments from $configuration to command
+        $this->rectorBinary->executeCommand($directory, 'process');
     }
 }

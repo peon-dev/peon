@@ -39,7 +39,9 @@ final class RunRectorOnGitlabRepositoryUseCase
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory);
 
-        $this->rector->process($projectDirectory, $command->processCommandConfigurations);
+        foreach ($command->processCommandConfigurations as $processCommandConfiguration) {
+            $this->rector->process($projectDirectory, $processCommandConfiguration);
+        }
 
         if ($this->git->hasUncommittedChanges($projectDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($projectDirectory);

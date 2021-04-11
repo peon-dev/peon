@@ -5,6 +5,7 @@ namespace PHPMate\Tests\Domain\Rector;
 
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
+use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
 use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
@@ -22,6 +23,6 @@ class RectorTest extends TestCase
             );
 
         $rector = new Rector($rectorBinary);
-        $rector->process($projectDirectory);
+        $rector->process($projectDirectory, new RectorProcessCommandConfiguration());
     }
 }

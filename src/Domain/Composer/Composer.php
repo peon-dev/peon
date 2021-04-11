@@ -11,9 +11,6 @@ final class Composer
     ) {}
 
 
-    /**
-     * @throws ComposerJsonFileMissing
-     */
     public function install(string $directory): void
     {
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
