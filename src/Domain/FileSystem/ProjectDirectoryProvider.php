@@ -6,5 +6,5 @@ namespace PHPMate\Domain\FileSystem;
 
 interface ProjectDirectoryProvider
 {
-    public function provide(): WorkingDirectory;
+    public function provide(): string;
 }

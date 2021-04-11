@@ -6,7 +6,6 @@ namespace PHPMate\Infrastructure\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
-use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
 
 final class TemporaryLocalFileSystemProjectDirectoryProvider implements ProjectDirectoryProvider
@@ -16,7 +15,7 @@ final class TemporaryLocalFileSystemProjectDirectoryProvider implements ProjectD
     ) {}
 
 
-    public function provide(): WorkingDirectory
+    public function provide(): string
     {
         $directory = $this->baseDir . '/' . Random::generate();
 
@@ -24,7 +23,7 @@ final class TemporaryLocalFileSystemProjectDirectoryProvider implements ProjectD
 
         $this->registerShutdown($directory);
 
-        return new WorkingDirectory($directory);
+        return $directory;
     }
 
 
