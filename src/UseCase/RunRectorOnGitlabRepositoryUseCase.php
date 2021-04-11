@@ -10,6 +10,7 @@ use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Rector\Rector;
+use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
 
 final class RunRectorOnGitlabRepositoryUseCase
 {
@@ -45,9 +46,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory);
 
-        foreach ($this->getRectorWorkingDirectories($projectDirectory) as $rectorWorkingDirectory) {
-            $this->rector->process($rectorWorkingDirectory);
-        }
+        $this->rector->process($projectDirectory, $this->getRectorProcessCommandConfigurations());
 
         if ($this->git->hasUncommittedChanges($projectDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($projectDirectory);
@@ -67,21 +66,12 @@ final class RunRectorOnGitlabRepositoryUseCase
 
 
     /**
-     * @return WorkingDirectory[]
+     * @return array<RectorProcessCommandConfiguration>
      */
-    private function getRectorWorkingDirectories(WorkingDirectory $projectDirectory): array
+    private function getRectorProcessCommandConfigurations(): array
     {
-        $workingDirectories = [];
+         // self::$rectorWorkingDirectories) === 0) {
 
-        if (count(self::$rectorWorkingDirectories) === 0) {
-            $workingDirectories = [$projectDirectory];
-        }
-
-        foreach (self::$rectorWorkingDirectories as $rectorWorkingDirectory) {
-            $subDirectory = $projectDirectory->getAbsolutePath() . '/' . $rectorWorkingDirectory;
-            $workingDirectories[] = new WorkingDirectory($subDirectory);
-        }
-
-        return $workingDirectories;
+        return [];
     }
 }
