@@ -4,21 +4,14 @@ declare (strict_types=1);
 namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Composer\Composer;
-use PHPMate\Domain\FileSystem\WorkingDirectory;
 use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Rector\Rector;
-use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
 
 final class RunRectorOnGitlabRepositoryUseCase
 {
-    /**
-     * @var string[]
-     */
-    public static array $rectorWorkingDirectories = [];
-
     public function __construct(
         private Git $git,
         private Gitlab $gitlab,
@@ -46,7 +39,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory);
 
-        $this->rector->process($projectDirectory, $this->getRectorProcessCommandConfigurations());
+        $this->rector->process($projectDirectory, $command->processCommandConfigurations);
 
         if ($this->git->hasUncommittedChanges($projectDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($projectDirectory);
@@ -62,16 +55,5 @@ final class RunRectorOnGitlabRepositoryUseCase
                 'Rector run by PHPMate'
             );
         }
-    }
-
-
-    /**
-     * @return array<RectorProcessCommandConfiguration>
-     */
-    private function getRectorProcessCommandConfigurations(): array
-    {
-         // self::$rectorWorkingDirectories) === 0) {
-
-        return [];
     }
 }

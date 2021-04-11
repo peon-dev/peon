@@ -8,7 +8,7 @@ use PHPMate\Domain\Composer\ComposerBinary;
 
 final class ShellExecComposerBinary implements ComposerBinary
 {
-    public static string $COMPOSER_AUTH = '';
+    public static string $COMPOSER_AUTH = ''; // TODO: must not be static
 
     private const BINARY_EXECUTABLE = 'composer';
 
