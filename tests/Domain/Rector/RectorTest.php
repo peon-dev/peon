@@ -30,6 +30,9 @@ class RectorTest extends TestCase
     }
 
 
+    /**
+     * @return \Generator<array{RectorProcessCommandConfiguration, string}>
+     */
     public function provideTestProcessData(): \Generator
     {
         yield [
