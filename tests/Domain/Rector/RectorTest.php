@@ -36,5 +36,25 @@ class RectorTest extends TestCase
             new RectorProcessCommandConfiguration(),
             'process',
         ];
+
+        yield [
+            new RectorProcessCommandConfiguration(autoloadFile: 'autoload.php'),
+            'process --autoload-file autoload.php',
+        ];
+
+        yield [
+            new RectorProcessCommandConfiguration(workingDirectory: 'directory'),
+            'process --working-dir directory',
+        ];
+
+        yield [
+            new RectorProcessCommandConfiguration(config: 'config.php'),
+            'process --config config.php',
+        ];
+
+        yield [
+            new RectorProcessCommandConfiguration('autoload.php', 'directory', 'project/config.php'),
+            'process --autoload-file autoload.php --working-dir directory --config project/config.php',
+        ];
     }
 }
