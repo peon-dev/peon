@@ -29,8 +29,6 @@ final class RunRectorOnGitlabRepository
             ];
         }
 
-        if ($composerEnvironment === null) {
-            $this->composerEnvironment = new ComposerEnvironment();
-        }
+        $this->composerEnvironment = $composerEnvironment ?? new ComposerEnvironment();
     }
 }
