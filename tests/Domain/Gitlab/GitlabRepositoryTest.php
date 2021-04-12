@@ -35,7 +35,7 @@ class GitlabRepositoryTest extends TestCase
 
 
     /**
-     * @dataProvider provideTestGetGitlabInstanceUrl
+     * @dataProvider provideTestGetGitlabInstanceUrlData
      */
     public function testGetGitlabInstanceUrl(string $expected, string $repositoryUri): void
     {
@@ -48,7 +48,7 @@ class GitlabRepositoryTest extends TestCase
     /**
      * @return \Generator<string[]>
      */
-    public function provideTestGetGitlabInstanceUrl(): \Generator
+    public function provideTestGetGitlabInstanceUrlData(): \Generator
     {
         yield ['https://gitlab.com', 'https://gitlab.com/janmikes/repository.git'];
         yield ['https://gitlab.server.com', 'https://gitlab.server.com/janmikes/repository.git'];

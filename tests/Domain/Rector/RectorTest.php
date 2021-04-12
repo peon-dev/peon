@@ -10,7 +10,10 @@ use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
 {
-    public function testProcess(): void
+    /**
+     * @dataProvider provideTestProcessData
+     */
+    public function testProcess(RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
     {
         $projectDirectory = '/';
 
@@ -19,10 +22,19 @@ class RectorTest extends TestCase
             ->method('executeCommand')
             ->with(
                 $projectDirectory,
-                'process'
+                $expectedCommand
             );
 
         $rector = new Rector($rectorBinary);
-        $rector->process($projectDirectory, new RectorProcessCommandConfiguration());
+        $rector->process($projectDirectory, $commandConfiguration);
+    }
+
+
+    public function provideTestProcessData(): \Generator
+    {
+        yield [
+            new RectorProcessCommandConfiguration(),
+            'process',
+        ];
     }
 }
