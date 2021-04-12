@@ -37,7 +37,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
 
         // TODO: build application using buildpacks instead
-        $this->composer->install($projectDirectory);
+        $this->composer->install($projectDirectory, $command->composerEnvironment);
 
         foreach ($command->processCommandConfigurations as $processCommandConfiguration) {
             $this->rector->process($projectDirectory, $processCommandConfiguration);

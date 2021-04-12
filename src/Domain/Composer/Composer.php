@@ -11,9 +11,15 @@ final class Composer
     ) {}
 
 
-    public function install(string $directory): void
+    public function install(string $directory, ComposerEnvironment $environment): void
     {
+        $environmentVariables = [];
+
+        if ($environment->auth) {
+            $environmentVariables[ComposerEnvironment::AUTH] = $environment->auth;
+        }
+
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-scripts --no-interaction');
+        $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-scripts --no-interaction', $environmentVariables);
     }
 }

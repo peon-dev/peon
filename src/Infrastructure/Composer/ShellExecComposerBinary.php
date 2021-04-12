@@ -8,16 +8,23 @@ use PHPMate\Domain\Composer\ComposerBinary;
 
 final class ShellExecComposerBinary implements ComposerBinary
 {
-    public static string $COMPOSER_AUTH = ''; // TODO: must not be static
-
     private const BINARY_EXECUTABLE = 'composer';
 
-    public function executeCommand(string $directory, string $command): void
+    /**
+     * @param array<string, string> $environmentVariables
+     */
+    public function executeCommand(string $directory, string $command, array $environmentVariables = []): void
     {
+        $commandEnvironmentVariablesString = '';
+
+        foreach ($environmentVariables as $variableName => $variableValue) {
+            $commandEnvironmentVariablesString .= sprintf('%s=%s ', $variableName, $variableValue);
+        }
+
         $command = sprintf(
-            'cd %s && COMPOSER_AUTH=\'%s\' %s %s', // TODO pass COMPOSER_AUTH somehow as argument
+            'cd %s && %s%s %s',
             $directory,
-            self::$COMPOSER_AUTH,
+            $commandEnvironmentVariablesString,
             self::BINARY_EXECUTABLE,
             $command
         );

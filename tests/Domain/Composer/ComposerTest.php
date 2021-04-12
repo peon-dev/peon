@@ -5,13 +5,17 @@ namespace PHPMate\Tests\Domain\Composer;
 
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
-use PHPMate\Domain\Composer\ComposerJsonFileMissing;
-use PHPMate\Domain\FileSystem\WorkingDirectory;
+use PHPMate\Domain\Composer\ComposerEnvironment;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
 {
-    public function testInstallInWorkingDirectory(): void
+    /**
+     * @param array<string, string> $expectedEnvironmentVariables
+     *
+     * @dataProvider provideTestInstallData
+     */
+    public function testInstall(ComposerEnvironment $environment, array $expectedEnvironmentVariables): void
     {
         $projectDirectory = '/';
 
@@ -20,10 +24,28 @@ class ComposerTest extends TestCase
             ->method('executeCommand')
             ->with(
                 $projectDirectory,
-                'install --ignore-platform-reqs --no-scripts --no-interaction'
+                'install --ignore-platform-reqs --no-scripts --no-interaction',
+                $expectedEnvironmentVariables
             );
 
         $composer = new Composer($composerBinary);
-        $composer->install($projectDirectory);
+        $composer->install($projectDirectory, $environment);
+    }
+
+
+    /**
+     * @return \Generator<array{ComposerEnvironment|null, array<string, string>}>
+     */
+    public function provideTestInstallData(): \Generator
+    {
+        yield [
+            new ComposerEnvironment(),
+            [],
+        ];
+
+        yield [
+            new ComposerEnvironment('{}'),
+            [ComposerEnvironment::AUTH => '{}'],
+        ];
     }
 }
