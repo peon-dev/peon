@@ -18,7 +18,7 @@ final class ShellExecComposerBinary implements ComposerBinary
         $commandEnvironmentVariablesString = '';
 
         foreach ($environmentVariables as $variableName => $variableValue) {
-            $commandEnvironmentVariablesString .= sprintf('%s=%s ', $variableName, $variableValue);
+            $commandEnvironmentVariablesString .= sprintf('%s=\'%s\' ', $variableName, $variableValue);
         }
 
         $command = sprintf(
