@@ -28,6 +28,13 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         /*
          * TODO: what if MR by PHPMate for this procedure already exists?
+         *
+         * error: failed to push some refs to 'xyz'
+         * hint: Updates were rejected because the tip of your current branch is behind
+         * hint: its remote counterpart. Integrate the remote changes (e.g.
+         * hint: 'git pull ...') before pushing again.
+         * hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+         *
          * Options:
          *   - Comment to the MR (bump)
          *   - Checkout existing branch, run procedure and if changes, make commit
@@ -40,6 +47,7 @@ final class RunRectorOnGitlabRepositoryUseCase
         $this->composer->install($projectDirectory, $command->composerEnvironment);
 
         foreach ($command->processCommandConfigurations as $processCommandConfiguration) {
+            // TODO: 3921/16612 [▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░]  23%Killed if process dies we need to know what is the reason!
             $this->rector->process($projectDirectory, $processCommandConfiguration);
         }
 
