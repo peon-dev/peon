@@ -12,8 +12,20 @@ final class Rector
 
     public function process(string $directory, RectorProcessCommandConfiguration $configuration): void
     {
-        // TODO write test for configurations
-        // TODO add arguments from $configuration to command
-        $this->rectorBinary->executeCommand($directory, 'process');
+        $command = 'process';
+
+        if ($configuration->autoloadFile !== null) {
+            $command .= ' --autoload-file ' . $configuration->autoloadFile;
+        }
+
+        if ($configuration->workingDirectory) {
+            $command .= ' --working-dir ' . $configuration->workingDirectory;
+        }
+
+        if ($configuration->config !== null) {
+            $command .= ' --config ' . $configuration->config;
+        }
+
+        $this->rectorBinary->executeCommand($directory, $command);
     }
 }
