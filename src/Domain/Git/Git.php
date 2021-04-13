@@ -6,7 +6,6 @@ namespace PHPMate\Domain\Git;
 
 use Psr\Http\Message\UriInterface;
 
-// TODO: cover with unit tests
 final class Git
 {
     private const USER_NAME = 'PHPMate';
