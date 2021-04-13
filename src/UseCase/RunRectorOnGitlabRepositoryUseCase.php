@@ -26,6 +26,8 @@ final class RunRectorOnGitlabRepositoryUseCase
     {
         $projectDirectory = $this->projectDirectoryProvider->provide();
 
+        // TODO: add caching of git repo
+
         /*
          * TODO: what if MR by PHPMate for this procedure already exists?
          *
@@ -55,7 +57,8 @@ final class RunRectorOnGitlabRepositoryUseCase
         // 3) yes: check if can rebase
         //   3a) adds new commit to rebased branch
         //   3b) new branch from master and force push
-        // 4) [optional] notify to slack
+        // 4a) [optional] notify to slack
+        // 4b) [optional] description with list of provided users
 
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory, $command->composerEnvironment);
@@ -71,6 +74,7 @@ final class RunRectorOnGitlabRepositoryUseCase
             $this->git->checkoutNewBranch($projectDirectory, $newBranch);
             $this->git->commitAndPushChanges($projectDirectory, 'Rector changes');
 
+            // TODO: [optional] assign to random user from provided list
             $this->gitlab->openMergeRequest(
                 $command->gitlabRepository,
                 $mainBranch,
