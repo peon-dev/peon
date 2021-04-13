@@ -41,6 +41,14 @@ final class RunRectorOnGitlabRepositoryUseCase
          *   - New fresh branch (duplicate)
          */
 
+        // TODO flow:
+        // 1) check if branch exists
+        // 2) no: happy path
+        // 3) yes: check if can rebase
+        //   3a) adds new commit to rebased branch
+        //   3b) new branch from master and force push
+        // 4) [optional] notify to slack
+
         $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
 
         // TODO: build application using buildpacks instead
