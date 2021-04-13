@@ -70,6 +70,13 @@ final class Git
 
     public function remoteBranchExists(string $directory, string $branchName): bool
     {
-        return false;
+        $command = sprintf(
+            'ls-remote --heads origin %s',
+            $branchName
+        );
+
+        $output = $this->gitBinary->executeCommand($directory, $command);
+
+        return $output !== '';
     }
 }
