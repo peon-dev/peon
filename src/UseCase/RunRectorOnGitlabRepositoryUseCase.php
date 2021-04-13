@@ -41,15 +41,21 @@ final class RunRectorOnGitlabRepositoryUseCase
          *   - New fresh branch (duplicate)
          */
 
+        $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
+
+        $newBranch = $this->branchNameProvider->provideForProcedure('rector');
+
         // TODO flow:
         // 1) check if branch exists
+        if ($this->git->remoteBranchExists($projectDirectory, $newBranch) === true) {
+
+        }
+
         // 2) no: happy path
         // 3) yes: check if can rebase
         //   3a) adds new commit to rebased branch
         //   3b) new branch from master and force push
         // 4) [optional] notify to slack
-
-        $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
 
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory, $command->composerEnvironment);
@@ -61,15 +67,14 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         if ($this->git->hasUncommittedChanges($projectDirectory)) {
             $mainBranch = $this->git->getCurrentBranch($projectDirectory);
-            $branchWithChanges = $this->branchNameProvider->provideForProcedure('rector');
 
-            $this->git->checkoutNewBranch($projectDirectory, $branchWithChanges);
+            $this->git->checkoutNewBranch($projectDirectory, $newBranch);
             $this->git->commitAndPushChanges($projectDirectory, 'Rector changes');
 
             $this->gitlab->openMergeRequest(
                 $command->gitlabRepository,
                 $mainBranch,
-                $branchWithChanges,
+                $newBranch,
                 'Rector run by PHPMate'
             );
         }
