@@ -27,38 +27,26 @@ final class RunRectorOnGitlabRepositoryUseCase
         $projectDirectory = $this->projectDirectoryProvider->provide();
 
         // TODO: add caching of git repo
-
-        /*
-         * TODO: what if MR by PHPMate for this procedure already exists?
-         *
-         * error: failed to push some refs to 'xyz'
-         * hint: Updates were rejected because the tip of your current branch is behind
-         * hint: its remote counterpart. Integrate the remote changes (e.g.
-         * hint: 'git pull ...') before pushing again.
-         * hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-         *
-         * Options:
-         *   - Comment to the MR (bump)
-         *   - Checkout existing branch, run procedure and if changes, make commit
-         *   - New fresh branch (duplicate)
-         */
-
         $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
 
+        $mainBranch = $this->git->getCurrentBranch($projectDirectory);
         $newBranch = $this->branchNameProvider->provideForProcedure('rector');
 
         // TODO flow:
         // 1) check if branch exists
         if ($this->git->remoteBranchExists($projectDirectory, $newBranch) === true) {
+            $this->git->checkoutRemoteBranch($projectDirectory, $newBranch);
 
+            try {
+                $this->git->rebase($projectDirectory, 'origin/' . $mainBranch);
+                $this->git->forcePush($projectDirectory);
+            } catch (RebaseFailedException) {
+                $this->git->resetBranch($projectDirectory, $newBranch, $mainBranch); // git branch --force develop master
+            }
+        } else {
+            $this->git->checkoutNewBranch($projectDirectory, $newBranch);
         }
 
-        // 2) no: happy path
-        // 3) yes: check if can rebase
-        //   3a) adds new commit to rebased branch
-        //   3b) new branch from master and force push
-        // 4a) [optional] notify to slack
-        // 4b) [optional] description with list of provided users
 
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory, $command->composerEnvironment);
@@ -69,12 +57,14 @@ final class RunRectorOnGitlabRepositoryUseCase
         }
 
         if ($this->git->hasUncommittedChanges($projectDirectory)) {
-            $mainBranch = $this->git->getCurrentBranch($projectDirectory);
+            $this->git->commit($projectDirectory, 'Rector changes');
+            $this->git->forcePush($projectDirectory);
 
-            $this->git->checkoutNewBranch($projectDirectory, $newBranch);
-            $this->git->commitAndPushChanges($projectDirectory, 'Rector changes');
+            // TODO: notify to slack if configured
 
             // TODO: [optional] assign to random user from provided list
+            // TODO: check if mr exists, open only if not
+            // TODO: description with list of provided users
             $this->gitlab->openMergeRequest(
                 $command->gitlabRepository,
                 $mainBranch,
