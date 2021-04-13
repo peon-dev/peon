@@ -18,7 +18,16 @@ class GitTest extends TestCase
 
     public function testGetCurrentBranch(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'rev-parse --abbrev-ref HEAD')
+            ->willReturn('main');
 
+        $git = new Git($gitBinary);
+        $currentBranch = $git->getCurrentBranch('/');
+
+        self::assertSame('main', $currentBranch);
     }
 
 
