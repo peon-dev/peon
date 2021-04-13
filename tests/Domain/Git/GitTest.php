@@ -101,4 +101,39 @@ class GitTest extends TestCase
         $git = new Git($gitBinary);
         $git->checkoutNewBranch('/', 'phpmate');
     }
+
+
+    /**
+     * @dataProvider provideTestRemoteBranchExistsData
+     */
+    public function testRemoteBranchExists(string $commandOutput, bool $expected): void
+    {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'ls-remote --heads origin phpmate')
+            ->willReturn($commandOutput);
+
+        $git = new Git($gitBinary);
+        $remoteBranchExists = $git->remoteBranchExists('/', 'phpmate');
+
+        self::assertSame($expected, $remoteBranchExists);
+    }
+
+
+    /**
+     * @return \Generator<array{string, bool}>
+     */
+    public function provideTestRemoteBranchExistsData(): \Generator
+    {
+        yield [
+            'a076d105a41bd46485eed50a5b5ffe2e20f43a4e	refs/heads/phpmate',
+            true,
+        ];
+
+        yield [
+            '',
+            false,
+        ];
+    }
 }

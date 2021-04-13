@@ -66,4 +66,10 @@ final class Git
         $this->gitBinary->executeCommand($directory, $commitCommand);
         $this->gitBinary->executeCommand($directory, 'push -u origin --all');
     }
+
+
+    public function remoteBranchExists(string $directory, string $branchName): bool
+    {
+        return false;
+    }
 }
