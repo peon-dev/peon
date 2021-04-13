@@ -12,7 +12,18 @@ class GitTest extends TestCase
 {
     public function testCommitAndPushChanges(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::exactly(4))
+            ->method('executeCommand')
+            ->withConsecutive(
+                ['/', 'config user.name PHPMate'],
+                ['/', 'config user.email bot@phpmate.io'],
+                ['/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"'],
+                ['/', 'push -u origin --all'],
+            );
 
+        $git = new Git($gitBinary);
+        $git->commitAndPushChanges('/', 'Message');
     }
 
 
