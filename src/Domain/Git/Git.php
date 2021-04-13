@@ -79,4 +79,6 @@ final class Git
 
         return $output !== '';
     }
+
+    // forcePush() --force-with-lease
 }
