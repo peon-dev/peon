@@ -60,6 +60,9 @@ class GitTest extends TestCase
     }
 
 
+    /**
+     * @return \Generator<array{string, bool}>
+     */
     public function provideTestHasUncommittedChangesData(): \Generator
     {
         yield [
