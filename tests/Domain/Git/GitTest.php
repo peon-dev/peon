@@ -22,9 +22,35 @@ class GitTest extends TestCase
     }
 
 
-    public function testHasUncommittedChanges(): void
+    /**
+     * @dataProvider provideTestHasUncommittedChangesData
+     */
+    public function testHasUncommittedChanges(string $commandOutput, bool $expected): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'status --porcelain')
+            ->willReturn($commandOutput);
 
+        $git = new Git($gitBinary);
+        $hasUncommittedChanges = $git->hasUncommittedChanges('/');
+
+        self::assertSame($expected, $hasUncommittedChanges);
+    }
+
+
+    public function provideTestHasUncommittedChangesData(): \Generator
+    {
+        yield [
+            ' M some/file.php',
+            true,
+        ];
+
+        yield [
+            '',
+            false,
+        ];
     }
 
 
