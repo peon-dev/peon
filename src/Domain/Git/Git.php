@@ -46,7 +46,7 @@ final class Git
     }
 
 
-    public function commitAndPushChanges(string $directory, string $commitMessage): void
+    public function configureUser(string $directory): void
     {
         $this->gitBinary->executeCommand($directory, sprintf(
             'config user.name %s', self::USER_NAME
@@ -55,16 +55,6 @@ final class Git
         $this->gitBinary->executeCommand($directory, sprintf(
             'config user.email %s', self::USER_EMAIL
         ));
-
-        $commitCommand = sprintf(
-            'commit --author="%s <%s>" -a -m "%s"',
-            self::USER_NAME,
-            self::USER_EMAIL,
-            $commitMessage,
-        );
-
-        $this->gitBinary->executeCommand($directory, $commitCommand);
-        $this->gitBinary->executeCommand($directory, 'push -u origin --all');
     }
 
 
@@ -86,6 +76,9 @@ final class Git
     }
 
 
+    /**
+     * @throws RebaseFailed
+     */
     public function rebaseBranchAgainstUpstream(string $projectDirectory, string $mainBranch): void
     {
     }
@@ -97,13 +90,21 @@ final class Git
     }
 
 
-    public function resetBranch(string $projectDirectory, string $newBranch, string $mainBranch): void
+    public function resetBranch(string $projectDirectory, string $branchToReset, string $mainBranch): void
     {
         // git branch --force develop master
     }
 
 
-    public function commit(string $projectDirectory, string $string): void
+    public function commit(string $directory, string $commitMessage): void
     {
+        $commitCommand = sprintf(
+            'commit --author="%s <%s>" -a -m "%s"',
+            self::USER_NAME,
+            self::USER_EMAIL,
+            $commitMessage,
+        );
+
+        $this->gitBinary->executeCommand($directory, $commitCommand);
     }
 }
