@@ -29,11 +29,12 @@ final class RunRectorOnGitlabRepositoryUseCase
 
         // TODO: add caching of git repo
         $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
+        $this->git->configureUser($projectDirectory);
 
         $mainBranch = $this->git->getCurrentBranch($projectDirectory);
         $newBranch = $this->branchNameProvider->provideForProcedure('rector');
 
-        if ($this->git->remoteBranchExists($projectDirectory, $newBranch) === false) {
+        if (false === $this->git->remoteBranchExists($projectDirectory, $newBranch)) {
             $this->git->checkoutNewBranch($projectDirectory, $newBranch);
         } else {
             $this->git->checkoutRemoteBranch($projectDirectory, $newBranch);
@@ -61,7 +62,6 @@ final class RunRectorOnGitlabRepositoryUseCase
             // TODO: notify to slack if configured
 
             // TODO: [optional] assign to random user from provided list
-            // TODO: check if mr exists, open only if not
             // TODO: description with list of provided users
 
             if ($this->gitlab->mergeRequestForBranchExists($command->gitlabRepository, $newBranch) === false) {

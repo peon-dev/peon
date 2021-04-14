@@ -10,20 +10,18 @@ use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase
 {
-    public function testCommitAndPushChanges(): void
+    public function testConfigureUser(): void
     {
         $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::exactly(4))
+        $gitBinary->expects(self::exactly(2))
             ->method('executeCommand')
             ->withConsecutive(
                 ['/', 'config user.name PHPMate'],
                 ['/', 'config user.email bot@phpmate.io'],
-                ['/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"'],
-                ['/', 'push -u origin --all'],
             );
 
         $git = new Git($gitBinary);
-        $git->commitAndPushChanges('/', 'Message');
+        $git->configureUser('/');
     }
 
 
@@ -140,25 +138,63 @@ class GitTest extends TestCase
 
     public function testCheckoutRemoteBranch(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'checkout origin/phpmate');
+
+        $git = new Git($gitBinary);
+        $git->checkoutRemoteBranch('/', 'phpmate');
     }
 
 
     public function testRebaseBranchAgainstUpstream(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'rebase origin/main');
+
+        $git = new Git($gitBinary);
+        $git->rebaseBranchAgainstUpstream('/', 'main');
     }
 
 
     public function testForcePush(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'push -u origin --all --force-with-lease');
+
+        $git = new Git($gitBinary);
+        $git->forcePush('/');
     }
 
 
     public function testResetBranch(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'branch --force phpmate main');
+
+        $git = new Git($gitBinary);
+        $git->resetBranch('/', 'phpmate', 'main');
     }
 
 
     public function testCommit(): void
     {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::exactly(2))
+            ->method('executeCommand')
+            ->withConsecutive(
+                ['/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"'],
+                ['/', 'push -u origin --all'],
+            );
+
+        $git = new Git($gitBinary);
+        $git->commit('/', 'Message');
     }
 }
