@@ -13,6 +13,7 @@ use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
+// TODO: test more scenarios with existing branch already
 class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 {
     private string $branchName;
