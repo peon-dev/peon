@@ -156,4 +156,9 @@ class GitTest extends TestCase
     public function testResetBranch(): void
     {
     }
+
+
+    public function testCommit(): void
+    {
+    }
 }
