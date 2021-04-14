@@ -100,4 +100,9 @@ final class Git
     public function resetBranch(string $projectDirectory, string $newBranch, string $mainBranch): void
     {
     }
+
+
+    public function commit(string $projectDirectory, string $string): void
+    {
+    }
 }
