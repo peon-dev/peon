@@ -90,4 +90,9 @@ final class Git
     public function rebaseBranchAgainstUpstream(string $projectDirectory, string $mainBranch): void
     {
     }
+
+
+    public function forcePush(string $projectDirectory): void
+    {
+    }
 }

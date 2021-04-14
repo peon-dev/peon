@@ -146,4 +146,10 @@ class GitTest extends TestCase
     public function testRebaseBranchAgainstUpstream(): void
     {
     }
+
+
+    public function testForcePush(): void
+    {
+
+    }
 }
