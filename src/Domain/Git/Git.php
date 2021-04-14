@@ -71,8 +71,11 @@ final class Git
     }
 
 
-    public function checkoutRemoteBranch(string $projectDirectory, string $branch): void
+    public function checkoutRemoteBranch(string $directory, string $branch): void
     {
+        $command = sprintf('checkout origin/%s', $branch);
+
+        $this->gitBinary->executeCommand($directory, $command);
     }
 
 
@@ -84,15 +87,21 @@ final class Git
     }
 
 
-    public function forcePush(string $projectDirectory): void
+    public function forcePush(string $directory): void
     {
-        // --force-with-lease
+        $this->gitBinary->executeCommand($directory, 'push -u origin --all --force-with-lease');
     }
 
 
-    public function resetBranch(string $projectDirectory, string $branchToReset, string $mainBranch): void
+    public function resetBranch(string $directory, string $branchToReset, string $mainBranch): void
     {
-        // git branch --force develop master
+        $command = sprintf(
+            'branch --force %s %s',
+            $branchToReset,
+            $mainBranch
+        );
+
+        $this->gitBinary->executeCommand($directory, $command);
     }
 
 
