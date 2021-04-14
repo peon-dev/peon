@@ -136,4 +136,9 @@ class GitTest extends TestCase
             false,
         ];
     }
+
+
+    public function testCheckoutRemoteBranch(): void
+    {
+    }
 }
