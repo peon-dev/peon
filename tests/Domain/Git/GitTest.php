@@ -150,6 +150,10 @@ class GitTest extends TestCase
 
     public function testForcePush(): void
     {
+    }
 
+
+    public function testResetBranch(): void
+    {
     }
 }
