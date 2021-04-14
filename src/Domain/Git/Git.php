@@ -82,8 +82,15 @@ final class Git
     /**
      * @throws RebaseFailed
      */
-    public function rebaseBranchAgainstUpstream(string $projectDirectory, string $mainBranch): void
+    public function rebaseBranchAgainstUpstream(string $directory, string $mainBranch): void
     {
+        $command = sprintf('rebase origin/%s', $mainBranch);
+        $output = $this->gitBinary->executeCommand($directory, $command);
+
+        // TODO: detect by != 0 exit code
+        if (str_contains($output, 'error: Failed to merge in the changes')) {
+            throw new RebaseFailed();
+        }
     }
 
 
