@@ -89,7 +89,7 @@ final class Git
 
         // TODO: detect by != 0 exit code
         if (str_contains($output, 'error: Failed to merge in the changes')) {
-            throw new RebaseFailed();
+            throw new RebaseFailed($output);
         }
     }
 
