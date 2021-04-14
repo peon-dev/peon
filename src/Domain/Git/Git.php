@@ -85,4 +85,9 @@ final class Git
     public function checkoutRemoteBranch(string $projectDirectory, string $branch): void
     {
     }
+
+
+    public function rebaseBranchAgainstUpstream(string $projectDirectory, string $mainBranch): void
+    {
+    }
 }

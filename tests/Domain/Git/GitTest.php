@@ -141,4 +141,9 @@ class GitTest extends TestCase
     public function testCheckoutRemoteBranch(): void
     {
     }
+
+
+    public function testRebaseBranchAgainstUpstream(): void
+    {
+    }
 }

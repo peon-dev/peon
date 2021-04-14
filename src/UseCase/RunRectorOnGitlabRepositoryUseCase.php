@@ -38,7 +38,7 @@ final class RunRectorOnGitlabRepositoryUseCase
             $this->git->checkoutRemoteBranch($projectDirectory, $newBranch);
 
             try {
-                $this->git->rebaseRemoteBranch($projectDirectory, $mainBranch);
+                $this->git->rebaseBranchAgainstUpstream($projectDirectory, $mainBranch);
                 $this->git->forcePush($projectDirectory);
             } catch (RebaseFailedException) {
                 $this->git->resetBranch($projectDirectory, $newBranch, $mainBranch); // git branch --force develop master
