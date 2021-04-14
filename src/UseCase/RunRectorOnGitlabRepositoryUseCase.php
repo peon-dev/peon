@@ -7,6 +7,7 @@ use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
+use PHPMate\Domain\Git\RebaseFailed;
 use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Rector\Rector;
 
@@ -40,8 +41,8 @@ final class RunRectorOnGitlabRepositoryUseCase
             try {
                 $this->git->rebaseBranchAgainstUpstream($projectDirectory, $mainBranch);
                 $this->git->forcePush($projectDirectory);
-            } catch (RebaseFailedException) {
-                $this->git->resetBranch($projectDirectory, $newBranch, $mainBranch); // git branch --force develop master
+            } catch (RebaseFailed) {
+                $this->git->resetBranch($projectDirectory, $newBranch, $mainBranch);
             }
         }
 
