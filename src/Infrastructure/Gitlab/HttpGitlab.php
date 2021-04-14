@@ -39,4 +39,18 @@ final class HttpGitlab implements Gitlab
 
         return $client;
     }
+
+
+    public function mergeRequestForBranchExists(GitlabRepository $gitlabRepository, string $branch): bool
+    {
+        $client = $this->createHttpClient($gitlabRepository);
+        $project = $gitlabRepository->getProject();
+
+        $mergeRequests = $client->mergeRequests()->all($project, [
+            'state' => 'opened',
+            'source_branch' => $branch,
+        ]);
+
+        return count($mergeRequests) === 1;
+    }
 }
