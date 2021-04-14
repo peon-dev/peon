@@ -32,21 +32,18 @@ final class RunRectorOnGitlabRepositoryUseCase
         $mainBranch = $this->git->getCurrentBranch($projectDirectory);
         $newBranch = $this->branchNameProvider->provideForProcedure('rector');
 
-        // TODO flow:
-        // 1) check if branch exists
-        if ($this->git->remoteBranchExists($projectDirectory, $newBranch) === true) {
+        if ($this->git->remoteBranchExists($projectDirectory, $newBranch) === false) {
+            $this->git->checkoutNewBranch($projectDirectory, $newBranch);
+        } else {
             $this->git->checkoutRemoteBranch($projectDirectory, $newBranch);
 
             try {
-                $this->git->rebase($projectDirectory, 'origin/' . $mainBranch);
+                $this->git->rebaseRemoteBranch($projectDirectory, $mainBranch);
                 $this->git->forcePush($projectDirectory);
             } catch (RebaseFailedException) {
                 $this->git->resetBranch($projectDirectory, $newBranch, $mainBranch); // git branch --force develop master
             }
-        } else {
-            $this->git->checkoutNewBranch($projectDirectory, $newBranch);
         }
-
 
         // TODO: build application using buildpacks instead
         $this->composer->install($projectDirectory, $command->composerEnvironment);
@@ -65,12 +62,15 @@ final class RunRectorOnGitlabRepositoryUseCase
             // TODO: [optional] assign to random user from provided list
             // TODO: check if mr exists, open only if not
             // TODO: description with list of provided users
-            $this->gitlab->openMergeRequest(
-                $command->gitlabRepository,
-                $mainBranch,
-                $newBranch,
-                'Rector run by PHPMate'
-            );
+
+            if ($this->gitlab->mergeRequestForBranchExists($command->gitlabRepository, $newBranch) === false) {
+                $this->gitlab->openMergeRequest(
+                    $command->gitlabRepository,
+                    $mainBranch,
+                    $newBranch,
+                    'Rector run by PHPMate'
+                );
+            }
         }
     }
 }
