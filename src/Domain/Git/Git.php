@@ -80,7 +80,6 @@ final class Git
         return $output !== '';
     }
 
-    // forcePush() --force-with-lease
 
     public function checkoutRemoteBranch(string $projectDirectory, string $branch): void
     {
@@ -93,6 +92,12 @@ final class Git
 
 
     public function forcePush(string $projectDirectory): void
+    {
+        // --force-with-lease
+    }
+
+
+    public function resetBranch(string $projectDirectory, string $newBranch, string $mainBranch): void
     {
     }
 }
