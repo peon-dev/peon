@@ -68,11 +68,11 @@ final class Git
     }
 
 
-    public function remoteBranchExists(string $directory, string $branchName): bool
+    public function remoteBranchExists(string $directory, string $branch): bool
     {
         $command = sprintf(
             'ls-remote --heads origin %s',
-            $branchName
+            $branch
         );
 
         $output = $this->gitBinary->executeCommand($directory, $command);
@@ -81,4 +81,8 @@ final class Git
     }
 
     // forcePush() --force-with-lease
+
+    public function checkoutRemoteBranch(string $projectDirectory, string $branch): void
+    {
+    }
 }
