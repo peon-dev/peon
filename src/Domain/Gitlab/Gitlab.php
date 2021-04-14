@@ -12,4 +12,6 @@ interface Gitlab
         string $branchWithChanges,
         string $title,
     ): void;
+
+    public function mergeRequestForBranchExists(GitlabRepository $gitlabRepository, string $branch): bool;
 }

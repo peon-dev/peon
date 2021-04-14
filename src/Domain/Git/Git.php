@@ -99,6 +99,7 @@ final class Git
 
     public function resetBranch(string $projectDirectory, string $newBranch, string $mainBranch): void
     {
+        // git branch --force develop master
     }
 
 
