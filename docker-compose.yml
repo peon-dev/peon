@@ -1,6 +1,7 @@
 version: "3.7"
 services:
     php:
+        image: phpmate
         build: .
         volumes:
             - .:/var/www
@@ -9,6 +10,7 @@ services:
             - composer
 
     composer:
+        image: phpmate
         build: .
         volumes:
             - .:/var/www
