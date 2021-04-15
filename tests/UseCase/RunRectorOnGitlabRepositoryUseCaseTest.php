@@ -49,15 +49,34 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->removeBranch($this->gitlabRepository->getProject(), $this->branchName);
+        $this->deleteRemoteBranch($this->gitlabRepository->getProject(), $this->branchName);
     }
 
 
-    public function test(): void
+    /**
+     *  @todo describe scenario
+     */
+    public function testHappyPath(): void
     {
         $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+    }
+
+
+    /**
+     *  @todo describe scenario
+     */
+    public function testRemoteBranchAlreadyExistsRebaseSuccesses(): void
+    {
+    }
+
+
+    /**
+     *  @todo describe scenario
+     */
+    public function testRemoteBranchAlreadyExistsWithConflicts(): void
+    {
     }
 
 
@@ -74,7 +93,7 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     }
 
 
-    private function removeBranch(string $project, string $branchName): void
+    private function deleteRemoteBranch(string $project, string $branchName): void
     {
         $this->gitlabHttpClient->repositories()->deleteBranch($project, $branchName);
     }
