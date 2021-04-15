@@ -21,7 +21,8 @@
         "zeichen32/gitlabapibundle": "^6.0",
         "symfony/http-client": "^5.2",
         "nyholm/psr7": "^1.3",
-        "tracy/tracy": "^2.8"
+        "tracy/tracy": "^2.8",
+        "psr/log": "^1.1"
     },
     "autoload": {
         "psr-4": {
