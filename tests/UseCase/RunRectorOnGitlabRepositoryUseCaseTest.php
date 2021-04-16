@@ -13,7 +13,6 @@ use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
-// TODO: test more scenarios with existing branch already
 class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 {
     private string $branchName;
@@ -54,7 +53,8 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
 
     /**
-     *  @todo describe scenario
+     * Scenario "Happy path":
+     *  - remote branch does not exist, start over from main branch
      */
     public function testHappyPath(): void
     {
@@ -65,7 +65,11 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
 
     /**
-     *  @todo describe scenario
+     * Scenario "Rebase & No changes":
+     *  - remote branch already exists
+     *  - checkout remote branch
+     *  - successfully rebase
+     *  - no changes - branch already contains changes in previous commits
      */
     public function testRemoteBranchAlreadyExistsRebaseSuccessesButNoChanges(): void
     {
@@ -78,7 +82,12 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
 
     /**
-     *  @todo describe scenario
+     * Scenario "Rebase & Conflict":
+     *  - remote branch already exists
+     *  - checkout remote branch
+     *  - fails to rebase (conflicts)
+     *  - resets branch HEAD to main branch
+     *  - new changes committed
      */
     public function testRemoteBranchAlreadyExistsRebaseFails(): void
     {
@@ -91,7 +100,11 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
 
     /**
-     *  @todo describe scenario
+     * Scenario "Rebase & No changes":
+     *  - remote branch already exists
+     *  - checkout remote branch
+     *  - successfully rebase
+     *  - new changes committed
      */
     public function testRemoteBranchAlreadyExistsRebaseSuccessesAndHaveChanges(): void
     {
@@ -101,7 +114,6 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
-
 
 
     private function assertMergeRequestExists(string $project, string $branchName): void
