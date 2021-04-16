@@ -199,6 +199,18 @@ OUTPUT;
     }
 
 
+    public function testAbortRebase(): void
+    {
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'rebase --abort');
+
+        $git = new Git($gitBinary);
+        $git->abortRebase('/');
+    }
+
+
     public function testForcePush(): void
     {
         $gitBinary = $this->createMock(GitBinary::class);
@@ -211,15 +223,15 @@ OUTPUT;
     }
 
 
-    public function testResetBranch(): void
+    public function testResetCurrentBranch(): void
     {
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'branch --force phpmate main');
+            ->with('/', 'reset --hard main');
 
         $git = new Git($gitBinary);
-        $git->resetBranch('/', 'phpmate', 'main');
+        $git->resetCurrentBranch('/', 'main');
     }
 
 

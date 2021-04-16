@@ -88,7 +88,9 @@ final class Git
         $output = $this->gitBinary->executeCommand($directory, $command);
 
         // TODO: detect by != 0 exit code
-        if (str_contains($output, 'error: Failed to merge in the changes')) {
+        if (str_contains($output, 'error: Failed to merge in the changes')
+            || str_contains($output, 'git rebase --abort')
+        ) {
             throw new RebaseFailed($output);
         }
     }
@@ -100,11 +102,16 @@ final class Git
     }
 
 
-    public function resetBranch(string $directory, string $branchToReset, string $mainBranch): void
+    public function abortRebase(string $directory): void
+    {
+        $this->gitBinary->executeCommand($directory, 'rebase --abort');
+    }
+
+
+    public function resetCurrentBranch(string $directory, string $mainBranch): void
     {
         $command = sprintf(
-            'branch --force %s %s',
-            $branchToReset,
+            'reset --hard %s',
             $mainBranch
         );
 

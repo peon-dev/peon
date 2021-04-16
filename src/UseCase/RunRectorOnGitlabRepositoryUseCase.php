@@ -45,7 +45,8 @@ final class RunRectorOnGitlabRepositoryUseCase
                 $this->git->rebaseBranchAgainstUpstream($projectDirectory, $mainBranch);
                 $this->git->forcePush($projectDirectory);
             } catch (RebaseFailed) {
-                $this->git->resetBranch($projectDirectory, $newBranch, $mainBranch);
+                $this->git->abortRebase($projectDirectory);
+                $this->git->resetCurrentBranch($projectDirectory, $mainBranch);
             }
         }
 
