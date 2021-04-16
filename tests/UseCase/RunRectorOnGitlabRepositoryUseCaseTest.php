@@ -69,19 +69,13 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
      */
     public function testRemoteBranchAlreadyExistsRebaseSuccessesButNoChanges(): void
     {
-        $this->prepareRemoteBranchAlreadyExistsRebaseSuccessesButNoChangesScenario();
+        $this->duplicateBranch('already-processed', $this->branchName);
 
         $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
 
-
-    private function prepareRemoteBranchAlreadyExistsRebaseSuccessesButNoChangesScenario(): void
-    {
-        // Create branch
-        // It should have content of
-    }
 
     /**
      *  @todo describe scenario
@@ -116,5 +110,15 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     private function deleteRemoteBranch(string $project, string $branchName): void
     {
         $this->gitlabHttpClient->repositories()->deleteBranch($project, $branchName);
+    }
+
+
+    private function duplicateBranch(string $sourceBranch, string $targetBranch): void
+    {
+        $this->gitlabHttpClient->repositories()->createBranch(
+            $this->gitlabRepository->getProject(),
+            $targetBranch,
+            $sourceBranch
+        );
     }
 }

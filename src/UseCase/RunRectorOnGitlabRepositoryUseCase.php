@@ -34,11 +34,13 @@ final class RunRectorOnGitlabRepositoryUseCase
         $mainBranch = $this->git->getCurrentBranch($projectDirectory);
         $newBranch = $this->branchNameProvider->provideForProcedure('rector');
 
-        if (false === $this->git->remoteBranchExists($projectDirectory, $newBranch)) {
-            $this->git->checkoutNewBranch($projectDirectory, $newBranch);
-        } else {
+        if ($this->git->remoteBranchExists($projectDirectory, $newBranch)) {
             $this->git->checkoutRemoteBranch($projectDirectory, $newBranch);
+        }
 
+        $this->git->checkoutNewBranch($projectDirectory, $newBranch);
+
+        if ($this->git->remoteBranchExists($projectDirectory, $newBranch)) {
             try {
                 $this->git->rebaseBranchAgainstUpstream($projectDirectory, $mainBranch);
                 $this->git->forcePush($projectDirectory);
