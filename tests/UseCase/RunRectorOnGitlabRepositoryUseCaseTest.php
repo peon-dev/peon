@@ -82,6 +82,11 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
      */
     public function testRemoteBranchAlreadyExistsRebaseFails(): void
     {
+        $this->duplicateBranch('conflict', $this->branchName);
+
+        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+
+        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
 
 
@@ -90,6 +95,11 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
      */
     public function testRemoteBranchAlreadyExistsRebaseSuccessesAndHaveChanges(): void
     {
+        $this->duplicateBranch('to-be-rebased', $this->branchName);
+
+        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+
+        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
 
 

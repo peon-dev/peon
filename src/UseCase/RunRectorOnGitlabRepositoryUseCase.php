@@ -60,20 +60,19 @@ final class RunRectorOnGitlabRepositoryUseCase
         if ($this->git->hasUncommittedChanges($projectDirectory)) {
             $this->git->commit($projectDirectory, 'Rector changes');
             $this->git->forcePush($projectDirectory);
+        }
 
+        if ($this->gitlab->mergeRequestForBranchExists($command->gitlabRepository, $newBranch) === false) {
             // TODO: notify to slack if configured
 
             // TODO: [optional] assign to random user from provided list
             // TODO: description with list of provided users
-
-            if ($this->gitlab->mergeRequestForBranchExists($command->gitlabRepository, $newBranch) === false) {
-                $this->gitlab->openMergeRequest(
-                    $command->gitlabRepository,
-                    $mainBranch,
-                    $newBranch,
-                    'Rector run by PHPMate'
-                );
-            }
+            $this->gitlab->openMergeRequest(
+                $command->gitlabRepository,
+                $mainBranch,
+                $newBranch,
+                'Rector run by PHPMate'
+            );
         }
     }
 }
