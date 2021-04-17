@@ -11,6 +11,9 @@ final class Composer
     ) {}
 
 
+    /**
+     * @throws ComposerCommandFailed
+     */
     public function install(string $directory, ComposerEnvironment $environment): void
     {
         $environmentVariables = [];
