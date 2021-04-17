@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Rector;
 
-final class RectorConfigFileMissing extends \LogicException
+final class RectorCommandFailed extends \LogicException
 {
 }

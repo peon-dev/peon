@@ -10,6 +10,9 @@ final class Rector
         private RectorBinary $rectorBinary,
     ) {}
 
+    /**
+     * @throws RectorCommandFailed
+     */
     public function process(string $directory, RectorProcessCommandConfiguration $configuration): void
     {
         $command = 'process';

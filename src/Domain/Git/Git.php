@@ -16,6 +16,9 @@ final class Git
     ) {}
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function clone(string $directory, UriInterface $remoteUri): void
     {
         $command = sprintf('clone %s .', (string) $remoteUri);
