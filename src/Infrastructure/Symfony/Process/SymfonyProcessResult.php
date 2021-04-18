@@ -9,6 +9,9 @@ use Symfony\Component\Process\Process;
 
 final class SymfonyProcessResult implements ProcessResult
 {
+    /**
+     * @param Process<string> $process
+     */
     public function __construct(
         private Process $process
     ) {}
@@ -16,7 +19,7 @@ final class SymfonyProcessResult implements ProcessResult
 
     public function getExitCode(): int
     {
-        return $this->process->getExitCode();
+        return (int) $this->process->getExitCode();
     }
 
     public function getOutput(): string
