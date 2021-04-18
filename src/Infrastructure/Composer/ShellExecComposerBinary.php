@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\Composer;
 
 use PHPMate\Domain\Composer\ComposerBinary;
+use PHPMate\Domain\Process\ProcessResult;
 
 final class ShellExecComposerBinary implements ComposerBinary
 {
@@ -13,7 +14,7 @@ final class ShellExecComposerBinary implements ComposerBinary
     /**
      * @param array<string, string> $environmentVariables
      */
-    public function executeCommand(string $directory, string $command, array $environmentVariables = []): void
+    public function executeCommand(string $directory, string $command, array $environmentVariables = []): ProcessResult
     {
         $commandEnvironmentVariablesString = '';
 
