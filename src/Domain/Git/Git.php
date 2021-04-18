@@ -37,7 +37,9 @@ final class Git
 
     public function getCurrentBranch(string $directory): string
     {
-        return $this->gitBinary->executeCommand($directory, 'rev-parse --abbrev-ref HEAD');
+        $result = $this->gitBinary->executeCommand($directory, 'rev-parse --abbrev-ref HEAD');
+
+        return trim($result->getOutput());
     }
 
 
@@ -88,13 +90,10 @@ final class Git
     public function rebaseBranchAgainstUpstream(string $directory, string $mainBranch): void
     {
         $command = sprintf('rebase origin/%s', $mainBranch);
-        $output = $this->gitBinary->executeCommand($directory, $command);
+        $result = $this->gitBinary->executeCommand($directory, $command);
 
-        // TODO: detect by != 0 exit code
-        if (str_contains($output, 'error: Failed to merge in the changes')
-            || str_contains($output, 'git rebase --abort')
-        ) {
-            throw new RebaseFailed($output);
+        if ($result->getExitCode() !== 0) {
+            throw new RebaseFailed(trim($result->getOutput() . ' ' . $result->getErrorOutput()));
         }
     }
 

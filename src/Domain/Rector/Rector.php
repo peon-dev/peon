@@ -29,6 +29,10 @@ final class Rector
             $command .= ' --config ' . $configuration->config;
         }
 
-        $this->rectorBinary->executeCommand($directory, $command);
+        $result = $this->rectorBinary->executeCommand($directory, $command);
+
+        if ($result->getExitCode() !== 0) {
+            throw new RectorCommandFailed($result->getOutput());
+        }
     }
 }
