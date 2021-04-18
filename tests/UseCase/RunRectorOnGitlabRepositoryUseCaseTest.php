@@ -7,11 +7,13 @@ use Gitlab\Client;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
+use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Infrastructure\Gitlab\HttpGitlab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
 use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 // TODO: try behat :-)
 class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
@@ -20,6 +22,7 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     private GitlabRepository $gitlabRepository;
     private RunRectorOnGitlabRepositoryUseCase $useCase;
     private Client $gitlabHttpClient;
+    private ContainerBuilder $container;
 
 
     protected function setUp(): void
@@ -29,18 +32,18 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
         $username = $_SERVER['TEST_GITLAB_USERNAME'];
         $personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
 
-        $container = ContainerFactory::create();
+        $this->container = ContainerFactory::create();
 
         /** @var RunRectorOnGitlabRepositoryUseCase $useCase */
-        $useCase = $container->get(RunRectorOnGitlabRepositoryUseCase::class);
+        $useCase = $this->container->get(RunRectorOnGitlabRepositoryUseCase::class);
         $this->useCase = $useCase;
 
         /** @var BranchNameProvider $branchNameProvider */
-        $branchNameProvider = $container->get(BranchNameProvider::class);
+        $branchNameProvider = $this->container->get(BranchNameProvider::class);
         $this->branchName = $branchNameProvider->provideForProcedure('rector');
 
         /** @var HttpGitlab $httpGitlab */
-        $httpGitlab = $container->get(HttpGitlab::class);
+        $httpGitlab = $this->container->get(HttpGitlab::class);
         $authentication = new GitlabAuthentication($username, $personalAccessToken);
         $this->gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
         $this->gitlabHttpClient = $httpGitlab->createHttpClient($this->gitlabRepository);
@@ -117,16 +120,43 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     }
 
 
+    /**
+     * Scenario "Process fails":
+     *  - rector process fails
+     *  - notification is dispatched
+     *  - mr will not be opened
+     */
+    public function testProcessWillFailAndNotificationWillBeDispatched(): void
+    {
+        $this->duplicateBranch('process-fail', $this->branchName);
+
+        $notifier = $this->createMock(Notifier::class);
+        $notifier->expects(self::once())
+            ->method('notifyAboutFailedCommand');
+        
+        $this->container->set(Notifier::class, $notifier);
+
+        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+
+        $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
+    }
+
+
     private function assertMergeRequestExists(string $project, string $branchName): void
     {
-        $mergeRequests = $this->gitlabHttpClient->mergeRequests()->all($project, [
-            'state' => 'opened',
-            'source_branch' => $branchName,
-        ]);
+        $mergeRequests = $this->findMergeRequests($project, $branchName);
 
         self::assertCount(1, $mergeRequests);
         self::assertSame('master', $mergeRequests[0]['target_branch']);
         self::assertSame('Rector run by PHPMate', $mergeRequests[0]['title']);
+    }
+
+
+    private function assertMergeRequestNotExists(string $project, string $branchName): void
+    {
+        $mergeRequests = $this->findMergeRequests($project, $branchName);
+
+        self::assertCount(0, $mergeRequests);
     }
 
 
@@ -143,5 +173,17 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
             $targetBranch,
             $sourceBranch
         );
+    }
+
+
+    /**
+     * @return array<mixed>
+     */
+    private function findMergeRequests(string $project, string $sourceBranch): array
+    {
+        return $this->gitlabHttpClient->mergeRequests()->all($project, [
+            'state' => 'opened',
+            'source_branch' => $sourceBranch,
+        ]);
     }
 }

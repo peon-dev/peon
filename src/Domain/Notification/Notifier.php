@@ -6,5 +6,7 @@ namespace PHPMate\Domain\Notification;
 
 interface Notifier
 {
-    public function notifyFailedCommand(\LogicException $exception): void;
+    public function notifyAboutFailedCommand(\LogicException $exception): void;
+
+    public function notifyAboutNewChanges(): void;
 }
