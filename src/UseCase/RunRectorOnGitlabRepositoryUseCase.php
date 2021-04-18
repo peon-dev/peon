@@ -67,11 +67,10 @@ final class RunRectorOnGitlabRepositoryUseCase
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
                 $this->git->commit($projectDirectory, 'Rector changes');
                 $this->git->forcePush($projectDirectory);
+                $this->notifier->notifyAboutNewChanges(); // TODO: add test
             }
 
             if ($this->gitlab->mergeRequestForBranchExists($command->gitlabRepository, $newBranch) === false) {
-                // TODO: notify to slack if configured
-
                 // TODO: [optional] assign to random user from provided list
                 // TODO: description with list of provided users
                 $this->gitlab->openMergeRequest(
@@ -82,7 +81,7 @@ final class RunRectorOnGitlabRepositoryUseCase
                 );
             }
         } catch (GitCommandFailed | ComposerCommandFailed | RectorCommandFailed $exception) {
-            $this->notifier->notifyFailedCommand($exception);
+            $this->notifier->notifyAboutFailedCommand($exception);
         }
     }
 }
