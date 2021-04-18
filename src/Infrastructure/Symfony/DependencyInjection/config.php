@@ -11,9 +11,11 @@ use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Gitlab\Gitlab;
+use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
 use PHPMate\Infrastructure\Composer\ShellExecComposerBinary;
+use PHPMate\Infrastructure\Dummy\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\Git\ShellExecGitBinary;
@@ -62,4 +64,6 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(RunRectorOnGitlabRepositoryUseCase::class);
 
+    $services->set(DummyNotifier::class);
+    $services->alias(Notifier::class, DummyNotifier::class);
 };
