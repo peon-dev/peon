@@ -14,14 +14,14 @@ use PHPMate\Domain\Gitlab\Gitlab;
 use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
-use PHPMate\Infrastructure\Composer\ShellExecComposerBinary;
 use PHPMate\Infrastructure\Dummy\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
-use PHPMate\Infrastructure\Git\ShellExecGitBinary;
 use PHPMate\Infrastructure\Gitlab\HttpGitlab;
-use PHPMate\Infrastructure\Rector\ShellExecRectorBinary;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
+use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessComposerBinary;
+use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessGitBinary;
+use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessRectorBinary;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 return static function(ContainerConfigurator $configurator): void
@@ -48,10 +48,10 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(ProjectDirectoryProvider::class, TemporaryLocalFileSystemProjectDirectoryProvider::class);
 
     $services->set(Composer::class);
-    $services->set(ComposerBinary::class, ShellExecComposerBinary::class);
+    $services->set(ComposerBinary::class, SymfonyProcessComposerBinary::class);
 
     $services->set(Git::class);
-    $services->set(GitBinary::class, ShellExecGitBinary::class);
+    $services->set(GitBinary::class, SymfonyProcessGitBinary::class);
 
     $services->set(PHPMateBranchNameProvider::class);
     $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
@@ -60,7 +60,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(Gitlab::class, HttpGitlab::class);
 
     $services->set(Rector::class);
-    $services->set(RectorBinary::class, ShellExecRectorBinary::class);
+    $services->set(RectorBinary::class, SymfonyProcessRectorBinary::class);
 
     $services->set(RunRectorOnGitlabRepositoryUseCase::class);
 
