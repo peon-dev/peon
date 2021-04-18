@@ -29,9 +29,9 @@ final class Git
 
     public function hasUncommittedChanges(string $directory): bool
     {
-        $output = $this->gitBinary->executeCommand($directory, 'status --porcelain');
+        $result = $this->gitBinary->executeCommand($directory, 'status --porcelain');
 
-        return $output !== '';
+        return trim($result->getOutput()) !== '';
     }
 
 
@@ -70,9 +70,9 @@ final class Git
             $branch
         );
 
-        $output = $this->gitBinary->executeCommand($directory, $command);
+        $result = $this->gitBinary->executeCommand($directory, $command);
 
-        return $output !== '';
+        return trim($result->getOutput()) !== '';
     }
 
 
