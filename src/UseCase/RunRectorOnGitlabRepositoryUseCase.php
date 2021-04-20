@@ -32,8 +32,23 @@ final class RunRectorOnGitlabRepositoryUseCase
     {
         $projectDirectory = $this->projectDirectoryProvider->provide();
 
+        // TODO: add caching of git repo
+        // Scenario:
+        //   - Check if cache exists:
+        //
+        //   NO:
+        //   - clone
+        //
+        //   YES:
+        //   - retrieve from cache
+        //   - fetch
+        //   - pull
+        //
+        //   ... continue ...
+        //
+        //   - Save to cache after MR
+
         try {
-            // TODO: add caching of git repo
             $this->git->clone($projectDirectory, $command->gitlabRepository->getAuthenticatedRepositoryUri());
             $this->git->configureUser($projectDirectory);
 
@@ -80,6 +95,8 @@ final class RunRectorOnGitlabRepositoryUseCase
                     'Rector run by PHPMate'
                 );
             }
+
+            //
         } catch (GitCommandFailed | ComposerCommandFailed | RectorCommandFailed $exception) {
             $this->notifier->notifyAboutFailedCommand($exception);
         }
