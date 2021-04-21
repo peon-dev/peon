@@ -10,7 +10,10 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class ContainerFactory
 {
-    public static function create(): ContainerBuilder
+    /**
+     * @param array<string>
+     */
+    public static function create(array $customConfigs = []): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder();
         $loader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__));
@@ -19,6 +22,10 @@ class ContainerFactory
         $envSpecificConfig = 'config_' . $_ENV['APP_ENV'] . '.php';
         if (is_file(__DIR__ . '/' . $envSpecificConfig)) {
             $loader->load($envSpecificConfig);
+        }
+
+        foreach ($customConfigs as $customConfig) {
+            $loader->load($customConfig);
         }
 
         $containerBuilder->compile();
