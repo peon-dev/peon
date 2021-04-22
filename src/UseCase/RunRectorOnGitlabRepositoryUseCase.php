@@ -99,6 +99,10 @@ final class RunRectorOnGitlabRepositoryUseCase
             //
         } catch (GitCommandFailed | ComposerCommandFailed | RectorCommandFailed $exception) {
             $this->notifier->notifyAboutFailedCommand($exception);
+
+            // Rethrow .. maybe use $this->logger->log() instead?
+            // but logging in domain feels weird...
+            throw $exception;
         }
     }
 }
