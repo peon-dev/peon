@@ -17,7 +17,7 @@ class ContainerFactory
     public static ?NotifierInterface $symfonyNotifier = null;
 
     /**
-     * @param array<string>
+     * @param array<string> $customConfigs
      */
     public static function create(array $customConfigs = []): ContainerBuilder
     {
