@@ -8,6 +8,7 @@ use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Infrastructure\Notifier\SymfonyNotifier;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Notifier\NotifierInterface;
 
@@ -30,8 +31,8 @@ class ContainerFactory
         }
 
         if (self::$symfonyNotifier !== null) {
-            $containerBuilder->set(SymfonyNotifier::class, new SymfonyNotifier(self::$symfonyNotifier));
-            $containerBuilder->setAlias(Notifier::class, SymfonyNotifier::class);
+            $containerBuilder->register(Notifier::class, SymfonyNotifier::class)
+                ->setArguments([self::$symfonyNotifier]);
         }
 
         foreach ($customConfigs as $customConfig) {
