@@ -8,7 +8,6 @@ use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Infrastructure\Notifier\SymfonyNotifier;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Notifier\NotifierInterface;
 

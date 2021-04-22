@@ -17,7 +17,7 @@ final class SymfonyNotifier implements Notifier
 
     public function notifyAboutFailedCommand(\LogicException $exception): void
     {
-        $notification = (new Notification('PHPMate processing failed'))
+        $notification = (new Notification('Failed during command execution!'))
             ->content($exception->getMessage())
             ->importance(Notification::IMPORTANCE_URGENT);
 
@@ -27,7 +27,7 @@ final class SymfonyNotifier implements Notifier
 
     public function notifyAboutNewChanges(): void
     {
-        $notification = (new Notification('PHPMate added new changes'))
+        $notification = (new Notification('New changes!'))
             ->importance(Notification::IMPORTANCE_LOW);
 
         $this->symfonyNotifier->send($notification);
