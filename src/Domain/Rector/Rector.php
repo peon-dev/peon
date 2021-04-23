@@ -32,7 +32,8 @@ final class Rector
         $result = $this->rectorBinary->executeCommand($directory, $command);
 
         if ($result->getExitCode() !== 0) {
-            throw new RectorCommandFailed($result->getOutput());
+            $output = $result->getOutput() . $result->getErrorOutput();
+            throw new RectorCommandFailed($output);
         }
     }
 }

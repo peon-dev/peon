@@ -100,6 +100,8 @@ final class RunRectorOnGitlabRepositoryUseCase
         } catch (GitCommandFailed | ComposerCommandFailed | RectorCommandFailed $exception) {
             $this->notifier->notifyAboutFailedCommand($exception);
 
+            // TODO: What about event driven dev? Event sourcing could be great here, dispatch something happened :-)
+
             // Rethrow .. maybe use $this->logger->log() instead?
             // but logging in domain feels weird...
             throw $exception;
