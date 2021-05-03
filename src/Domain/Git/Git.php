@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Git;
 
+use PHPMate\Domain\Logger\Logger;
 use Psr\Http\Message\UriInterface;
 
 final class Git
@@ -12,7 +13,8 @@ final class Git
     private const USER_EMAIL = 'bot@phpmate.io';
 
     public function __construct(
-        private GitBinary $gitBinary
+        private GitBinary $gitBinary,
+        private Logger $logger
     ) {}
 
 
@@ -23,7 +25,9 @@ final class Git
     {
         $command = sprintf('clone %s .', (string) $remoteUri);
 
-        $this->gitBinary->executeCommand($directory, $command);
+        $result = $this->gitBinary->executeCommand($directory, $command);
+
+        $this->logger->log($command, $result->getOutput());
     }
 
 
@@ -93,7 +97,7 @@ final class Git
         $result = $this->gitBinary->executeCommand($directory, $command);
 
         if ($result->getExitCode() !== 0) {
-            throw new RebaseFailed(trim($result->getOutput() . ' ' . $result->getErrorOutput()));
+            throw new RebaseFailed($result->getOutput());
         }
     }
 

@@ -9,6 +9,4 @@ interface ProcessResult
     public function getExitCode(): int;
 
     public function getOutput(): string;
-
-    public function getErrorOutput(): string;
 }

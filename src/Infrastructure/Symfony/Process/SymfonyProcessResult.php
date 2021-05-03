@@ -24,11 +24,6 @@ final class SymfonyProcessResult implements ProcessResult
 
     public function getOutput(): string
     {
-        return $this->process->getOutput();
-    }
-
-    public function getErrorOutput(): string
-    {
-        return $this->process->getErrorOutput();
+        return trim($this->process->getOutput() . ' ' . $this->process->getErrorOutput()) ;
     }
 }

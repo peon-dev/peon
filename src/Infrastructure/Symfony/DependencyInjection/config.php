@@ -11,9 +11,11 @@ use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Gitlab\Gitlab;
+use PHPMate\Domain\Logger\Logger;
 use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
+use PHPMate\Infrastructure\Dummy\DummyLogger;
 use PHPMate\Infrastructure\Dummy\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
@@ -66,4 +68,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(DummyNotifier::class);
     $services->alias(Notifier::class, DummyNotifier::class);
+
+    $services->set(DummyLogger::class);
+    $services->alias(Logger::class, DummyLogger::class);
 };
