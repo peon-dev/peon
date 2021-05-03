@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Rector;
 
+use PHPMate\Domain\Process\ProcessLogger;
+
 final class Rector
 {
     public function __construct(
         private RectorBinary $rectorBinary,
+        private ProcessLogger $processLogger
     ) {}
 
     /**
@@ -30,6 +33,8 @@ final class Rector
         }
 
         $result = $this->rectorBinary->executeCommand($directory, $command);
+
+        $this->processLogger->logResult($result);
 
         if ($result->getExitCode() !== 0) {
             $output = $result->getOutput();
