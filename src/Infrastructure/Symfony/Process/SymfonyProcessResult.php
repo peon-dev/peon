@@ -22,8 +22,15 @@ final class SymfonyProcessResult implements ProcessResult
         return (int) $this->process->getExitCode();
     }
 
+
     public function getOutput(): string
     {
         return trim($this->process->getOutput() . ' ' . $this->process->getErrorOutput()) ;
+    }
+
+
+    public function getCommand(): string
+    {
+        return $this->process->getCommandLine();
     }
 }
