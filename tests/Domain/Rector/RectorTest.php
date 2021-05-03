@@ -8,10 +8,22 @@ use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
 use PHPMate\Domain\Rector\RectorCommandFailed;
 use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
+use PHPMate\Infrastructure\Dummy\DummyProcessLogger;
 use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
 {
+    private DummyProcessLogger $processLogger;
+
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->processLogger = new DummyProcessLogger();
+    }
+
+
     /**
      * @dataProvider provideTestProcessData
      */
@@ -27,7 +39,7 @@ class RectorTest extends TestCase
                 $expectedCommand
             );
 
-        $rector = new Rector($rectorBinary);
+        $rector = new Rector($rectorBinary, $this->processLogger);
         $rector->process($projectDirectory, $commandConfiguration);
     }
 
@@ -48,7 +60,7 @@ class RectorTest extends TestCase
             ->method('executeCommand')
             ->willReturn($processResult);
 
-        $rector = new Rector($rectorBinary);
+        $rector = new Rector($rectorBinary, $this->processLogger);
         $rector->process($projectDirectory, new RectorProcessCommandConfiguration());
     }
 
