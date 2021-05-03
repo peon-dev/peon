@@ -7,6 +7,7 @@ use Gitlab\Client;
 use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
+use PHPMate\Domain\Rector\RectorCommandFailed;
 use PHPMate\Infrastructure\Gitlab\HttpGitlab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
 use PHPMate\UseCase\RunRectorOnGitlabRepository;
@@ -127,10 +128,17 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
     {
         $this->duplicateBranch('process-fail', $this->branchName);
 
-        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+        $exception = null;
+
+        try {
+            $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+        } catch (\Throwable $exception) {
+            // Just to capture
+        }
 
         // TODO: Find way how to assert that notification was dispatched
 
+        self::assertInstanceOf(RectorCommandFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
     }
 
