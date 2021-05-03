@@ -45,6 +45,8 @@ final class Git
     {
         $result = $this->gitBinary->executeCommand($directory, 'rev-parse --abbrev-ref HEAD');
 
+        $this->logger->logResult($result);
+
         return trim($result->getOutput());
     }
 
@@ -53,19 +55,25 @@ final class Git
     {
         $command = sprintf('checkout -b %s', $branch);
 
-        $this->gitBinary->executeCommand($directory, $command);
+        $result = $this->gitBinary->executeCommand($directory, $command);
+
+        $this->logger->logResult($result);
     }
 
 
     public function configureUser(string $directory): void
     {
-        $this->gitBinary->executeCommand($directory, sprintf(
+        $result = $this->gitBinary->executeCommand($directory, sprintf(
             'config user.name %s', self::USER_NAME
         ));
 
-        $this->gitBinary->executeCommand($directory, sprintf(
+        $this->logger->logResult($result);
+
+        $result = $this->gitBinary->executeCommand($directory, sprintf(
             'config user.email %s', self::USER_EMAIL
         ));
+
+        $this->logger->logResult($result);
     }
 
 
@@ -78,6 +86,8 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
+        $this->logger->logResult($result);
+
         return trim($result->getOutput()) !== '';
     }
 
@@ -86,7 +96,9 @@ final class Git
     {
         $command = sprintf('checkout origin/%s', $branch);
 
-        $this->gitBinary->executeCommand($directory, $command);
+        $result = $this->gitBinary->executeCommand($directory, $command);
+
+        $this->logger->logResult($result);
     }
 
 
@@ -98,6 +110,8 @@ final class Git
         $command = sprintf('rebase origin/%s', $mainBranch);
         $result = $this->gitBinary->executeCommand($directory, $command);
 
+        $this->logger->logResult($result);
+
         if ($result->getExitCode() !== 0) {
             throw new RebaseFailed($result->getOutput());
         }
@@ -106,13 +120,17 @@ final class Git
 
     public function forcePush(string $directory): void
     {
-        $this->gitBinary->executeCommand($directory, 'push -u origin --all --force-with-lease');
+        $result = $this->gitBinary->executeCommand($directory, 'push -u origin --all --force-with-lease');
+
+        $this->logger->logResult($result);
     }
 
 
     public function abortRebase(string $directory): void
     {
-        $this->gitBinary->executeCommand($directory, 'rebase --abort');
+        $result = $this->gitBinary->executeCommand($directory, 'rebase --abort');
+
+        $this->logger->logResult($result);
     }
 
 
@@ -123,7 +141,9 @@ final class Git
             $mainBranch
         );
 
-        $this->gitBinary->executeCommand($directory, $command);
+        $result = $this->gitBinary->executeCommand($directory, $command);
+
+        $this->logger->logResult($result);
     }
 
 
@@ -136,6 +156,8 @@ final class Git
             $commitMessage,
         );
 
-        $this->gitBinary->executeCommand($directory, $commitCommand);
+        $result = $this->gitBinary->executeCommand($directory, $commitCommand);
+
+        $this->logger->logResult($result);
     }
 }
