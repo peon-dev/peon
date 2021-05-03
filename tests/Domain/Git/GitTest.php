@@ -7,11 +7,24 @@ use Nyholm\Psr7\Uri;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Git\RebaseFailed;
+use PHPMate\Domain\Logger\Logger;
 use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Infrastructure\Dummy\DummyLogger;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase
 {
+    private Logger $logger;
+
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->logger = new DummyLogger();
+    }
+
+
     public function testConfigureUser(): void
     {
         $gitBinary = $this->createMock(GitBinary::class);
@@ -22,7 +35,7 @@ class GitTest extends TestCase
                 ['/', 'config user.email bot@phpmate.io'],
             );
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->configureUser('/');
     }
 
@@ -39,7 +52,7 @@ class GitTest extends TestCase
             ->with('/', 'rev-parse --abbrev-ref HEAD')
             ->willReturn($processResult);
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $currentBranch = $git->getCurrentBranch('/');
 
         self::assertSame('main', $currentBranch);
@@ -61,7 +74,7 @@ class GitTest extends TestCase
             ->with('/', 'status --porcelain')
             ->willReturn($processResult);
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $hasUncommittedChanges = $git->hasUncommittedChanges('/');
 
         self::assertSame($expected, $hasUncommittedChanges);
@@ -94,7 +107,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'clone https://phpmate.io .');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->clone('/', $remoteUri);
     }
 
@@ -106,7 +119,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'checkout -b phpmate');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->checkoutNewBranch('/', 'phpmate');
     }
 
@@ -126,7 +139,7 @@ class GitTest extends TestCase
             ->with('/', 'ls-remote --heads origin phpmate')
             ->willReturn($processResult);
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $remoteBranchExists = $git->remoteBranchExists('/', 'phpmate');
 
         self::assertSame($expected, $remoteBranchExists);
@@ -157,7 +170,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'checkout origin/phpmate');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->checkoutRemoteBranch('/', 'phpmate');
     }
 
@@ -174,7 +187,7 @@ class GitTest extends TestCase
             ->with('/', 'rebase origin/main')
             ->willReturn($processResult);
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->rebaseBranchAgainstUpstream('/', 'main');
     }
 
@@ -193,7 +206,7 @@ class GitTest extends TestCase
             ->with('/', 'rebase origin/main')
             ->willReturn($processResult);
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->rebaseBranchAgainstUpstream('/', 'main');
     }
 
@@ -205,7 +218,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'rebase --abort');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->abortRebase('/');
     }
 
@@ -217,7 +230,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'push -u origin --all --force-with-lease');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->forcePush('/');
     }
 
@@ -229,7 +242,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'reset --hard main');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->resetCurrentBranch('/', 'main');
     }
 
@@ -241,7 +254,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->with('/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"');
 
-        $git = new Git($gitBinary);
+        $git = new Git($gitBinary, $this->logger);
         $git->commit('/', 'Message');
     }
 }
