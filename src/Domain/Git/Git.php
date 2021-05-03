@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Git;
 
-use PHPMate\Domain\Logger\Logger;
+use PHPMate\Domain\Process\ProcessLogger;
 use Psr\Http\Message\UriInterface;
 
 final class Git
@@ -14,7 +14,7 @@ final class Git
 
     public function __construct(
         private GitBinary $gitBinary,
-        private Logger $logger
+        private ProcessLogger $logger
     ) {}
 
 
@@ -27,13 +27,15 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->log($command, $result->getOutput());
+        $this->logger->logResult($result);
     }
 
 
     public function hasUncommittedChanges(string $directory): bool
     {
         $result = $this->gitBinary->executeCommand($directory, 'status --porcelain');
+
+        $this->logger->logResult($result);
 
         return trim($result->getOutput()) !== '';
     }

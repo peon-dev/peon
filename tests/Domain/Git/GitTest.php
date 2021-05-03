@@ -7,21 +7,21 @@ use Nyholm\Psr7\Uri;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Git\RebaseFailed;
-use PHPMate\Domain\Logger\Logger;
+use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Infrastructure\Dummy\DummyLogger;
+use PHPMate\Infrastructure\Dummy\DummyProcessLogger;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase
 {
-    private Logger $logger;
+    private ProcessLogger $logger;
 
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->logger = new DummyLogger();
+        $this->logger = new DummyProcessLogger();
     }
 
 
