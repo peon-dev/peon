@@ -257,4 +257,6 @@ class GitTest extends TestCase
         $git = new Git($gitBinary, $this->logger);
         $git->commit('/', 'Message');
     }
+
+    // TODO: add tests covering situations - logger logs
 }
