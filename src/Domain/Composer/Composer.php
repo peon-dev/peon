@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Composer;
 
+use PHPMate\Domain\Process\ProcessLogger;
+
 final class Composer
 {
     public function __construct(
         private ComposerBinary $composerBinary,
+        private ProcessLogger $processLogger
     ) {}
 
 
@@ -23,6 +26,8 @@ final class Composer
         }
 
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-scripts --no-interaction', $environmentVariables);
+        $result = $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-scripts --no-interaction', $environmentVariables);
+
+        $this->processLogger->logResult($result);
     }
 }

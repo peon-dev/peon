@@ -14,7 +14,7 @@ final class Git
 
     public function __construct(
         private GitBinary $gitBinary,
-        private ProcessLogger $logger
+        private ProcessLogger $processLogger
     ) {}
 
 
@@ -27,7 +27,7 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -35,7 +35,7 @@ final class Git
     {
         $result = $this->gitBinary->executeCommand($directory, 'status --porcelain');
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
 
         return trim($result->getOutput()) !== '';
     }
@@ -45,7 +45,7 @@ final class Git
     {
         $result = $this->gitBinary->executeCommand($directory, 'rev-parse --abbrev-ref HEAD');
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
 
         return trim($result->getOutput());
     }
@@ -57,7 +57,7 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -67,13 +67,13 @@ final class Git
             'config user.name %s', self::USER_NAME
         ));
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
 
         $result = $this->gitBinary->executeCommand($directory, sprintf(
             'config user.email %s', self::USER_EMAIL
         ));
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -86,7 +86,7 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
 
         return trim($result->getOutput()) !== '';
     }
@@ -98,7 +98,7 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -110,7 +110,7 @@ final class Git
         $command = sprintf('rebase origin/%s', $mainBranch);
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
 
         if ($result->getExitCode() !== 0) {
             throw new RebaseFailed($result->getOutput());
@@ -122,7 +122,7 @@ final class Git
     {
         $result = $this->gitBinary->executeCommand($directory, 'push -u origin --all --force-with-lease');
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -130,7 +130,7 @@ final class Git
     {
         $result = $this->gitBinary->executeCommand($directory, 'rebase --abort');
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -143,7 +143,7 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 
 
@@ -158,6 +158,6 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $commitCommand);
 
-        $this->logger->logResult($result);
+        $this->processLogger->logResult($result);
     }
 }
