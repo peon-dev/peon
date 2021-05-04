@@ -17,7 +17,7 @@ final class InMemoryJobRepository implements JobRepository
 
     public function save(Job $job): void
     {
-        $this->jobs[] = $job;
+        $this->jobs[$job->getTimestamp()] = $job;
     }
 
 

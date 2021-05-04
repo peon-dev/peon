@@ -6,43 +6,29 @@ namespace PHPMate\Tests\App;
 use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
+use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobRepository;
-use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Infrastructure\Memory\InMemoryJobRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
 class RunRectorOnGitlabRepositoryLauncherTest extends TestCase
 {
-    private GitlabRepository $gitlabRepository;
-    private JobRepository $jobRepository;
-
-
-    protected function setUp(): void
-    {
-        $container = ContainerFactory::create();
-
-        /** @var JobRepository $jobRepository */
-        $jobRepository = $container->get(JobRepository::class);
-        $this->jobRepository = $jobRepository;
-
-        $authentication = new GitlabAuthentication('', '');
-        $this->gitlabRepository = new GitlabRepository('https://gitlab.com/phpmate-dogfood/rector.git', $authentication);
-    }
-
-
     /**
      * Scenario "Happy path":
      *  - 0 jobs in collection
      *  - run use case
-     *  - 1 job in collection
+     *  - 1 job in collection with expected status
      *
      * @dataProvider provideTestLaunchData
      */
-    public function testLaunch(bool $shouldThrowException): void
+    public function testLaunch(bool $shouldThrowException, string $expectedStatus): void
     {
-        self::assertCount(0, $this->jobRepository->findAll());
-
+        $jobRepository = new InMemoryJobRepository();
+        $authentication = new GitlabAuthentication('', '');
+        $gitlabRepository = new GitlabRepository('https://gitlab.com/phpmate-dogfood/rector.git', $authentication);
         $useCase = $this->createMock(RunRectorOnGitlabRepositoryUseCase::class);
 
         if ($shouldThrowException === true) {
@@ -50,21 +36,31 @@ class RunRectorOnGitlabRepositoryLauncherTest extends TestCase
                 ->willThrowException(new \Exception());
         }
 
+        self::assertCount(0, $jobRepository->findAll());
+
         try {
-            $launcher = new RunRectorOnGitlabRepositoryLauncher($useCase);
-            $launcher->launch(new RunRectorOnGitlabRepository($this->gitlabRepository));
+            $launcher = new RunRectorOnGitlabRepositoryLauncher(
+                $useCase,
+                $jobRepository,
+                new ProcessLogger()
+            );
+            $launcher->launch(new RunRectorOnGitlabRepository($gitlabRepository));
         } catch (\Throwable) {}
 
-        self::assertCount(1, $this->jobRepository->findAll());
+        $jobs = $jobRepository->findAll();
+
+        self::assertCount(1, $jobs);
+        self::assertSame($expectedStatus, $jobs[array_key_first($jobs)]->getStatus());
     }
 
 
     /**
-     * @return \Generator<array{bool}>
+     * @return \Generator<array{bool, string}>
      */
     public function provideTestLaunchData(): \Generator
     {
-        yield [false];
-        yield [true];
+        yield [false, Job::STATUS_SUCCEEDED];
+
+        yield [true, Job::STATUS_FAILED];
     }
 }
