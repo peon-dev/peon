@@ -15,7 +15,6 @@ use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
-use PHPMate\Infrastructure\Dummy\DummyProcessLogger;
 use PHPMate\Infrastructure\Dummy\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
@@ -69,6 +68,5 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(DummyNotifier::class);
     $services->alias(Notifier::class, DummyNotifier::class);
 
-    $services->set(DummyProcessLogger::class);
-    $services->alias(ProcessLogger::class, DummyProcessLogger::class);
+    $services->set(ProcessLogger::class);
 };

@@ -9,7 +9,6 @@ use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Git\RebaseFailed;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Infrastructure\Dummy\DummyProcessLogger;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase
@@ -21,7 +20,7 @@ class GitTest extends TestCase
     {
         parent::setUp();
 
-        $this->logger = new DummyProcessLogger();
+        $this->logger = new ProcessLogger();
     }
 
 

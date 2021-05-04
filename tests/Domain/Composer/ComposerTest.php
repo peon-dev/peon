@@ -6,7 +6,7 @@ namespace PHPMate\Tests\Domain\Composer;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\Composer\ComposerEnvironment;
-use PHPMate\Infrastructure\Dummy\DummyProcessLogger;
+use PHPMate\Domain\Process\ProcessLogger;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
@@ -29,7 +29,7 @@ class ComposerTest extends TestCase
                 $expectedEnvironmentVariables
             );
 
-        $composer = new Composer($composerBinary, new DummyProcessLogger());
+        $composer = new Composer($composerBinary, new ProcessLogger());
         $composer->install($projectDirectory, $environment);
     }
 

@@ -4,7 +4,24 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Process;
 
-interface ProcessLogger
+final class ProcessLogger
 {
-    public function logResult(ProcessResult $processResult): void;
+    /**
+     * @var ProcessResult[]
+     */
+    private array $logs = [];
+
+
+    public function logResult(ProcessResult $processResult): void
+    {
+        $this->logs[] = $processResult;
+    }
+
+    /**
+     * @return ProcessResult[]
+     */
+    public function getLogs(): array
+    {
+        return $this->logs;
+    }
 }

@@ -3,24 +3,24 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Domain\Rector;
 
+use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Process\ProcessResult;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorBinary;
 use PHPMate\Domain\Rector\RectorCommandFailed;
 use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
-use PHPMate\Infrastructure\Dummy\DummyProcessLogger;
 use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
 {
-    private DummyProcessLogger $processLogger;
+    private ProcessLogger $processLogger;
 
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->processLogger = new DummyProcessLogger();
+        $this->processLogger = new ProcessLogger();
     }
 
 
