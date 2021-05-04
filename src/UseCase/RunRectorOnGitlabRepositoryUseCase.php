@@ -15,7 +15,7 @@ use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Rector\Rector;
 use PHPMate\Domain\Rector\RectorCommandFailed;
 
-final class RunRectorOnGitlabRepositoryUseCase
+class RunRectorOnGitlabRepositoryUseCase
 {
     public function __construct(
         private Git $git,
