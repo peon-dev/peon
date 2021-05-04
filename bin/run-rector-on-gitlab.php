@@ -27,6 +27,6 @@ $gitlabRepository = new GitlabRepository($repositoryUri, $authentication);
 
 $command = new RunRectorOnGitlabRepository($gitlabRepository);
 
-/** @var RunRectorOnGitlabRepositoryLauncher $useCase */
+/** @var RunRectorOnGitlabRepositoryLauncher $launcher */
 $launcher = $container->get(RunRectorOnGitlabRepositoryLauncher::class);
 $launcher->launch($command);
