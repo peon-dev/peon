@@ -7,6 +7,7 @@ use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\Composer\ComposerEnvironment;
 use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Domain\Process\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
@@ -20,6 +21,7 @@ class ComposerTest extends TestCase
     {
         $projectDirectory = '/';
 
+        $emptyProcessResult = new ProcessResult('', 0, '');
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
             ->method('executeCommand')
@@ -27,7 +29,8 @@ class ComposerTest extends TestCase
                 $projectDirectory,
                 'install --ignore-platform-reqs --no-scripts --no-interaction',
                 $expectedEnvironmentVariables
-            );
+            )
+            ->willReturn($emptyProcessResult);
 
         $composer = new Composer($composerBinary, new ProcessLogger());
         $composer->install($projectDirectory, $environment);
