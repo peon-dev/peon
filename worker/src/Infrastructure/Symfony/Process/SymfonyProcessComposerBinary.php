@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Symfony\Process;
+namespace PHPMate\Worker\Infrastructure\Symfony\Process;
 
-use PHPMate\Domain\Composer\ComposerBinary;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Worker\Domain\Composer\ComposerBinary;
+use PHPMate\Worker\Domain\Process\ProcessResult;
 use Symfony\Component\Process\Process;
 
 final class SymfonyProcessComposerBinary implements ComposerBinary

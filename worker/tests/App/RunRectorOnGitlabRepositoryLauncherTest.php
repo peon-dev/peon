@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\App;
+namespace PHPMate\Worker\Tests\App;
 
 use Lcobucci\Clock\SystemClock;
-use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
-use PHPMate\Domain\Gitlab\GitlabAuthentication;
-use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobRepository;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Infrastructure\Memory\InMemoryJobRepository;
-use PHPMate\UseCase\RunRectorOnGitlabRepository;
-use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
+use PHPMate\Worker\App\RunRectorOnGitlabRepositoryLauncher;
+use PHPMate\Worker\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Worker\Domain\Gitlab\GitlabRepository;
+use PHPMate\Worker\Domain\Job\Job;
+use PHPMate\Worker\Domain\Job\JobRepository;
+use PHPMate\Worker\Domain\Process\ProcessLogger;
+use PHPMate\Worker\Infrastructure\Memory\InMemoryJobRepository;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepository;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
 class RunRectorOnGitlabRepositoryLauncherTest extends TestCase

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Dummy;
+namespace PHPMate\Worker\Infrastructure\Dummy;
 
-use PHPMate\Domain\Notification\Notifier;
+use PHPMate\Worker\Domain\Notification\Notifier;
 
 final class DummyNotifier implements Notifier
 {

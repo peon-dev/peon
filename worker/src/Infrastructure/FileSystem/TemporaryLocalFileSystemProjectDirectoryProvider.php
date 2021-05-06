@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\FileSystem;
+namespace PHPMate\Worker\Infrastructure\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
-use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
+use PHPMate\Worker\Domain\FileSystem\ProjectDirectoryProvider;
 
 final class TemporaryLocalFileSystemProjectDirectoryProvider implements ProjectDirectoryProvider
 {

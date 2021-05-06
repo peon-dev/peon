@@ -1,19 +1,19 @@
 <?php
 declare (strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace PHPMate\Worker\UseCase;
 
-use PHPMate\Domain\Composer\Composer;
-use PHPMate\Domain\Composer\ComposerCommandFailed;
-use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
-use PHPMate\Domain\Git\BranchNameProvider;
-use PHPMate\Domain\Git\Git;
-use PHPMate\Domain\Git\GitCommandFailed;
-use PHPMate\Domain\Git\RebaseFailed;
-use PHPMate\Domain\Gitlab\Gitlab;
-use PHPMate\Domain\Notification\Notifier;
-use PHPMate\Domain\Rector\Rector;
-use PHPMate\Domain\Rector\RectorCommandFailed;
+use PHPMate\Worker\Domain\Composer\Composer;
+use PHPMate\Worker\Domain\Composer\ComposerCommandFailed;
+use PHPMate\Worker\Domain\FileSystem\ProjectDirectoryProvider;
+use PHPMate\Worker\Domain\Git\BranchNameProvider;
+use PHPMate\Worker\Domain\Git\Git;
+use PHPMate\Worker\Domain\Git\GitCommandFailed;
+use PHPMate\Worker\Domain\Git\RebaseFailed;
+use PHPMate\Worker\Domain\Gitlab\Gitlab;
+use PHPMate\Worker\Domain\Notification\Notifier;
+use PHPMate\Worker\Domain\Rector\Rector;
+use PHPMate\Worker\Domain\Rector\RectorCommandFailed;
 
 class RunRectorOnGitlabRepositoryUseCase
 {

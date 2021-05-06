@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Symfony\DependencyInjection;
+namespace PHPMate\Worker\Infrastructure\Symfony\DependencyInjection;
 
 final class ConfigParameters
 {

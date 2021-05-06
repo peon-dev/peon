@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Gitlab;
+namespace PHPMate\Worker\Domain\Gitlab;
 
 use JetBrains\PhpStorm\Immutable;
 

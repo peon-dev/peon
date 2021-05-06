@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Process;
+namespace PHPMate\Worker\Domain\Process;
 
 final class ProcessLogger
 {

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Domain\Rector;
+namespace PHPMate\Worker\Tests\Domain\Rector;
 
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Domain\Rector\Rector;
-use PHPMate\Domain\Rector\RectorBinary;
-use PHPMate\Domain\Rector\RectorCommandFailed;
-use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
+use PHPMate\Worker\Domain\Process\ProcessLogger;
+use PHPMate\Worker\Domain\Process\ProcessResult;
+use PHPMate\Worker\Domain\Rector\Rector;
+use PHPMate\Worker\Domain\Rector\RectorBinary;
+use PHPMate\Worker\Domain\Rector\RectorCommandFailed;
+use PHPMate\Worker\Domain\Rector\RectorProcessCommandConfiguration;
 use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase

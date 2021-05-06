@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Docker;
+namespace PHPMate\Worker\Domain\Docker;
 
 /**
  * @TODO implementation

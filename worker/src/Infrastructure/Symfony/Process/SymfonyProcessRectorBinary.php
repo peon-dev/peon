@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Symfony\Process;
+namespace PHPMate\Worker\Infrastructure\Symfony\Process;
 
-use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Domain\Rector\RectorBinary;
+use PHPMate\Worker\Domain\Process\ProcessResult;
+use PHPMate\Worker\Domain\Rector\RectorBinary;
 use Symfony\Component\Process\Process;
 
 final class SymfonyProcessRectorBinary implements RectorBinary

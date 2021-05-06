@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Notification;
+namespace PHPMate\Worker\Domain\Notification;
 
 interface Notifier
 {

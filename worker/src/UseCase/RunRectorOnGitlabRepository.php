@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace PHPMate\Worker\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Composer\ComposerEnvironment;
-use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Domain\Rector\RectorProcessCommandConfiguration;
+use PHPMate\Worker\Domain\Composer\ComposerEnvironment;
+use PHPMate\Worker\Domain\Gitlab\GitlabRepository;
+use PHPMate\Worker\Domain\Rector\RectorProcessCommandConfiguration;
 
 #[Immutable]
 final class RunRectorOnGitlabRepository

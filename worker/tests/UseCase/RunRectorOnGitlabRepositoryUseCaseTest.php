@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\UseCase;
+namespace PHPMate\Worker\Tests\UseCase;
 
 use Gitlab\Client;
-use PHPMate\Domain\Git\BranchNameProvider;
-use PHPMate\Domain\Gitlab\GitlabAuthentication;
-use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Domain\Rector\RectorCommandFailed;
-use PHPMate\Infrastructure\Gitlab\HttpGitlab;
-use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
-use PHPMate\UseCase\RunRectorOnGitlabRepository;
-use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
+use PHPMate\Worker\Domain\Git\BranchNameProvider;
+use PHPMate\Worker\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Worker\Domain\Gitlab\GitlabRepository;
+use PHPMate\Worker\Domain\Rector\RectorCommandFailed;
+use PHPMate\Worker\Infrastructure\Gitlab\HttpGitlab;
+use PHPMate\Worker\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepository;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
 // TODO: try behat :-)

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
-use PHPMate\Domain\Gitlab\GitlabAuthentication;
-use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
-use PHPMate\UseCase\RunRectorOnGitlabRepository;
+use PHPMate\Worker\App\RunRectorOnGitlabRepositoryLauncher;
+use PHPMate\Worker\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Worker\Domain\Gitlab\GitlabRepository;
+use PHPMate\Worker\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepository;
 
 require_once __DIR__ . '/../src/Infrastructure/bootstrap.php';
 

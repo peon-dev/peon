@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Gitlab;
+namespace PHPMate\Worker\Infrastructure\Gitlab;
 
 use Gitlab\Client;
-use PHPMate\Domain\Gitlab\Gitlab;
-use PHPMate\Domain\Gitlab\GitlabRepository;
+use PHPMate\Worker\Domain\Gitlab\Gitlab;
+use PHPMate\Worker\Domain\Gitlab\GitlabRepository;
 
 final class HttpGitlab implements Gitlab
 {

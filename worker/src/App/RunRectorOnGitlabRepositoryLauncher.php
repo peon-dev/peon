@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\App;
+namespace PHPMate\Worker\App;
 
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobRepository;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\UseCase\RunRectorOnGitlabRepository;
-use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
+use PHPMate\Worker\Domain\Job\Job;
+use PHPMate\Worker\Domain\Job\JobRepository;
+use PHPMate\Worker\Domain\Process\ProcessLogger;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepository;
+use PHPMate\Worker\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 // TODO: this could be middleware :-)
 class RunRectorOnGitlabRepositoryLauncher

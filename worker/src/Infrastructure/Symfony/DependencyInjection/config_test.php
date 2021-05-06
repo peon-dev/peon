@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use PHPMate\Domain\Git\BranchNameProvider;
-use PHPMate\Domain\Job\JobRepository;
-use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
-use PHPMate\Infrastructure\Memory\InMemoryJobRepository;
+use PHPMate\Worker\Domain\Git\BranchNameProvider;
+use PHPMate\Worker\Domain\Job\JobRepository;
+use PHPMate\Worker\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
+use PHPMate\Worker\Infrastructure\Memory\InMemoryJobRepository;
 
 return static function(ContainerConfigurator $configurator): void
 {

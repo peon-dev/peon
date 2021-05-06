@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Git;
+namespace PHPMate\Worker\Infrastructure\Git;
 
 use Nette\Utils\Random;
-use PHPMate\Domain\Git\BranchNameProvider;
+use PHPMate\Worker\Domain\Git\BranchNameProvider;
 
 final class StatefulRandomPostfixBranchNameProvider implements BranchNameProvider
 {

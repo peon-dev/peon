@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace PHPMate\Worker\Domain\Job;
 
 interface JobRepository
 {

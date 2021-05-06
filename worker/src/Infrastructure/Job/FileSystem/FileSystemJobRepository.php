@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Job\FileSystem;
+namespace PHPMate\Worker\Infrastructure\Job\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobRepository;
+use PHPMate\Worker\Domain\Job\Job;
+use PHPMate\Worker\Domain\Job\JobRepository;
 
 final class FileSystemJobRepository implements JobRepository
 {

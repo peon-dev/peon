@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace PHPMate\Worker\Domain\Job;
 
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Worker\Domain\Process\ProcessResult;
 
 final class Job
 {

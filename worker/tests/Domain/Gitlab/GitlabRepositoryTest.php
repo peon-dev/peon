@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Domain\Gitlab;
+namespace PHPMate\Worker\Tests\Domain\Gitlab;
 
-use PHPMate\Domain\Gitlab\GitlabAuthentication;
-use PHPMate\Domain\Gitlab\GitlabRepository;
-use PHPMate\Domain\Gitlab\InvalidGitlabRepositoryUri;
+use PHPMate\Worker\Domain\Gitlab\GitlabAuthentication;
+use PHPMate\Worker\Domain\Gitlab\GitlabRepository;
+use PHPMate\Worker\Domain\Gitlab\InvalidGitlabRepositoryUri;
 use PHPUnit\Framework\TestCase;
 
 class GitlabRepositoryTest extends TestCase

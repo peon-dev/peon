@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Symfony\DependencyInjection;
+namespace PHPMate\Worker\Infrastructure\Symfony\DependencyInjection;
 
-use PHPMate\Domain\Notification\Notifier;
-use PHPMate\Infrastructure\Notifier\SymfonyNotifier;
+use PHPMate\Worker\Domain\Notification\Notifier;
+use PHPMate\Worker\Infrastructure\Notifier\SymfonyNotifier;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;

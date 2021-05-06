@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Git;
+namespace PHPMate\Worker\Domain\Git;
 
 final class RebaseFailed extends \LogicException
 {

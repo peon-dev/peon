@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Rector;
+namespace PHPMate\Worker\Domain\Rector;
 
 final class RectorCommandFailed extends \LogicException
 {

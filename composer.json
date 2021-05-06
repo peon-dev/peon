@@ -39,12 +39,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPMate\\": "worker/src"
+            "PHPMate\\Worker\\Worker\\": "worker/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPMate\\Tests\\": "worker/tests"
+            "PHPMate\\Worker\\Worker\\Tests\\": "worker/tests"
         }
     },
     "require-dev": {
@@ -54,6 +54,6 @@
         "phpstan/phpstan-phpunit": "^0.12.18"
     },
     "scripts": {
-        "phpstan": "vendor/bin/phpstan analyse"
+        "phpstan": "vendor/bin/phpstan --memory-limit=-1 analyse"
     }
 }

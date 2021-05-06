@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Git;
+namespace PHPMate\Worker\Domain\Git;
 
-use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Worker\Domain\Process\ProcessLogger;
 use Psr\Http\Message\UriInterface;
 
 final class Git

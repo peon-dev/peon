@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Rector;
+namespace PHPMate\Worker\Domain\Rector;
 
-use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Worker\Domain\Process\ProcessLogger;
 
 final class Rector
 {

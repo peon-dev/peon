@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Composer;
+namespace PHPMate\Worker\Domain\Composer;
 
 final class ComposerCommandFailed extends \LogicException
 {

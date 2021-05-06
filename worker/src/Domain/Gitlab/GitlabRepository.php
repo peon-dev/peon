@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Gitlab;
+namespace PHPMate\Worker\Domain\Gitlab;
 
 use GuzzleHttp\Psr7\Uri;
 use JetBrains\PhpStorm\Immutable;

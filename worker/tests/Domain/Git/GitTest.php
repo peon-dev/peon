@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Domain\Git;
+namespace PHPMate\Worker\Tests\Domain\Git;
 
 use Nyholm\Psr7\Uri;
-use PHPMate\Domain\Git\Git;
-use PHPMate\Domain\Git\GitBinary;
-use PHPMate\Domain\Git\RebaseFailed;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Worker\Domain\Git\Git;
+use PHPMate\Worker\Domain\Git\GitBinary;
+use PHPMate\Worker\Domain\Git\RebaseFailed;
+use PHPMate\Worker\Domain\Process\ProcessLogger;
+use PHPMate\Worker\Domain\Process\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase

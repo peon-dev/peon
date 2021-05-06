@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Composer;
+namespace PHPMate\Worker\Domain\Composer;
 
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Worker\Domain\Process\ProcessResult;
 
 interface ComposerBinary
 {
