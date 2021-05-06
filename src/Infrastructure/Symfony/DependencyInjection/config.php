@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
 use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
@@ -11,6 +12,7 @@ use PHPMate\Domain\Git\BranchNameProvider;
 use PHPMate\Domain\Git\Git;
 use PHPMate\Domain\Git\GitBinary;
 use PHPMate\Domain\Gitlab\Gitlab;
+use PHPMate\Domain\Job\JobRepository;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Rector\Rector;
@@ -19,6 +21,7 @@ use PHPMate\Infrastructure\Dummy\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\Gitlab\HttpGitlab;
+use PHPMate\Infrastructure\Job\FileSystem\FileSystemJobRepository;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessGitBinary;
@@ -69,4 +72,9 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(Notifier::class, DummyNotifier::class);
 
     $services->set(ProcessLogger::class);
+
+    $services->set(FileSystemJobRepository::class);
+    $services->alias(JobRepository::class, FileSystemJobRepository::class);
+
+    $services->set(RunRectorOnGitlabRepositoryLauncher::class);
 };
