@@ -6,12 +6,13 @@ namespace PHPMate\Dashboard\Presenters;
 
 use Nette\Application\UI\Presenter;
 
-
+/**
+ * @property HomepageTemplate $template
+ */
 final class HomepagePresenter extends Presenter
 {
     public function renderDefault(): void
     {
-        $template = $this->createTemplate(HomepageTemplate::class);
-        $this->sendTemplate($template);
+        $this->template->jobs = [];
     }
 }
