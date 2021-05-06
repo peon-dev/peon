@@ -26,7 +26,7 @@ final class Composer
         }
 
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $result = $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-scripts --no-interaction', $environmentVariables);
+        $result = $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-interaction', $environmentVariables);
 
         $this->processLogger->logResult($result);
     }

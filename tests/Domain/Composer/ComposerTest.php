@@ -27,7 +27,7 @@ class ComposerTest extends TestCase
             ->method('executeCommand')
             ->with(
                 $projectDirectory,
-                'install --ignore-platform-reqs --no-scripts --no-interaction',
+                'install --ignore-platform-reqs --no-interaction',
                 $expectedEnvironmentVariables
             )
             ->willReturn($emptyProcessResult);
