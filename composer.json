@@ -39,13 +39,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPMate\\": "src",
-            "PHPMate\\Dashboard\\": "dashboard/src"
+            "PHPMate\\": "worker/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPMate\\Tests\\": "tests"
+            "PHPMate\\Tests\\": "worker/tests"
         }
     },
     "require-dev": {

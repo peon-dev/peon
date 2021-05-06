@@ -5,6 +5,6 @@ includes:
 parameters:
     level: max
     paths:
-        - bin
-        - src
-        - tests
+        - worker/bin
+        - worker/src
+        - worker/tests

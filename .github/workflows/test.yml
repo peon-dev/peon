@@ -19,7 +19,7 @@ jobs:
       -   env:
               TEST_GITLAB_PERSONAL_ACCESS_TOKEN: ${{ secrets.TEST_GITLAB_PERSONAL_ACCESS_TOKEN }}
               TEST_GITLAB_USERNAME: ${{ secrets.TEST_GITLAB_USERNAME }}
-          run: vendor/bin/phpunit tests
+          run: vendor/bin/phpunit --configuration worker/phpunit.xml
 
 
   phpstan:
