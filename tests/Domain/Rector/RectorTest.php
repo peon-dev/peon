@@ -30,6 +30,7 @@ class RectorTest extends TestCase
     public function testProcess(RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
     {
         $projectDirectory = '/';
+        $dummyProcessResult = new ProcessResult('', 0, '');
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
@@ -37,7 +38,8 @@ class RectorTest extends TestCase
             ->with(
                 $projectDirectory,
                 $expectedCommand
-            );
+            )
+            ->willReturn($dummyProcessResult);
 
         $rector = new Rector($rectorBinary, $this->processLogger);
         $rector->process($projectDirectory, $commandConfiguration);
@@ -50,10 +52,7 @@ class RectorTest extends TestCase
         $this->expectExceptionMessage('Message');
 
         $projectDirectory = '/';
-
-        $processResult = $this->createStub(ProcessResult::class);
-        $processResult->method('getExitCode')->willReturn(1);
-        $processResult->method('getOutput')->willReturn('Message');
+        $processResult = new ProcessResult('', 1, 'Message');
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
