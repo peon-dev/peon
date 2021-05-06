@@ -12,4 +12,7 @@ interface JobRepository
      * @return Job[]
      */
     public function findAll(): array;
+
+
+    public function get(int $id): Job;
 }

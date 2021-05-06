@@ -23,4 +23,11 @@ final class HomepagePresenter extends Presenter
     {
         $this->template->jobs = $this->jobRepository->findAll();
     }
+
+
+    public function renderDetail(int $id): void
+    {
+        $this->template->jobs = $this->jobRepository->findAll();
+        $this->template->activeJob = $this->jobRepository->get($id);
+    }
 }

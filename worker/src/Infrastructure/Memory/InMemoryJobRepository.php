@@ -28,4 +28,10 @@ final class InMemoryJobRepository implements JobRepository
     {
         return $this->jobs;
     }
+
+
+    public function get(int $id): Job
+    {
+        return $this->jobs[$id];
+    }
 }

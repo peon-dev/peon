@@ -23,4 +23,6 @@ class HomepageTemplate extends Template
      * @var Job[]
      */
     public array $jobs = [];
+
+    public Job $activeJob;
 }

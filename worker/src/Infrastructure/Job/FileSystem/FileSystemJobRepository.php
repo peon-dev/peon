@@ -31,21 +31,27 @@ final class FileSystemJobRepository implements JobRepository
     public function findAll(): array
     {
         $files = Finder::findFiles('*.dat')->in($this->directory);
-
         $jobs = [];
 
         foreach ($files as $fileInfo) {
             $content = FileSystem::read((string) $fileInfo);
-            $jobs[] = unserialize($content, [
+
+            /** @var Job $job */
+            $job = unserialize($content, [
                 'allowed_classes' => [Job::class]
             ]);
+
+            $jobs[$job->getTimestamp()] = $job;
         }
 
-        // Sort jobs - newest to oldest
-        usort($jobs, static function(Job $a, Job $b) {
-            return $b->getTimestamp() <=> $a->getTimestamp();
-        });
+        krsort($jobs);
 
         return $jobs;
+    }
+
+
+    public function get(int $id): Job
+    {
+        return $this->findAll()[$id];
     }
 }

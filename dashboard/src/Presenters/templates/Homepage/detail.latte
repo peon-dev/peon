@@ -3,7 +3,6 @@
 {block content}
 <h1 n:block=title>Jobs dashboard</h1>
 
-{if count($jobs) > 0}
 <div class="row">
     <div class="col-3">
         <div class="list-group">
@@ -19,9 +18,9 @@
             {/foreach}
         </div>
     </div>
-</div>
-{else}
-    <div class="alert alert-dark" role="alert">
-        No jobs executed yet!
+
+    <div class="col-9">
+        Job
     </div>
-{/if}
+</div>
+
