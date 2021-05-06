@@ -12,12 +12,6 @@ use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 // TODO: this could be middleware :-)
-/*
- * Motivation:
- * - Run the use case
- * - Collect results
- * - Persist job
- */
 class RunRectorOnGitlabRepositoryLauncher
 {
     public function __construct(
