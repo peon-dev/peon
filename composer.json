@@ -27,7 +27,8 @@
         "symfony/process": "^5.2",
         "symfony/notifier": "^5.2",
         "symfony/slack-notifier": "^5.2",
-        "lcobucci/clock": "^2.0"
+        "lcobucci/clock": "^2.0",
+        "nette/finder": "^2.5"
     },
     "autoload": {
         "psr-4": {
