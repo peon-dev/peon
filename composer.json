@@ -39,12 +39,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPMate\\Worker\\Worker\\": "worker/src"
+            "PHPMate\\Worker\\": "worker/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPMate\\Worker\\Worker\\Tests\\": "worker/tests"
+            "PHPMate\\Worker\\Tests\\": "worker/tests"
         }
     },
     "require-dev": {
