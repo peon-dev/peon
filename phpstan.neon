@@ -1,10 +1,13 @@
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-nette/extension.neon
+    - vendor/phpstan/phpstan-nette/rules.neon
 
 parameters:
     level: max
     paths:
+        - dashboard/src
         - worker/bin
         - worker/src
         - worker/tests

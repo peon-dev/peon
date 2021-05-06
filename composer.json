@@ -39,6 +39,7 @@
     },
     "autoload": {
         "psr-4": {
+            "PHPMate\\Dashboard\\": "dashboard/src",
             "PHPMate\\Worker\\": "worker/src"
         }
     },
