@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Process;
 
-interface ProcessResult
+use JetBrains\PhpStorm\Immutable;
+
+#[Immutable]
+final class ProcessResult
 {
-    public function getCommand(): string;
-
-    public function getExitCode(): int;
-
-    public function getOutput(): string;
+    public function __construct(
+        public string $command,
+        public int $exitCode,
+        public string $output
+    ) { }
 }

@@ -15,6 +15,6 @@ final class SymfonyProcessGitBinary implements GitBinary
         $process = Process::fromShellCommandline('git ' . $command, $directory);
         $process->run();
 
-        return new SymfonyProcessResult($process);
+        return SymfonyProcessToProcessResultMapper::map($process);
     }
 }

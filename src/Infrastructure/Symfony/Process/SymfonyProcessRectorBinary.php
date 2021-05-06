@@ -27,6 +27,6 @@ final class SymfonyProcessRectorBinary implements RectorBinary
         $process = Process::fromShellCommandline($command, $directory, timeout: $timeout);
         $process->run();
 
-        return new SymfonyProcessResult($process);
+        return SymfonyProcessToProcessResultMapper::map($process);
     }
 }

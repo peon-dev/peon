@@ -15,6 +15,6 @@ final class SymfonyProcessComposerBinary implements ComposerBinary
         $process = Process::fromShellCommandline('composer ' . $command, $directory, $environmentVariables);
         $process->run();
 
-        return new SymfonyProcessResult($process);
+        return SymfonyProcessToProcessResultMapper::map($process);
     }
 }

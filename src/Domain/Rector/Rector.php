@@ -36,9 +36,8 @@ final class Rector
 
         $this->processLogger->logResult($result);
 
-        if ($result->getExitCode() !== 0) {
-            $output = $result->getOutput();
-            throw new RectorCommandFailed($output);
+        if ($result->exitCode !== 0) {
+            throw new RectorCommandFailed($result->output);
         }
     }
 }

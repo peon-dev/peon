@@ -37,7 +37,7 @@ final class Git
 
         $this->processLogger->logResult($result);
 
-        return trim($result->getOutput()) !== '';
+        return trim($result->output) !== '';
     }
 
 
@@ -47,7 +47,7 @@ final class Git
 
         $this->processLogger->logResult($result);
 
-        return trim($result->getOutput());
+        return trim($result->output);
     }
 
 
@@ -88,7 +88,7 @@ final class Git
 
         $this->processLogger->logResult($result);
 
-        return trim($result->getOutput()) !== '';
+        return trim($result->output) !== '';
     }
 
 
@@ -112,8 +112,8 @@ final class Git
 
         $this->processLogger->logResult($result);
 
-        if ($result->getExitCode() !== 0) {
-            throw new RebaseFailed($result->getOutput());
+        if ($result->exitCode !== 0) {
+            throw new RebaseFailed($result->output);
         }
     }
 
