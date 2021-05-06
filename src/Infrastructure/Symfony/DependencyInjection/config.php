@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Lcobucci\Clock\Clock;
+use Lcobucci\Clock\SystemClock;
 use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
 use PHPMate\Domain\Composer\Composer;
 use PHPMate\Domain\Composer\ComposerBinary;
@@ -79,4 +81,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(JobRepository::class, FileSystemJobRepository::class);
 
     $services->set(RunRectorOnGitlabRepositoryLauncher::class);
+
+    $services->set(SystemClock::class);
+    $services->alias(Clock::class, SystemClock::class);
 };

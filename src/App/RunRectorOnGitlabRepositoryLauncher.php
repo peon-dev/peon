@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\App;
 
+use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobRepository;
 use PHPMate\Domain\Process\ProcessLogger;
@@ -22,14 +23,14 @@ class RunRectorOnGitlabRepositoryLauncher
     public function __construct(
         private RunRectorOnGitlabRepositoryUseCase $useCase,
         private JobRepository $jobRepository,
-        private ProcessLogger $processLogger
+        private ProcessLogger $processLogger,
+        private Clock $clock
     ) {}
 
 
     public function launch(RunRectorOnGitlabRepository $command): void
     {
-        $now = new \DateTimeImmutable(); // TODO: clock
-
+        $now = $this->clock->now();
         $job = new Job($now->getTimestamp());
         $this->jobRepository->save($job);
 

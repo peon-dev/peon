@@ -51,6 +51,7 @@ final class Job
         return $this->timestamp;
     }
 
+
     public function getStatus(): string
     {
         return $this->status;
