@@ -41,6 +41,11 @@ final class FileSystemJobRepository implements JobRepository
             ]);
         }
 
+        // Sort jobs - newest to oldest
+        usort($jobs, static function(Job $a, Job $b) {
+            return $b->getTimestamp() <=> $a->getTimestamp();
+        });
+
         return $jobs;
     }
 }
