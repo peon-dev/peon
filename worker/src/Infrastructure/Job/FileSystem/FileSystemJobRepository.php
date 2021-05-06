@@ -18,7 +18,7 @@ final class FileSystemJobRepository implements JobRepository
 
     public function save(Job $job): void
     {
-        $serializedJob = serialize($job);
+        $serializedJob = base64_encode(serialize($job));
         $filePath = $this->directory . '/' . $job->getTimestamp() . '.dat';
 
         FileSystem::write($filePath, $serializedJob);
@@ -37,7 +37,7 @@ final class FileSystemJobRepository implements JobRepository
             $content = FileSystem::read((string) $fileInfo);
 
             /** @var Job $job */
-            $job = unserialize($content, [
+            $job = unserialize(base64_decode($content), [
                 'allowed_classes' => true,
             ]);
 
