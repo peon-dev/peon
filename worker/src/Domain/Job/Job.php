@@ -76,4 +76,13 @@ final class Job
     {
         return $this->status === self::STATUS_FAILED;
     }
+
+
+    /**
+     * @return ProcessResult[]
+     */
+    public function getLogs(): array
+    {
+        return $this->logs;
+    }
 }

@@ -38,7 +38,7 @@ final class FileSystemJobRepository implements JobRepository
 
             /** @var Job $job */
             $job = unserialize($content, [
-                'allowed_classes' => [Job::class]
+                'allowed_classes' => true,
             ]);
 
             $jobs[$job->getTimestamp()] = $job;

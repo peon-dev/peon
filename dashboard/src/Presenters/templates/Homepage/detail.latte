@@ -20,7 +20,11 @@
     </div>
 
     <div class="col-9">
-        Job
+            <pre n:inner-foreach="$job->getLogs() as $processResult">
+<b>{$processResult->command}</b>{if $processResult->output !== ''}
+{$processResult->output}{/if}
+
+            </pre>
     </div>
 </div>
 
