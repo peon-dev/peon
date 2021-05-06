@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\App;
 
+use Lcobucci\Clock\SystemClock;
 use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
 use PHPMate\Domain\Gitlab\GitlabAuthentication;
 use PHPMate\Domain\Gitlab\GitlabRepository;
@@ -42,7 +43,8 @@ class RunRectorOnGitlabRepositoryLauncherTest extends TestCase
             $launcher = new RunRectorOnGitlabRepositoryLauncher(
                 $useCase,
                 $jobRepository,
-                new ProcessLogger()
+                new ProcessLogger(),
+                new SystemClock(new \DateTimeZone('UTC')),
             );
             $launcher->launch(new RunRectorOnGitlabRepository($gitlabRepository));
         } catch (\Throwable) {}
