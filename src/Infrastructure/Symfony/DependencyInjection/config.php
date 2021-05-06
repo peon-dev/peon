@@ -73,7 +73,9 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(ProcessLogger::class);
 
-    $services->set(FileSystemJobRepository::class);
+    $services->set(FileSystemJobRepository::class)->args([
+        'directory' => __DIR__ . '/../../../../data'
+    ]);
     $services->alias(JobRepository::class, FileSystemJobRepository::class);
 
     $services->set(RunRectorOnGitlabRepositoryLauncher::class);
