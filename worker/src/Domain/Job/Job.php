@@ -20,6 +20,8 @@ final class Job
 
     private string $status;
 
+    private ?int $duration = null; // TODO
+
 
     public function __construct(
         private int $timestamp,
@@ -55,5 +57,23 @@ final class Job
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+
+    public function isInProgress(): bool
+    {
+        return $this->status === self::STATUS_STARTED;
+    }
+
+
+    public function hasSucceeded(): bool
+    {
+        return $this->status === self::STATUS_SUCCEEDED;
+    }
+
+
+    public function hasFailed(): bool
+    {
+        return $this->status === self::STATUS_FAILED;
     }
 }

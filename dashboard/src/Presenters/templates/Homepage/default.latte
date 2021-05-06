@@ -4,14 +4,22 @@
 <h1 n:block=title>Jobs dashboard</h1>
 
 {if count($jobs) > 0}
-    <div class="list-group">
-        {foreach $jobs as $job}
-            <a href="#" class="list-group-item list-group-item-action">
-                {$job->getTimestamp()}
-                {$job->getStatus()}
-            </a>
-        {/foreach}
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            {foreach $jobs as $job}
+                <a href="#" n:class="
+                    list-group-item,
+                    list-group-item-action,
+                    $job->hasFailed() ? list-group-item-danger,
+                    $job->hasSucceeded() ? list-group-item-success,
+                ">
+                    {$job->getTimestamp()|date:'j. n. H:i'}
+                </a>
+            {/foreach}
+        </div>
     </div>
+</div>
 {else}
     <div class="alert alert-dark" role="alert">
         No jobs executed yet!

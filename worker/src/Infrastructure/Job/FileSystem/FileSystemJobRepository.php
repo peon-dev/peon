@@ -19,7 +19,7 @@ final class FileSystemJobRepository implements JobRepository
     public function save(Job $job): void
     {
         $serializedJob = serialize($job);
-        $filePath = $this->directory . '/' . $job->getTimestamp();
+        $filePath = $this->directory . '/' . $job->getTimestamp() . '.dat';
 
         FileSystem::write($filePath, $serializedJob);
     }
@@ -30,7 +30,7 @@ final class FileSystemJobRepository implements JobRepository
      */
     public function findAll(): array
     {
-        $files = Finder::findFiles('*')->in($this->directory);
+        $files = Finder::findFiles('*.dat')->in($this->directory);
 
         $jobs = [];
 
