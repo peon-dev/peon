@@ -26,13 +26,16 @@ class GitTest extends TestCase
 
     public function testConfigureUser(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::exactly(2))
             ->method('executeCommand')
             ->withConsecutive(
                 ['/', 'config user.name PHPMate'],
                 ['/', 'config user.email bot@phpmate.io'],
-            );
+            )
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->configureUser('/');
@@ -41,9 +44,7 @@ class GitTest extends TestCase
 
     public function testGetCurrentBranch(): void
     {
-        $processResult = $this->createStub(ProcessResult::class);
-        $processResult->method('getOutput')
-            ->willReturn('main');
+        $processResult = new ProcessResult('', 0, 'main');
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
@@ -63,9 +64,7 @@ class GitTest extends TestCase
      */
     public function testHasUncommittedChanges(string $commandOutput, bool $expected): void
     {
-        $processResult = $this->createStub(ProcessResult::class);
-        $processResult->method('getOutput')
-            ->willReturn($commandOutput);
+        $processResult = new ProcessResult('', 0, $commandOutput);
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
@@ -100,11 +99,13 @@ class GitTest extends TestCase
     public function testClone(): void
     {
         $remoteUri = new Uri('https://phpmate.io');
+        $processResult = new ProcessResult('', 0, '');
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'clone https://phpmate.io .');
+            ->with('/', 'clone https://phpmate.io .')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->clone('/', $remoteUri);
@@ -113,10 +114,13 @@ class GitTest extends TestCase
 
     public function testCheckoutNewBranch(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'checkout -b phpmate');
+            ->with('/', 'checkout -b phpmate')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->checkoutNewBranch('/', 'phpmate');
@@ -128,9 +132,7 @@ class GitTest extends TestCase
      */
     public function testRemoteBranchExists(string $commandOutput, bool $expected): void
     {
-        $processResult = $this->createStub(ProcessResult::class);
-        $processResult->method('getOutput')
-            ->willReturn($commandOutput);
+        $processResult = new ProcessResult('', 0, $commandOutput);
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
@@ -164,10 +166,13 @@ class GitTest extends TestCase
 
     public function testCheckoutRemoteBranch(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'checkout origin/phpmate');
+            ->with('/', 'checkout origin/phpmate')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->checkoutRemoteBranch('/', 'phpmate');
@@ -176,9 +181,7 @@ class GitTest extends TestCase
 
     public function testRebaseBranchAgainstUpstream(): void
     {
-        $processResult = $this->createStub(ProcessResult::class);
-        $processResult->method('getExitCode')
-            ->willReturn(0);
+        $processResult = new ProcessResult('', 0, '');
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
@@ -195,9 +198,7 @@ class GitTest extends TestCase
     {
         $this->expectException(RebaseFailed::class);
 
-        $processResult = $this->createStub(ProcessResult::class);
-        $processResult->method('getExitCode')
-            ->willReturn(2);
+        $processResult = new ProcessResult('', 2, '');
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
@@ -212,10 +213,13 @@ class GitTest extends TestCase
 
     public function testAbortRebase(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'rebase --abort');
+            ->with('/', 'rebase --abort')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->abortRebase('/');
@@ -224,10 +228,13 @@ class GitTest extends TestCase
 
     public function testForcePush(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'push -u origin --all --force-with-lease');
+            ->with('/', 'push -u origin --all --force-with-lease')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->forcePush('/');
@@ -236,10 +243,13 @@ class GitTest extends TestCase
 
     public function testResetCurrentBranch(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'reset --hard main');
+            ->with('/', 'reset --hard main')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->resetCurrentBranch('/', 'main');
@@ -248,10 +258,13 @@ class GitTest extends TestCase
 
     public function testCommit(): void
     {
+        $processResult = new ProcessResult('', 0, '');
+
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"');
+            ->with('/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"')
+            ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
         $git->commit('/', 'Message');
