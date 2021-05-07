@@ -11,3 +11,7 @@ parameters:
         - worker/bin
         - worker/src
         - worker/tests
+
+    earlyTerminatingMethodCalls:
+        PHPMate\Dashboard\Security\BasicAuthChecker:
+            - terminateWithAuthenticationRequest

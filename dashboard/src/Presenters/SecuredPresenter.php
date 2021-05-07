@@ -20,6 +20,7 @@ abstract class SecuredPresenter extends Presenter
 
 
     /**
+     * @param \ReflectionMethod $element
      * @throws ForbiddenRequestException
      */
     public function checkRequirements($element): void

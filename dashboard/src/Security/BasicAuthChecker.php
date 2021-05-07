@@ -29,7 +29,7 @@ final class BasicAuthChecker
             $this->terminateWithAuthenticationRequest();
         }
 
-        $encodedCredentials = Strings::after($authorizationHeaderValue, 'Basic ');
+        $encodedCredentials = (string) Strings::after($authorizationHeaderValue, 'Basic ');
         [$username, $password] = explode(':', base64_decode($encodedCredentials));
 
         if ($this->username !== $username || $this->password !== $password) {
