@@ -20,11 +20,23 @@
     </div>
 
     <div class="col-9">
-            <pre n:inner-foreach="$job->getLogs() as $processResult">
-<b>{$processResult->command}</b>{if $processResult->output !== ''}
-{$processResult->output}{/if}
 
-            </pre>
+        <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
+            {foreach $job->getLogs() as $processResult}
+                <div style="margin: 1.5em 0;color: #fff;">
+                    <a style="color: #fff;" n:tag-if="$processResult->output !== ''" data-bs-toggle="collapse" href="#process-{$iterator}" role="button" aria-expanded="false" aria-controls="process-{$iterator}">
+                        <code style="color: #fff;">
+                            <b>{$processResult->command}</b>
+                        </code>
+                    </a>
+                    <div class="collapse" id="process-{$iterator}" n:if="$processResult->output !== ''">
+                        <pre style="margin: 0;">{$processResult->output}</pre>
+                    </div>
+                </div>
+
+            {/foreach}
+        </div>
+
     </div>
 </div>
 
