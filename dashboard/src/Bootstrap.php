@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Dashboard;
 
 use Nette\Bootstrap\Configurator;
+use Symfony\Component\Dotenv\Dotenv;
 
 
 class Bootstrap
@@ -13,6 +14,9 @@ class Bootstrap
     {
         $configurator = new Configurator;
 
+        (new Dotenv())
+            ->usePutenv()
+            ->loadEnv(__DIR__ . '/../.env');
 
         if (isset($_ENV['APP_DEBUG']) && (bool) $_ENV['APP_DEBUG'] === true) {
             $configurator->setDebugMode(true);
