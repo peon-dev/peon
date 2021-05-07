@@ -35,8 +35,7 @@
         "nette/utils": "^3.2",
         "latte/latte": "^2.9",
         "tracy/tracy": "^2.8",
-        "phpstan/phpstan-nette": "^0.12.17",
-        "wodcz/nette-dotenv": "^2.0"
+        "phpstan/phpstan-nette": "^0.12.17"
     },
     "autoload": {
         "psr-4": {
