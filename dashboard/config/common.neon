@@ -2,6 +2,7 @@ application:
     scanDirs: false
     scanComposer: false
     errorPresenter: Error
+    catchExceptions: true
     mapping:
         *: [PHPMate\Dashboard, Modules\*, Presenters\*Presenter]
 
@@ -16,3 +17,4 @@ parameters:
 services:
     - PHPMate\Dashboard\Router\RouterFactory::createRouter
     - PHPMate\Worker\Infrastructure\Job\FileSystem\FileSystemJobRepository(%jobsDirectory%)
+    - PHPMate\Dashboard\Security\BasicAuthChecker('a', 'b') # TODO: env vars

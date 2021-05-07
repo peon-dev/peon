@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace PHPMate\Dashboard\Presenters;
 
 use Nette\Application\UI\Presenter;
+use Nette\Utils\Strings;
 use PHPMate\Worker\Domain\Job\JobRepository;
 
 /**
  * @property HomepageTemplate $template
  */
-final class HomepagePresenter extends Presenter
+final class HomepagePresenter extends SecuredPresenter
 {
     public function __construct(
         private JobRepository $jobRepository
