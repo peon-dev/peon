@@ -1,0 +1,8 @@
+.list-group.jobs-list-group .active {
+    background: #eee;
+    border-color: #bbb;
+}
+
+.list-group.jobs-list-group .active h5 {
+    color: #000;
+}
