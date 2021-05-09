@@ -12,6 +12,7 @@ final class ProcessResult
     public function __construct(
         public string $command,
         public int $exitCode,
-        public string $output
+        public string $output,
+        public float $executionTime
     ) { }
 }

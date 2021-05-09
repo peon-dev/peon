@@ -21,7 +21,7 @@ class ComposerTest extends TestCase
     {
         $projectDirectory = '/';
 
-        $emptyProcessResult = new ProcessResult('', 0, '');
+        $emptyProcessResult = new ProcessResult('', 0, '', 0);
         $composerBinary = $this->createMock(ComposerBinary::class);
         $composerBinary->expects(self::once())
             ->method('executeCommand')

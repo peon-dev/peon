@@ -15,11 +15,13 @@ final class SymfonyProcessToProcessResultMapper
     public static function map(Process $process): ProcessResult
     {
         $output = trim($process->getOutput() . ' ' . $process->getErrorOutput());
+        $executionTime = (float) $process->getLastOutputTime() - $process->getStartTime();
 
         return new ProcessResult(
             $process->getCommandLine(),
             (int) $process->getExitCode(),
             $output,
+            $executionTime
         );
     }
 }

@@ -30,7 +30,7 @@ class RectorTest extends TestCase
     public function testProcess(RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
     {
         $projectDirectory = '/';
-        $dummyProcessResult = new ProcessResult('', 0, '');
+        $dummyProcessResult = new ProcessResult('', 0, '', 0);
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
@@ -52,7 +52,7 @@ class RectorTest extends TestCase
         $this->expectExceptionMessage('Message');
 
         $projectDirectory = '/';
-        $processResult = new ProcessResult('', 1, 'Message');
+        $processResult = new ProcessResult('', 1, 'Message', 0);
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())

@@ -14,7 +14,7 @@ final class ProcessLoggerTest extends TestCase
      */
     public function testProcessOutputWillBeSanitized(string $processOutput, string $expectedSanitizedOutput): void
     {
-        $processResult = new ProcessResult('', 0, $processOutput);
+        $processResult = new ProcessResult('', 0, $processOutput, 0);
 
         $logger = new ProcessLogger();
         $logger->logResult($processResult);
