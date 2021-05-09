@@ -7,7 +7,7 @@ namespace PHPMate\Dashboard\Presenters;
 use Nette\Bridges\ApplicationLatte\Template;
 use PHPMate\Worker\Domain\Job\Job;
 
-class HomepageTemplate extends Template
+class JobTemplate extends Template
 {
     /**
      * @var string
@@ -24,5 +24,5 @@ class HomepageTemplate extends Template
      */
     public array $jobs = [];
 
-    public Job $activeJob;
+    public ?Job $activeJob;
 }

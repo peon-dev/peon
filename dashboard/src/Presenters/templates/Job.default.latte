@@ -1,13 +1,19 @@
-{extends '../@layout.latte'}
-{templateType PHPMate\Dashboard\Presenters\HomepageTemplate}
+{templateType PHPMate\Dashboard\Presenters\JobTemplate}
 
 {block content}
-<div class="row">
+
+{if count($jobs) === 0}
+    <div class="alert alert-dark" role="alert">
+        No jobs executed yet!
+    </div>
+{/if}
+
+<div class="row" n:if="count($jobs) > 0">
     <div class="col-3">
         <div class="list-group jobs-list-group">
 
             {foreach $jobs as $job}
-                <a n:href="detail, id => $job->getTimestamp()" n:class="
+                <a n:href="this, id => $job->getTimestamp()" n:class="
                     list-group-item,
                     list-group-item-action,
                     isset($activeJob) && $activeJob->getTimestamp() === $job->getTimestamp() ? active
@@ -45,8 +51,28 @@
     </div>
 
     <div class="col-9">
+        {if $activeJob === null}
+            <div class="alert alert-info bg-gradient">
+                Pick executed job to display details.
+            </div>
+        {else}
+            <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
+                {foreach $activeJob->getLogs() as $processResult}
+                    <div style="margin: 1.5em 0;color: #fff;">
+                        <a style="color: #fff;" n:tag-if="$processResult->output !== ''" data-bs-toggle="collapse" href="#process-{$iterator}" role="button" aria-expanded="false" aria-controls="process-{$iterator}">
+                            <code style="color: #fff;">
+                                <b>{$processResult->command}</b>
+                            </code>
+                            <span>({$processResult->executionTime|number:0}s)</span>
+                        </a>
+                        <div class="collapse" id="process-{$iterator}" n:if="$processResult->output !== ''">
+                            <pre style="margin: 0;">{$processResult->output}</pre>
+                        </div>
+                    </div>
 
-        {block jobDetail}{/block}
+                {/foreach}
+            </div>
+        {/if}
 
     </div>
 </div>
