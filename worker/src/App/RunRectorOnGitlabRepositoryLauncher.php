@@ -27,12 +27,13 @@ class RunRectorOnGitlabRepositoryLauncher
         $now = $this->clock->now();
         $job = new Job($now->getTimestamp());
         $this->jobRepository->save($job);
+        $startTime = microtime(true);
 
         try {
             $this->useCase->__invoke($command);
-            $job->markAsSucceeded();
+            $job->markAsSucceeded($this->getExecutionTime($startTime));
         } catch (\Throwable $exception) {
-            $job->markAsFailed();
+            $job->markAsFailed($this->getExecutionTime($startTime));
 
             throw $exception;
         } finally {
@@ -42,5 +43,13 @@ class RunRectorOnGitlabRepositoryLauncher
 
             $this->jobRepository->save($job);
         }
+    }
+
+
+    private function getExecutionTime(float $startTime): float
+    {
+        $finishTime = microtime(true);
+
+        return $finishTime - $startTime;
     }
 }

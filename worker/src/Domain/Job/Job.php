@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Worker\Domain\Job;
 
+use JetBrains\PhpStorm\Immutable;
 use PHPMate\Worker\Domain\Process\ProcessResult;
 
 final class Job
@@ -18,16 +19,14 @@ final class Job
      */
     private array $logs = [];
 
-    private string $status;
+    private string $status = self::STATUS_STARTED;
 
-    private ?int $duration = null; // TODO
+    private ?float $executionTime = null;
 
 
     public function __construct(
         private int $timestamp,
-    ) {
-        $this->status = self::STATUS_STARTED;
-    }
+    ) {}
 
 
     public function addLog(ProcessResult $processResult): void
@@ -36,14 +35,16 @@ final class Job
     }
 
 
-    public function markAsSucceeded(): void
+    public function markAsSucceeded(float $executionTime): void
     {
+        $this->executionTime = $executionTime;
         $this->status = self::STATUS_SUCCEEDED;
     }
 
 
-    public function markAsFailed(): void
+    public function markAsFailed(float $executionTime): void
     {
+        $this->executionTime = $executionTime;
         $this->status = self::STATUS_FAILED;
     }
 
