@@ -8,7 +8,7 @@
                     <code style="color: #fff;">
                         <b>{$processResult->command}</b>
                     </code>
-                    <span>(14s)</span>
+                    <span>({$processResult->executionTime|number:0}s)</span>
                 </a>
                 <div class="collapse" id="process-{$iterator}" n:if="$processResult->output !== ''">
                     <pre style="margin: 0;">{$processResult->output}</pre>
