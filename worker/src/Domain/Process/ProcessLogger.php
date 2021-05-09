@@ -31,7 +31,7 @@ final class ProcessLogger
 
 
     /**
-     * @see https://regex101.com/r/AQDD6L/1
+     * @see https://regex101.com/r/2EhyJG/2
      */
     private function sanitizeProcessResult(ProcessResult $processResult): ProcessResult
     {
