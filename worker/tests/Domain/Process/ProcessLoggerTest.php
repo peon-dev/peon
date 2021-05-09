@@ -38,6 +38,21 @@ final class ProcessLoggerTest extends TestCase
         ];
 
         yield [
+            'git clone http://username:password-password@gitlab.com/phpmate/phpmate.git .',
+            'git clone http://username:****@gitlab.com/phpmate/phpmate.git .',
+        ];
+
+        yield [
+            'git clone git://username:password-password@gitlab.com/phpmate/phpmate.git .',
+            'git clone git://username:****@gitlab.com/phpmate/phpmate.git .',
+        ];
+
+        yield [
+            "git clone https://username:password-password@gitlab.com/phpmate/phpmate.git .\ngit clone https://username:password-password@gitlab.com/phpmate/phpmate.git .",
+            "git clone https://username:****@gitlab.com/phpmate/phpmate.git .\ngit clone https://username:****@gitlab.com/phpmate/phpmate.git .",
+        ];
+
+        yield [
             'git clone https://username@gitlab.com/phpmate/phpmate.git .',
             'git clone https://username@gitlab.com/phpmate/phpmate.git .',
         ];
