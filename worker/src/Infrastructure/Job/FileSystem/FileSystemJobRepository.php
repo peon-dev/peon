@@ -7,6 +7,7 @@ namespace PHPMate\Worker\Infrastructure\Job\FileSystem;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 use PHPMate\Worker\Domain\Job\Job;
+use PHPMate\Worker\Domain\Job\JobNotFound;
 use PHPMate\Worker\Domain\Job\JobRepository;
 
 final class FileSystemJobRepository implements JobRepository
@@ -52,6 +53,12 @@ final class FileSystemJobRepository implements JobRepository
 
     public function get(int $id): Job
     {
-        return $this->findAll()[$id];
+        $jobs = $this->findAll();
+
+        if (!isset($jobs[$id])) {
+            throw new JobNotFound();
+        }
+
+        return $jobs[$id];
     }
 }

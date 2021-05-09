@@ -8,11 +8,15 @@ interface JobRepository
 {
     public function save(Job $job): void;
 
+
     /**
      * @return Job[]
      */
     public function findAll(): array;
 
 
+    /**
+     * @throws JobNotFound
+     */
     public function get(int $id): Job;
 }
