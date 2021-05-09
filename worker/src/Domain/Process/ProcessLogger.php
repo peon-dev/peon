@@ -36,10 +36,12 @@ final class ProcessLogger
     private function sanitizeProcessResult(ProcessResult $processResult): ProcessResult
     {
         $regex = '/([\w-]*:)(?<password>[\w-]*)(@[\w-]*\.\w*)/m';
+
+        $sanitizedCommand = Strings::replace($processResult->command, $regex, '${1}****${3}');
         $sanitizedOutput = Strings::replace($processResult->output, $regex, '${1}****${3}');
 
         return new ProcessResult(
-            $processResult->command,
+            $sanitizedCommand,
             $processResult->exitCode,
             $sanitizedOutput,
             $processResult->executionTime

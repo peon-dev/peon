@@ -12,9 +12,9 @@ final class ProcessLoggerTest extends TestCase
     /**
      * @dataProvider provideTestProcessOutputWillBeSanitizedData
      */
-    public function testProcessOutputWillBeSanitized(string $processOutput, string $expectedSanitizedOutput): void
+    public function testProcessOutputWillBeSanitized(string $sensitiveInfo, string $expectedSanitization): void
     {
-        $processResult = new ProcessResult('', 0, $processOutput, 0);
+        $processResult = new ProcessResult($sensitiveInfo, 0, $sensitiveInfo, 0);
 
         $logger = new ProcessLogger();
         $logger->logResult($processResult);
@@ -23,7 +23,8 @@ final class ProcessLoggerTest extends TestCase
 
         $loggedResult = $logs[array_key_first($logs)];
 
-        self::assertSame($expectedSanitizedOutput, $loggedResult->output);
+        self::assertSame($expectedSanitization, $loggedResult->command);
+        self::assertSame($expectedSanitization, $loggedResult->output);
     }
 
 
