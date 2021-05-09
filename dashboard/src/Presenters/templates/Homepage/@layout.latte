@@ -27,8 +27,16 @@
                                 </svg>
                             {/if}
 
-                            Rector</h5>
-                        <small class="text-muted">14s</small>
+                            Rector
+                        </h5>
+                        {if $job->getExecutionTime() !== null}
+                            <small class="text-muted">
+                                {if $job->getExecutionTime() >= 60}
+                                    {$job->getExecutionTime() / 60|floor}m
+                                {/if}
+                                {$job->getExecutionTime() % 60|round}s
+                            </small>
+                        {/if}
                     </div>
                     <small class="text-muted">{$job->getTimestamp()|date:'j. n. H:i'}</small>
                 </a>

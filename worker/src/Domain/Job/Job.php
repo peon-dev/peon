@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Worker\Domain\Job;
 
-use JetBrains\PhpStorm\Immutable;
 use PHPMate\Worker\Domain\Process\ProcessResult;
 
 final class Job
@@ -85,5 +84,11 @@ final class Job
     public function getLogs(): array
     {
         return $this->logs;
+    }
+
+
+    public function getExecutionTime(): ?float
+    {
+        return $this->executionTime;
     }
 }
