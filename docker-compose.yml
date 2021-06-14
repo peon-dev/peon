@@ -2,7 +2,6 @@ version: "3.7"
 services:
     dashboard:
         image: phpmate
-        build: .
         volumes:
             - .:/var/www
         working_dir: /var/www/dashboard
@@ -16,7 +15,6 @@ services:
 
     php:
         image: phpmate
-        build: .
         volumes:
             - .:/var/www
         working_dir: /var/www
@@ -25,7 +23,9 @@ services:
 
     composer:
         image: phpmate
-        build: .
+        build:
+            context: .
+            target: dev
         volumes:
             - .:/var/www
         working_dir: /var/www

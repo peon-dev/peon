@@ -1,0 +1,13 @@
+/vendor/
+
+.env.local
+.env.*.local
+
+.phpunit.result.cache
+
+var/
+
+docker-compose.yml
+docker-compose.override.yml
+
+projects-bin/
