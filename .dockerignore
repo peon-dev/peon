@@ -6,6 +6,7 @@
 .phpunit.result.cache
 
 var/
+!dashboard/var/log/.gitignore
 
 docker-compose.yml
 docker-compose.override.yml
