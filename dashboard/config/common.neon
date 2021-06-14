@@ -2,7 +2,7 @@ application:
     scanDirs: false
     scanComposer: false
     errorPresenter: Error
-    catchExceptions: false
+    catchExceptions: true
     mapping:
         *: [PHPMate\Dashboard, Modules\*, Presenters\*Presenter]
 
