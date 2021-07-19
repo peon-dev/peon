@@ -41,13 +41,13 @@
         "psr-4": {
             "PHPMate\\Dashboard\\": "dashboard/src",
             "PHPMate\\Worker\\": "worker/src",
-            "PHPMate\\Tasks\\": "shared/Tasks/src"
+            "PHPMate\\Tasks\\": "packages/Tasks/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "PHPMate\\Worker\\Tests\\": "worker/tests",
-            "PHPMate\\Tasks\\Tests\\": "shared/Tasks/tests"
+            "PHPMate\\Tasks\\Tests\\": "packages/Tasks/tests"
         }
     },
     "require-dev": {

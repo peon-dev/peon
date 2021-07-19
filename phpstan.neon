@@ -11,7 +11,7 @@ parameters:
         - worker/bin
         - worker/src
         - worker/tests
-        - shared
+        - packages
 
     earlyTerminatingMethodCalls:
         PHPMate\Dashboard\Security\BasicAuthChecker:
