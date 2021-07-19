@@ -9,15 +9,12 @@ use PHPMate\Worker\Domain\Job\Job;
 
 class JobTemplate extends Template
 {
-    /**
-     * @var string
-     */
-    public $baseUrl;
+    public string $baseUrl;
 
     /**
      * @var \stdClass[]
      */
-    public $flashes = [];
+    public array $flashes = [];
 
     /**
      * @var Job[]
