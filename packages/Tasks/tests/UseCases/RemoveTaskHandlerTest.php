@@ -16,10 +16,9 @@ final class RemoveTaskHandlerTest extends TestCase
         // TODO: get + assert exists
 
         $tasks = $this->createMock(Tasks::class);
-        $tasks->expects(self::once())->method('get');
         $tasks->expects(self::once())->method('remove');
 
-        $handler = new RemoveTaskHandler();
+        $handler = new RemoveTaskHandler($tasks);
         $handler->handle(new TaskId(''));
 
         // TODO: get + assert not exists
@@ -31,10 +30,10 @@ final class RemoveTaskHandlerTest extends TestCase
         $this->expectException(TaskNotFound::class);
 
         $tasks = $this->createMock(Tasks::class);
-        $tasks->expects(self::once())->method('get')
+        $tasks->expects(self::once())->method('remove')
             ->willThrowException(new TaskNotFound());
 
-        $handler = new RemoveTaskHandler();
+        $handler = new RemoveTaskHandler($tasks);
         $handler->handle(new TaskId(''));
     }
 }

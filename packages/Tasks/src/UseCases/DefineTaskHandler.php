@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Tasks\UseCases;
 
 use PHPMate\Tasks\Task;
+use PHPMate\Tasks\TaskCanNotHaveNoScripts;
 use PHPMate\Tasks\Tasks;
 
 final class DefineTaskHandler
@@ -16,6 +17,7 @@ final class DefineTaskHandler
 
     /**
      * @param array<string> $scripts
+     * @throws TaskCanNotHaveNoScripts
      */
     public function handle(string $name, array $scripts): void
     {
