@@ -8,6 +8,8 @@ interface Tasks
 {
     public function provideNextIdentity(): TaskId;
 
+    public function save(Task $task): void;
+
     public function remove(TaskId $taskId): void;
 
     /**
