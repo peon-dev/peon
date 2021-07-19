@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Worker\Domain\Task;
+namespace PHPMate\Tasks;
 
 final class TaskNotFound extends \RuntimeException
 {
