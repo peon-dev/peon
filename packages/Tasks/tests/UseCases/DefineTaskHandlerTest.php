@@ -15,11 +15,12 @@ final class DefineTaskHandlerTest extends TestCase
         // TODO: get + assert not exists
 
         $tasks = $this->createMock(Tasks::class);
-        $tasks->expects(self::once())
+        $tasks
+            ->expects(self::once())
             ->method('provideNextIdentity')
             ->willReturn(new TaskId(''));
-
-        $tasks->expects(self::once())
+        $tasks
+            ->expects(self::once())
             ->method('save');
 
         $handler = new DefineTaskHandler($tasks);

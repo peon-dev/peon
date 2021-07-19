@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tasks;
 
-final class Task
+class Task
 {
     /**
      * @param array<string> $scripts
@@ -17,6 +17,20 @@ final class Task
     ) {
         $this->checkThereAreSomeScripts($scripts);
     }
+
+
+    /**
+     * @param array<string> $scripts
+     * @throws TaskCanNotHaveNoScripts
+     */
+    public function redefine(string $name, array $scripts): void
+    {
+        $this->checkThereAreSomeScripts($scripts);
+
+        $this->name = $name;
+        $this->scripts = $scripts;
+    }
+
 
     /**
      * @param array<string> $scripts

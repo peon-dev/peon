@@ -18,7 +18,7 @@ final class RedefineTaskHandlerTest extends TestCase
         $tasks->expects(self::once())->method('get');
         $tasks->expects(self::once())->method('save');
 
-        $handler = new RedefineTaskHandler();
+        $handler = new RedefineTaskHandler($tasks);
         $handler->handle(new TaskId(''), 'Name', []);
 
         // TODO: get + assert is changed
@@ -33,7 +33,7 @@ final class RedefineTaskHandlerTest extends TestCase
         $tasks->expects(self::once())->method('get')
             ->willThrowException(new TaskNotFound());
 
-        $handler = new RedefineTaskHandler();
+        $handler = new RedefineTaskHandler($tasks);
         $handler->handle(new TaskId(''), 'Name', []);
     }
 }

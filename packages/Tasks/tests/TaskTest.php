@@ -20,4 +20,14 @@ class TaskTest extends TestCase
             []
         );
     }
+
+
+    public function testRedefineWithNoScriptsWillThrowException(): void
+    {
+        $this->expectException(TaskCanNotHaveNoScripts::class);
+
+        $task = new Task(new TaskId(''),'', ['']);
+
+        $task->redefine('', []);
+    }
 }
