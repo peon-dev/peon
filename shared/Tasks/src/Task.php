@@ -8,6 +8,7 @@ final class Task
 {
     /**
      * @param array<string> $scripts
+     * @throws TaskCanNotHaveNoScripts
      */
     public function __construct(
         private TaskId $taskId,
