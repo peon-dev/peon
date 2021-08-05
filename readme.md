@@ -19,20 +19,34 @@ services:
         environment:
             BASIC_AUTH_USER: "phpmate"
             BASIC_AUTH_PASSWORD: "phpmate"
+            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
         ports:
             - 8080:8080
-        command: [ "php", "-S", "0.0.0.0:8080", "-t", "dashboard/public" ]
         restart: unless-stopped
+        command: [ "php", "-S", "0.0.0.0:8080", "-t", "dashboard/public" ]
 
     worker:
         image: ghcr.io/phpmate/phpmate:master
-        command: [ "worker/bin/worker" ]
+        environment:
+            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
         restart: unless-stopped
+        command: [ "worker/bin/worker" ]
 
     scheduler:
         image: ghcr.io/phpmate/phpmate:master
-        command: [ "scheduler/bin/scheduler" ]
+        environment:
+            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
         restart: unless-stopped
+        command: [ "scheduler/bin/scheduler" ]
+
+    mariadb:
+        image: mariadb
+        restart: unless-stopped
+        volumes:
+            - ./db-data:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: phpmate
+            MYSQL_ROOT_PASSWORD: root
 ```
 
 Then run `docker-compose --project-name=phpmate up`
