@@ -40,7 +40,7 @@ services:
         command: [ "scheduler/bin/scheduler" ]
 
     mariadb:
-        image: mariadb
+        image: mariadb:10.6
         restart: unless-stopped
         volumes:
             - ./db-data:/var/lib/mysql
@@ -53,5 +53,5 @@ Then run `docker-compose --project-name=phpmate up`
 
 It is recommended to set up daily cron that will pull newer Docker images:
 ```
-0 0 * * *    cd /path/to/your-docker-compose && docker-compose pull
+0 0 * * *    docker-compose -f /path/to/docker-compose.yml pull
 ```
