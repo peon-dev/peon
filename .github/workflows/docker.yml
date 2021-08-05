@@ -34,6 +34,7 @@ jobs:
                         type=semver,pattern={{major}}.{{minor}}
                         type=semver,pattern={{major}}
                         type=sha
+
             -   name: Set up QEMU
                 uses: docker/setup-qemu-action@v1
 
@@ -55,3 +56,4 @@ jobs:
                     push: ${{ github.event_name != 'pull_request' }}
                     tags: ${{ steps.meta.outputs.tags }}
                     labels: ${{ steps.meta.outputs.labels }}
+                    platforms: linux/amd64,linux/arm64
