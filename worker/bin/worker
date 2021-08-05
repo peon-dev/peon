@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+
+while(true) {
+    fwrite(STDOUT, "worker alive\n");
+
+    sleep(15);
+}
