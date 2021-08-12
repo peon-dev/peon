@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Dashboard\Presenters;
 
-use PHPMate\Worker\Domain\Job\JobNotFound;
-use PHPMate\Worker\Domain\Job\JobRepository;
+use PHPMate\Domain\Job\JobNotFound;
+use PHPMate\Domain\Job\JobRepository;
 
 /**
  * @property JobTemplate $template

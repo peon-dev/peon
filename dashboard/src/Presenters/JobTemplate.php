@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Dashboard\Presenters;
 
 use Nette\Bridges\ApplicationLatte\Template;
-use PHPMate\Worker\Domain\Job\Job;
+use PHPMate\Domain\Job\Job;
 
 class JobTemplate extends Template
 {
