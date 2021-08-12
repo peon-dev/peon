@@ -12,7 +12,7 @@ di:
         tags: no
 
 parameters:
-    jobsDirectory: ../../worker/data
+    jobsDirectory: ../../phpmate/data
 
     security:
         basicAuth:
@@ -21,5 +21,5 @@ parameters:
 
 services:
     - PHPMate\Dashboard\Router\RouterFactory::createRouter
-    - PHPMate\Worker\Infrastructure\Job\FileSystem\FileSystemJobRepository(%jobsDirectory%)
+    - PHPMate\Infrastructure\Job\FileSystem\FileSystemJobRepository(%jobsDirectory%)
     - PHPMate\Dashboard\Security\BasicAuthChecker(%security.basicAuth.username%, %security.basicAuth.username%)

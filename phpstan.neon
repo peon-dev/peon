@@ -8,10 +8,11 @@ parameters:
     level: max
     paths:
         - dashboard/src
+        - phpmate/bin
+        - phpmate/src
+        - phpmate/tests
         - worker/bin
-        - worker/src
-        - worker/tests
-        - packages
+        - scheduler/bin
 
     earlyTerminatingMethodCalls:
         PHPMate\Dashboard\Security\BasicAuthChecker:

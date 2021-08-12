@@ -40,14 +40,12 @@
     "autoload": {
         "psr-4": {
             "PHPMate\\Dashboard\\": "dashboard/src",
-            "PHPMate\\Worker\\": "worker/src",
-            "PHPMate\\Tasks\\": "packages/Tasks/src"
+            "PHPMate\\": "phpmate/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPMate\\Worker\\Tests\\": "worker/tests",
-            "PHPMate\\Tasks\\Tests\\": "packages/Tasks/tests"
+            "PHPMate\\Tests\\": "phpmate/tests"
         }
     },
     "require-dev": {
