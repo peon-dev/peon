@@ -15,6 +15,7 @@ use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use Symfony\Component\Process\Process;
 
 final class ExecuteJobUseCase
 {
@@ -54,7 +55,10 @@ final class ExecuteJobUseCase
             $this->buildApplication->build($projectDirectory);
 
             foreach ($job->commands as $jobCommand) {
-                // run process with script
+                // TODO: decouple
+                $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
+                $process->mustRun();
+                // TODO: log process output somewhere so we can display it on UI
             }
 
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
