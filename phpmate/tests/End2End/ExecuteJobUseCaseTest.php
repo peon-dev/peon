@@ -193,13 +193,13 @@ class ExecuteJobUseCaseTest extends TestCase
     {
         $mergeRequests = $this->findMergeRequests($project, $branchName);
 
-        self::assertCount(1, $mergeRequests);
+        self::assertCount(1, $mergeRequests, 'Merge request should exist!');
         self::assertSame('master', $mergeRequests[0]['target_branch']);
         self::assertSame('[PHP Mate] Task End2End Test', $mergeRequests[0]['title']);
 
         $commits = $this->gitlabHttpClient->mergeRequests()->commits($project,$mergeRequests[0]['iid']);
 
-        self::assertNotEmpty($commits, 'No commits in merge request found!');
+        self::assertNotEmpty($commits, 'Merge request should contain commits!');
     }
 
 
