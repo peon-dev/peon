@@ -6,6 +6,7 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
+use PHPMate\Domain\Process\ProcessFailed;
 use PHPMate\Domain\Tools\Composer\ComposerCommandFailed;
 use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
 use PHPMate\Domain\Tools\Git\Git;
@@ -15,6 +16,7 @@ use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 final class ExecuteJobUseCase
@@ -56,9 +58,14 @@ final class ExecuteJobUseCase
 
             foreach ($job->commands as $jobCommand) {
                 // TODO: decouple
-                $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
-                $process->mustRun();
-                // TODO: log process output somewhere so we can display it on UI
+                try {
+                    $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
+                    $process->mustRun();
+                } catch (ProcessFailedException $processFailedException) {
+                    throw new ProcessFailed($processFailedException->getMessage(), previous: $processFailedException);
+                } finally {
+                    // TODO: log process output somewhere so we can display it on UI
+                }
             }
 
             if ($this->git->hasUncommittedChanges($projectDirectory)) {

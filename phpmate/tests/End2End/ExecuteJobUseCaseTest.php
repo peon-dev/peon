@@ -9,13 +9,13 @@ use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Job\JobsCollection;
+use PHPMate\Domain\Process\ProcessFailed;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
-use PHPMate\Domain\Tools\Rector\RectorCommandFailed;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
 use PHPMate\UseCase\ExecuteJob;
@@ -112,7 +112,7 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->useCase->handle(new ExecuteJob($jobId));
 
-        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
         self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
     }
@@ -163,7 +163,7 @@ class ExecuteJobUseCaseTest extends TestCase
 
     /**
      * Scenario "Process fails":
-     *  - rector process fails
+     *  - job process fails
      *  - notification is dispatched
      *  - mr will not be opened
      */
@@ -183,7 +183,7 @@ class ExecuteJobUseCaseTest extends TestCase
         // TODO: Find way how to assert that notification was dispatched
 
         self::assertTrue($this->jobsCollection->get($jobId)->hasFailed(), 'Job should be failed!');
-        self::assertInstanceOf(RectorCommandFailed::class, $exception);
+        self::assertInstanceOf(ProcessFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
     }
@@ -193,7 +193,7 @@ class ExecuteJobUseCaseTest extends TestCase
     {
         $mergeRequests = $this->findMergeRequests($project, $branchName);
 
-        self::assertCount(1, $mergeRequests, 'Merge request should exist!');
+        self::assertCount(1, $mergeRequests, 'Merge request should be opened!');
         self::assertSame('master', $mergeRequests[0]['target_branch']);
         self::assertSame('[PHP Mate] Task End2End Test', $mergeRequests[0]['title']);
 
@@ -207,7 +207,7 @@ class ExecuteJobUseCaseTest extends TestCase
     {
         $mergeRequests = $this->findMergeRequests($project, $branchName);
 
-        self::assertCount(0, $mergeRequests);
+        self::assertCount(0, $mergeRequests, 'Merge request should not be opened!');
     }
 
 
