@@ -15,7 +15,7 @@ final class SymfonyNotifier implements Notifier
     ) {}
 
 
-    public function notifyAboutFailedCommand(\LogicException $exception): void
+    public function notifyAboutFailedCommand(\RuntimeException $exception): void
     {
         $notification = (new Notification('Failed during command execution!'))
             ->content($exception->getMessage())

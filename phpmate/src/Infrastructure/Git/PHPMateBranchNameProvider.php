@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Infrastructure\Git;
 
-use PHPMate\Domain\Git\BranchNameProvider;
+use Nette\Utils\Strings;
+use PHPMate\Domain\Tools\Git\BranchNameProvider;
 
 final class PHPMateBranchNameProvider implements BranchNameProvider
 {
-    public function provideForProcedure(string $procedure): string
+    public function provideForTask(string $taskName): string
     {
-        return 'phpmate/' . $procedure;
+        return 'phpmate/' . Strings::webalize($taskName);
     }
 }

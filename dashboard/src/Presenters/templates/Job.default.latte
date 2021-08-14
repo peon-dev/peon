@@ -13,10 +13,10 @@
         <div class="list-group jobs-list-group">
 
             {foreach $jobs as $job}
-                <a n:href="this, id => $job->getTimestamp()" n:class="
+                <a n:href="this, id => $job->timestamp" n:class="
                     list-group-item,
                     list-group-item-action,
-                    isset($activeJob) && $activeJob->getTimestamp() === $job->getTimestamp() ? active
+                    isset($activeJob) && $activeJob->timestamp === $job->timestamp ? active
                 ">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">
@@ -38,16 +38,16 @@
 
                             Rector
                         </h5>
-                        {if $job->getExecutionTime() !== null}
+                        {if $job->executionTime !== null}
                             <small class="text-muted">
-                                {if $job->getExecutionTime() >= 60}
-                                    {$job->getExecutionTime() / 60|floor}m
+                                {if $job->executionTime >= 60}
+                                    {$job->executionTime / 60|floor}m
                                 {/if}
-                                {$job->getExecutionTime() % 60|round}s
+                                {$job->executionTime % 60|round}s
                             </small>
                         {/if}
                     </div>
-                    <small class="text-muted">{$job->getTimestamp()|date:'j. n. H:i'}</small>
+                    <small class="text-muted">{$job->timestamp|date:'j. n. H:i'}</small>
                 </a>
             {/foreach}
         </div>
@@ -60,7 +60,7 @@
             </div>
         {else}
             <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
-                {foreach $activeJob->getLogs() as $processResult}
+                {foreach $activeJob->processResults as $processResult}
                     <div style="margin: 1.5em 0;color: #fff;">
                         <a style="color: #fff;" n:tag-if="$processResult->output !== ''" data-bs-toggle="collapse" href="#process-{$iterator}" role="button" aria-expanded="false" aria-controls="process-{$iterator}">
                             <code style="color: #fff;">

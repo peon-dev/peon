@@ -8,9 +8,9 @@ To get into Docker container (etc for development or debugging):
 docker-compose run --rm php bash
 ```
 
-### Rector on Gitlab repository
+### Rector on GitLab repository
 
-This will run Rector on your Gitlab repository and if there are any changes, open MR for you.
+This will run Rector on your GitLab repository and if there are any changes, open MR for you.
 
 Repository URI **MUST** be https clone url of your repository *(example: https://gitlab.com/phpmate-dogfood/rector.git)*.
 
