@@ -4,8 +4,13 @@ declare(strict_types=1);
 namespace PHPMate\Tests\End2End;
 
 use Gitlab\Client;
+use Gitlab\Exception\RuntimeException;
+use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Job\JobsCollection;
+use PHPMate\Domain\Project\Project;
+use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
@@ -20,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 class ExecuteJobUseCaseTest extends TestCase
 {
     private const JOB_ID = '0';
+    private const PROJECT_ID = '0';
 
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
@@ -27,6 +33,7 @@ class ExecuteJobUseCaseTest extends TestCase
     private Client $gitlabHttpClient;
     private JobsCollection $jobsCollection;
     private ProjectsCollection $projectsCollection;
+    private Clock $clock;
 
 
     protected function setUp(): void
@@ -54,11 +61,17 @@ class ExecuteJobUseCaseTest extends TestCase
         $projectsCollection = $container->get(ProjectsCollection::class);
         $this->projectsCollection = $projectsCollection;
 
+        /** @var Clock $clock */
+        $clock = $container->get(Clock::class);
+        $this->clock = $clock;
+
         /** @var GitLab $gitLab */
         $gitLab = $container->get(GitLab::class);
         $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
         $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
         $this->gitlabHttpClient = $gitLab->createHttpClient($this->gitlabRepository);
+
+        $this->prepareData();
     }
 
 
@@ -78,9 +91,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->useCase->handle(new ExecuteJob($jobId));
 
-        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
     }
 
 
@@ -99,9 +112,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->useCase->handle(new ExecuteJob($jobId));
 
-        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
     }
 
 
@@ -121,9 +134,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->useCase->handle(new ExecuteJob($jobId));
 
-        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
     }
 
 
@@ -142,9 +155,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->useCase->handle(new ExecuteJob($jobId));
 
-        $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
     }
 
 
@@ -169,20 +182,24 @@ class ExecuteJobUseCaseTest extends TestCase
 
         // TODO: Find way how to assert that notification was dispatched
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasFailed());
+        self::assertTrue($this->jobsCollection->get($jobId)->hasFailed(), 'Job should be failed!');
         self::assertInstanceOf(RectorCommandFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
     }
 
 
-    private function assertMergeRequestExists(string $project, string $branchName): void
+    private function assertNonEmptyMergeRequestExists(string $project, string $branchName): void
     {
         $mergeRequests = $this->findMergeRequests($project, $branchName);
 
         self::assertCount(1, $mergeRequests);
         self::assertSame('master', $mergeRequests[0]['target_branch']);
-        self::assertSame('Rector run by PHPMate', $mergeRequests[0]['title']);
+        self::assertSame('[PHP Mate] Task End2End Test', $mergeRequests[0]['title']);
+
+        $commits = $this->gitlabHttpClient->mergeRequests()->commits($project,$mergeRequests[0]['iid']);
+
+        self::assertNotEmpty($commits, 'No commits in merge request found!');
     }
 
 
@@ -196,7 +213,14 @@ class ExecuteJobUseCaseTest extends TestCase
 
     private function deleteRemoteBranch(string $project, string $branchName): void
     {
-        $this->gitlabHttpClient->repositories()->deleteBranch($project, $branchName);
+        try {
+            $this->gitlabHttpClient->repositories()->deleteBranch($project, $branchName);
+        } catch (RuntimeException $runtimeException) {
+            // To not escalate 404 errors
+            if ($runtimeException->getCode() !== 404) {
+                throw $runtimeException;
+            }
+        }
     }
 
 
@@ -219,5 +243,28 @@ class ExecuteJobUseCaseTest extends TestCase
             'state' => 'opened',
             'source_branch' => $sourceBranch,
         ]);
+    }
+
+
+    private function prepareData(): void
+    {
+        $projectId = new ProjectId(self::PROJECT_ID);
+        $project = new Project(
+            $projectId,
+            'Test',
+           $this->gitlabRepository
+        );
+
+        $this->projectsCollection->save($project);
+
+        $job = new Job(
+            new JobId(self::JOB_ID),
+            $projectId,
+            'End2End Test',
+            $this->clock->now()->getTimestamp(),
+            ['vendor/bin/rector process']
+        );
+
+        $this->jobsCollection->save($job);
     }
 }
