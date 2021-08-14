@@ -24,6 +24,6 @@ final class DefineTaskHandler
 
         $task = new Task($taskId, $projectId, $name, $commands);
 
-        $this->tasks->add($task);
+        $this->tasks->save($task);
     }
 }
