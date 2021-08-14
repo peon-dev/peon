@@ -5,6 +5,8 @@ namespace PHPMate\Tests\End2End;
 
 use Gitlab\Client;
 use PHPMate\Domain\Job\JobId;
+use PHPMate\Domain\Job\JobsCollection;
+use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
@@ -23,6 +25,8 @@ class ExecuteJobUseCaseTest extends TestCase
     private RemoteGitRepository $gitlabRepository;
     private ExecuteJobUseCase $useCase;
     private Client $gitlabHttpClient;
+    private JobsCollection $jobsCollection;
+    private ProjectsCollection $projectsCollection;
 
 
     protected function setUp(): void
@@ -41,6 +45,14 @@ class ExecuteJobUseCaseTest extends TestCase
         /** @var BranchNameProvider $branchNameProvider */
         $branchNameProvider = $container->get(BranchNameProvider::class);
         $this->branchName = $branchNameProvider->provideForTask('test');
+
+        /** @var JobsCollection $jobsCollection */
+        $jobsCollection = $container->get(JobsCollection::class);
+        $this->jobsCollection = $jobsCollection;
+
+        /** @var ProjectsCollection $projectsCollection */
+        $projectsCollection = $container->get(ProjectsCollection::class);
+        $this->projectsCollection = $projectsCollection;
 
         /** @var GitLab $gitLab */
         $gitLab = $container->get(GitLab::class);
@@ -62,9 +74,13 @@ class ExecuteJobUseCaseTest extends TestCase
      */
     public function testHappyPath(): void
     {
-        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
+        $jobId = new JobId(self::JOB_ID);
+
+        $this->useCase->handle(new ExecuteJob($jobId));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
     }
 
 
@@ -79,9 +95,13 @@ class ExecuteJobUseCaseTest extends TestCase
     {
         $this->duplicateBranch('already-processed', $this->branchName);
 
-        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
+        $jobId = new JobId(self::JOB_ID);
+
+        $this->useCase->handle(new ExecuteJob($jobId));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
     }
 
 
@@ -97,9 +117,13 @@ class ExecuteJobUseCaseTest extends TestCase
     {
         $this->duplicateBranch('conflict', $this->branchName);
 
-        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
+        $jobId = new JobId(self::JOB_ID);
+
+        $this->useCase->handle(new ExecuteJob($jobId));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
     }
 
 
@@ -114,9 +138,13 @@ class ExecuteJobUseCaseTest extends TestCase
     {
         $this->duplicateBranch('to-be-rebased', $this->branchName);
 
-        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
+        $jobId = new JobId(self::JOB_ID);
+
+        $this->useCase->handle(new ExecuteJob($jobId));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+
+        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded());
     }
 
 
@@ -131,17 +159,20 @@ class ExecuteJobUseCaseTest extends TestCase
         $this->duplicateBranch('process-fail', $this->branchName);
 
         $exception = null;
+        $jobId = new JobId(self::JOB_ID);
 
         try {
-            $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
+            $this->useCase->handle(new ExecuteJob($jobId));
         } catch (\Throwable $exception) {
             // Just to capture
         }
 
         // TODO: Find way how to assert that notification was dispatched
 
+        self::assertTrue($this->jobsCollection->get($jobId)->hasFailed());
         self::assertInstanceOf(RectorCommandFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
+
     }
 
 
