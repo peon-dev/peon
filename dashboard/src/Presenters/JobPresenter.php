@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Dashboard\Presenters;
 
+use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 
@@ -19,12 +20,12 @@ final class JobPresenter extends SecuredPresenter
     }
 
 
-    public function renderDefault(?int $id = null): void
+    public function renderDefault(?string $id = null): void
     {
         $this->template->jobs = $this->jobRepository->findAll();
 
         try {
-            $this->template->activeJob = $id ? $this->jobRepository->get($id) : null;
+            $this->template->activeJob = $id ? $this->jobRepository->get(new JobId($id)) : null;
         } catch (JobNotFound) {
             $this->redirect('this', ['id' => null]);
         }

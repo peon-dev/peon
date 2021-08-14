@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\End2End;
+namespace PHPMate\Tests\Unit\UseCase;
 
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Infrastructure\Memory\InMemoryTasksCollection;

@@ -13,7 +13,6 @@ use PHPMate\Domain\Tools\Git\GitCommandFailed;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Project\PrepareProjectApplicationForJob;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 

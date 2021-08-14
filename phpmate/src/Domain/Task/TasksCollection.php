@@ -8,7 +8,7 @@ interface TasksCollection
 {
     public function provideNextIdentity(): TaskId;
 
-    public function add(Task $task): void;
+    public function save(Task $task): void;
 
     /**
      * @throws TaskNotFound

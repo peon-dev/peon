@@ -23,7 +23,7 @@ final class InMemoryTasksCollection implements TasksCollection
     }
 
 
-    public function add(Task $task): void
+    public function save(Task $task): void
     {
         $this->tasks[$task->taskId->id] = $task;
     }

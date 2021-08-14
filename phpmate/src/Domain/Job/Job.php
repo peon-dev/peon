@@ -18,6 +18,7 @@ final class Job
 
 
     /**
+     * @param array<string> $commands
      * @throws JobHasNoCommands
      */
     public function __construct(
