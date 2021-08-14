@@ -38,7 +38,7 @@ final class ExecuteJobUseCase
     public function handle(ExecuteJob $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
-        $project = $this->projects->get($job->projectId);
+        $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
 
         try {
             $job->start();
