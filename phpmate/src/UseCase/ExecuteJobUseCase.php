@@ -44,7 +44,7 @@ final class ExecuteJobUseCase
             $job->start();
             $this->jobsCollection->save($job);
 
-            $remoteGitRepository = $project->getGitRepository();
+            $remoteGitRepository = $project->remoteGitRepository;
             $localGitRepository = $this->prepareApplicationGitRepository->prepare(
                 $remoteGitRepository->getAuthenticatedUri(),
                 $job->taskName

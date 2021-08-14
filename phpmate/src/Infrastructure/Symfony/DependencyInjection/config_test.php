@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 use PHPMate\Infrastructure\Memory\InMemoryJobsCollection;
+use PHPMate\Infrastructure\Memory\InMemoryProjectsCollection;
+use PHPMate\Infrastructure\Memory\InMemoryTasksCollection;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -24,4 +28,10 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(InMemoryJobsCollection::class);
     $services->alias(JobsCollection::class, InMemoryJobsCollection::class);
+
+    $services->set(InMemoryTasksCollection::class);
+    $services->alias(TasksCollection::class, InMemoryTasksCollection::class);
+
+    $services->set(InMemoryProjectsCollection::class);
+    $services->alias(ProjectsCollection::class, InMemoryProjectsCollection::class);
 };

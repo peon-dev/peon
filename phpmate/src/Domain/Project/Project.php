@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Project;
 
+use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
-interface Project
+#[Immutable]
+class Project
 {
-    public function getGitRepository(): RemoteGitRepository;
+    public function __construct(
+        public ProjectId $projectId,
+        public string $name,
+        public RemoteGitRepository $remoteGitRepository
+    ) {}
 }

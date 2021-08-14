@@ -23,5 +23,5 @@ interface ProjectsCollection
     /**
      * @throws ProjectNotFound
      */
-    public function remove(ProjectId $taskId): void;
+    public function remove(ProjectId $projectId): void;
 }
