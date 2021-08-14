@@ -8,7 +8,7 @@ use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 
-final class RemoveTaskHandler
+final class RemoveTaskUseCase
 {
     public function __construct(
         private TasksCollection $tasks
@@ -18,8 +18,8 @@ final class RemoveTaskHandler
     /**
      * @throws TaskNotFound
      */
-    public function handle(TaskId $taskId): void
+    public function handle(RemoveTask $command): void
     {
-        $this->tasks->remove($taskId);
+        $this->tasks->remove($command->taskId);
     }
 }

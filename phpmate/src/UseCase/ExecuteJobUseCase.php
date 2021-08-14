@@ -16,7 +16,7 @@ use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 
-final class ExecuteJobHandler
+final class ExecuteJobUseCase
 {
     public function __construct(
         private JobsCollection $jobsCollection,
@@ -35,9 +35,9 @@ final class ExecuteJobHandler
      * @throws GitCommandFailed
      * @throws ComposerCommandFailed
      */
-    public function handle(ExecuteJob $useCase): void
+    public function handle(ExecuteJob $command): void
     {
-        $job = $this->jobsCollection->get($useCase->jobId);
+        $job = $this->jobsCollection->get($command->jobId);
         $project = $this->projects->get($job->projectId);
 
         try {
@@ -53,7 +53,7 @@ final class ExecuteJobHandler
 
             $this->buildApplication->build($projectDirectory);
 
-            foreach ($job->commands as $command) {
+            foreach ($job->commands as $jobCommand) {
                 // run process with script
             }
 
@@ -88,6 +88,5 @@ final class ExecuteJobHandler
 
             throw $throwable;
         }
-
     }
 }
