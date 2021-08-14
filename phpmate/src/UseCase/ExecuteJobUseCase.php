@@ -62,20 +62,20 @@ final class ExecuteJobUseCase
                 $this->git->forcePush($projectDirectory);
 
                 // $this->notifier->notifyAboutNewChanges(); // TODO: add test
-            }
+                $branchWithChanges = $localGitRepository->jobBranch;
 
-            $mainBranch = $localGitRepository->mainBranch;
-            $branchWithChanges = $localGitRepository->jobBranch;
+                if ($this->gitProvider->hasMergeRequestForBranch($remoteGitRepository, $branchWithChanges) === false) {
+                    // TODO: [optional] assign to random user from provided list
+                    // TODO: description with list of provided users
+                    $this->gitProvider->openMergeRequest(
+                        $remoteGitRepository,
+                        $localGitRepository->mainBranch,
+                        $branchWithChanges,
+                        '[PHP Mate] Task ' . $job->taskName
+                    );
+                }
 
-            if ($this->gitProvider->hasMergeRequestForBranch($remoteGitRepository, $branchWithChanges) === false) {
-                // TODO: [optional] assign to random user from provided list
-                // TODO: description with list of provided users
-                $this->gitProvider->openMergeRequest(
-                    $remoteGitRepository,
-                    $mainBranch,
-                    $branchWithChanges,
-                    '[PHP Mate] Task ' . $job->taskName
-                );
+                // TODO: consider else (if MR already opened, that new commits were added)
             }
 
             $job->finish();
