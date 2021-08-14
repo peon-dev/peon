@@ -4,22 +4,24 @@ declare(strict_types=1);
 namespace PHPMate\Tests\End2End;
 
 use Gitlab\Client;
+use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Domain\Tools\Rector\RectorCommandFailed;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\ExecuteJobUseCase;
-use PHPMate\UseCase\RunRectorOnGitlabRepository;
-use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
-class ExecuteJobHandlerTest extends TestCase
+class ExecuteJobUseCaseTest extends TestCase
 {
+    private const JOB_ID = '0';
+
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
-    private RunRectorOnGitlabRepositoryUseCase $useCase;
+    private ExecuteJobUseCase $useCase;
     private Client $gitlabHttpClient;
 
 
@@ -33,18 +35,18 @@ class ExecuteJobHandlerTest extends TestCase
         $container = ContainerFactory::create();
 
         /** @var ExecuteJobUseCase $useCase */
-        $useCase = $container->get(RunRectorOnGitlabRepositoryUseCase::class);
+        $useCase = $container->get(ExecuteJobUseCase::class);
         $this->useCase = $useCase;
 
         /** @var BranchNameProvider $branchNameProvider */
         $branchNameProvider = $container->get(BranchNameProvider::class);
-        $this->branchName = $branchNameProvider->provideForTask('rector');
+        $this->branchName = $branchNameProvider->provideForTask('test');
 
-        /** @var GitLab $httpGitlab */
-        $httpGitlab = $container->get(GitLab::class);
+        /** @var GitLab $gitLab */
+        $gitLab = $container->get(GitLab::class);
         $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
         $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
-        $this->gitlabHttpClient = $httpGitlab->createHttpClient($this->gitlabRepository);
+        $this->gitlabHttpClient = $gitLab->createHttpClient($this->gitlabRepository);
     }
 
 
@@ -60,7 +62,7 @@ class ExecuteJobHandlerTest extends TestCase
      */
     public function testHappyPath(): void
     {
-        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
@@ -77,7 +79,7 @@ class ExecuteJobHandlerTest extends TestCase
     {
         $this->duplicateBranch('already-processed', $this->branchName);
 
-        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
@@ -95,7 +97,7 @@ class ExecuteJobHandlerTest extends TestCase
     {
         $this->duplicateBranch('conflict', $this->branchName);
 
-        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
@@ -112,7 +114,7 @@ class ExecuteJobHandlerTest extends TestCase
     {
         $this->duplicateBranch('to-be-rebased', $this->branchName);
 
-        $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+        $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
 
         $this->assertMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
     }
@@ -131,7 +133,7 @@ class ExecuteJobHandlerTest extends TestCase
         $exception = null;
 
         try {
-            $this->useCase->__invoke(new RunRectorOnGitlabRepository($this->gitlabRepository));
+            $this->useCase->handle(new ExecuteJob(new JobId(self::JOB_ID)));
         } catch (\Throwable $exception) {
             // Just to capture
         }

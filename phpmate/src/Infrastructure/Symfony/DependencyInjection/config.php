@@ -7,6 +7,9 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
+use PHPMate\Domain\GitProvider\GitProvider;
+use PHPMate\Domain\PhpApplication\BuildApplication;
+use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Tools\Composer\Composer;
 use PHPMate\Domain\Tools\Composer\ComposerBinary;
 use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
@@ -20,10 +23,12 @@ use PHPMate\Domain\Tools\Rector\RectorBinary;
 use PHPMate\Infrastructure\Dummy\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
+use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessGitBinary;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessRectorBinary;
+use PHPMate\UseCase\ExecuteJobUseCase;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -68,4 +73,13 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);
     $services->alias(Clock::class, SystemClock::class);
+
+    // Use cases
+    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/*UseCase.php');
+
+    $services->set(BuildApplication::class);
+    $services->set(PrepareApplicationGitRepository::class);
+
+    $services->set(GitLab::class);
+    $services->alias(GitProvider::class, GitLab::class);
 };
