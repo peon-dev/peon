@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\Git;
 
 use Nette\Utils\Random;
-use PHPMate\Domain\Git\BranchNameProvider;
+use PHPMate\Domain\Tools\Git\BranchNameProvider;
 
 final class StatefulRandomPostfixBranchNameProvider implements BranchNameProvider
 {
@@ -17,12 +17,12 @@ final class StatefulRandomPostfixBranchNameProvider implements BranchNameProvide
     ) {}
 
 
-    public function provideForProcedure(string $procedure): string
+    public function provideForTask(string $taskName): string
     {
         if ($this->branchName === '') {
             $this->branchName = sprintf(
                 '%s-%s',
-                $this->originalBranchNameProvider->provideForProcedure($procedure),
+                $this->originalBranchNameProvider->provideForTask($taskName),
                 Random::generate()
             );
         }

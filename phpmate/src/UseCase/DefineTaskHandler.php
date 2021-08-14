@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TaskCanNotHaveNoScripts;
-use PHPMate\Domain\Task\Tasks;
+use PHPMate\Domain\Task\TasksCollection;
 
 final class DefineTaskHandler
 {
     public function __construct(
-        private Tasks $tasks
+        private TasksCollection $tasks
     ) {}
 
 
     /**
-     * @param array<string> $scripts
-     * @throws TaskCanNotHaveNoScripts
+     * @param array<string> $commands
      */
-    public function handle(string $name, array $scripts): void
+    public function handle(ProjectId $projectId, string $name, array $commands): void
     {
         $taskId = $this->tasks->provideNextIdentity();
 
-        $task = Task::define($taskId, $name, $scripts);
+        $task = new Task($taskId, $projectId, $name, $commands);
 
         $this->tasks->add($task);
     }

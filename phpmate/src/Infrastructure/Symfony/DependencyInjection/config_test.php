@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use PHPMate\Domain\Git\BranchNameProvider;
-use PHPMate\Domain\Job\JobRepository;
+use PHPMate\Domain\Tools\Git\BranchNameProvider;
+use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
-use PHPMate\Infrastructure\Memory\InMemoryJobRepository;
+use PHPMate\Infrastructure\Memory\InMemoryJobsCollection;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -22,6 +22,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(StatefulRandomPostfixBranchNameProvider::class);
     $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
 
-    $services->set(InMemoryJobRepository::class);
-    $services->alias(JobRepository::class, InMemoryJobRepository::class);
+    $services->set(InMemoryJobsCollection::class);
+    $services->alias(JobsCollection::class, InMemoryJobsCollection::class);
 };

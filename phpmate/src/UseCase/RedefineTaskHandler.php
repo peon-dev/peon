@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Task\TaskCanNotHaveNoScripts;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
-use PHPMate\Domain\Task\Tasks;
+use PHPMate\Domain\Task\TasksCollection;
 
 final class RedefineTaskHandler
 {
     public function __construct(
-        private Tasks $tasks
+        private TasksCollection $tasks
     ) {}
 
 
     /**
-     * @param array<string> $scripts
-     * @throws TaskCanNotHaveNoScripts
+     * @param array<string> $commands
      * @throws TaskNotFound
      */
-    public function handle(TaskId $taskId, string $name, array $scripts): void
+    public function handle(TaskId $taskId, string $name, array $commands): void
     {
         $task = $this->tasks->get($taskId);
 
-        $task->changeDefinition($name, $scripts);
+        $task->changeDefinition($name, $commands);
     }
 }

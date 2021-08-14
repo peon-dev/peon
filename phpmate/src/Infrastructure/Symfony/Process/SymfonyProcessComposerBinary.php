@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Infrastructure\Symfony\Process;
 
-use PHPMate\Domain\Composer\ComposerBinary;
+use PHPMate\Domain\Tools\Composer\ComposerBinary;
 use PHPMate\Domain\Process\ProcessResult;
 use Symfony\Component\Process\Process;
 

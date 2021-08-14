@@ -6,7 +6,7 @@ namespace PHPMate\Domain\Notification;
 
 interface Notifier
 {
-    public function notifyAboutFailedCommand(\LogicException $exception): void;
+    public function notifyAboutFailedCommand(\RuntimeException $exception): void;
 
     // TODO: link to merge request
     public function notifyAboutNewChanges(): void;

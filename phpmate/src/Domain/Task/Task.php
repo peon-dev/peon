@@ -4,60 +4,29 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Task;
 
+use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Project\ProjectId;
+
+#[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Task
 {
-    private TaskId $taskId;
-
-    private string $name;
-
     /**
-     * @var array<string>
+     * @param array<string> $commands
      */
-    private array $scripts;
-
-
-    private function __construct() {}
+    public function __construct(
+        public TaskId $taskId,
+        public ProjectId $projectId,
+        public string $name,
+        public array $commands
+    ) {}
 
 
     /**
-     * @param array<string> $scripts
-     * @throws TaskCanNotHaveNoScripts
+     * @param array<string> $commands
      */
-    public static function define(
-        TaskId $taskId,
-        string $name,
-        array $scripts
-    ): self
+    public function changeDefinition(string $name, array $commands): void
     {
-        $task = new self();
-        $task->taskId = $taskId;
-        $task->changeDefinition($name, $scripts);
-
-        return $task;
-    }
-
-
-    /**
-     * @param array<string> $scripts
-     * @throws TaskCanNotHaveNoScripts
-     */
-    public function changeDefinition(string $name, array $scripts): void
-    {
-        $this->checkThereAreSomeScripts($scripts);
-
         $this->name = $name;
-        $this->scripts = $scripts;
-    }
-
-
-    /**
-     * @param array<string> $scripts
-     * @throws TaskCanNotHaveNoScripts
-     */
-    private function checkThereAreSomeScripts(array $scripts): void
-    {
-        if (count($scripts) <= 0) {
-            throw new TaskCanNotHaveNoScripts();
-        }
+        $this->commands = $commands;
     }
 }

@@ -6,12 +6,12 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
-use PHPMate\Domain\Task\Tasks;
+use PHPMate\Domain\Task\TasksCollection;
 
 final class RemoveTaskHandler
 {
     public function __construct(
-        private Tasks $tasks
+        private TasksCollection $tasks
     ) {}
 
 

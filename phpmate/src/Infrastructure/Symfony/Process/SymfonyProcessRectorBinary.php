@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\Symfony\Process;
 
 use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Domain\Rector\RectorBinary;
+use PHPMate\Domain\Tools\Rector\RectorBinary;
 use Symfony\Component\Process\Process;
 
 final class SymfonyProcessRectorBinary implements RectorBinary

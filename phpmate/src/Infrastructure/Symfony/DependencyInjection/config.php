@@ -7,29 +7,23 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
-use PHPMate\App\RunRectorOnGitlabRepositoryLauncher;
-use PHPMate\Domain\Composer\Composer;
-use PHPMate\Domain\Composer\ComposerBinary;
-use PHPMate\Domain\FileSystem\ProjectDirectoryProvider;
-use PHPMate\Domain\Git\BranchNameProvider;
-use PHPMate\Domain\Git\Git;
-use PHPMate\Domain\Git\GitBinary;
-use PHPMate\Domain\Gitlab\Gitlab;
-use PHPMate\Domain\Job\JobRepository;
+use PHPMate\Domain\Tools\Composer\Composer;
+use PHPMate\Domain\Tools\Composer\ComposerBinary;
+use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
+use PHPMate\Domain\Tools\Git\BranchNameProvider;
+use PHPMate\Domain\Tools\Git\Git;
+use PHPMate\Domain\Tools\Git\GitBinary;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Notification\Notifier;
-use PHPMate\Domain\Rector\Rector;
-use PHPMate\Domain\Rector\RectorBinary;
+use PHPMate\Domain\Tools\Rector\Rector;
+use PHPMate\Domain\Tools\Rector\RectorBinary;
 use PHPMate\Infrastructure\Dummy\DummyNotifier;
-use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemProjectDirectoryProvider;
+use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
-use PHPMate\Infrastructure\Gitlab\HttpGitlab;
-use PHPMate\Infrastructure\Job\FileSystem\FileSystemJobRepository;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessGitBinary;
 use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessRectorBinary;
-use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -48,11 +42,11 @@ return static function(ContainerConfigurator $configurator): void
         ->public(); // Allow access services via container in tests
 
 
-    $services->set(TemporaryLocalFileSystemProjectDirectoryProvider::class)
+    $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
         ->args([
             param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
         ]);
-    $services->alias(ProjectDirectoryProvider::class, TemporaryLocalFileSystemProjectDirectoryProvider::class);
+    $services->alias(ApplicationDirectoryProvider::class, TemporaryLocalFileSystemApplicationDirectoryProvider::class);
 
     $services->set(Composer::class);
     $services->set(ComposerBinary::class, SymfonyProcessComposerBinary::class);
@@ -63,25 +57,13 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(PHPMateBranchNameProvider::class);
     $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
 
-    $services->set(HttpGitlab::class);
-    $services->alias(Gitlab::class, HttpGitlab::class);
-
     $services->set(Rector::class);
     $services->set(RectorBinary::class, SymfonyProcessRectorBinary::class);
-
-    $services->set(RunRectorOnGitlabRepositoryUseCase::class);
 
     $services->set(DummyNotifier::class);
     $services->alias(Notifier::class, DummyNotifier::class);
 
     $services->set(ProcessLogger::class);
-
-    $services->set(FileSystemJobRepository::class)->args([
-         __DIR__ . '/../../../../data',
-    ]);
-    $services->alias(JobRepository::class, FileSystemJobRepository::class);
-
-    $services->set(RunRectorOnGitlabRepositoryLauncher::class);
 
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);

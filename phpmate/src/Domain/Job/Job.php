@@ -4,91 +4,104 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
-use PHPMate\Domain\Process\ProcessResult;
+use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Project\ProjectId;
 
+#[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 final class Job
 {
-    public const STATUS_STARTED = 'in progress';
-    public const STATUS_SUCCEEDED = 'succeeded';
-    public const STATUS_FAILED = 'failed';
+    public string $status = JobStatus::SCHEDULED;
+
+    public ?float $executionTime = null;
+
+    private ?float $startTime = null;
 
 
     /**
-     * @var ProcessResult[]
+     * @throws JobHasNoCommands
      */
-    private array $logs = [];
-
-    private string $status = self::STATUS_STARTED;
-
-    private ?float $executionTime = null;
-
-
     public function __construct(
-        private int $timestamp,
-    ) {}
-
-
-    public function addLog(ProcessResult $processResult): void
-    {
-        $this->logs[] = $processResult;
+        public JobId $jobId,
+        public ProjectId $projectId,
+        public string $taskName,
+        public int $timestamp,
+        public array $commands
+    ) {
+        $this->checkThereAreSomeCommands($commands);
     }
 
 
-    public function markAsSucceeded(float $executionTime): void
+    /**
+     * @throws JobHasStartedAlready
+     */
+    public function start(): void
     {
-        $this->executionTime = $executionTime;
-        $this->status = self::STATUS_SUCCEEDED;
+        $this->status = JobStatus::IN_PROGRESS;
+        $this->startTime = microtime(true);
     }
 
 
-    public function markAsFailed(float $executionTime): void
+    /**
+     * @throws JobHasNotStarted
+     */
+    public function finish(): void
     {
-        $this->executionTime = $executionTime;
-        $this->status = self::STATUS_FAILED;
+        $this->executionTime = $this->calculateExecutionTime();
+        $this->status = JobStatus::SUCCEEDED;
     }
 
 
-    public function getTimestamp(): int
+    /**
+     * @throws JobHasNotStarted
+     */
+    public function fail(): void
     {
-        return $this->timestamp;
-    }
-
-
-    public function getStatus(): string
-    {
-        return $this->status;
+        $this->executionTime = $this->calculateExecutionTime();
+        $this->status = JobStatus::FAILED;
     }
 
 
     public function isInProgress(): bool
     {
-        return $this->status === self::STATUS_STARTED;
+        return $this->status === JobStatus::IN_PROGRESS;
     }
 
 
     public function hasSucceeded(): bool
     {
-        return $this->status === self::STATUS_SUCCEEDED;
+        return $this->status === JobStatus::SUCCEEDED;
     }
 
 
     public function hasFailed(): bool
     {
-        return $this->status === self::STATUS_FAILED;
+        return $this->status === JobStatus::FAILED;
     }
 
 
     /**
-     * @return ProcessResult[]
+     * @param array<string> $commands
+     * @throws JobHasNoCommands
      */
-    public function getLogs(): array
+    private function checkThereAreSomeCommands(array $commands): void
     {
-        return $this->logs;
+        if (count($commands) <= 0) {
+            throw new JobHasNoCommands();
+        }
     }
 
 
-    public function getExecutionTime(): ?float
+    /**
+     * @throws JobHasNotStarted
+     */
+    private function calculateExecutionTime(): float
     {
-        return $this->executionTime;
+        if ($this->startTime === null) {
+            throw new JobHasNotStarted();
+        }
+
+        $finishTime = microtime(true);
+
+        return $finishTime - $this->startTime;
     }
 }

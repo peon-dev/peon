@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Dashboard\Presenters;
 
 use PHPMate\Domain\Job\JobNotFound;
-use PHPMate\Domain\Job\JobRepository;
+use PHPMate\Domain\Job\JobsCollection;
 
 /**
  * @property JobTemplate $template
@@ -13,7 +13,7 @@ use PHPMate\Domain\Job\JobRepository;
 final class JobPresenter extends SecuredPresenter
 {
     public function __construct(
-        private JobRepository $jobRepository
+        private JobsCollection $jobRepository
     ) {
         parent::__construct();
     }
