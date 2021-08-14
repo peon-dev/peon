@@ -10,12 +10,12 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Domain\Tools\Rector\RectorCommandFailed;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
+use PHPMate\UseCase\ExecuteJobUseCase;
 use PHPMate\UseCase\RunRectorOnGitlabRepository;
 use PHPMate\UseCase\RunRectorOnGitlabRepositoryUseCase;
 use PHPUnit\Framework\TestCase;
 
-// TODO: try behat :-)
-class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
+class ExecuteJobHandlerTest extends TestCase
 {
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
@@ -32,7 +32,7 @@ class RunRectorOnGitlabRepositoryUseCaseTest extends TestCase
 
         $container = ContainerFactory::create();
 
-        /** @var RunRectorOnGitlabRepositoryUseCase $useCase */
+        /** @var ExecuteJobUseCase $useCase */
         $useCase = $container->get(RunRectorOnGitlabRepositoryUseCase::class);
         $this->useCase = $useCase;
 
