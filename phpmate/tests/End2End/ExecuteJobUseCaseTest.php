@@ -93,7 +93,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
+        $job = $this->jobsCollection->get($jobId);
+        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
     }
 
 
@@ -114,7 +116,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
+        $job = $this->jobsCollection->get($jobId);
+        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
     }
 
 
@@ -136,7 +140,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
+        $job = $this->jobsCollection->get($jobId);
+        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
     }
 
 
@@ -157,7 +163,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasSucceeded(), 'Job should be succeeded!');
+        $job = $this->jobsCollection->get($jobId);
+        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
     }
 
 
@@ -182,7 +190,9 @@ class ExecuteJobUseCaseTest extends TestCase
 
         // TODO: Find way how to assert that notification was dispatched
 
-        self::assertTrue($this->jobsCollection->get($jobId)->hasFailed(), 'Job should be failed!');
+        $job = $this->jobsCollection->get($jobId);
+        self::assertTrue($job->hasFailed(), 'Job should be failed!');
+        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
         self::assertInstanceOf(ProcessFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
