@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Job;
 
 use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Process\ProcessResult;
 use PHPMate\Domain\Project\ProjectId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
@@ -15,6 +16,11 @@ final class Job
     public ?float $executionTime = null;
 
     private ?float $startTime = null;
+
+    /**
+     * @var array<JobProcess>
+     */
+    public array $processResults = [];
 
 
     /**
@@ -77,6 +83,16 @@ final class Job
     public function hasFailed(): bool
     {
         return $this->status === JobStatus::FAILED;
+    }
+
+
+    public function addProcessResult(ProcessResult $processResult): void
+    {
+        $this->processResults[] = new JobProcess(
+            $this->jobId,
+            count($this->processResults),
+            $processResult
+        );
     }
 
 

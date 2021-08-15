@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Tools\Git;
 
 use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessToProcessResultMapper;
 use Psr\Http\Message\UriInterface;
+use Symfony\Component\Process\Process;
 
 final class Git
 {

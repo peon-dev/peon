@@ -7,6 +7,7 @@ namespace PHPMate\UseCase;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\ProcessFailed;
+use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Tools\Composer\ComposerCommandFailed;
 use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
 use PHPMate\Domain\Tools\Git\Git;
@@ -16,6 +17,7 @@ use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessToProcessResultMapper;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -28,7 +30,8 @@ final class ExecuteJobUseCase
         private PrepareApplicationGitRepository $prepareApplicationGitRepository,
         private BuildApplication $buildApplication,
         private Git $git,
-        private GitProvider $gitProvider
+        private GitProvider $gitProvider,
+        private ProcessLogger $processLogger
     ) {}
 
 
@@ -58,15 +61,21 @@ final class ExecuteJobUseCase
 
             foreach ($job->commands as $jobCommand) {
                 // TODO: decouple
+                $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
+
                 try {
-                    $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
                     $process->mustRun();
                 } catch (ProcessFailedException $processFailedException) {
+                    $process = $processFailedException->getProcess();
+
                     throw new ProcessFailed($processFailedException->getMessage(), previous: $processFailedException);
                 } finally {
-                    // TODO: log process output somewhere so we can display it on UI
+                    $processResult = SymfonyProcessToProcessResultMapper::map($process);
+
+                    $this->processLogger->logResult($processResult);
                 }
             }
+
 
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
                 $this->git->commit($projectDirectory, '[PHP Mate] Task ' . $job->taskName);
@@ -84,20 +93,23 @@ final class ExecuteJobUseCase
                         $branchWithChanges,
                         '[PHP Mate] Task ' . $job->taskName
                     );
-                }
-
-                // TODO: consider else (if MR already opened, that new commits were added)
+                } // TODO: consider else branch (if MR already opened, that new commits were added)
             }
 
             $job->finish();
-            $this->jobsCollection->save($job);
         } catch (\Throwable $throwable) {
             $job->fail();
-            $this->jobsCollection->save($job);
 
             // $this->notifier->notifyAboutFailedCommand($throwable);
 
             throw $throwable;
+        } finally {
+            // TODO: Consider dropping collector pattern for something more clean?
+            foreach ($this->processLogger->getLogs() as $processResult) {
+                $job->addProcessResult($processResult);
+            }
+
+            $this->jobsCollection->save($job);
         }
     }
 }
