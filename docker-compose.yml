@@ -13,6 +13,18 @@ services:
         environment:
             APP_DEBUG: 1
 
+    dashboard-symfony:
+        image: phpmate
+        volumes:
+            - .:/var/www
+        working_dir: /var/www/dashboard-symfony
+        ports:
+            - 8081:8080
+        command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
+        environment:
+            APP_DEBUG: 1
+            APP_ENV: dev
+
     php:
         image: phpmate
         volumes:
