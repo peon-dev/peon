@@ -17,7 +17,7 @@ use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessToProcessResultMapper;
+use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 

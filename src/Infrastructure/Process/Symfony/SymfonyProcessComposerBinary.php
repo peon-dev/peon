@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Symfony\Process;
+namespace PHPMate\Infrastructure\Process\Symfony;
 
 use PHPMate\Domain\Tools\Composer\ComposerBinary;
 use PHPMate\Domain\Process\ProcessResult;

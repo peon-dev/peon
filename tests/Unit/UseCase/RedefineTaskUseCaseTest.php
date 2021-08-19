@@ -7,7 +7,7 @@ use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
-use PHPMate\Infrastructure\Memory\InMemoryTasksCollection;
+use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\RedefineTask;
 use PHPMate\UseCase\RedefineTaskUseCase;
 use PHPUnit\Framework\TestCase;

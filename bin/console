@@ -1,7 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-use App\Kernel;
+declare(strict_types=1);
+
+use PHPMate\Infrastructure\Symfony\PHPMateKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
@@ -11,7 +13,7 @@ if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {
-    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+    $kernel = new PHPMateKernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 
     return new Application($kernel);
 };

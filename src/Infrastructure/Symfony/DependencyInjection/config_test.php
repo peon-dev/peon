@@ -9,9 +9,9 @@ use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
-use PHPMate\Infrastructure\Memory\InMemoryJobsCollection;
-use PHPMate\Infrastructure\Memory\InMemoryProjectsCollection;
-use PHPMate\Infrastructure\Memory\InMemoryTasksCollection;
+use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
+use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 
 return static function(ContainerConfigurator $configurator): void
 {
