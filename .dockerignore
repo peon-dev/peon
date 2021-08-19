@@ -12,3 +12,4 @@ docker-compose.yml
 docker-compose.override.yml
 
 projects-bin/
+.docker-data/
