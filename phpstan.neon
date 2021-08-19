@@ -1,18 +1,13 @@
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-nette/extension.neon
-    - vendor/phpstan/phpstan-nette/rules.neon
 
 parameters:
     level: max
     paths:
-        - dashboard/src
-        - phpmate/bin
-        - phpmate/src
-        - phpmate/tests
-        - worker/bin
-        - scheduler/bin
+        - src
+        - bin
+        - tests
 
     earlyTerminatingMethodCalls:
         PHPMate\Dashboard\Security\BasicAuthChecker:

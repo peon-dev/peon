@@ -1,8 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-while(true) {
-    fwrite(STDOUT, "scheduler alive\n");
-
-    sleep(15);
-}

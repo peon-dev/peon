@@ -5,8 +5,8 @@
 
 .phpunit.result.cache
 
+.docker-data/
 var/
+projects-bin/
 
 docker-compose.override.yml
-
-projects-bin/
