@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Notifier;
+namespace PHPMate\Infrastructure\Notification;
 
 use PHPMate\Domain\Notification\Notifier;
 use Symfony\Component\Notifier\Notification\Notification;
