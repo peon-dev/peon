@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Unit\UseCase;
 
 use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Infrastructure\Memory\InMemoryTasksCollection;
+use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\DefineTask;
 use PHPMate\UseCase\DefineTaskUseCase;
 use PHPUnit\Framework\TestCase;

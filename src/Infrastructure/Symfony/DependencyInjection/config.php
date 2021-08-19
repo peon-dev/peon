@@ -25,9 +25,9 @@ use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirecto
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
-use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessComposerBinary;
-use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessGitBinary;
-use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessRectorBinary;
+use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
+use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
+use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessRectorBinary;
 use PHPMate\UseCase\ExecuteJobUseCase;
 
 return static function(ContainerConfigurator $configurator): void

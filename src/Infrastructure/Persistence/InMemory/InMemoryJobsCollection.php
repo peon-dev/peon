@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Memory;
+namespace PHPMate\Infrastructure\Persistence\InMemory;
 
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobId;

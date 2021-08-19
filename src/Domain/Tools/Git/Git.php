@@ -6,7 +6,7 @@ namespace PHPMate\Domain\Tools\Git;
 
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Infrastructure\Symfony\Process\SymfonyProcessToProcessResultMapper;
+use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Psr\Http\Message\UriInterface;
 use Symfony\Component\Process\Process;
 
