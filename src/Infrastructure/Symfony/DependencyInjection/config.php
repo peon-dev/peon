@@ -20,7 +20,7 @@ use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Tools\Rector\Rector;
 use PHPMate\Domain\Tools\Rector\RectorBinary;
-use PHPMate\Infrastructure\Dummy\DummyNotifier;
+use PHPMate\Infrastructure\Notification\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
