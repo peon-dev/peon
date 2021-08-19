@@ -1,8 +1,5 @@
 FROM php:8.0-cli as dev
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1 COMPOSER_NO_INTERACTION=1
-
 RUN apt-get update && apt-get install -y \
         libzip4 \
         libicu63 \
@@ -22,11 +19,17 @@ RUN apt-get update && apt-get install -y \
         intl \
         zip
 
+RUN mkdir /.composer \
+    && chown 1000:1000 /.composer
+
+USER 1000
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_MEMORY_LIMIT=-1 COMPOSER_NO_INTERACTION=1
+
 COPY .docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 FROM dev as prod
-
-# TODO: run as user 1000
 
 # Unload xdebug extension by deleting config
 RUN rm /usr/local/etc/php/conf.d/xdebug.ini
