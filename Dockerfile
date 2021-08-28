@@ -1,8 +1,6 @@
 FROM php:8.0-cli as dev
 
 RUN apt-get update && apt-get install -y \
-        libzip4 \
-        libicu63 \
         g++ \
         git \
         libicu-dev \
