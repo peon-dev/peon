@@ -1,12 +1,14 @@
 /vendor/
+/var/
+/public/bundles/
 
 .env.local
+.env.local.php
 .env.*.local
 
 .phpunit.result.cache
 
 .docker-data/
-var/
 projects-bin/
 
 docker-compose.override.yml
