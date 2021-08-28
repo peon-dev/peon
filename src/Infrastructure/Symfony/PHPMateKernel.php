@@ -4,6 +4,7 @@ namespace PHPMate\Infrastructure\Symfony;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
@@ -13,26 +14,42 @@ class PHPMateKernel extends BaseKernel
 
     protected function configureContainer(ContainerConfigurator $container): void
     {
-        $container->import(__DIR__ . '/config/{packages}/*.yaml');
-        $container->import(__DIR__ . '/config/{packages}/'.$this->environment.'/*.yaml');
+        $container->import(__DIR__ . '/Config/{packages}/*.php');
+        $container->import(__DIR__ . '/Config/{packages}/'.$this->environment.'/*.php');
 
-        if (is_file(\dirname(__DIR__).'/config/services.yaml')) {
-            $container->import(__DIR__ . '/config/services.yaml');
-            $container->import(__DIR__ . '/config/{services}_'.$this->environment.'.yaml');
+        if (is_file(\dirname(__DIR__).'/Config/services.php')) {
+            $container->import(__DIR__ . '/Config/services.php');
+            $container->import(__DIR__ . '/Config/{services}_'.$this->environment.'.php');
         } else {
-            $container->import(__DIR__ . '/config/{services}.php');
+            $container->import(__DIR__ . '/Config/{services}.php');
         }
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        $routes->import(__DIR__ . '/config/{routes}/'.$this->environment.'/*.yaml');
-        $routes->import(__DIR__ . '/config/{routes}/*.yaml');
+        $routes->import(__DIR__ . '/Config/{routes}/'.$this->environment.'/*.php');
+        $routes->import(__DIR__ . '/Config/{routes}/*.php');
 
-        if (is_file(\dirname(__DIR__).'/config/routes.yaml')) {
-            $routes->import(__DIR__ . '/config/routes.yaml');
-        } else {
-            $routes->import(__DIR__ . '/config/{routes}.php');
+        $routes->import(__DIR__ . '/Config/routes.php');
+    }
+
+
+    public function getProjectDir(): string
+    {
+        return __DIR__ . '/../../..';
+    }
+
+
+    /**
+     * @return iterable<Bundle>
+     */
+    public function registerBundles(): iterable
+    {
+        $contents = require __DIR__ . '/Config/bundles.php';
+        foreach ($contents as $class => $envs) {
+            if ($envs[$this->environment] ?? $envs['all'] ?? false) {
+                yield new $class();
+            }
         }
     }
 }
