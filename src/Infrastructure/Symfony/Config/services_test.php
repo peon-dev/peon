@@ -19,8 +19,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->defaults()
         ->autoconfigure()
-        ->autowire()
-        ->public(); // Allow access services via container in tests
+        ->autowire();
 
     $services->set(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
 
