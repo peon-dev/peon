@@ -48,11 +48,14 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->defaults()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+        ->public();
 
     // Controllers
     $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
+    // Use cases
+    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*UseCase.php}');
 
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
         ->args([
@@ -80,10 +83,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);
     $services->alias(Clock::class, SystemClock::class);
-
-    // Use cases
-    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*UseCase.php}')
-        ->public();
 
     $services->set(BuildApplication::class);
     $services->set(PrepareApplicationGitRepository::class);
