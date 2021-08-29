@@ -14,11 +14,11 @@ class PHPMateKernel extends BaseKernel
 
     protected function configureContainer(ContainerConfigurator $container): void
     {
-        $container->import(__DIR__ . '/Config/{packages}/*.php');
-        $container->import(__DIR__ . '/Config/{packages}/'.$this->environment.'/*.php');
+        $container->import(__DIR__ . '/Config/packages/*.php');
+        $container->import(__DIR__ . '/Config/packages/'.$this->environment.'/*.php');
 
         $container->import(__DIR__ . '/Config/services.php');
-        $container->import(__DIR__ . '/Config/services_'.$this->environment.'.php');
+        $container->import(__DIR__ . '/Config/{services}_'.$this->environment.'.php');
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void
