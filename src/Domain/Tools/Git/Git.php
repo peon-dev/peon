@@ -30,6 +30,10 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
+        if ($result->exitCode > 0) {
+            throw new GitCommandFailed($result->output);
+        }
+
         $this->processLogger->logResult($result);
     }
 
