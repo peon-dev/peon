@@ -17,12 +17,8 @@ class PHPMateKernel extends BaseKernel
         $container->import(__DIR__ . '/Config/{packages}/*.php');
         $container->import(__DIR__ . '/Config/{packages}/'.$this->environment.'/*.php');
 
-        if (is_file(\dirname(__DIR__).'/Config/services.php')) {
-            $container->import(__DIR__ . '/Config/services.php');
-            $container->import(__DIR__ . '/Config/{services}_'.$this->environment.'.php');
-        } else {
-            $container->import(__DIR__ . '/Config/{services}.php');
-        }
+        $container->import(__DIR__ . '/Config/services.php');
+        $container->import(__DIR__ . '/Config/services_'.$this->environment.'.php');
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void
