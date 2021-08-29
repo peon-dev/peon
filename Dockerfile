@@ -17,28 +17,30 @@ RUN apt-get update && apt-get install -y \
         intl \
         zip
 
+COPY .docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 RUN mkdir /.composer \
     && chown 1000:1000 /.composer
 
-USER 1000
+USER 1000:1000
+
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-ENV COMPOSER_MEMORY_LIMIT=-1 COMPOSER_NO_INTERACTION=1
 
-COPY .docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 FROM dev as prod
+
+USER root
 
 # Unload xdebug extension by deleting config
 RUN rm /usr/local/etc/php/conf.d/xdebug.ini
 
+RUN mkdir -p /www && chown 1000:1000 /www
+
+USER 1000:1000
 WORKDIR "/www"
 
-# To elevate Docker cache we try first composer files - maybe packages did not change
-COPY composer.json ./composer.json
-COPY composer.lock ./composer.lock
+COPY --chown=1000:1000 . .
 
-RUN composer install
-
-# Now the rest of source code
-COPY . .
+RUN composer install --no-interaction
