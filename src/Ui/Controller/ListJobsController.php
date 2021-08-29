@@ -13,10 +13,8 @@ final class ListJobsController extends AbstractController
     #[Route(path: '/', methods: ['GET'])]
     public function __invoke(): Response
     {
-        return new Response('');
-
-        return $this->render('', [
-
+        return $this->render('jobs_list.html.twig', [
+            'jobs' => [],
         ]);
     }
 }

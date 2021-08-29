@@ -34,7 +34,6 @@ use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessRectorBinary;
-use PHPMate\UseCase\ExecuteJobUseCase;
 
 return static function(ContainerConfigurator $configurator): void
 {
