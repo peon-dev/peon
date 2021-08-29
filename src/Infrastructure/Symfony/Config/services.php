@@ -82,7 +82,8 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(Clock::class, SystemClock::class);
 
     // Use cases
-    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/*UseCase.php');
+    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*UseCase.php}')
+        ->public();
 
     $services->set(BuildApplication::class);
     $services->set(PrepareApplicationGitRepository::class);
