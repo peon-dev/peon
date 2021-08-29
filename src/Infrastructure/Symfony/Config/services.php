@@ -49,8 +49,10 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->defaults()
         ->autoconfigure()
-        ->autowire()
-        ->public(); // Allow access services via container in tests
+        ->autowire();
+
+    // Controllers
+    $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
 
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
