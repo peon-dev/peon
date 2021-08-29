@@ -17,12 +17,11 @@ use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\GitLab\GitLab;
-use PHPMate\Infrastructure\Symfony\DependencyInjection\ContainerFactory;
 use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\ExecuteJobUseCase;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ExecuteJobUseCaseTest extends TestCase
+class ExecuteJobUseCaseTest extends KernelTestCase
 {
     private const JOB_ID = '0';
     private const PROJECT_ID = '0';
@@ -43,7 +42,7 @@ class ExecuteJobUseCaseTest extends TestCase
         $username = $_SERVER['TEST_GITLAB_USERNAME'];
         $personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
 
-        $container = ContainerFactory::create();
+        $container = self::getContainer();
 
         /** @var ExecuteJobUseCase $useCase */
         $useCase = $container->get(ExecuteJobUseCase::class);
