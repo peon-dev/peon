@@ -11,6 +11,19 @@ services:
             - 8080:8080
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
 
+    db:
+        image: mariadb:10.6
+        volumes:
+            - .docker-data/mariadb/:/var/lib/mysql
+        environment:
+          MARIADB_DATABASE: phpmate
+          MARIADB_USER: phpmate
+          MARIADB_PASSWORD: phpmate
+          MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+        restart: unless-stopped
+        ports:
+          - "${PHPMATE_DB_PORT:-3306}:3306"
+
     php:
         image: phpmate
         volumes:
