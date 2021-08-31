@@ -9,8 +9,17 @@ use JetBrains\PhpStorm\Immutable;
 #[Immutable]
 class GitRepositoryAuthentication
 {
+    private const GITLAB_PAT_USERNAME = 'gitlab-ci-token';
+
+
     public function __construct(
         public string $username,
         public string $personalAccessToken
     ) {}
+
+
+    public static function fromPersonalAccessToken(string $personalAccessToken): self
+    {
+        return new self(self::GITLAB_PAT_USERNAME, $personalAccessToken);
+    }
 }
