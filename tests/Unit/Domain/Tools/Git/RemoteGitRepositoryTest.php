@@ -26,6 +26,14 @@ class RemoteGitRepositoryTest extends TestCase
     }
 
 
+    public function testGetAuthenticatedRepositoryMustEndWithGitSuffix(): void
+    {
+        $this->expectException(InvalidRemoteUri::class);
+
+        self::createRemoteGitRepository('https://gitlab.com/janmikes/repository');
+    }
+
+
     public function testGetProject(): void
     {
         $repository = self::createRemoteGitRepository('https://gitlab.com/janmikes/repository.git');
