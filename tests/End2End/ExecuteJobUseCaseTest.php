@@ -260,8 +260,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
         $projectId = new ProjectId(self::PROJECT_ID);
         $project = new Project(
             $projectId,
-            'Test',
-           $this->gitlabRepository
+            $this->gitlabRepository
         );
 
         $this->projectsCollection->save($project);

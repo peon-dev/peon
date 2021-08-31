@@ -10,6 +10,9 @@ use Psr\Http\Message\UriInterface;
 
 final class RemoteGitRepository
 {
+    private UriInterface $uri;
+
+
     /**
      * @throws InvalidRemoteUri
      */
@@ -17,8 +20,18 @@ final class RemoteGitRepository
         private string $repositoryUri,
         public GitRepositoryAuthentication $authentication
     ) {
+        try {
+            $this->uri = new Uri($this->repositoryUri);
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            throw new InvalidRemoteUri($invalidArgumentException->getMessage());
+        }
+
         if (Strings::startsWith($repositoryUri, 'https://') === false) {
-            throw new InvalidRemoteUri();
+            throw new InvalidRemoteUri('URI should start with https://');
+        }
+
+        if (Strings::endsWith($repositoryUri, '.git') === false) {
+            throw new InvalidRemoteUri('URI should end with .git');
         }
     }
 
@@ -28,26 +41,18 @@ final class RemoteGitRepository
         $username = $this->authentication->username;
         $password = $this->authentication->personalAccessToken;
 
-        $uri = (new Uri($this->repositoryUri))
-            ->withUserInfo($username, $password);
-
-        return $uri;
+        return $this->uri->withUserInfo($username, $password);
     }
 
 
     public function getProject(): string
     {
-        $uri = (new Uri($this->repositoryUri));
-        $path = $uri->getPath();
-
-        return str_replace('.git', '', trim($path, '/'));
+        return str_replace('.git', '', trim($this->uri->getPath(), '/'));
     }
 
 
     public function getInstanceUrl(): string
     {
-        $uri = (new Uri($this->repositoryUri));
-
-        return $uri->getScheme() . '://' . $uri->getHost();
+        return $this->uri->getScheme() . '://' . $this->uri->getHost();
     }
 }

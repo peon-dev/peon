@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class CreateProjectFormType extends AbstractType
@@ -17,25 +18,22 @@ final class CreateProjectFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('remote_repository_uri', TextType::class, [
+        $builder->add('remoteRepositoryUri', TextType::class, [
             'label' => 'Gitlab git repository:',
             'attr' => [
                 'placeholder' => 'https://gitlab.com/phpmate/phpmate.git',
             ],
         ]);
 
-        $builder->add('personal_access_token', TextType::class, [
+        $builder->add('personalAccessToken', TextType::class, [
             'label' => 'Personal Access Token:',
-            'required' => true,
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /*
-        $optionsResolver->setDefaults([
-            'data_class' => ContactMessage::class,
+        $resolver->setDefaults([
+            'data_class' => CreateProjectFormData::class,
         ]);
-        */
     }
 }
