@@ -1,4 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    {{ form_start(create_project_form) }}
+        {{ form_widget(create_project_form) }}
+
+        <input type="submit" class="btn btn-primary" />
+    {{ form_end(create_project_form) }}
 {% endblock %}
