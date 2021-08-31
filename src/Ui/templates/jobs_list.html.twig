@@ -3,7 +3,7 @@
 {% block content %}
 
     <div>
-        <a href="#" class="btn btn-sm btn-primary ">Add project</a>
+        <a href="{{ path('create_project') }}" class="btn btn-sm btn-primary ">Add project</a>
 
         <ul>
             {% for project in projects %}
