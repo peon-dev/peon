@@ -26,7 +26,7 @@ final class InMemoryJobsCollection implements JobsCollection
     /**
      * @return array<string, Job>
      */
-    public function findAll(): array
+    public function getAll(): array
     {
         return $this->jobs;
     }

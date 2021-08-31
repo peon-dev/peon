@@ -2,6 +2,20 @@
 
 {% block content %}
 
+    <div>
+        <a href="#" class="btn btn-sm btn-primary ">Add project</a>
+
+        <ul>
+            {% for project in projects %}
+                <li>
+                    {{ project.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+
     {% if jobs is empty %}
         <div class="alert alert-dark" role="alert">
             No jobs executed yet!

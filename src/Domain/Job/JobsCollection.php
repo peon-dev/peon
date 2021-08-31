@@ -15,7 +15,7 @@ interface JobsCollection
     /**
      * @return array<Job>
      */
-    public function findAll(): array;
+    public function getAll(): array;
 
 
     /**
