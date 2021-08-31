@@ -13,6 +13,6 @@ final class CreateProjectController extends AbstractController
     #[Route(path: '/create-project', name: 'create_project')]
     public function __invoke(): Response
     {
-        return new Response();
+        return $this->render('create_project.html.twig');
     }
 }
