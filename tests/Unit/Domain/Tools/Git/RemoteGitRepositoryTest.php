@@ -14,7 +14,7 @@ class RemoteGitRepositoryTest extends TestCase
     {
         $repository = self::createRemoteGitRepository('https://gitlab.com/janmikes/repository.git');
 
-        self::assertSame('https://janmikes:PAT@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedUri());
+        self::assertSame('https://phpmate:phpmate@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedUri());
     }
 
 
