@@ -65,7 +65,7 @@ class RemoteGitRepositoryTest extends TestCase
 
     private static function createRemoteGitRepository(string $repositoryUri): RemoteGitRepository
     {
-        $authentication = new GitRepositoryAuthentication('janmikes', 'PAT');
+        $authentication = new GitRepositoryAuthentication('phpmate', 'phpmate');
 
         return new RemoteGitRepository($repositoryUri, $authentication);
     }

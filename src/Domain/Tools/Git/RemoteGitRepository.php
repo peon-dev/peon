@@ -39,7 +39,7 @@ final class RemoteGitRepository
     public function getAuthenticatedUri(): UriInterface
     {
         $username = $this->authentication->username;
-        $password = $this->authentication->personalAccessToken;
+        $password = $this->authentication->password;
 
         return $this->uri->withUserInfo($username, $password);
     }

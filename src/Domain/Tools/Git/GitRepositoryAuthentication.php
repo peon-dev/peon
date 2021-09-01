@@ -14,7 +14,7 @@ class GitRepositoryAuthentication
 
     public function __construct(
         public string $username,
-        public string $personalAccessToken
+        public string $password
     ) {}
 
 

@@ -31,7 +31,7 @@ final class GitLab implements GitProvider
 
     public function createHttpClient(RemoteGitRepository $repository): Client
     {
-        $personalAccessToken = $repository->authentication->personalAccessToken;
+        $personalAccessToken = $repository->authentication->password;
 
         $client = new Client();
         $client->setUrl($repository->getInstanceUrl());
