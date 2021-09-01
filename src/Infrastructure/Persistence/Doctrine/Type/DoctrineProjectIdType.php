@@ -41,4 +41,10 @@ final class DoctrineProjectIdType extends Type
     {
         return new ProjectId($value);
     }
+
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
