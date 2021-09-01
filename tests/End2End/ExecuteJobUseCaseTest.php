@@ -16,6 +16,7 @@ use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\ExecuteJobUseCase;
@@ -33,6 +34,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
     private JobsCollection $jobsCollection;
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
+    private StatefulRandomPostfixBranchNameProvider $branchNameProvider;
 
 
     protected function setUp(): void
@@ -48,8 +50,9 @@ class ExecuteJobUseCaseTest extends KernelTestCase
         $useCase = $container->get(ExecuteJobUseCase::class);
         $this->useCase = $useCase;
 
-        /** @var BranchNameProvider $branchNameProvider */
+        /** @var StatefulRandomPostfixBranchNameProvider $branchNameProvider */
         $branchNameProvider = $container->get(BranchNameProvider::class);
+        $this->branchNameProvider = $branchNameProvider;
         $this->branchName = $branchNameProvider->provideForTask('test');
 
         /** @var JobsCollection $jobsCollection */
@@ -77,6 +80,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
     protected function tearDown(): void
     {
         $this->deleteRemoteBranch($this->gitlabRepository->getProject(), $this->branchName);
+        $this->branchNameProvider->resetState();
     }
 
 

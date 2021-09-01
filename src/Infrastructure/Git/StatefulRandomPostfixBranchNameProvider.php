@@ -29,4 +29,10 @@ final class StatefulRandomPostfixBranchNameProvider implements BranchNameProvide
 
         return $this->branchName;
     }
+
+
+    public function resetState(): void
+    {
+        $this->branchName = '';
+    }
 }
