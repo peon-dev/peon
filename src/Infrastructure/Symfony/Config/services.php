@@ -27,6 +27,7 @@ use PHPMate\Infrastructure\Notification\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
+use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
@@ -94,5 +95,5 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(TasksCollection::class, InMemoryTasksCollection::class);
 
-    $services->set(ProjectsCollection::class, InMemoryProjectsCollection::class);
+    $services->set(ProjectsCollection::class, DoctrineProjectsCollection::class);
 };
