@@ -34,3 +34,34 @@ jobs:
         -   run: composer install --dev --no-progress
 
         -   run: composer run-script phpstan
+
+
+  migrations-up-to-date:
+      runs-on: ubuntu-latest
+      env:
+        DATABASE_URL: mysql://phpmate:phpmate@127.0.0.1:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8
+
+      services:
+        db:
+            image: mariadb:10.6.4
+            env:
+                MARIADB_DATABASE: phpmate
+                MARIADB_USER: phpmate
+                MARIADB_PASSWORD: phpmate
+                MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+            ports:
+                - 3306:3306
+
+      steps:
+        -   uses: actions/checkout@v2
+        -   uses: shivammathur/setup-php@v2
+            with:
+              php-version: 8.0
+              coverage: none # default is xdebug
+              extensions: mbstring # needed by phpunit
+
+        -   run: composer install --dev --no-progress
+
+        -   run: bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        -   run: bin/console doctrine:schema:validate
