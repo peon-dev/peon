@@ -10,7 +10,7 @@ use Psr\Http\Message\UriInterface;
 
 final class RemoteGitRepository
 {
-    private UriInterface $uri;
+    private ?UriInterface $uri = null;
 
 
     /**
@@ -41,18 +41,28 @@ final class RemoteGitRepository
         $username = $this->authentication->username;
         $password = $this->authentication->password;
 
-        return $this->uri->withUserInfo($username, $password);
+        return $this->getUri()->withUserInfo($username, $password);
     }
 
 
     public function getProject(): string
     {
-        return str_replace('.git', '', trim($this->uri->getPath(), '/'));
+        return str_replace('.git', '', trim($this->getUri()->getPath(), '/'));
     }
 
 
     public function getInstanceUrl(): string
     {
-        return $this->uri->getScheme() . '://' . $this->uri->getHost();
+        return $this->getUri()->getScheme() . '://' . $this->getUri()->getHost();
+    }
+
+
+    private function getUri(): UriInterface
+    {
+        if ($this->uri === null) {
+            $this->uri = new Uri($this->repositoryUri);
+        }
+
+        return $this->uri;
     }
 }
