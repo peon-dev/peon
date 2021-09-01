@@ -34,6 +34,7 @@ final class CreateProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var CreateProjectFormData $data */
             $data = $form->getData();
 
             // TODO: try+catch $form->addError(new FormError('Could not connect to git repository'));

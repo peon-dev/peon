@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <input type="submit" class="btn btn-primary" />
+    {{ form_start(define_task_form) }}
+        {{ form_widget(define_task_form) }}
+
+        <input type="submit" class="btn btn-primary" />
+    {{ form_end(define_task_form) }}
 {% endblock %}

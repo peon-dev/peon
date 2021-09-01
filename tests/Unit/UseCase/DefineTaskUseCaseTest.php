@@ -18,7 +18,7 @@ final class DefineTaskUseCaseTest extends TestCase
         self::assertCount(0, $tasksCollection->getAll());
 
         $handler = new DefineTaskUseCase($tasksCollection);
-        $handler->handle(
+        $handler->__invoke(
             new DefineTask(
                 new ProjectId(''),
                 'Name',
