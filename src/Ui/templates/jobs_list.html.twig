@@ -10,6 +10,8 @@
                 {% for project in projects %}
                     <li>
                          {{ project.remoteGitRepository.project }}
+
+                        <a href="{{ path('define_task', {projectId: project.projectId}) }}">Define task</a>
                     </li>
                 {% endfor %}
             </ul>
