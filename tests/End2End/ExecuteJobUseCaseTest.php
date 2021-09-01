@@ -66,7 +66,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
 
         /** @var GitLab $gitLab */
         $gitLab = $container->get(GitLab::class);
-        $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
+        $authentication = GitRepositoryAuthentication::fromPersonalAccessToken($personalAccessToken);
         $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
         $this->gitlabHttpClient = $gitLab->createHttpClient($this->gitlabRepository);
 

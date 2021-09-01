@@ -77,7 +77,10 @@
     "autoload": {
         "psr-4": {
             "PHPMate\\": "src"
-        }
+        },
+        "exclude-from-classmap": [
+            "src/Infrastructure/Persistence/Doctrine/Migrations"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

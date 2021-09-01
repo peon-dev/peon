@@ -2,11 +2,17 @@
 
 declare(strict_types=1);
 
+use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('doctrine', [
-        'dbal' => ['url' => '%env(resolve:DATABASE_URL)%'],
+        'dbal' => [
+            'url' => '%env(resolve:DATABASE_URL)%',
+            'types' => [
+                DoctrineProjectIdType::NAME => DoctrineProjectIdType::class,
+            ],
+        ],
         'orm' => [
             'auto_generate_proxy_classes' => true,
             'naming_strategy' => 'doctrine.orm.naming_strategy.underscore_number_aware',
@@ -16,7 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'is_bundle' => false,
                     'type' => 'xml',
                     'dir' => '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Mapping',
-                    'prefix' => 'PHPMate\Infrastructure\Persistence\Doctrine\Mapping',
+                    'prefix' => 'PHPMate\Domain',
                 ],
             ],
         ],
