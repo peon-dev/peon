@@ -12,7 +12,7 @@ services:
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
 
     db:
-        image: mariadb:10.6
+        image: mariadb:10.6.4
         volumes:
             - .docker-data/mariadb/:/var/lib/mysql
         environment:
