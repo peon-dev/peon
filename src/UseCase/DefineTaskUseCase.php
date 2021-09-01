@@ -14,7 +14,7 @@ final class DefineTaskUseCase
     ) {}
 
 
-    public function handle(DefineTask $command): void
+    public function __invoke(DefineTask $command): void
     {
         $taskId = $this->tasks->provideNextIdentity();
 
