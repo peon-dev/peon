@@ -24,6 +24,7 @@
                 {{ task.name }}
                 <a href="#">Run</a>
                 <a href="#">Edit</a>
+                <a href="{{ path('remove_task', {taskId: task.taskId}) }}" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
             </li>
         {% endfor %}
     </ul>
