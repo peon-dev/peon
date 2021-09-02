@@ -18,6 +18,16 @@
         {% endif %}
     </div>
 
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.name }}
+                <a href="#">Run</a>
+                <a href="#">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+
 
 
     {% if jobs is empty %}
