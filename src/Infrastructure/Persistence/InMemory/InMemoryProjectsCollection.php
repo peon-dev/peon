@@ -17,7 +17,7 @@ final class InMemoryProjectsCollection implements ProjectsCollection
     private array $projects = [];
 
 
-    public function provideNextIdentity(): ProjectId
+    public function nextIdentity(): ProjectId
     {
         return new ProjectId((string) count($this->projects));
     }
@@ -54,7 +54,7 @@ final class InMemoryProjectsCollection implements ProjectsCollection
     /**
      * @return array<string, Project>
      */
-    public function getAll(): array
+    public function all(): array
     {
         return $this->projects;
     }

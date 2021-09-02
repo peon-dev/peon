@@ -43,7 +43,7 @@ final class DoctrineProjectsCollection implements ProjectsCollection
     /**
      * @return array<Project>
      */
-    public function getAll(): array
+    public function all(): array
     {
         return $this->entityManager
             ->createQueryBuilder()
@@ -54,7 +54,7 @@ final class DoctrineProjectsCollection implements ProjectsCollection
     }
 
 
-    public function provideNextIdentity(): ProjectId
+    public function nextIdentity(): ProjectId
     {
         return new ProjectId(Uuid::uuid4()->toString());
     }

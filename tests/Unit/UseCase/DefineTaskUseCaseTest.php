@@ -15,7 +15,7 @@ final class DefineTaskUseCaseTest extends TestCase
     {
         $tasksCollection = new InMemoryTasksCollection();
 
-        self::assertCount(0, $tasksCollection->getAll());
+        self::assertCount(0, $tasksCollection->all());
 
         $handler = new DefineTaskUseCase($tasksCollection);
         $handler->__invoke(
@@ -26,6 +26,6 @@ final class DefineTaskUseCaseTest extends TestCase
             )
         );
 
-        self::assertCount(1, $tasksCollection->getAll());
+        self::assertCount(1, $tasksCollection->all());
     }
 }

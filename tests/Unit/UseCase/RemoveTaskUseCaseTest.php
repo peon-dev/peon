@@ -22,14 +22,14 @@ final class RemoveTaskUseCaseTest extends TestCase
             new Task($taskId, new ProjectId(''), 'Task', [])
         );
 
-        self::assertCount(1, $tasksCollection->getAll());
+        self::assertCount(1, $tasksCollection->all());
 
         $handler = new RemoveTaskUseCase($tasksCollection);
         $handler->handle(
             new RemoveTask($taskId)
         );
 
-        self::assertCount(0, $tasksCollection->getAll());
+        self::assertCount(0, $tasksCollection->all());
     }
 
 

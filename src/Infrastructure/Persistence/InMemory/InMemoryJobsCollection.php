@@ -26,7 +26,7 @@ final class InMemoryJobsCollection implements JobsCollection
     /**
      * @return array<string, Job>
      */
-    public function getAll(): array
+    public function all(): array
     {
         return $this->jobs;
     }
@@ -41,7 +41,7 @@ final class InMemoryJobsCollection implements JobsCollection
     }
 
 
-    public function provideNextIdentity(): JobId
+    public function nextIdentity(): JobId
     {
         return new JobId((string) count($this->jobs));
     }
