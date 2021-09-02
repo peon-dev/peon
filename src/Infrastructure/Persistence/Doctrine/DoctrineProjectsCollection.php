@@ -25,11 +25,7 @@ final class DoctrineProjectsCollection implements ProjectsCollection
     {
         $project = $this->entityManager->find(Project::class, $projectId);
 
-        if ($project instanceof Project) {
-            return $project;
-        }
-
-        throw new ProjectNotFound();
+        return $project ?? throw new ProjectNotFound();
     }
 
 
