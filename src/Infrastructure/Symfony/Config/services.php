@@ -28,9 +28,8 @@ use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirecto
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
+use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
@@ -93,7 +92,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(JobsCollection::class, InMemoryJobsCollection::class);
 
-    $services->set(TasksCollection::class, InMemoryTasksCollection::class);
+    $services->set(TasksCollection::class, DoctrineTasksCollection::class);
 
     $services->set(ProjectsCollection::class, DoctrineProjectsCollection::class);
 };
