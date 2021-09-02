@@ -6,7 +6,7 @@ namespace PHPMate\Domain\Task;
 
 interface TasksCollection
 {
-    public function provideNextIdentity(): TaskId;
+    public function nextIdentity(): TaskId;
 
     public function save(Task $task): void;
 
@@ -23,5 +23,5 @@ interface TasksCollection
     /**
      * @return array<Task>
      */
-    public function getAll(): array;
+    public function all(): array;
 }

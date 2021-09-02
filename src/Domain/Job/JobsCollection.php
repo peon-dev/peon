@@ -6,7 +6,7 @@ namespace PHPMate\Domain\Job;
 
 interface JobsCollection
 {
-    public function provideNextIdentity(): JobId;
+    public function nextIdentity(): JobId;
 
 
     public function save(Job $job): void;
@@ -15,7 +15,7 @@ interface JobsCollection
     /**
      * @return array<Job>
      */
-    public function getAll(): array;
+    public function all(): array;
 
 
     /**

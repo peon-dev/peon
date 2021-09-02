@@ -16,9 +16,9 @@ interface ProjectsCollection
     /**
      * @return array<Project>
      */
-    public function getAll(): array;
+    public function all(): array;
 
-    public function provideNextIdentity(): ProjectId;
+    public function nextIdentity(): ProjectId;
 
     /**
      * @throws ProjectNotFound

@@ -16,7 +16,7 @@ final class CreateProjectUseCaseTest extends TestCase
     {
         $projectsCollection = new InMemoryProjectsCollection();
 
-        self::assertCount(0, $projectsCollection->getAll());
+        self::assertCount(0, $projectsCollection->all());
 
         $handler = new CreateProjectUseCase($projectsCollection);
         $handler->__invoke(
@@ -28,6 +28,6 @@ final class CreateProjectUseCaseTest extends TestCase
             )
         );
 
-        self::assertCount(1, $projectsCollection->getAll());
+        self::assertCount(1, $projectsCollection->all());
     }
 }

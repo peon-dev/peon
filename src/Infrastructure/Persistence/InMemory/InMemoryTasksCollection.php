@@ -17,7 +17,7 @@ final class InMemoryTasksCollection implements TasksCollection
     private array $tasks = [];
 
 
-    public function provideNextIdentity(): TaskId
+    public function nextIdentity(): TaskId
     {
         return new TaskId((string) count($this->tasks));
     }
@@ -54,7 +54,7 @@ final class InMemoryTasksCollection implements TasksCollection
     /**
      * @return array<string, Task>
      */
-    public function getAll(): array
+    public function all(): array
     {
         return $this->tasks;
     }

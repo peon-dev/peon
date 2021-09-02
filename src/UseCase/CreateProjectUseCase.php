@@ -17,7 +17,7 @@ final class CreateProjectUseCase
     public function __invoke(CreateProject $createProject): void
     {
         $project = new Project(
-            $this->projectsCollection->provideNextIdentity(),
+            $this->projectsCollection->nextIdentity(),
             $createProject->remoteGitRepository,
         );
 

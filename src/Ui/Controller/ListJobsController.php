@@ -24,9 +24,9 @@ final class ListJobsController extends AbstractController
     public function __invoke(): Response
     {
         return $this->render('jobs_list.html.twig', [
-            'jobs' => $this->jobsCollection->getAll(),
-            'projects' => $this->projectsCollection->getAll(),
-            'tasks' => $this->tasksCollection->getAll(),
+            'jobs' => $this->jobsCollection->all(),
+            'projects' => $this->projectsCollection->all(),
+            'tasks' => $this->tasksCollection->all(),
         ]);
     }
 }
