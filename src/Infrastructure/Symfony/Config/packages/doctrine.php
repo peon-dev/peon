@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
+use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -11,6 +12,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'url' => '%env(resolve:DATABASE_URL)%',
             'types' => [
                 DoctrineProjectIdType::NAME => DoctrineProjectIdType::class,
+                DoctrineTaskIdType::NAME => DoctrineTaskIdType::class,
             ],
         ],
         'orm' => [
