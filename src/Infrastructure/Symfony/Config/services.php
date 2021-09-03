@@ -27,9 +27,9 @@ use PHPMate\Infrastructure\Notification\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
+use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
@@ -91,7 +91,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(GitLab::class);
     $services->alias(GitProvider::class, GitLab::class);
 
-    $services->set(JobsCollection::class, InMemoryJobsCollection::class);
+    $services->set(JobsCollection::class, DoctrineJobsCollection::class);
 
     $services->set(TasksCollection::class, DoctrineTasksCollection::class);
 
