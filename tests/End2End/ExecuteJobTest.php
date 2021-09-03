@@ -13,6 +13,7 @@ use PHPMate\Domain\Process\ProcessFailed;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
@@ -25,6 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class ExecuteJobTest extends KernelTestCase
 {
     private const JOB_ID = '0';
+    private const TASK_ID = '0';
     private const PROJECT_ID = '0';
 
     private string $branchName;
@@ -262,6 +264,7 @@ class ExecuteJobTest extends KernelTestCase
     private function prepareData(): void
     {
         $projectId = new ProjectId(self::PROJECT_ID);
+        $taskId = new TaskId(self::TASK_ID);
         $project = new Project(
             $projectId,
             $this->gitlabRepository
@@ -272,8 +275,9 @@ class ExecuteJobTest extends KernelTestCase
         $job = new Job(
             new JobId(self::JOB_ID),
             $projectId,
+            $taskId,
             'End2End Test',
-            $this->clock->now()->getTimestamp(),
+            $this->clock,
             ['vendor/bin/rector process']
         );
 

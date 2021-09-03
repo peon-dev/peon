@@ -44,7 +44,7 @@ final class ProcessLogger
             $sanitizedCommand,
             $processResult->exitCode,
             $sanitizedOutput,
-            $processResult->executionTime
+            $processResult->duration
         );
     }
 }

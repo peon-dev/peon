@@ -5,22 +5,26 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Job;
 
 use JetBrains\PhpStorm\Immutable;
+use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Process\ProcessResult;
 use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Task\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 final class Job
 {
     public string $status = JobStatus::SCHEDULED;
 
-    public ?float $executionTime = null;
+    public ?float $duration = null;
 
-    private ?float $startTime = null;
+    private ?float $startMicrotime = null;
 
     /**
      * @var array<JobProcess>
      */
     public array $processResults = [];
+
+    public \DateTimeInterface $scheduledAt;
 
 
     /**
@@ -30,11 +34,13 @@ final class Job
     public function __construct(
         public JobId $jobId,
         public ProjectId $projectId,
+        public TaskId $taskId,
         public string $taskName,
-        public int $timestamp,
+        Clock $clock,
         public array $commands
     ) {
         $this->checkThereAreSomeCommands($commands);
+        $this->scheduledAt = $clock->now();
     }
 
 
@@ -43,8 +49,12 @@ final class Job
      */
     public function start(): void
     {
+        if ($this->status !== JobStatus::SCHEDULED) {
+            throw new JobHasStartedAlready();
+        }
+
         $this->status = JobStatus::IN_PROGRESS;
-        $this->startTime = microtime(true);
+        $this->startMicrotime = microtime(true);
     }
 
 
@@ -53,7 +63,7 @@ final class Job
      */
     public function finish(): void
     {
-        $this->executionTime = $this->calculateExecutionTime();
+        $this->duration = $this->calculateDuration();
         $this->status = JobStatus::SUCCEEDED;
     }
 
@@ -63,7 +73,7 @@ final class Job
      */
     public function fail(): void
     {
-        $this->executionTime = $this->calculateExecutionTime();
+        $this->duration = $this->calculateDuration();
         $this->status = JobStatus::FAILED;
     }
 
@@ -111,14 +121,14 @@ final class Job
     /**
      * @throws JobHasNotStarted
      */
-    private function calculateExecutionTime(): float
+    private function calculateDuration(): float
     {
-        if ($this->startTime === null) {
+        if ($this->startMicrotime === null) {
             throw new JobHasNotStarted();
         }
 
         $finishTime = microtime(true);
 
-        return $finishTime - $this->startTime;
+        return $finishTime - $this->startMicrotime;
     }
 }
