@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    <h1>{% block title %}Define task{% endblock %}</h1>
+
     {{ form_start(define_task_form) }}
         {{ form_widget(define_task_form) }}
 
