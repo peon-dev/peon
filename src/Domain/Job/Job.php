@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
@@ -26,9 +27,9 @@ final class Job
     private ?\DateTimeInterface $failedAt = null;
 
     /**
-     * @var Collection<JobProcess>
+     * @var Collection<int, JobProcess>
      */
-    public $processes = [];
+    public $processes;
 
     /**
      * @param array<string> $commands
@@ -44,6 +45,7 @@ final class Job
     ) {
         $this->checkThereAreSomeCommands($commands);
         $this->scheduledAt = $clock->now();
+        $this->processes = new ArrayCollection();
     }
 
 

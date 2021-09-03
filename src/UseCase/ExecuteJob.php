@@ -108,17 +108,8 @@ final class ExecuteJob
             throw $throwable;
         } finally {
             // TODO: Consider dropping collector pattern for something more clean?
-            foreach ($this->processLogger->getLogs() as $counter => $processResult) {
-                $jobProcess = new JobProcess(
-                    $job->jobId,
-                    $counter,
-                    $processResult
-                );
-
-                $job->addProcessResult(
-
-                );
-
+            foreach ($this->processLogger->getLogs() as $processResult) {
+                $job->addProcessResult($processResult);
             }
 
             $this->jobsCollection->save($job);
