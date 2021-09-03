@@ -26,7 +26,7 @@
         {% for task in tasks %}
             <li>
                 {{ task.name }}
-                <a href="#">Run</a>
+                <a href="{{ path('run_task', {taskId: task.taskId}) }}">Run</a>
                 <a href="{{ path('redefine_task', {taskId: task.taskId}) }}">Edit</a>
                 <a href="{{ path('remove_task', {taskId: task.taskId}) }}" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
             </li>
