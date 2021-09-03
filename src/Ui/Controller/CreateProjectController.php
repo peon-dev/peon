@@ -48,7 +48,7 @@ final class CreateProjectController extends AbstractController
                     )
                 );
 
-                return $this->redirectToRoute('jobs_list');
+                return $this->redirectToRoute('dashboard');
             } catch (InvalidRemoteUri $invalidRemoteUri) {
                 $form->get('remoteRepositoryUri')->addError(new FormError($invalidRemoteUri->getMessage()));
             }
