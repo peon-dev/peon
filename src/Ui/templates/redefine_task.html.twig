@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{% block title %}Redefine task{% endblock %}</h1>
+
+    {{ form_start(define_task_form) }}
+        {{ form_widget(define_task_form) }}
+
+        <input type="submit" class="btn btn-primary" value="Update" />
+    {{ form_end(define_task_form) }}
+{% endblock %}
