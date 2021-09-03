@@ -6,6 +6,6 @@
         <id name="taskId" type="task_id" />
         <field name="projectId" type="project_id" />
         <field name="name" />
-        <field name="commands" type="array" />
+        <field name="commands" type="json" />
     </entity>
 </doctrine-mapping>
