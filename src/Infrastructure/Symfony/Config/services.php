@@ -55,7 +55,8 @@ return static function(ContainerConfigurator $configurator): void
     $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
     // Use cases
-    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*UseCase.php}');
+    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*.php}')
+        ->exclude(__DIR__ . '/../../../UseCase/{*Command.php}');
 
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
         ->args([
