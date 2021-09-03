@@ -7,7 +7,7 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\UseCase\RemoveTaskCommand;
-use PHPMate\UseCase\RemoveTaskUseCase;
+use PHPMate\UseCase\RemoveTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RemoveTaskController extends AbstractController
 {
     public function __construct(
-        private RemoveTaskUseCase $removeTaskUseCase
+        private RemoveTask $removeTaskUseCase
     ) {}
 
 

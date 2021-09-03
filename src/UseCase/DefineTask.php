@@ -7,14 +7,14 @@ namespace PHPMate\UseCase;
 use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\TasksCollection;
 
-final class DefineTaskUseCase
+final class DefineTask
 {
     public function __construct(
         private TasksCollection $tasks
     ) {}
 
 
-    public function __invoke(DefineTaskCommand $command): void
+    public function handle(DefineTaskCommand $command): void
     {
         $taskId = $this->tasks->nextIdentity();
 

@@ -19,17 +19,17 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
 use PHPMate\UseCase\ExecuteJobCommand;
-use PHPMate\UseCase\ExecuteJobUseCase;
+use PHPMate\UseCase\ExecuteJob;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ExecuteJobUseCaseTest extends KernelTestCase
+class ExecuteJobTest extends KernelTestCase
 {
     private const JOB_ID = '0';
     private const PROJECT_ID = '0';
 
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
-    private ExecuteJobUseCase $useCase;
+    private ExecuteJob $useCase;
     private Client $gitlabHttpClient;
     private JobsCollection $jobsCollection;
     private ProjectsCollection $projectsCollection;
@@ -46,8 +46,8 @@ class ExecuteJobUseCaseTest extends KernelTestCase
 
         $container = self::getContainer();
 
-        /** @var ExecuteJobUseCase $useCase */
-        $useCase = $container->get(ExecuteJobUseCase::class);
+        /** @var ExecuteJob $useCase */
+        $useCase = $container->get(ExecuteJob::class);
         $this->useCase = $useCase;
 
         /** @var StatefulRandomPostfixBranchNameProvider $branchNameProvider */

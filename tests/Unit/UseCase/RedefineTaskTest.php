@@ -9,10 +9,10 @@ use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\RedefineTaskCommand;
-use PHPMate\UseCase\RedefineTaskUseCase;
+use PHPMate\UseCase\RedefineTask;
 use PHPUnit\Framework\TestCase;
 
-final class RedefineTaskUseCaseTest extends TestCase
+final class RedefineTaskTest extends TestCase
 {
     public function testTaskCanBeRedefined(): void
     {
@@ -22,7 +22,7 @@ final class RedefineTaskUseCaseTest extends TestCase
             new Task($taskId, new ProjectId(''), 'Task', [])
         );
 
-        $handler = new RedefineTaskUseCase($tasksCollection);
+        $handler = new RedefineTask($tasksCollection);
         $handler->handle(
             new RedefineTaskCommand(
                 $taskId,
@@ -43,7 +43,7 @@ final class RedefineTaskUseCaseTest extends TestCase
 
         $tasksCollection = new InMemoryTasksCollection();
 
-        $handler = new RedefineTaskUseCase($tasksCollection);
+        $handler = new RedefineTask($tasksCollection);
         $handler->handle(
             new RedefineTaskCommand(
                 new TaskId(''),

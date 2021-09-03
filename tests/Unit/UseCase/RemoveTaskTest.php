@@ -9,10 +9,10 @@ use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\RemoveTaskCommand;
-use PHPMate\UseCase\RemoveTaskUseCase;
+use PHPMate\UseCase\RemoveTask;
 use PHPUnit\Framework\TestCase;
 
-final class RemoveTaskUseCaseTest extends TestCase
+final class RemoveTaskTest extends TestCase
 {
     public function testTaskCanBeRemoved(): void
     {
@@ -24,7 +24,7 @@ final class RemoveTaskUseCaseTest extends TestCase
 
         self::assertCount(1, $tasksCollection->all());
 
-        $handler = new RemoveTaskUseCase($tasksCollection);
+        $handler = new RemoveTask($tasksCollection);
         $handler->handle(
             new RemoveTaskCommand($taskId)
         );
@@ -39,7 +39,7 @@ final class RemoveTaskUseCaseTest extends TestCase
 
         $tasksCollection = new InMemoryTasksCollection();
 
-        $handler = new RemoveTaskUseCase($tasksCollection);
+        $handler = new RemoveTask($tasksCollection);
         $handler->handle(
             new RemoveTaskCommand(new TaskId(''))
         );

@@ -21,7 +21,7 @@ use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-final class ExecuteJobUseCase
+final class ExecuteJob
 {
     public function __construct(
         private JobsCollection $jobsCollection,
