@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Form;
 
+use PHPMate\Domain\Task\Task;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class DefineTaskFormData
@@ -26,5 +27,15 @@ final class DefineTaskFormData
         });
 
         return array_values(array_filter($commands));
+    }
+
+
+    public static function fromTask(Task $task): self
+    {
+        $data = new self();
+        $data->name = $task->name;
+        $data->commands = implode("\n", $task->commands);
+
+        return $data;
     }
 }

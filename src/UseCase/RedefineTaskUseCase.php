@@ -22,5 +22,7 @@ final class RedefineTaskUseCase
         $task = $this->tasks->get($command->taskId);
 
         $task->changeDefinition($command->name, $command->commands);
+
+        $this->tasks->save($task);
     }
 }

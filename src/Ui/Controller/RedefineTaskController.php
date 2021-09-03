@@ -7,42 +7,47 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
 use PHPMate\UseCase\DefineTask;
 use PHPMate\UseCase\DefineTaskUseCase;
+use PHPMate\UseCase\RedefineTask;
+use PHPMate\UseCase\RedefineTaskUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class DefineTaskController extends AbstractController
+final class RedefineTaskController extends AbstractController
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private DefineTaskUseCase $defineTaskUseCase
+        private TasksCollection $tasks,
+        private RedefineTaskUseCase $redefineTaskUseCase
     ) {}
 
 
-    #[Route(path: '/define-task/{projectId}', name: 'define_task')]
-    public function __invoke(string $projectId, Request $request): Response
+    #[Route(path: '/redefine-task/{taskId}', name: 'redefine_task')]
+    public function __invoke(string $taskId, Request $request): Response
     {
         try {
-            $activeProject = $this->projectsCollection->get(new ProjectId($projectId));
-        } catch (ProjectNotFound) {
+            $task = $this->tasks->get(new TaskId($taskId));
+        } catch (TaskNotFound) {
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(DefineTaskFormType::class);
+        $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var DefineTaskFormData $data */
             $data = $form->getData();
 
-            $this->defineTaskUseCase->__invoke(
-                new DefineTask(
-                    $activeProject->projectId,
+            $this->redefineTaskUseCase->handle(
+                new RedefineTask(
+                    $task->taskId,
                     $data->name,
                     $data->getCommandsAsArray()
                 )
@@ -51,7 +56,8 @@ final class DefineTaskController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('define_task.html.twig', [
+        return $this->render('redefine_task.html.twig', [
+            'task' => $task,
             'define_task_form' => $form->createView(),
         ]);
     }
