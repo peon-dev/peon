@@ -6,10 +6,10 @@ namespace PHPMate\Tests\Unit\UseCase;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\DefineTaskCommand;
-use PHPMate\UseCase\DefineTaskUseCase;
+use PHPMate\UseCase\DefineTask;
 use PHPUnit\Framework\TestCase;
 
-final class DefineTaskUseCaseTest extends TestCase
+final class DefineTaskTest extends TestCase
 {
     public function testTaskCanBeDefined(): void
     {
@@ -17,8 +17,8 @@ final class DefineTaskUseCaseTest extends TestCase
 
         self::assertCount(0, $tasksCollection->all());
 
-        $handler = new DefineTaskUseCase($tasksCollection);
-        $handler->__invoke(
+        $handler = new DefineTask($tasksCollection);
+        $handler->handle(
             new DefineTaskCommand(
                 new ProjectId(''),
                 'Name',

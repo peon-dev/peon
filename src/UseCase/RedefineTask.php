@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 
-final class RemoveTaskUseCase
+final class RedefineTask
 {
     public function __construct(
         private TasksCollection $tasks
@@ -18,8 +17,12 @@ final class RemoveTaskUseCase
     /**
      * @throws TaskNotFound
      */
-    public function handle(RemoveTaskCommand $command): void
+    public function handle(RedefineTaskCommand $command): void
     {
-        $this->tasks->remove($command->taskId);
+        $task = $this->tasks->get($command->taskId);
+
+        $task->changeDefinition($command->name, $command->commands);
+
+        $this->tasks->save($task);
     }
 }

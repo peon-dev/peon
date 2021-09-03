@@ -7,7 +7,7 @@ namespace PHPMate\UseCase;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 
-final class DeleteProjectUseCase
+final class DeleteProject
 {
     public function __construct(
         private ProjectsCollection $projectsCollection
@@ -17,7 +17,7 @@ final class DeleteProjectUseCase
     /**
      * @throws ProjectNotFound
      */
-    public function __invoke(DeleteProjectCommand $command): void
+    public function handle(DeleteProjectCommand $command): void
     {
         $this->projectsCollection->remove($command->projectId);
     }
