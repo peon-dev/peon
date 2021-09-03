@@ -19,6 +19,6 @@ final class DeleteProjectUseCase
      */
     public function __invoke(DeleteProject $command): void
     {
-
+        $this->projectsCollection->remove($command->projectId);
     }
 }
