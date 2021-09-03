@@ -7,9 +7,9 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
-use PHPMate\UseCase\DeleteProject;
+use PHPMate\UseCase\DeleteProjectCommand;
 use PHPMate\UseCase\DeleteProjectUseCase;
-use PHPMate\UseCase\RemoveTask;
+use PHPMate\UseCase\RemoveTaskCommand;
 use PHPMate\UseCase\RemoveTaskUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +27,7 @@ final class DeleteProjectController extends AbstractController
     {
         try {
             $this->deleteProjectUseCase->__invoke(
-                new DeleteProject(
+                new DeleteProjectCommand(
                     new ProjectId($projectId)
                 )
             );

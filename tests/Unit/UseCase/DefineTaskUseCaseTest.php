@@ -5,7 +5,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
-use PHPMate\UseCase\DefineTask;
+use PHPMate\UseCase\DefineTaskCommand;
 use PHPMate\UseCase\DefineTaskUseCase;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ final class DefineTaskUseCaseTest extends TestCase
 
         $handler = new DefineTaskUseCase($tasksCollection);
         $handler->__invoke(
-            new DefineTask(
+            new DefineTaskCommand(
                 new ProjectId(''),
                 'Name',
                 ['']

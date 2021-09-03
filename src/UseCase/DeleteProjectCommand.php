@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\Project\ProjectId;
 
 #[Immutable]
-final class CreateProject
+final class DeleteProjectCommand
 {
     public function __construct(
-        public RemoteGitRepository $remoteGitRepository
+        public ProjectId $projectId
     ) {}
 }

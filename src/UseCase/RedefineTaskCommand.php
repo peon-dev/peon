@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Task\TaskId;
 
 #[Immutable]
-final class RedefineTask
+final class RedefineTaskCommand
 {
     /**
      * @param array<string> $commands

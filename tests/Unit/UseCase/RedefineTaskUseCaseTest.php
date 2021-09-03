@@ -8,7 +8,7 @@ use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
-use PHPMate\UseCase\RedefineTask;
+use PHPMate\UseCase\RedefineTaskCommand;
 use PHPMate\UseCase\RedefineTaskUseCase;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ final class RedefineTaskUseCaseTest extends TestCase
 
         $handler = new RedefineTaskUseCase($tasksCollection);
         $handler->handle(
-            new RedefineTask(
+            new RedefineTaskCommand(
                 $taskId,
                 'New name',
                 []
@@ -45,7 +45,7 @@ final class RedefineTaskUseCaseTest extends TestCase
 
         $handler = new RedefineTaskUseCase($tasksCollection);
         $handler->handle(
-            new RedefineTask(
+            new RedefineTaskCommand(
                 new TaskId(''),
                 'Name',
                 []

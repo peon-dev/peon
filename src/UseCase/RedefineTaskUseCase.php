@@ -17,7 +17,7 @@ final class RedefineTaskUseCase
     /**
      * @throws TaskNotFound
      */
-    public function handle(RedefineTask $command): void
+    public function handle(RedefineTaskCommand $command): void
     {
         $task = $this->tasks->get($command->taskId);
 

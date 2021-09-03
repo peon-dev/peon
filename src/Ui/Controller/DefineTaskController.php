@@ -9,7 +9,7 @@ use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
-use PHPMate\UseCase\DefineTask;
+use PHPMate\UseCase\DefineTaskCommand;
 use PHPMate\UseCase\DefineTaskUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ final class DefineTaskController extends AbstractController
             $data = $form->getData();
 
             $this->defineTaskUseCase->__invoke(
-                new DefineTask(
+                new DefineTaskCommand(
                     $activeProject->projectId,
                     $data->name,
                     $data->getCommandsAsArray()

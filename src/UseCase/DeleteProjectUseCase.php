@@ -17,7 +17,7 @@ final class DeleteProjectUseCase
     /**
      * @throws ProjectNotFound
      */
-    public function __invoke(DeleteProject $command): void
+    public function __invoke(DeleteProjectCommand $command): void
     {
         $this->projectsCollection->remove($command->projectId);
     }
