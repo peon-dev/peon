@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
+use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Process\JobProcess;
@@ -25,9 +26,9 @@ final class Job
     private ?\DateTimeInterface $failedAt = null;
 
     /**
-     * @var array<JobProcess>
+     * @var Collection<JobProcess>
      */
-    public array $processes = [];
+    public $processes = [];
 
     /**
      * @param array<string> $commands
