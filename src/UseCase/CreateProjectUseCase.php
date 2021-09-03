@@ -14,7 +14,7 @@ final class CreateProjectUseCase
     ) {}
 
     // @TODO: throws
-    public function __invoke(CreateProject $createProject): void
+    public function __invoke(CreateProjectCommand $createProject): void
     {
         $project = new Project(
             $this->projectsCollection->nextIdentity(),

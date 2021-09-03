@@ -8,9 +8,14 @@ use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Project\ProjectId;
 
 #[Immutable]
-final class DeleteProject
+final class DefineTaskCommand
 {
+    /**
+     * @param array<string> $commands
+     */
     public function __construct(
-        public ProjectId $projectId
+        public ProjectId $projectId,
+        public string $name,
+        public array $commands
     ) {}
 }

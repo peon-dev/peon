@@ -6,7 +6,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\UseCase\CreateProject;
+use PHPMate\UseCase\CreateProjectCommand;
 use PHPMate\UseCase\CreateProjectUseCase;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ final class CreateProjectUseCaseTest extends TestCase
 
         $handler = new CreateProjectUseCase($projectsCollection);
         $handler->__invoke(
-            new CreateProject(
+            new CreateProjectCommand(
                 new RemoteGitRepository(
                     'https://gitlab.com/phpmate-dogfood/rector.git',
                     GitRepositoryAuthentication::fromPersonalAccessToken('PAT')

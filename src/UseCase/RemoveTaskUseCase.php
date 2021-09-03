@@ -18,7 +18,7 @@ final class RemoveTaskUseCase
     /**
      * @throws TaskNotFound
      */
-    public function handle(RemoveTask $command): void
+    public function handle(RemoveTaskCommand $command): void
     {
         $this->tasks->remove($command->taskId);
     }

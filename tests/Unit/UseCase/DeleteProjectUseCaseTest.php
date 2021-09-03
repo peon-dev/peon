@@ -9,7 +9,7 @@ use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\UseCase\DeleteProject;
+use PHPMate\UseCase\DeleteProjectCommand;
 use PHPMate\UseCase\DeleteProjectUseCase;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ final class DeleteProjectUseCaseTest extends TestCase
 
         $handler = new DeleteProjectUseCase($projectsCollection);
         $handler->__invoke(
-            new DeleteProject($projectId)
+            new DeleteProjectCommand($projectId)
         );
 
         self::assertCount(0, $projectsCollection->all());
@@ -47,7 +47,7 @@ final class DeleteProjectUseCaseTest extends TestCase
 
         $handler = new DeleteProjectUseCase($projectsCollection);
         $handler->__invoke(
-            new DeleteProject(new ProjectId(''))
+            new DeleteProjectCommand(new ProjectId(''))
         );
     }
 }

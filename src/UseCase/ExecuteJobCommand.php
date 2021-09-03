@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Job\JobId;
 
 #[Immutable]
-final class RemoveTask
+final class ExecuteJobCommand
 {
     public function __construct(
-        public TaskId $taskId
+        public JobId $jobId
     ) {}
 }

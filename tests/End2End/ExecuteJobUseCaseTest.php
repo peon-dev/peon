@@ -18,7 +18,7 @@ use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
-use PHPMate\UseCase\ExecuteJob;
+use PHPMate\UseCase\ExecuteJobCommand;
 use PHPMate\UseCase\ExecuteJobUseCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -92,7 +92,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
     {
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJob($jobId));
+        $this->useCase->handle(new ExecuteJobCommand($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -115,7 +115,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJob($jobId));
+        $this->useCase->handle(new ExecuteJobCommand($jobId));
 
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -139,7 +139,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJob($jobId));
+        $this->useCase->handle(new ExecuteJobCommand($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -162,7 +162,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJob($jobId));
+        $this->useCase->handle(new ExecuteJobCommand($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -186,7 +186,7 @@ class ExecuteJobUseCaseTest extends KernelTestCase
         $jobId = new JobId(self::JOB_ID);
 
         try {
-            $this->useCase->handle(new ExecuteJob($jobId));
+            $this->useCase->handle(new ExecuteJobCommand($jobId));
         } catch (\Throwable $exception) {
             // Just to capture
         }

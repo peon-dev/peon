@@ -41,7 +41,7 @@ final class ExecuteJobUseCase
      * @throws GitCommandFailed
      * @throws ComposerCommandFailed
      */
-    public function handle(ExecuteJob $command): void
+    public function handle(ExecuteJobCommand $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
         $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
