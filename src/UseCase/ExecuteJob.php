@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Process\JobProcess;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\ProcessFailed;
@@ -31,7 +33,8 @@ final class ExecuteJob
         private BuildApplication $buildApplication,
         private Git $git,
         private GitProvider $gitProvider,
-        private ProcessLogger $processLogger
+        private ProcessLogger $processLogger,
+        private Clock $clock,
     ) {}
 
 
@@ -47,7 +50,7 @@ final class ExecuteJob
         $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
 
         try {
-            $job->start();
+            $job->start($this->clock);
             $this->jobsCollection->save($job);
 
             $remoteGitRepository = $project->remoteGitRepository;
@@ -96,17 +99,26 @@ final class ExecuteJob
                 } // TODO: consider else branch (if MR already opened, that new commits were added)
             }
 
-            $job->finish();
+            $job->succeeds($this->clock);
         } catch (\Throwable $throwable) {
-            $job->fail();
+            $job->fails($this->clock);
 
             // $this->notifier->notifyAboutFailedCommand($throwable);
 
             throw $throwable;
         } finally {
             // TODO: Consider dropping collector pattern for something more clean?
-            foreach ($this->processLogger->getLogs() as $processResult) {
-                $job->addProcessResult($processResult);
+            foreach ($this->processLogger->getLogs() as $counter => $processResult) {
+                $jobProcess = new JobProcess(
+                    $job->jobId,
+                    $counter,
+                    $processResult
+                );
+
+                $job->addProcessResult(
+
+                );
+
             }
 
             $this->jobsCollection->save($job);

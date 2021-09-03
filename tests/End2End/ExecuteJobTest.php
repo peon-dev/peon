@@ -100,7 +100,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
-        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
+        self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
 
@@ -123,7 +123,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
-        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
+        self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
 
@@ -147,7 +147,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
-        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
+        self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
 
@@ -170,7 +170,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
-        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
+        self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
 
@@ -197,7 +197,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasFailed(), 'Job should be failed!');
-        self::assertNotEmpty($job->processResults, 'Job should contain processes!');
+        self::assertNotEmpty($job->processes, 'Job should contain processes!');
         self::assertInstanceOf(ProcessFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 

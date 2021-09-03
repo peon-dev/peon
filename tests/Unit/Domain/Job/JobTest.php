@@ -33,16 +33,18 @@ final class JobTest extends TestCase
     {
         $this->expectException(JobHasStartedAlready::class);
 
+        $clock = FrozenClock::fromUTC();
+
         $job = new Job(
             new JobId(''),
             new ProjectId(''),
             new TaskId(''),
             '',
-            FrozenClock::fromUTC(),
+            $clock,
             ['command']
         );
 
-        $job->start();
-        $job->start();
+        $job->start($clock);
+        $job->start($clock);
     }
 }
