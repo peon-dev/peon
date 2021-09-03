@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\UseCase\RemoveTask;
 use PHPMate\UseCase\RemoveTaskUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +22,15 @@ final class RemoveTaskController extends AbstractController
     #[Route(path: '/remove-task/{taskId}', name: 'remove_task')]
     public function __invoke(string $taskId): Response
     {
-        $this->removeTaskUseCase->handle(
-            new RemoveTask(
-                new TaskId($taskId)
-            )
-        );
+        try {
+            $this->removeTaskUseCase->handle(
+                new RemoveTask(
+                    new TaskId($taskId)
+                )
+            );
+        } catch (TaskNotFound) {
+            throw $this->createNotFoundException();
+        }
 
         return $this->redirectToRoute('dashboard');
     }
