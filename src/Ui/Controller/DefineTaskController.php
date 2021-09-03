@@ -48,7 +48,7 @@ final class DefineTaskController extends AbstractController
                 )
             );
 
-            return $this->redirectToRoute('jobs_list');
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('define_task.html.twig', [

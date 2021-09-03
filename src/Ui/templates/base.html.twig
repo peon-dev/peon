@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a href="{{ path('jobs_list') }}" class="navbar-brand">
+            <a href="{{ path('dashboard') }}" class="navbar-brand">
                 PHPMate.io
             </a>
 
@@ -23,7 +23,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link {% if app.request.pathInfo == path('jobs_list') %}active{% endif %}" href="{{ path('jobs_list') }}">
+                    <a class="nav-link {% if app.request.pathInfo == path('dashboard') %}active{% endif %}" href="{{ path('dashboard') }}">
                         Dashboard
                     </a>
                 </div>

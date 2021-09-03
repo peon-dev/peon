@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class ListJobsController extends AbstractController
+final class DashboardController extends AbstractController
 {
     public function __construct(
         private JobsCollection $jobsCollection,
@@ -20,10 +20,10 @@ final class ListJobsController extends AbstractController
     ) {}
 
 
-    #[Route(path: '/', name: 'jobs_list', methods: ['GET'])]
+    #[Route(path: '/', name: 'dashboard', methods: ['GET'])]
     public function __invoke(): Response
     {
-        return $this->render('jobs_list.html.twig', [
+        return $this->render('dashboard.html.twig', [
             'jobs' => $this->jobsCollection->all(),
             'projects' => $this->projectsCollection->all(),
             'tasks' => $this->tasksCollection->all(),

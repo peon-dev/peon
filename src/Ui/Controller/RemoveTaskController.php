@@ -27,6 +27,6 @@ final class RemoveTaskController extends AbstractController
             )
         );
 
-        return $this->redirectToRoute('jobs_list');
+        return $this->redirectToRoute('dashboard');
     }
 }
