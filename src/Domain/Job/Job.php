@@ -81,9 +81,9 @@ final class Job
     }
 
 
-    public function isInProgress(): bool
+    public function hasFinished(): bool
     {
-        return $this->status === JobStatus::IN_PROGRESS;
+        return $this->succeededAt !== null || $this->failedAt !== null;
     }
 
 
@@ -106,6 +106,12 @@ final class Job
             count($this->processes),
             $processResult
         );
+    }
+
+
+    public function getExecutionTime(): ?int
+    {
+        return null; // TODO
     }
 
 
