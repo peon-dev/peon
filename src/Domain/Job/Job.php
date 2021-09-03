@@ -6,6 +6,7 @@ namespace PHPMate\Domain\Job;
 
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Process\JobProcess;
 use PHPMate\Domain\Process\ProcessResult;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Task\TaskId;
@@ -15,17 +16,18 @@ final class Job
 {
     public string $status = JobStatus::SCHEDULED;
 
-    public ?float $duration = null;
+    public \DateTimeInterface $scheduledAt;
 
-    private ?float $startMicrotime = null;
+    private ?\DateTimeInterface $startedAt = null;
+
+    private ?\DateTimeInterface $succeededAt = null;
+
+    private ?\DateTimeInterface $failedAt = null;
 
     /**
      * @var array<JobProcess>
      */
-    public array $processResults = [];
-
-    public \DateTimeInterface $scheduledAt;
-
+    public array $processes = [];
 
     /**
      * @param array<string> $commands
@@ -47,23 +49,23 @@ final class Job
     /**
      * @throws JobHasStartedAlready
      */
-    public function start(): void
+    public function start(Clock $clock): void
     {
-        if ($this->status !== JobStatus::SCHEDULED) {
+        if ($this->startedAt !== null) {
             throw new JobHasStartedAlready();
         }
 
+        $this->startedAt = $clock->now();
         $this->status = JobStatus::IN_PROGRESS;
-        $this->startMicrotime = microtime(true);
     }
 
 
     /**
      * @throws JobHasNotStarted
      */
-    public function finish(): void
+    public function succeeds(Clock $clock): void
     {
-        $this->duration = $this->calculateDuration();
+        $this->succeededAt = $clock->now();
         $this->status = JobStatus::SUCCEEDED;
     }
 
@@ -71,9 +73,9 @@ final class Job
     /**
      * @throws JobHasNotStarted
      */
-    public function fail(): void
+    public function fails(Clock $clock): void
     {
-        $this->duration = $this->calculateDuration();
+        $this->failedAt = $clock->now();
         $this->status = JobStatus::FAILED;
     }
 
@@ -98,9 +100,9 @@ final class Job
 
     public function addProcessResult(ProcessResult $processResult): void
     {
-        $this->processResults[] = new JobProcess(
-            $this->jobId,
-            count($this->processResults),
+        $this->processes[] = new JobProcess(
+            $this,
+            count($this->processes),
             $processResult
         );
     }
@@ -115,20 +117,5 @@ final class Job
         if (count($commands) <= 0) {
             throw new JobHasNoCommands();
         }
-    }
-
-
-    /**
-     * @throws JobHasNotStarted
-     */
-    private function calculateDuration(): float
-    {
-        if ($this->startMicrotime === null) {
-            throw new JobHasNotStarted();
-        }
-
-        $finishTime = microtime(true);
-
-        return $finishTime - $this->startMicrotime;
     }
 }

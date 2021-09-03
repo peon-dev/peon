@@ -13,6 +13,6 @@ final class ProcessResult
         public string $command,
         public int $exitCode,
         public string $output,
-        public float $duration
+        public float $executionTime
     ) { }
 }

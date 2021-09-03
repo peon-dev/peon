@@ -1,0 +1,21 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="PHPMate\Domain\Job\Job">
+        <id name="jobId" type="job_id" />
+        <field name="projectId" type="project_id" />
+        <field name="taskId" type="task_id" />
+        <field name="taskName" />
+        <field name="scheduledAt" type="datetime_immutable" />
+        <field name="startedAt" type="datetime_immutable" nullable="true" />
+        <field name="succeededAt" type="datetime_immutable" nullable="true" />
+        <field name="failedAt" type="datetime_immutable" nullable="true" />
+        <field name="commands" type="json" />
+        <one-to-many field="processes" target-entity="PHPMate\Domain\Process\JobProcess" mapped-by="job">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>
