@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    <h1>{% block title %}Create project{% endblock %}</h1>
+
     {{ form_start(create_project_form) }}
         {{ form_widget(create_project_form) }}
 
