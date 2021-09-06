@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Job\JobHasStartedAlready;
 use PHPMate\Domain\Process\JobProcess;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
@@ -100,6 +101,13 @@ final class ExecuteJob
             }
 
             $job->succeeds($this->clock);
+        } catch (JobHasStartedAlready $exception) {
+            // TODO, im not sure what should happen
+            // Do not fail the job, it might be already in progress
+            // Maybe duplicate run
+            // Maybe it already finished
+            // Lets just throw
+            throw $exception;
         } catch (\Throwable $throwable) {
             $job->fails($this->clock);
 
