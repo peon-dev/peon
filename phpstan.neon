@@ -1,6 +1,7 @@
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/pepakriz/phpstan-exception-rules/extension.neon
 
 parameters:
     level: max
@@ -9,6 +10,12 @@ parameters:
         - bin
         - tests
 
-    earlyTerminatingMethodCalls:
-        PHPMate\Dashboard\Security\BasicAuthChecker:
-            - terminateWithAuthenticationRequest
+    exceptionRules:
+        reportUnusedCatchesOfUncheckedExceptions: false
+        reportUnusedCheckedThrowsInSubtypes: false
+        reportCheckedThrowsInGlobalScope: false
+        uncheckedExceptions:
+            - LogicException
+            - PHPUnit\Framework\Exception
+        methodWhitelist:
+            PHPUnit\Framework\TestCase: '#.*#i'
