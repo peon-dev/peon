@@ -17,5 +17,6 @@ parameters:
         uncheckedExceptions:
             - LogicException
             - PHPUnit\Framework\Exception
+            - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'
