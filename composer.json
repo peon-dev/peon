@@ -64,6 +64,7 @@
         "zeichen32/gitlabapibundle": "^6.0"
     },
     "require-dev": {
+        "pepakriz/phpstan-exception-rules": "^0.11.7",
         "phpstan/phpstan": "^0.12.76",
         "phpstan/phpstan-phpunit": "^0.12.18",
         "phpunit/phpunit": "^9.5",
