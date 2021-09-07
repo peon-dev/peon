@@ -11,7 +11,8 @@ RUN mkdir /.composer \
     && chown 1000:1000 /.composer
 
 RUN apt-get update && apt-get install -y \
-     git
+    git \
+    zip
 
 RUN install-php-extensions \
     intl \
