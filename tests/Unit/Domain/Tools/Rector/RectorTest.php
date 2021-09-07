@@ -49,15 +49,13 @@ class RectorTest extends TestCase
     public function testProcessThrowsExceptionOnNonZeroExitCode(): void
     {
         $this->expectException(RectorCommandFailed::class);
-        $this->expectExceptionMessage('Message');
 
         $projectDirectory = '/';
-        $processResult = new ProcessResult('', 1, 'Message', 0);
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
             ->method('executeCommand')
-            ->willReturn($processResult);
+            ->willThrowException(new RectorCommandFailed());
 
         $rector = new Rector($rectorBinary, $this->processLogger);
         $rector->process($projectDirectory, new RectorProcessCommandConfiguration());
