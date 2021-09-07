@@ -9,6 +9,8 @@ parameters:
         - src
         - bin
         - tests
+    excludePaths:
+        - tests/bootstrap.php
 
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: false
@@ -16,7 +18,10 @@ parameters:
         reportCheckedThrowsInGlobalScope: false
         uncheckedExceptions:
             - LogicException
+            - Nette\IOException
             - PHPUnit\Framework\Exception
+            - Symfony\Component\Form\Exception\OutOfBoundsException
+            - Symfony\Component\Form\Exception\RuntimeException
             - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'

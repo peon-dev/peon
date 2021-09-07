@@ -68,6 +68,10 @@ final class Job
      */
     public function succeeds(Clock $clock): void
     {
+        if ($this->startedAt === null) {
+            throw new JobHasNotStarted();
+        }
+
         $this->succeededAt = $clock->now();
         $this->status = JobStatus::SUCCEEDED;
     }
@@ -78,6 +82,10 @@ final class Job
      */
     public function fails(Clock $clock): void
     {
+        if ($this->startedAt === null) {
+            throw new JobHasNotStarted();
+        }
+
         $this->failedAt = $clock->now();
         $this->status = JobStatus::FAILED;
     }

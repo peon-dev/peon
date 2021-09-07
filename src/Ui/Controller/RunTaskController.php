@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
+use PHPMate\Domain\Job\JobHasNoCommands;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Ui\FlashType;
 use PHPMate\UseCase\RunTask;
 use PHPMate\UseCase\RunTaskCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,6 +33,8 @@ final class RunTaskController extends AbstractController
             );
         } catch (TaskNotFound | ProjectNotFound) {
             throw $this->createNotFoundException();
+        } catch (JobHasNoCommands) {
+            $this->addFlash(FlashType::WARNING, 'Task must have some commands to run! Please add some first.');
         }
 
         return $this->redirectToRoute('dashboard');
