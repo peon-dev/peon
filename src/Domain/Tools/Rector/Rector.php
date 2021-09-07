@@ -35,9 +35,5 @@ final class Rector
         $result = $this->rectorBinary->executeCommand($directory, $command);
 
         $this->processLogger->logResult($result);
-
-        if ($result->exitCode !== 0) {
-            throw new RectorCommandFailed($result->output);
-        }
     }
 }
