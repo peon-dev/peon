@@ -8,6 +8,12 @@
             "email": "j.mikes@me.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/janmikes/psr7"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
@@ -18,7 +24,7 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
-        "guzzlehttp/psr7": "^1.7",
+        "guzzlehttp/psr7": "dev-fix-missing-uri-throws-annotation",
         "jetbrains/phpstorm-attributes": "^1.0",
         "lcobucci/clock": "^2.0",
         "monolog/monolog": "^2.2",
