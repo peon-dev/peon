@@ -30,14 +30,13 @@ final class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        if ($result->exitCode > 0) {
-            throw new GitCommandFailed($result->output);
-        }
-
         $this->processLogger->logResult($result);
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function hasUncommittedChanges(string $directory): bool
     {
         $result = $this->gitBinary->executeCommand($directory, 'status --porcelain');
@@ -48,6 +47,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function getCurrentBranch(string $directory): string
     {
         $result = $this->gitBinary->executeCommand($directory, 'rev-parse --abbrev-ref HEAD');
@@ -58,6 +60,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function checkoutNewBranch(string $directory, string $branch): void
     {
         $command = sprintf('checkout -b %s', $branch);
@@ -68,6 +73,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function configureUser(string $directory): void
     {
         $result = $this->gitBinary->executeCommand($directory, sprintf(
@@ -84,6 +92,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function remoteBranchExists(string $directory, string $branch): bool
     {
         $command = sprintf(
@@ -99,6 +110,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function checkoutRemoteBranch(string $directory, string $branch): void
     {
         $command = sprintf('checkout origin/%s', $branch);
@@ -110,7 +124,7 @@ final class Git
 
 
     /**
-     * @throws RebaseFailed
+     * @throws GitCommandFailed
      */
     public function rebaseBranchAgainstUpstream(string $directory, string $mainBranch): void
     {
@@ -118,13 +132,12 @@ final class Git
         $result = $this->gitBinary->executeCommand($directory, $command);
 
         $this->processLogger->logResult($result);
-
-        if ($result->exitCode !== 0) {
-            throw new RebaseFailed($result->output);
-        }
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function forcePush(string $directory): void
     {
         $result = $this->gitBinary->executeCommand($directory, 'push -u origin --all --force-with-lease');
@@ -133,6 +146,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function abortRebase(string $directory): void
     {
         $result = $this->gitBinary->executeCommand($directory, 'rebase --abort');
@@ -141,6 +157,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function resetCurrentBranch(string $directory, string $mainBranch): void
     {
         $command = sprintf(
@@ -154,6 +173,9 @@ final class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function commit(string $directory, string $commitMessage): void
     {
         $commitCommand = sprintf(

@@ -8,5 +8,8 @@ use PHPMate\Domain\Process\ProcessResult;
 
 interface GitBinary
 {
+    /**
+     * @throws GitCommandFailed
+     */
     public function executeCommand(string $directory, string $command): ProcessResult;
 }

@@ -6,7 +6,6 @@ namespace PHPMate\Tests\Unit\Domain\Tools\Git;
 use Nyholm\Psr7\Uri;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitBinary;
-use PHPMate\Domain\Tools\Git\RebaseFailed;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Process\ProcessResult;
 use PHPUnit\Framework\TestCase;
@@ -37,7 +36,7 @@ class GitTest extends TestCase
             )
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->configureUser('/');
     }
 
@@ -52,7 +51,7 @@ class GitTest extends TestCase
             ->with('/', 'rev-parse --abbrev-ref HEAD')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $currentBranch = $git->getCurrentBranch('/');
 
         self::assertSame('main', $currentBranch);
@@ -107,7 +106,7 @@ class GitTest extends TestCase
             ->with('/', 'clone https://phpmate.io .')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->clone('/', $remoteUri);
     }
 
@@ -122,7 +121,7 @@ class GitTest extends TestCase
             ->with('/', 'checkout -b phpmate')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->checkoutNewBranch('/', 'phpmate');
     }
 
@@ -140,7 +139,7 @@ class GitTest extends TestCase
             ->with('/', 'ls-remote --heads origin phpmate')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $remoteBranchExists = $git->remoteBranchExists('/', 'phpmate');
 
         self::assertSame($expected, $remoteBranchExists);
@@ -174,7 +173,7 @@ class GitTest extends TestCase
             ->with('/', 'checkout origin/phpmate')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->checkoutRemoteBranch('/', 'phpmate');
     }
 
@@ -189,24 +188,7 @@ class GitTest extends TestCase
             ->with('/', 'rebase origin/main')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
-        $git->rebaseBranchAgainstUpstream('/', 'main');
-    }
-
-
-    public function testRebaseBranchAgainstUpstreamWillFail(): void
-    {
-        $this->expectException(RebaseFailed::class);
-
-        $processResult = new ProcessResult('', 2, '', 0);
-
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'rebase origin/main')
-            ->willReturn($processResult);
-
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->rebaseBranchAgainstUpstream('/', 'main');
     }
 
@@ -221,7 +203,7 @@ class GitTest extends TestCase
             ->with('/', 'rebase --abort')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->abortRebase('/');
     }
 
@@ -236,7 +218,7 @@ class GitTest extends TestCase
             ->with('/', 'push -u origin --all --force-with-lease')
             ->willReturn($processResult);
 
-        $git = new \PHPMate\Domain\Tools\Git\Git($gitBinary, $this->logger);
+        $git = new Git($gitBinary, $this->logger);
         $git->forcePush('/');
     }
 

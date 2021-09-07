@@ -7,7 +7,6 @@ namespace PHPMate\Domain\PhpApplication;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitCommandFailed;
-use PHPMate\Domain\Tools\Git\RebaseFailed;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Psr\Http\Message\UriInterface;
 
@@ -44,7 +43,7 @@ final class PrepareApplicationGitRepository // TODO: better naming
             try {
                 $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);
                 $this->git->forcePush($applicationDirectory);
-            } catch (RebaseFailed) {
+            } catch (GitCommandFailed) {
                 $this->git->abortRebase($applicationDirectory);
                 $this->git->resetCurrentBranch($applicationDirectory, $mainBranch);
             }

@@ -10,6 +10,7 @@ interface ComposerBinary
 {
     /**
      * @param array<string, string> $environmentVariables
+     * @throws ComposerCommandFailed
      */
     public function executeCommand(string $directory, string $command, array $environmentVariables = []): ProcessResult;
 }

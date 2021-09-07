@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Job\JobExecutionFailed;
 use PHPMate\Domain\Job\JobHasNotStarted;
 use PHPMate\Domain\Job\JobHasStartedAlready;
-use PHPMate\Domain\Process\JobProcess;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\ProcessFailed;
@@ -44,16 +44,15 @@ final class ExecuteJob
      * @throws JobNotFound
      * @throws JobHasStartedAlready
      * @throws JobHasNotStarted
-     * @throws ProjectNotFound
-     * @throws GitCommandFailed
-     * @throws ComposerCommandFailed
+     * @throws JobExecutionFailed
      */
     public function handle(ExecuteJobCommand $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
-        $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
 
         try {
+            $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
+
             $job->start($this->clock);
             $this->jobsCollection->save($job);
 
@@ -115,7 +114,7 @@ final class ExecuteJob
 
             // $this->notifier->notifyAboutFailedCommand($throwable);
 
-            throw $throwable;
+            throw new JobExecutionFailed($throwable->getMessage(), previous: $throwable);
         } finally {
             // TODO: Consider dropping collector pattern for something more clean?
             foreach ($this->processLogger->getLogs() as $processResult) {
