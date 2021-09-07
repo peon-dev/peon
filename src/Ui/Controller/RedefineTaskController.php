@@ -34,31 +34,31 @@ final class RedefineTaskController extends AbstractController
     {
         try {
             $task = $this->tasks->get(new TaskId($taskId));
+
+            $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                /** @var DefineTaskFormData $data */
+                $data = $form->getData();
+
+                $this->redefineTaskUseCase->handle(
+                    new RedefineTaskCommand(
+                        $task->taskId,
+                        $data->name,
+                        $data->getCommandsAsArray()
+                    )
+                );
+
+                return $this->redirectToRoute('dashboard');
+            }
+
+            return $this->render('redefine_task.html.twig', [
+                'task' => $task,
+                'define_task_form' => $form->createView(),
+            ]);
         } catch (TaskNotFound) {
             throw $this->createNotFoundException();
         }
-
-        $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var DefineTaskFormData $data */
-            $data = $form->getData();
-
-            $this->redefineTaskUseCase->handle(
-                new RedefineTaskCommand(
-                    $task->taskId,
-                    $data->name,
-                    $data->getCommandsAsArray()
-                )
-            );
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-        return $this->render('redefine_task.html.twig', [
-            'task' => $task,
-            'define_task_form' => $form->createView(),
-        ]);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Job\JobHasNotStarted;
 use PHPMate\Domain\Job\JobHasStartedAlready;
 use PHPMate\Domain\Process\JobProcess;
 use PHPMate\Domain\PhpApplication\BuildApplication;
@@ -41,6 +42,8 @@ final class ExecuteJob
 
     /**
      * @throws JobNotFound
+     * @throws JobHasStartedAlready
+     * @throws JobHasNotStarted
      * @throws ProjectNotFound
      * @throws GitCommandFailed
      * @throws ComposerCommandFailed
@@ -79,7 +82,6 @@ final class ExecuteJob
                     $this->processLogger->logResult($processResult);
                 }
             }
-
 
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
                 $this->git->commit($projectDirectory, '[PHP Mate] Task ' . $job->taskName);
