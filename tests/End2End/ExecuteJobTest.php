@@ -7,6 +7,7 @@ use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
+use PHPMate\Domain\Job\JobExecutionFailed;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Process\ProcessFailed;
@@ -198,7 +199,7 @@ class ExecuteJobTest extends KernelTestCase
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasFailed(), 'Job should be failed!');
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
-        self::assertInstanceOf(ProcessFailed::class, $exception);
+        self::assertInstanceOf(JobExecutionFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
     }
