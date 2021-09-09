@@ -19,13 +19,14 @@ use PHPMate\UseCase\RedefineTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RedefineTaskController extends AbstractController
 {
     public function __construct(
         private TasksCollection $tasks,
-        private RedefineTask $redefineTaskUseCase
+        private MessageBusInterface $commandBus
     ) {}
 
 
@@ -42,7 +43,7 @@ final class RedefineTaskController extends AbstractController
                 /** @var DefineTaskFormData $data */
                 $data = $form->getData();
 
-                $this->redefineTaskUseCase->__invoke(
+                $this->commandBus->dispatch(
                     new RedefineTaskCommand(
                         $task->taskId,
                         $data->name,

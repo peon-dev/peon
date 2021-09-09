@@ -13,12 +13,13 @@ use PHPMate\UseCase\RunTask;
 use PHPMate\UseCase\RunTaskCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RunTaskController extends AbstractController
 {
     public function __construct(
-        private RunTask $runTaskUseCase
+        private MessageBusInterface $commandBus
     ) {}
 
 
@@ -26,7 +27,7 @@ final class RunTaskController extends AbstractController
     public function __invoke(string $taskId): Response
     {
         try {
-            $this->runTaskUseCase->__invoke(
+            $this->commandBus->dispatch(
                 new RunTaskCommand(
                     new TaskId($taskId)
                 )
