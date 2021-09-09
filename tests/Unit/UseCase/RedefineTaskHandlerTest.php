@@ -8,13 +8,13 @@ use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
-use PHPMate\UseCase\RemoveTaskCommand;
-use PHPMate\UseCase\RemoveTask;
+use PHPMate\UseCase\RedefineTask;
+use PHPMate\UseCase\RedefineTaskHandler;
 use PHPUnit\Framework\TestCase;
 
-final class RemoveTaskTest extends TestCase
+final class RedefineTaskHandlerTest extends TestCase
 {
-    public function testTaskCanBeRemoved(): void
+    public function testTaskCanBeRedefined(): void
     {
         $tasksCollection = new InMemoryTasksCollection();
         $taskId = new TaskId('1');
@@ -22,26 +22,34 @@ final class RemoveTaskTest extends TestCase
             new Task($taskId, new ProjectId(''), 'Task', [])
         );
 
-        self::assertCount(1, $tasksCollection->all());
-
-        $handler = new RemoveTask($tasksCollection);
+        $handler = new RedefineTaskHandler($tasksCollection);
         $handler->__invoke(
-            new RemoveTaskCommand($taskId)
+            new RedefineTask(
+                $taskId,
+                'New name',
+                []
+            )
         );
 
-        self::assertCount(0, $tasksCollection->all());
+        $task = $tasksCollection->get($taskId);
+
+        self::assertSame('New name', $task->name);
     }
 
 
-    public function testNonExistingTaskCanNotBeRemoved(): void
+    public function testNonExistingTaskCanNotBeRedefined(): void
     {
         $this->expectException(TaskNotFound::class);
 
         $tasksCollection = new InMemoryTasksCollection();
 
-        $handler = new RemoveTask($tasksCollection);
+        $handler = new RedefineTaskHandler($tasksCollection);
         $handler->__invoke(
-            new RemoveTaskCommand(new TaskId(''))
+            new RedefineTask(
+                new TaskId(''),
+                'Name',
+                []
+            )
         );
     }
 }

@@ -4,26 +4,18 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Task\TaskNotFound;
-use PHPMate\Domain\Task\TasksCollection;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Task\TaskId;
 
-final class RedefineTask implements MessageHandlerInterface
+#[Immutable]
+final class RedefineTask
 {
-    public function __construct(
-        private TasksCollection $tasks
-    ) {}
-
-
     /**
-     * @throws TaskNotFound
+     * @param array<string> $commands
      */
-    public function __invoke(RedefineTaskCommand $command): void
-    {
-        $task = $this->tasks->get($command->taskId);
-
-        $task->changeDefinition($command->name, $command->commands);
-
-        $this->tasks->save($task);
-    }
+    public function __construct(
+        public TaskId $taskId,
+        public string $name,
+        public array $commands
+    ) {}
 }

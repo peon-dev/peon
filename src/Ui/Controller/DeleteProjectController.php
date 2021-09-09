@@ -7,10 +7,10 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
-use PHPMate\UseCase\DeleteProjectCommand;
 use PHPMate\UseCase\DeleteProject;
-use PHPMate\UseCase\RemoveTaskCommand;
+use PHPMate\UseCase\DeleteProjectHandler;
 use PHPMate\UseCase\RemoveTask;
+use PHPMate\UseCase\RemoveTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -28,7 +28,7 @@ final class DeleteProjectController extends AbstractController
     {
         try {
             $this->commandBus->dispatch(
-                new DeleteProjectCommand(
+                new DeleteProject(
                     new ProjectId($projectId)
                 )
             );

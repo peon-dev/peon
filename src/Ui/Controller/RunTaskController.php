@@ -9,8 +9,8 @@ use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Ui\FlashType;
+use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
-use PHPMate\UseCase\RunTaskCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -28,7 +28,7 @@ final class RunTaskController extends AbstractController
     {
         try {
             $this->commandBus->dispatch(
-                new RunTaskCommand(
+                new RunTask(
                     new TaskId($taskId)
                 )
             );

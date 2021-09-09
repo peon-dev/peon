@@ -4,22 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Project\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Project\ProjectId;
 
-final class DeleteProject implements MessageHandlerInterface
+#[Immutable]
+final class DeleteProject
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection
+        public ProjectId $projectId
     ) {}
-
-
-    /**
-     * @throws ProjectNotFound
-     */
-    public function __invoke(DeleteProjectCommand $command): void
-    {
-        $this->projectsCollection->remove($command->projectId);
-    }
 }

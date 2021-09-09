@@ -12,10 +12,10 @@ use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
-use PHPMate\UseCase\DefineTaskCommand;
 use PHPMate\UseCase\DefineTask;
-use PHPMate\UseCase\RedefineTaskCommand;
+use PHPMate\UseCase\DefineTaskHandler;
 use PHPMate\UseCase\RedefineTask;
+use PHPMate\UseCase\RedefineTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +44,7 @@ final class RedefineTaskController extends AbstractController
                 $data = $form->getData();
 
                 $this->commandBus->dispatch(
-                    new RedefineTaskCommand(
+                    new RedefineTask(
                         $task->taskId,
                         $data->name,
                         $data->getCommandsAsArray()
