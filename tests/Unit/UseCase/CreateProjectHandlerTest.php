@@ -6,11 +6,11 @@ namespace PHPMate\Tests\Unit\UseCase;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\UseCase\CreateProjectCommand;
 use PHPMate\UseCase\CreateProject;
+use PHPMate\UseCase\CreateProjectHandler;
 use PHPUnit\Framework\TestCase;
 
-final class CreateProjectTest extends TestCase
+final class CreateProjectHandlerTest extends TestCase
 {
     public function testProjectCanBeCreated(): void
     {
@@ -18,9 +18,9 @@ final class CreateProjectTest extends TestCase
 
         self::assertCount(0, $projectsCollection->all());
 
-        $handler = new CreateProject($projectsCollection);
+        $handler = new CreateProjectHandler($projectsCollection);
         $handler->__invoke(
-            new CreateProjectCommand(
+            new CreateProject(
                 new RemoteGitRepository(
                     'https://gitlab.com/phpmate-dogfood/rector.git',
                     GitRepositoryAuthentication::fromPersonalAccessToken('PAT')

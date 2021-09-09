@@ -9,7 +9,7 @@ use PHPMate\Domain\Tools\Git\InvalidRemoteUri;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Ui\Form\CreateProjectFormData;
 use PHPMate\Ui\Form\CreateProjectFormType;
-use PHPMate\UseCase\CreateProjectCommand;
+use PHPMate\UseCase\CreateProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +37,7 @@ final class CreateProjectController extends AbstractController
             // TODO: try+catch $form->addError(new FormError('Could not connect to git repository'));
             try {
                 $this->commandBus->dispatch(
-                    new CreateProjectCommand(
+                    new CreateProject(
                         new RemoteGitRepository(
                             $data->remoteRepositoryUri,
                             GitRepositoryAuthentication::fromPersonalAccessToken($data->personalAccessToken)

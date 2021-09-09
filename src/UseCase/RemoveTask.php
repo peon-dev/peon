@@ -4,23 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Task\TaskId;
-use PHPMate\Domain\Task\TaskNotFound;
-use PHPMate\Domain\Task\TasksCollection;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class RemoveTask implements MessageHandlerInterface
+#[Immutable]
+final class RemoveTask
 {
     public function __construct(
-        private TasksCollection $tasks
+        public TaskId $taskId
     ) {}
-
-
-    /**
-     * @throws TaskNotFound
-     */
-    public function __invoke(RemoveTaskCommand $command): void
-    {
-        $this->tasks->remove($command->taskId);
-    }
 }

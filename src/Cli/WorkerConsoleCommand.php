@@ -12,8 +12,8 @@ use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Tools\Composer\ComposerCommandFailed;
 use PHPMate\Domain\Tools\Git\GitCommandFailed;
+use PHPMate\UseCase\ExecuteJobHandler;
 use PHPMate\UseCase\ExecuteJob;
-use PHPMate\UseCase\ExecuteJobCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -51,7 +51,7 @@ final class WorkerConsoleCommand extends Command
 
             // Find job that should run
             $this->commandBus->dispatch(
-                new ExecuteJobCommand(
+                new ExecuteJob(
                     new JobId('')
                 )
             );

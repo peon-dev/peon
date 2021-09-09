@@ -4,28 +4,18 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TasksCollection;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Project\ProjectId;
 
-final class DefineTask implements MessageHandlerInterface
+#[Immutable]
+final class DefineTask
 {
+    /**
+     * @param array<string> $commands
+     */
     public function __construct(
-        private TasksCollection $tasks
+        public ProjectId $projectId,
+        public string $name,
+        public array $commands
     ) {}
-
-
-    public function __invoke(DefineTaskCommand $command): void
-    {
-        $taskId = $this->tasks->nextIdentity();
-
-        $task = new Task(
-            $taskId,
-            $command->projectId,
-            $command->name,
-            $command->commands
-        );
-
-        $this->tasks->save($task);
-    }
 }

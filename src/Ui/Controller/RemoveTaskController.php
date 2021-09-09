@@ -6,8 +6,8 @@ namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
-use PHPMate\UseCase\RemoveTaskCommand;
 use PHPMate\UseCase\RemoveTask;
+use PHPMate\UseCase\RemoveTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -25,7 +25,7 @@ final class RemoveTaskController extends AbstractController
     {
         try {
             $this->commandBus->dispatch(
-                new RemoveTaskCommand(
+                new RemoveTask(
                     new TaskId($taskId)
                 )
             );

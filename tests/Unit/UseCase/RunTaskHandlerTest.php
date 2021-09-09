@@ -16,11 +16,11 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
+use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
-use PHPMate\UseCase\RunTaskCommand;
 use PHPUnit\Framework\TestCase;
 
-final class RunTaskTest extends TestCase
+final class RunTaskHandlerTest extends TestCase
 {
     public function testTaskCanRunAndJobWillBeScheduled(): void
     {
@@ -45,7 +45,7 @@ final class RunTaskTest extends TestCase
 
         self::assertCount(0, $jobsCollection->all());
 
-        $useCase = new RunTask(
+        $useCase = new RunTaskHandler(
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
@@ -53,7 +53,7 @@ final class RunTaskTest extends TestCase
         );
 
         $useCase->__invoke(
-            new RunTaskCommand($taskId)
+            new RunTask($taskId)
         );
 
         self::assertCount(1, $jobsCollection->all());
@@ -68,7 +68,7 @@ final class RunTaskTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $tasksCollection = new InMemoryTasksCollection();
 
-        $useCase = new RunTask(
+        $useCase = new RunTaskHandler(
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
@@ -76,7 +76,7 @@ final class RunTaskTest extends TestCase
         );
 
         $useCase->__invoke(
-            new RunTaskCommand(new TaskId('0'))
+            new RunTask(new TaskId('0'))
         );
     }
 
@@ -96,7 +96,7 @@ final class RunTaskTest extends TestCase
             new Task($taskId, $projectId, 'Task', ['command'])
         );
 
-        $useCase = new RunTask(
+        $useCase = new RunTaskHandler(
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
@@ -104,7 +104,7 @@ final class RunTaskTest extends TestCase
         );
 
         $useCase->__invoke(
-            new RunTaskCommand($taskId)
+            new RunTask($taskId)
         );
     }
 }
