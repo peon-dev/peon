@@ -49,7 +49,7 @@ final class WorkerConsoleCommand extends Command
             $output->writeln('Next iteration');
 
             // Find job that should run
-            $this->executeJobUseCase->handle(
+            $this->executeJobUseCase->__invoke(
                 new ExecuteJobCommand(
                     new JobId('')
                 )

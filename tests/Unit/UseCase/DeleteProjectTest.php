@@ -31,7 +31,7 @@ final class DeleteProjectTest extends TestCase
         self::assertCount(1, $projectsCollection->all());
 
         $handler = new DeleteProject($projectsCollection);
-        $handler->handle(
+        $handler->__invoke(
             new DeleteProjectCommand($projectId)
         );
 
@@ -46,7 +46,7 @@ final class DeleteProjectTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
 
         $handler = new DeleteProject($projectsCollection);
-        $handler->handle(
+        $handler->__invoke(
             new DeleteProjectCommand(new ProjectId(''))
         );
     }

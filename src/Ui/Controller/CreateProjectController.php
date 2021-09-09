@@ -39,7 +39,7 @@ final class CreateProjectController extends AbstractController
 
             // TODO: try+catch $form->addError(new FormError('Could not connect to git repository'));
             try {
-                $this->createProjectUseCase->handle(
+                $this->createProjectUseCase->__invoke(
                     new CreateProjectCommand(
                         new RemoteGitRepository(
                             $data->remoteRepositoryUri,

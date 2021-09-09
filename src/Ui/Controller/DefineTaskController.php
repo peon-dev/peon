@@ -40,7 +40,7 @@ final class DefineTaskController extends AbstractController
             /** @var DefineTaskFormData $data */
             $data = $form->getData();
 
-            $this->defineTaskUseCase->handle(
+            $this->defineTaskUseCase->__invoke(
                 new DefineTaskCommand(
                     $activeProject->projectId,
                     $data->name,

@@ -12,8 +12,9 @@ use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class RunTask
+final class RunTask implements MessageHandlerInterface
 {
     public function __construct(
         private TasksCollection $tasks,
@@ -28,7 +29,7 @@ final class RunTask
      * @throws ProjectNotFound
      * @throws JobHasNoCommands
      */
-    public function handle(RunTaskCommand $command): void
+    public function __invoke(RunTaskCommand $command): void
     {
         $task = $this->tasks->get($command->taskId);
         $project = $this->projects->get($task->projectId);

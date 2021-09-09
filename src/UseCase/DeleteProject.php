@@ -6,8 +6,9 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class DeleteProject
+final class DeleteProject implements MessageHandlerInterface
 {
     public function __construct(
         private ProjectsCollection $projectsCollection
@@ -17,7 +18,7 @@ final class DeleteProject
     /**
      * @throws ProjectNotFound
      */
-    public function handle(DeleteProjectCommand $command): void
+    public function __invoke(DeleteProjectCommand $command): void
     {
         $this->projectsCollection->remove($command->projectId);
     }

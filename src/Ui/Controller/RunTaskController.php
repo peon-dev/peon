@@ -26,7 +26,7 @@ final class RunTaskController extends AbstractController
     public function __invoke(string $taskId): Response
     {
         try {
-            $this->runTaskUseCase->handle(
+            $this->runTaskUseCase->__invoke(
                 new RunTaskCommand(
                     new TaskId($taskId)
                 )
