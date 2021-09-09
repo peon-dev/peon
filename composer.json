@@ -93,7 +93,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPMate\\Tests\\": "tests"
+            "PHPMate\\Tests\\": "tests",
+            "PHPMate\\Packages\\PHPStan\\": "packages/PHPStan"
         }
     },
     "scripts": {
