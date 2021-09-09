@@ -2,6 +2,7 @@ includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
     - vendor/pepakriz/phpstan-exception-rules/extension.neon
+    - packages/PHPStan/extension.neon
 
 parameters:
     level: max
