@@ -13,12 +13,13 @@ use PHPMate\UseCase\RemoveTaskCommand;
 use PHPMate\UseCase\RemoveTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class DeleteProjectController extends AbstractController
 {
     public function __construct(
-        private DeleteProject $deleteProjectUseCase
+        private MessageBusInterface $commandBus
     ) {}
 
 
@@ -26,7 +27,7 @@ final class DeleteProjectController extends AbstractController
     public function __invoke(string $projectId): Response
     {
         try {
-            $this->deleteProjectUseCase->__invoke(
+            $this->commandBus->dispatch(
                 new DeleteProjectCommand(
                     new ProjectId($projectId)
                 )

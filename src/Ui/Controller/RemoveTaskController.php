@@ -10,12 +10,13 @@ use PHPMate\UseCase\RemoveTaskCommand;
 use PHPMate\UseCase\RemoveTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RemoveTaskController extends AbstractController
 {
     public function __construct(
-        private RemoveTask $removeTaskUseCase
+        private MessageBusInterface $commandBus
     ) {}
 
 
@@ -23,7 +24,7 @@ final class RemoveTaskController extends AbstractController
     public function __invoke(string $taskId): Response
     {
         try {
-            $this->removeTaskUseCase->__invoke(
+            $this->commandBus->dispatch(
                 new RemoveTaskCommand(
                     new TaskId($taskId)
                 )

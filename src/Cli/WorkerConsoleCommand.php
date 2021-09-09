@@ -17,11 +17,12 @@ use PHPMate\UseCase\ExecuteJobCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class WorkerConsoleCommand extends Command
 {
     public function __construct(
-        private ExecuteJob $executeJobUseCase
+        private MessageBusInterface $commandBus
     ) {
         parent::__construct();
     }
@@ -49,7 +50,7 @@ final class WorkerConsoleCommand extends Command
             $output->writeln('Next iteration');
 
             // Find job that should run
-            $this->executeJobUseCase->__invoke(
+            $this->commandBus->dispatch(
                 new ExecuteJobCommand(
                     new JobId('')
                 )
