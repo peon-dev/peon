@@ -22,10 +22,11 @@ use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-final class ExecuteJob
+final class ExecuteJob implements MessageHandlerInterface
 {
     public function __construct(
         private JobsCollection $jobsCollection,
@@ -46,7 +47,7 @@ final class ExecuteJob
      * @throws JobHasNotStarted
      * @throws JobExecutionFailed
      */
-    public function handle(ExecuteJobCommand $command): void
+    public function __invoke(ExecuteJobCommand $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
 

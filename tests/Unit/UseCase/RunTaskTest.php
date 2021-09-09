@@ -52,7 +52,7 @@ final class RunTaskTest extends TestCase
             FrozenClock::fromUTC()
         );
 
-        $useCase->handle(
+        $useCase->__invoke(
             new RunTaskCommand($taskId)
         );
 
@@ -75,7 +75,7 @@ final class RunTaskTest extends TestCase
             FrozenClock::fromUTC()
         );
 
-        $useCase->handle(
+        $useCase->__invoke(
             new RunTaskCommand(new TaskId('0'))
         );
     }
@@ -103,7 +103,7 @@ final class RunTaskTest extends TestCase
             FrozenClock::fromUTC()
         );
 
-        $useCase->handle(
+        $useCase->__invoke(
             new RunTaskCommand($taskId)
         );
     }

@@ -19,7 +19,7 @@ final class CreateProjectTest extends TestCase
         self::assertCount(0, $projectsCollection->all());
 
         $handler = new CreateProject($projectsCollection);
-        $handler->handle(
+        $handler->__invoke(
             new CreateProjectCommand(
                 new RemoteGitRepository(
                     'https://gitlab.com/phpmate-dogfood/rector.git',

@@ -6,8 +6,9 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class RedefineTask
+final class RedefineTask implements MessageHandlerInterface
 {
     public function __construct(
         private TasksCollection $tasks
@@ -17,7 +18,7 @@ final class RedefineTask
     /**
      * @throws TaskNotFound
      */
-    public function handle(RedefineTaskCommand $command): void
+    public function __invoke(RedefineTaskCommand $command): void
     {
         $task = $this->tasks->get($command->taskId);
 

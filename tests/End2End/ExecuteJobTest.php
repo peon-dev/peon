@@ -95,7 +95,7 @@ class ExecuteJobTest extends KernelTestCase
     {
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJobCommand($jobId));
+        $this->useCase->__invoke(new ExecuteJobCommand($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -118,7 +118,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJobCommand($jobId));
+        $this->useCase->__invoke(new ExecuteJobCommand($jobId));
 
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -142,7 +142,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJobCommand($jobId));
+        $this->useCase->__invoke(new ExecuteJobCommand($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -165,7 +165,7 @@ class ExecuteJobTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->handle(new ExecuteJobCommand($jobId));
+        $this->useCase->__invoke(new ExecuteJobCommand($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -189,7 +189,7 @@ class ExecuteJobTest extends KernelTestCase
         $jobId = new JobId(self::JOB_ID);
 
         try {
-            $this->useCase->handle(new ExecuteJobCommand($jobId));
+            $this->useCase->__invoke(new ExecuteJobCommand($jobId));
         } catch (\Throwable $exception) {
             // Just to capture
         }

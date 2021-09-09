@@ -26,7 +26,7 @@ final class DeleteProjectController extends AbstractController
     public function __invoke(string $projectId): Response
     {
         try {
-            $this->deleteProjectUseCase->handle(
+            $this->deleteProjectUseCase->__invoke(
                 new DeleteProjectCommand(
                     new ProjectId($projectId)
                 )

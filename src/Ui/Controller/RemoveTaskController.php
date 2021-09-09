@@ -23,7 +23,7 @@ final class RemoveTaskController extends AbstractController
     public function __invoke(string $taskId): Response
     {
         try {
-            $this->removeTaskUseCase->handle(
+            $this->removeTaskUseCase->__invoke(
                 new RemoveTaskCommand(
                     new TaskId($taskId)
                 )

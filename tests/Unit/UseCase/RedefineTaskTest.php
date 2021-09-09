@@ -23,7 +23,7 @@ final class RedefineTaskTest extends TestCase
         );
 
         $handler = new RedefineTask($tasksCollection);
-        $handler->handle(
+        $handler->__invoke(
             new RedefineTaskCommand(
                 $taskId,
                 'New name',
@@ -44,7 +44,7 @@ final class RedefineTaskTest extends TestCase
         $tasksCollection = new InMemoryTasksCollection();
 
         $handler = new RedefineTask($tasksCollection);
-        $handler->handle(
+        $handler->__invoke(
             new RedefineTaskCommand(
                 new TaskId(''),
                 'Name',

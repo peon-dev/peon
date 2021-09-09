@@ -25,7 +25,7 @@ final class RemoveTaskTest extends TestCase
         self::assertCount(1, $tasksCollection->all());
 
         $handler = new RemoveTask($tasksCollection);
-        $handler->handle(
+        $handler->__invoke(
             new RemoveTaskCommand($taskId)
         );
 
@@ -40,7 +40,7 @@ final class RemoveTaskTest extends TestCase
         $tasksCollection = new InMemoryTasksCollection();
 
         $handler = new RemoveTask($tasksCollection);
-        $handler->handle(
+        $handler->__invoke(
             new RemoveTaskCommand(new TaskId(''))
         );
     }

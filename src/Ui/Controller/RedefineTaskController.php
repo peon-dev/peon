@@ -42,7 +42,7 @@ final class RedefineTaskController extends AbstractController
                 /** @var DefineTaskFormData $data */
                 $data = $form->getData();
 
-                $this->redefineTaskUseCase->handle(
+                $this->redefineTaskUseCase->__invoke(
                     new RedefineTaskCommand(
                         $task->taskId,
                         $data->name,

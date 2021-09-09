@@ -6,15 +6,16 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\TasksCollection;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class DefineTask
+final class DefineTask implements MessageHandlerInterface
 {
     public function __construct(
         private TasksCollection $tasks
     ) {}
 
 
-    public function handle(DefineTaskCommand $command): void
+    public function __invoke(DefineTaskCommand $command): void
     {
         $taskId = $this->tasks->nextIdentity();
 
