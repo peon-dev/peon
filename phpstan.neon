@@ -11,6 +11,8 @@ parameters:
         - tests
     excludePaths:
         - tests/bootstrap.php
+    scanDirectories:
+        - var/cache/dev/Symfony/Config
 
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
