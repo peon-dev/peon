@@ -9,6 +9,9 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
 interface GitProvider
 {
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     public function openMergeRequest(
         RemoteGitRepository $gitRepository,
         string $targetBranch,
@@ -16,5 +19,8 @@ interface GitProvider
         string $title,
     ): void;
 
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     public function hasMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): bool;
 }
