@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\GitLab;
 
 use Gitlab\Client;
+use Gitlab\Exception\RuntimeException;
+use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
+use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
-final class GitLab implements GitProvider
+final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
 {
     public function openMergeRequest(
         RemoteGitRepository $gitRepository,
@@ -52,5 +55,19 @@ final class GitLab implements GitProvider
         ]);
 
         return count($mergeRequests) === 1;
+    }
+
+
+    public function hasWriteAccess(RemoteGitRepository $gitRepository): bool
+    {
+        $client = $this->createHttpClient($gitRepository);
+
+        try {
+            $project = $client->projects()->show($gitRepository->getProject());
+        } catch (RuntimeException) {
+            return false;
+        }
+
+        return false;
     }
 }

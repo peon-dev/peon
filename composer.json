@@ -85,7 +85,8 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPMate\\": "src"
+            "PHPMate\\": "src",
+            "PHPMate\\Packages\\MessageBus\\": "packages/MessageBus"
         },
         "exclude-from-classmap": [
             "src/Infrastructure/Persistence/Doctrine/Migrations"

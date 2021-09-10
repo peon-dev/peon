@@ -10,6 +10,7 @@ use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
+use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
 use PHPMate\UseCase\DefineTask;
@@ -26,7 +27,7 @@ final class RedefineTaskController extends AbstractController
 {
     public function __construct(
         private TasksCollection $tasks,
-        private MessageBusInterface $commandBus
+        private CommandBus $commandBus
     ) {}
 
 

@@ -54,19 +54,14 @@ final class CreateProjectHandlerTest extends TestCase
     }
 
 
-    private function createCheckWriteAccessToRemoteRepository(bool $shouldThrowException): CheckWriteAccessToRemoteRepository
+    private function createCheckWriteAccessToRemoteRepository(bool $shouldHaveAccess): CheckWriteAccessToRemoteRepository
     {
-        return new class ($shouldThrowException) implements CheckWriteAccessToRemoteRepository {
-            public function __construct(private bool $shouldThrowException) {}
+        return new class ($shouldHaveAccess) implements CheckWriteAccessToRemoteRepository {
+            public function __construct(private bool $shouldHaveAccess) {}
 
-            /**
-             * @throws InsufficientAccessToRemoteRepository
-             */
-            public function check(RemoteGitRepository $remoteGitRepository): void
+            public function hasWriteAccess(RemoteGitRepository $gitRepository): bool
             {
-                if ($this->shouldThrowException) {
-                    throw new InsufficientAccessToRemoteRepository();
-                }
+                return $this->shouldHaveAccess;
             }
         };
     }

@@ -8,6 +8,7 @@ use PHPMate\Domain\Job\JobHasNoCommands;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\FlashType;
 use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RunTaskController extends AbstractController
 {
     public function __construct(
-        private MessageBusInterface $commandBus
+        private CommandBus $commandBus
     ) {}
 
 

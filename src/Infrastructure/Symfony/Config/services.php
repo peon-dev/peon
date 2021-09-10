@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
+use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\PhpApplication\BuildApplication;
@@ -54,9 +55,6 @@ return static function(ContainerConfigurator $configurator): void
     // Controllers
     $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
-    // Cli
-    $services->load('PHPMate\Cli\\', __DIR__ . '/../../../Cli/{*.php}');
-
     // UseCases
     $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
 
@@ -92,6 +90,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(GitLab::class);
     $services->alias(GitProvider::class, GitLab::class);
+    $services->alias(CheckWriteAccessToRemoteRepository::class, GitLab::class);
 
     $services->set(JobsCollection::class, DoctrineJobsCollection::class);
 

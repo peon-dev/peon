@@ -7,6 +7,7 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
 use PHPMate\UseCase\DefineTask;
@@ -21,7 +22,7 @@ final class DefineTaskController extends AbstractController
 {
     public function __construct(
         private ProjectsCollection $projectsCollection,
-        private MessageBusInterface $commandBus
+        private CommandBus $commandBus
     ) {}
 
 
