@@ -8,8 +8,5 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
 interface CheckWriteAccessToRemoteRepository
 {
-    /**
-     * @throws InsufficientAccessToRemoteRepository
-     */
-    public function check(RemoteGitRepository $remoteGitRepository): void;
+    public function hasWriteAccess(RemoteGitRepository $gitRepository): bool;
 }

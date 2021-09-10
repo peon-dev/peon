@@ -25,7 +25,9 @@ final class CreateProjectHandler implements MessageHandlerInterface
     {
         $remoteGitRepository = $createProject->remoteGitRepository;
 
-        $this->checkWriteAccessToRemoteRepository->check($remoteGitRepository);
+        if (!$this->checkWriteAccessToRemoteRepository->hasWriteAccess($remoteGitRepository)) {
+            throw new InsufficientAccessToRemoteRepository();
+        }
 
         $project = new Project(
             $this->projectsCollection->nextIdentity(),
