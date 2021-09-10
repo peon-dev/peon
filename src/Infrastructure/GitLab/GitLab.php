@@ -8,11 +8,16 @@ use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
+use PHPMate\Domain\GitProvider\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
 {
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     public function openMergeRequest(
         RemoteGitRepository $gitRepository,
         string $targetBranch,
@@ -20,15 +25,19 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
         string $title,
     ): void
     {
-        $client = $this->createHttpClient($gitRepository);
-        $project = $gitRepository->getProject();
+        try {
+            $client = $this->createHttpClient($gitRepository);
+            $project = $gitRepository->getProject();
 
-        $client->mergeRequests()->create(
-            $project,
-            $branchWithChanges,
-            $targetBranch,
-            $title,
-        );
+            $client->mergeRequests()->create(
+                $project,
+                $branchWithChanges,
+                $targetBranch,
+                $title,
+            );
+        } catch (\Throwable $throwable) {
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), $throwable->getCode(), $throwable);
+        }
     }
 
 
@@ -44,20 +53,30 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
     }
 
 
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     public function hasMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): bool
     {
-        $client = $this->createHttpClient($gitRepository);
-        $project = $gitRepository->getProject();
+        try {
+            $client = $this->createHttpClient($gitRepository);
+            $project = $gitRepository->getProject();
 
-        $mergeRequests = $client->mergeRequests()->all($project, [
-            'state' => 'opened',
-            'source_branch' => $branch,
-        ]);
+            $mergeRequests = $client->mergeRequests()->all($project, [
+                'state' => 'opened',
+                'source_branch' => $branch,
+            ]);
 
-        return count($mergeRequests) === 1;
+            return count($mergeRequests) === 1;
+        } catch (\Throwable $throwable) {
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), $throwable->getCode(), $throwable);
+        }
     }
 
 
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     public function hasWriteAccess(RemoteGitRepository $gitRepository): bool
     {
         $client = $this->createHttpClient($gitRepository);
@@ -65,9 +84,9 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
         try {
             $project = $client->projects()->show($gitRepository->getProject());
 
-            return (bool) $project['can_create_merge_request_in'];
-        } catch (RuntimeException) {
-            return false;
+            return (bool) ($project['can_create_merge_request_in'] ?? false);
+        } catch (\Throwable $throwable) {
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), $throwable->getCode(), $throwable);
         }
     }
 }

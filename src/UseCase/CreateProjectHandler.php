@@ -6,6 +6,7 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
+use PHPMate\Domain\GitProvider\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectsCollection;
@@ -20,6 +21,7 @@ final class CreateProjectHandler implements MessageHandlerInterface
 
     /**
      * @throws InsufficientAccessToRemoteRepository
+     * @throws GitProviderCommunicationFailed
      */
     public function __invoke(CreateProject $createProject): void
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
+use PHPMate\Domain\GitProvider\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\InvalidRemoteUri;
@@ -49,7 +50,9 @@ final class CreateProjectController extends AbstractController
             } catch (InvalidRemoteUri $invalidRemoteUri) {
                 $form->get('remoteRepositoryUri')->addError(new FormError($invalidRemoteUri->getMessage()));
             } catch (InsufficientAccessToRemoteRepository) {
-                $form->addError(new FormError('Could not access remote git repository! Please check your credentials.'));
+                $form->get('personalAccessToken')->addError(new FormError('Token does not have permission to open merge requests for the project!'));
+            } catch (GitProviderCommunicationFailed $exception) {
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 

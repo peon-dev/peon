@@ -27,7 +27,7 @@ final class RemoteGitRepository
         }
 
         if (Strings::startsWith($repositoryUri, 'https://') === false) {
-            throw new InvalidRemoteUri('URI should start with https://');
+            throw new InvalidRemoteUri('Only https:// protocol is supported - URI should start with https://');
         }
 
         if (Strings::endsWith($repositoryUri, '.git') === false) {
