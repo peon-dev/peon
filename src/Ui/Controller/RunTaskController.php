@@ -10,11 +10,9 @@ use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\FlashType;
-use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RunTaskController extends AbstractController
