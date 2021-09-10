@@ -5,6 +5,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
+use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
@@ -16,9 +17,14 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
+use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\StampInterface;
 
 final class RunTaskHandlerTest extends TestCase
 {
@@ -27,6 +33,13 @@ final class RunTaskHandlerTest extends TestCase
         $jobsCollection = new InMemoryJobsCollection();
         $projectsCollection = new InMemoryProjectsCollection();
         $tasksCollection = new InMemoryTasksCollection();
+        $messageBusSpy = $this->createMock(MessageBusInterface::class);
+        $messageBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(ExecuteJob::class))
+            ->willReturnCallback(static function(ExecuteJob $command) {
+                return new Envelope($command);
+            });
 
         $projectId = new ProjectId('0');
         $taskId = new TaskId('0');
@@ -49,7 +62,8 @@ final class RunTaskHandlerTest extends TestCase
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
-            FrozenClock::fromUTC()
+            FrozenClock::fromUTC(),
+            $messageBusSpy
         );
 
         $useCase->__invoke(
@@ -67,12 +81,14 @@ final class RunTaskHandlerTest extends TestCase
         $jobsCollection = new InMemoryJobsCollection();
         $projectsCollection = new InMemoryProjectsCollection();
         $tasksCollection = new InMemoryTasksCollection();
+        $dummyMessageBus = $this->createMock(MessageBusInterface::class);
 
         $useCase = new RunTaskHandler(
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
-            FrozenClock::fromUTC()
+            FrozenClock::fromUTC(),
+            $dummyMessageBus
         );
 
         $useCase->__invoke(
@@ -88,6 +104,7 @@ final class RunTaskHandlerTest extends TestCase
         $jobsCollection = new InMemoryJobsCollection();
         $projectsCollection = new InMemoryProjectsCollection();
         $tasksCollection = new InMemoryTasksCollection();
+        $dummyMessageBus = $this->createMock(MessageBusInterface::class);
 
         $taskId = new TaskId('0');
         $projectId = new ProjectId('0');
@@ -100,7 +117,8 @@ final class RunTaskHandlerTest extends TestCase
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
-            FrozenClock::fromUTC()
+            FrozenClock::fromUTC(),
+            $dummyMessageBus
         );
 
         $useCase->__invoke(

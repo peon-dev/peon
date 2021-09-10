@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\Events\JobCreated;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobHasNoCommands;
 use PHPMate\Domain\Job\JobsCollection;
