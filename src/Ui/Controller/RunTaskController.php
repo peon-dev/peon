@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
+use PHPMate\Domain\Job\JobExecutionFailed;
 use PHPMate\Domain\Job\JobHasNoCommands;
+use PHPMate\Domain\Job\JobHasNotStarted;
+use PHPMate\Domain\Job\JobHasStartedAlready;
+use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
@@ -22,6 +26,12 @@ final class RunTaskController extends AbstractController
     ) {}
 
 
+    /**
+     * @throws JobExecutionFailed
+     * @throws JobHasNotStarted
+     * @throws JobHasStartedAlready
+     * @throws JobNotFound
+     */
     #[Route(path: '/task/run/{taskId}', name: 'run_task')]
     public function __invoke(string $taskId): Response
     {
