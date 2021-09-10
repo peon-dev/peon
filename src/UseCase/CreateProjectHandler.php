@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use PHPMate\Domain\GitProvider\GitProvider;
+use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -11,15 +14,22 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 final class CreateProjectHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection
+        private ProjectsCollection $projectsCollection,
+        private CheckWriteAccessToRemoteRepository $checkWriteAccessToRemoteRepository
     ) {}
 
-    // @TODO: throws when could not clone
+    /**
+     * @throws InsufficientAccessToRemoteRepository
+     */
     public function __invoke(CreateProject $createProject): void
     {
+        $remoteGitRepository = $createProject->remoteGitRepository;
+
+        $this->checkWriteAccessToRemoteRepository->check($remoteGitRepository);
+
         $project = new Project(
             $this->projectsCollection->nextIdentity(),
-            $createProject->remoteGitRepository,
+            $remoteGitRepository,
         );
 
         $this->projectsCollection->save($project);
