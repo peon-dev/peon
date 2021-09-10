@@ -10,21 +10,6 @@ use Symfony\Config\FrameworkConfig;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (FrameworkConfig $framework, ContainerConfigurator $configurator) {
-    $framework->messenger()->defaultBus('command.bus');
-
-    $framework->messenger()->bus('command.bus');
-
-    $framework->messenger()->bus('event.bus')
-        ->defaultMiddleware('allow_no_handlers');
-
-    $framework->messenger()
-        ->transport('async')
-        ->dsn('%env(MESSENGER_TRANSPORT_DSN)%');
-
-    $framework->messenger()
-        // async is whatever name you gave your transport above
-        ->routing(ExecuteJob::class)->senders(['async']);
-
     $configurator->services()->set(CommandBus::class)
         ->arg('$bus', service('command.bus'));
 
@@ -36,4 +21,23 @@ return static function (FrameworkConfig $framework, ContainerConfigurator $confi
 
     $configurator->services()->instanceof(EventHandlerInterface::class)
         ->tag('messenger.message_handler', ['bus' => 'event.bus']);
+
+
+    $framework->messenger()->defaultBus('command.bus');
+
+    $framework->messenger()->bus('command.bus');
+
+    $framework->messenger()->bus('event.bus')
+        ->defaultMiddleware('allow_no_handlers');
+
+    $framework->messenger()
+        ->transport('jobs')
+        ->dsn('%env(MESSENGER_TRANSPORT_DSN)%')
+        ->retryStrategy()
+            ->maxRetries(0);
+
+    $framework->messenger()
+        // async is whatever name you gave your transport above
+        ->routing(ExecuteJob::class)->senders(['jobs']);
+
 };
