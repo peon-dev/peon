@@ -64,4 +64,5 @@ jobs:
         -   run: composer install --dev --no-progress
 
         -   run: bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        -   run: bin/console doctrine:schema:update --dump-sql
         -   run: bin/console doctrine:schema:validate
