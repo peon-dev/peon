@@ -64,10 +64,10 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
 
         try {
             $project = $client->projects()->show($gitRepository->getProject());
+
+            return (bool) $project['can_create_merge_request_in'];
         } catch (RuntimeException) {
             return false;
         }
-
-        return false;
     }
 }
