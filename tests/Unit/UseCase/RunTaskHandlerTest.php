@@ -23,9 +23,6 @@ use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\StampInterface;
 
 final class RunTaskHandlerTest extends TestCase
 {

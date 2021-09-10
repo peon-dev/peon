@@ -9,6 +9,7 @@ use Pepakriz\PHPStanExceptionRules\UnsupportedClassException;
 use Pepakriz\PHPStanExceptionRules\UnsupportedFunctionException;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\ContextFactory;
+use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -23,7 +24,6 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VoidType;
 use ReflectionClass;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 class MessageBusExceptionExtension implements DynamicMethodThrowTypeExtension
 {
@@ -42,7 +42,7 @@ class MessageBusExceptionExtension implements DynamicMethodThrowTypeExtension
 
     public function getThrowTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
-        if (!is_a($methodReflection->getDeclaringClass()->getName(), MessageBusInterface::class, true)) {
+        if (!is_a($methodReflection->getDeclaringClass()->getName(), CommandBus::class, true)) {
             throw new UnsupportedClassException();
         }
 

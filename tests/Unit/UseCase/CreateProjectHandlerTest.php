@@ -17,7 +17,7 @@ final class CreateProjectHandlerTest extends TestCase
     public function testProjectCanBeCreated(): void
     {
         $projectsCollection = new InMemoryProjectsCollection();
-        $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(false);
+        $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(true);
 
         self::assertCount(0, $projectsCollection->all());
 
@@ -40,7 +40,7 @@ final class CreateProjectHandlerTest extends TestCase
         $this->expectException(InsufficientAccessToRemoteRepository::class);
 
         $projectsCollection = new InMemoryProjectsCollection();
-        $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(true);
+        $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(false);
 
         $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository);
         $handler->__invoke(

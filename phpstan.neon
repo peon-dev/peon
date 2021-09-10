@@ -15,6 +15,10 @@ parameters:
     scanDirectories:
         - var/cache/dev/Symfony/Config
 
+    # Scenarios with general wrapping to make it safer
+    ignoreErrors:
+        - '#^Throwable is never thrown in the corresponding try block$#'
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false
