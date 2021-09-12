@@ -34,6 +34,9 @@ final class DefineTaskFormData
     }
 
 
+    /**
+     * @throws InvalidCronExpression
+     */
     public function setSchedule(string $value): void
     {
         if ($value === '') {

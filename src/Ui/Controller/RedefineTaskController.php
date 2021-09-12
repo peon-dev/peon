@@ -37,32 +37,31 @@ final class RedefineTaskController extends AbstractController
     {
         try {
             $task = $this->tasks->get(new TaskId($taskId));
+            $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
+
+            try {
+                $form->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    /** @var DefineTaskFormData $data */
+                    $data = $form->getData();
+
+                    $this->commandBus->dispatch(
+                        new RedefineTask(
+                            $task->taskId,
+                            $data->name,
+                            $data->getCommandsAsArray(),
+                            $data->getSchedule()
+                        )
+                    );
+
+                    return $this->redirectToRoute('dashboard');
+                }
+            } catch (InvalidCronExpression $invalidCronExpression) { // TODO this could be handled better way by custom validation rule
+                $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
+            }
         } catch (TaskNotFound) {
             throw $this->createNotFoundException();
-        }
-
-        $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
-
-        try {
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                /** @var DefineTaskFormData $data */
-                $data = $form->getData();
-
-                $this->commandBus->dispatch(
-                    new RedefineTask(
-                        $task->taskId,
-                        $data->name,
-                        $data->getCommandsAsArray(),
-                        $data->getSchedule()
-                    )
-                );
-
-                return $this->redirectToRoute('dashboard');
-            }
-        } catch (InvalidCronExpression $invalidCronExpression) { // TODO this could be handled better way by custom validation rule
-            $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
         }
 
         return $this->render('redefine_task.html.twig', [
