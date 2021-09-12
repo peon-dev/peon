@@ -8,3 +8,13 @@
 }
 
 .test-button { }
+
+.form-label.required {
+    font-weight: bold;
+}
+
+
+.form-label.required::before {
+    content: "* ";
+    color: red;
+}

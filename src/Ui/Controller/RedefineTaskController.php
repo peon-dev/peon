@@ -7,6 +7,7 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Task\InvalidCronExpression;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
@@ -18,6 +19,7 @@ use PHPMate\UseCase\DefineTaskHandler;
 use PHPMate\UseCase\RedefineTask;
 use PHPMate\UseCase\RedefineTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,8 +37,13 @@ final class RedefineTaskController extends AbstractController
     {
         try {
             $task = $this->tasks->get(new TaskId($taskId));
+        } catch (TaskNotFound) {
+            throw $this->createNotFoundException();
+        }
 
-            $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
+        $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
+
+        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -54,12 +61,13 @@ final class RedefineTaskController extends AbstractController
                 return $this->redirectToRoute('dashboard');
             }
 
-            return $this->render('redefine_task.html.twig', [
-                'task' => $task,
-                'define_task_form' => $form->createView(),
-            ]);
-        } catch (TaskNotFound) {
-            throw $this->createNotFoundException();
+        } catch (InvalidCronExpression $invalidCronExpression) { // TODO this could be handled better way by custom validation rule
+            $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
         }
+
+        return $this->render('redefine_task.html.twig', [
+            'task' => $task,
+            'define_task_form' => $form->createView(),
+        ]);
     }
 }
