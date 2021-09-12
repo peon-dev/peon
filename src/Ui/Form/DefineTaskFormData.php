@@ -59,6 +59,7 @@ final class DefineTaskFormData
         $data = new self();
         $data->name = $task->name;
         $data->commands = implode("\n", $task->commands);
+        $data->schedule = $task->schedule;
 
         return $data;
     }

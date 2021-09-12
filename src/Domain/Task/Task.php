@@ -11,7 +11,7 @@ use PHPMate\Domain\Project\ProjectId;
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Task
 {
-    private ?CronExpression $schedule;
+    public ?CronExpression $schedule;
 
     /**
      * @param array<string> $commands
