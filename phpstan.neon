@@ -15,9 +15,12 @@ parameters:
     scanDirectories:
         - var/cache/dev/Symfony/Config
 
-    # Scenarios with general wrapping to make it safer
     ignoreErrors:
+        # Scenario with general wrapping to make it safer
         - '#^Throwable is never thrown in the corresponding try block$#'
+
+        # Workaround, before better validation forms is solved
+        - '#^PHPMate\\Domain\\Task\\InvalidCronExpression is never thrown in the corresponding try block$#'
 
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
@@ -32,3 +35,7 @@ parameters:
             - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'
+        methodThrowTypeDeclarations:
+            Cron\CronExpression:
+                __construct:
+                    - InvalidArgumentException
