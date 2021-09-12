@@ -27,7 +27,8 @@ final class RedefineTaskHandlerTest extends TestCase
             new RedefineTask(
                 $taskId,
                 'New name',
-                []
+                [],
+                null
             )
         );
 
@@ -48,7 +49,8 @@ final class RedefineTaskHandlerTest extends TestCase
             new RedefineTask(
                 new TaskId(''),
                 'Name',
-                []
+                [],
+                null
             )
         );
     }

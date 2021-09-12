@@ -54,7 +54,8 @@ final class RedefineTaskController extends AbstractController
                     new RedefineTask(
                         $task->taskId,
                         $data->name,
-                        $data->getCommandsAsArray()
+                        $data->getCommandsAsArray(),
+                        $data->getSchedule()
                     )
                 );
 

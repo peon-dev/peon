@@ -23,6 +23,7 @@ final class RedefineTaskHandler implements MessageHandlerInterface
         $task = $this->tasks->get($command->taskId);
 
         $task->changeDefinition($command->name, $command->commands);
+        $task->changeSchedule($command->schedule);
 
         $this->tasks->save($task);
     }
