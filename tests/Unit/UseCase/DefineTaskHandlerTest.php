@@ -22,7 +22,8 @@ final class DefineTaskHandlerTest extends TestCase
             new DefineTask(
                 new ProjectId(''),
                 'Name',
-                ['']
+                [''],
+                null
             )
         );
 

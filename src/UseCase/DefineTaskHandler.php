@@ -26,6 +26,8 @@ final class DefineTaskHandler implements MessageHandlerInterface
             $command->commands
         );
 
+        $task->changeSchedule($command->schedule);
+
         $this->tasks->save($task);
     }
 }

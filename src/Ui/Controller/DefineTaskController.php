@@ -49,7 +49,8 @@ final class DefineTaskController extends AbstractController
                     new DefineTask(
                         $activeProject->projectId,
                         $data->name,
-                        $data->getCommandsAsArray()
+                        $data->getCommandsAsArray(),
+                        $data->getSchedule()
                     )
                 );
 
