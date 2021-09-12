@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Task;
 
+use Cron\CronExpression;
 use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Project\ProjectId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Task
 {
+    private ?CronExpression $schedule;
+
     /**
      * @param array<string> $commands
      */
@@ -28,5 +31,11 @@ class Task
     {
         $this->name = $name;
         $this->commands = $commands;
+    }
+
+
+    public function changeSchedule(?CronExpression $schedule): void
+    {
+        $this->schedule = $schedule;
     }
 }
