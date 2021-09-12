@@ -7,12 +7,14 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Task\InvalidCronExpression;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
 use PHPMate\UseCase\DefineTask;
 use PHPMate\UseCase\DefineTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,21 +37,26 @@ final class DefineTaskController extends AbstractController
         }
 
         $form = $this->createForm(DefineTaskFormType::class);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var DefineTaskFormData $data */
-            $data = $form->getData();
+        try {
+            $form->handleRequest($request);
 
-            $this->commandBus->dispatch(
-                new DefineTask(
-                    $activeProject->projectId,
-                    $data->name,
-                    $data->getCommandsAsArray()
-                )
-            );
+            if ($form->isSubmitted() && $form->isValid()) {
+                /** @var DefineTaskFormData $data */
+                $data = $form->getData();
 
-            return $this->redirectToRoute('dashboard');
+                $this->commandBus->dispatch(
+                    new DefineTask(
+                        $activeProject->projectId,
+                        $data->name,
+                        $data->getCommandsAsArray()
+                    )
+                );
+
+                return $this->redirectToRoute('dashboard');
+            }
+        } catch (InvalidCronExpression $invalidCronExpression) {
+            $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
         }
 
         return $this->render('define_task.html.twig', [
