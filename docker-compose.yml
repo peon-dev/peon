@@ -42,3 +42,12 @@ services:
         working_dir: /var/www
         entrypoint: "composer"
         command: [ "install", "--no-interaction" ]
+
+    worker:
+        image: phpmate
+        volumes:
+            - .:/var/www
+        working_dir: /var/www
+        depends_on:
+            - composer
+        command: [ "php", "bin/console", "messenger:consume" ]
