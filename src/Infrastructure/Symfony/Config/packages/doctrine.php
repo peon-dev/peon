@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
@@ -15,6 +16,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 DoctrineProjectIdType::NAME => DoctrineProjectIdType::class,
                 DoctrineTaskIdType::NAME => DoctrineTaskIdType::class,
                 DoctrineJobIdType::NAME => DoctrineJobIdType::class,
+                DoctrineCronExpressionType::NAME => DoctrineCronExpressionType::class,
             ],
         ],
         'orm' => [
