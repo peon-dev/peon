@@ -37,10 +37,11 @@ final class DefineTaskFormData
     /**
      * @throws InvalidCronExpression
      */
-    public function setSchedule(string $value): void
+    public function setSchedule(?string $value): void
     {
-        if ($value === '') {
+        if ($value === '' || $value === null) {
             $this->schedule = null;
+            return;
         }
 
         try {
