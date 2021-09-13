@@ -50,7 +50,7 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
-        command: [ "bin/console", "messenger:consume" ]
+        command: [ "bin/worker" ]
 
     scheduler:
         image: phpmate
