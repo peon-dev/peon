@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210912200239 extends AbstractMigration
+final class Version20210913092026 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20210912200239 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE task ADD schedule VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE task ADD schedule VARCHAR(255) DEFAULT NULL COMMENT \'(DC2Type:cron_expression)\'');
     }
 
     public function down(Schema $schema): void
