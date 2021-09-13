@@ -33,6 +33,8 @@ parameters:
             - Symfony\Component\Form\Exception\OutOfBoundsException
             - Symfony\Component\Form\Exception\RuntimeException
             - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+            - Doctrine\DBAL\Driver\Exception
+            - Doctrine\DBAL\Exception
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'
         methodThrowTypeDeclarations:

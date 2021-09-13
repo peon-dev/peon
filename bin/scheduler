@@ -1,0 +1,6 @@
+#!/bin/bash
+while true
+do
+	bin/console phpmate:scheduler:run
+	sleep 15
+done

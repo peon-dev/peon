@@ -10,6 +10,7 @@ use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\RunTask;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +20,8 @@ final class SchedulerConsoleCommand extends Command
     public function __construct(
         private EntityManagerInterface $entityManager,
         private Clock $clock,
-        private CommandBus $commandBus
+        private CommandBus $commandBus,
+        private LoggerInterface $logger
     ) {
         parent::__construct('phpmate:scheduler:run');
     }
@@ -38,29 +40,37 @@ SQL;
         $data = $this->entityManager->getConnection()->executeQuery($sql)->fetchAllAssociative();
 
         foreach ($data as $row) {
-            $cron = new CronExpression($row['schedule']);
-            $now = $this->clock->now();
-            $taskId = new TaskId($row['task_id']);
+            try {
+                $cron = new CronExpression($row['schedule']);
+                $now = $this->clock->now();
+                $taskId = new TaskId($row['task_id']);
 
-            // First time - never scheduled before
-            if ($row['last_schedule'] === null) {
-                $this->commandBus->dispatch(
-                    new RunTask($taskId)
-                );
+                // First time - never scheduled before
+                if ($row['last_schedule'] === null) {
+                    $this->commandBus->dispatch(
+                        new RunTask($taskId)
+                    );
 
-                $output->writeln('Scheduled task with id ' . $taskId->id);
-                continue;
-            }
+                    $output->writeln('Scheduled task with id ' . $taskId->id);
+                    continue;
+                }
 
-            $lastSchedule = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['last_schedule']);
-            $nextSchedule = $cron->getNextRunDate($lastSchedule);
+                $lastSchedule = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['last_schedule']);
+                assert($lastSchedule instanceof \DateTimeImmutable);
 
-            if ($nextSchedule->format('Y-m-d H:i') <= $now->format('Y-m-d H:i')) {
-                $this->commandBus->dispatch(
-                    new RunTask($taskId)
-                );
+                $nextSchedule = $cron->getNextRunDate($lastSchedule);
 
-                $output->writeln('Scheduled task with id ' . $taskId->id);
+                if ($nextSchedule->format('Y-m-d H:i') <= $now->format('Y-m-d H:i')) {
+                    $this->commandBus->dispatch(
+                        new RunTask($taskId)
+                    );
+
+                    $output->writeln('Scheduled task with id ' . $taskId->id);
+                }
+            } catch (\Throwable $throwable) {
+                $this->logger->critical($throwable->getMessage(), [
+                    'exception' => $throwable
+                ]);
             }
         }
 
