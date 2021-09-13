@@ -35,7 +35,6 @@
         "psr/log": "^1.1",
         "ramsey/uuid": "^4.2",
         "sensio/framework-extra-bundle": "^6.1",
-        "setono/cron-expression-bundle": "^1.4",
         "symfony/asset": "5.3.*",
         "symfony/config": "^5.2",
         "symfony/console": "5.3.*",
