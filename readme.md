@@ -36,14 +36,25 @@ Inspiration for `docker-compose.yml`:
 ```yaml
 version: "3.7"
 services:
+    # Optional to protect with basic http auth
+    nginx-auth-proxy:
+        image: quay.io/dtan4/nginx-basic-auth-proxy:latest
+        ports:
+            - 8080:80
+        environment:
+            BASIC_AUTH_USERNAME: phpmate
+            BASIC_AUTH_PASSWORD: phpmate
+            PROXY_PASS: http://dashboard/
+    
     dashboard:
         image: ghcr.io/phpmate/phpmate:master
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
-        ports:
-            - 8080:8080
         restart: unless-stopped
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "dashboard/public" ]
+        # If not using auth proxy, you need to make this service available via mapping 8080 port:
+        # ports:
+        #     - 8080:8080
 
     worker:
         image: ghcr.io/phpmate/phpmate:master
@@ -69,7 +80,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
 ```
 
-Then run `docker-compose --project-name=phpmate up`
+Then run `docker-compose up`
 
 It is recommended to set up daily cron that will pull newer Docker images:
 ```
