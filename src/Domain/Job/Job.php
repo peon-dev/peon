@@ -27,7 +27,7 @@ final class Job
     private ?\DateTimeInterface $failedAt = null;
 
     /**
-     * @var Collection<int, JobProcess>
+     * @var Collection<int, JobProcess>|array<JobProcess>
      */
     public $processes;
 
