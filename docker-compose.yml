@@ -7,6 +7,7 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
+            - db
         ports:
             - 8080:8080
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
@@ -31,6 +32,7 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
+            - db
 
     composer:
         image: phpmate
@@ -50,6 +52,7 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
+            - db
         command: [ "bin/worker" ]
 
     scheduler:
@@ -59,4 +62,5 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
+            - db
         command: [ "bin/scheduler" ]
