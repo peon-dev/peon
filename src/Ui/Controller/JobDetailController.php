@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Job\JobId;
+use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\ProjectNotFound;
-use PHPMate\UseCase\DeleteProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +24,7 @@ final class JobDetailController extends AbstractController
         try {
             $job = $this->jobsCollection->get(new JobId($jobId));
 
-        } catch (ProjectNotFound) {
+        } catch (JobNotFound) {
             throw $this->createNotFoundException();
         }
 
