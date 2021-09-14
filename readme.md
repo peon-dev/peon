@@ -39,8 +39,6 @@ services:
     dashboard:
         image: ghcr.io/phpmate/phpmate:master
         environment:
-            BASIC_AUTH_USER: "phpmate"
-            BASIC_AUTH_PASSWORD: "phpmate"
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
         ports:
             - 8080:8080
@@ -52,14 +50,14 @@ services:
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
         restart: unless-stopped
-        command: [ "worker/bin/worker" ]
+        command: [ "bin/worker" ]
 
     scheduler:
         image: ghcr.io/phpmate/phpmate:master
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
         restart: unless-stopped
-        command: [ "scheduler/bin/scheduler" ]
+        command: [ "bin/scheduler" ]
 
     mariadb:
         image: mariadb:10.6
