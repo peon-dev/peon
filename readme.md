@@ -38,40 +38,42 @@ version: "3.7"
 services:
     # Optional to protect with basic http auth
     nginx-auth-proxy:
-        image: quay.io/dtan4/nginx-basic-auth-proxy:latest
+        image: beevelop/nginx-basic-auth:latest
         ports:
             - 8080:80
         environment:
-            BASIC_AUTH_USERNAME: phpmate
-            BASIC_AUTH_PASSWORD: phpmate
-            PROXY_PASS: http://dashboard/
+            FORWARD_PORT: 8080
+            # you can use https://hostingcanada.org/htpasswd-generator/ 
+            # note $$ (it is escaped $ char)
+            # default credentials: phpmate:phpmate
+            HTPASSWD: phpmate:$$apr1$$crgzhdtf$$ZOr9u1GXhfUyT7pBcUuZ51
     
     dashboard:
         image: ghcr.io/phpmate/phpmate:master
         environment:
-            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
+            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "dashboard/public" ]
-        # If not using auth proxy, you need to make this service available via mapping 8080 port:
+        # If not using auth proxy, you need to make this service available:
         # ports:
         #     - 8080:8080
 
     worker:
         image: ghcr.io/phpmate/phpmate:master
         environment:
-            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
+            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
         command: [ "bin/worker" ]
 
     scheduler:
         image: ghcr.io/phpmate/phpmate:master
         environment:
-            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate"
+            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
         command: [ "bin/scheduler" ]
 
     mariadb:
-        image: mariadb:10.6
+        image: mariadb:10.6.4
         restart: unless-stopped
         volumes:
             - ./db-data:/var/lib/mysql
