@@ -100,11 +100,17 @@
                                 {% if job.startedAt %}
                                     <i class="far fa-calendar-alt"></i>
                                     {% if job.succeeded %}
-                                        {{ job.succeededAt|date('j. n. H:i') }}
+                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.succeededAt|date('j.n.Y H:i') }}">
+                                            {{ job.succeededAt|ago }}
+                                        </span>
                                     {% elseif job.failed %}
-                                        {{ job.failedAt|date('j. n. H:i') }}
+                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.failedAt|date('j.n.Y H:i') }}">
+                                            {{ job.failedAt|ago }}
+                                        </span>
                                     {% elseif job.inProgress %}
-                                        {{ job.startedAt|date('j. n. H:i') }}
+                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.startedAt|date('j.n.Y H:i') }}">
+                                            {{ job.startedAt|ago }}
+                                        </span>
                                     {% endif %}
                                 {% endif %}
                             </td>

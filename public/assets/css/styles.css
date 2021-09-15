@@ -39,6 +39,18 @@
     color: darkblue;
 }
 
+.jobs-list-table a {
+    text-decoration: none;
+}
+
+.jobs-list-table a:hover {
+    text-decoration: underline;
+}
+
+.jobs-list-table a.btn:hover {
+    text-decoration: none;
+}
+
 .jobs-list-table .btn-sm {
     padding-top: 2px;
     padding-bottom: 2px;
