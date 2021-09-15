@@ -21,12 +21,17 @@ final class ProvideReadProjects
     public function provide(): array
     {
         $sql = <<<SQL
-
+SELECT
+       project.project_id, project.name,
+       count(DISTINCT task.task_id) as tasks_count,
+       count(DISTINCT job.job_id) as jobs_count
+FROM project
+LEFT JOIN job ON job.project_id = project.project_id
+LEFT JOIN task ON task.project_id = project.project_id
+GROUP BY project.project_id
 SQL;
 
-        return [];
-
-        $resultSet = $this->connection->executeQuery($sql, [$jobsCount], ['integer']);
+        $resultSet = $this->connection->executeQuery($sql);
 
         return $this->hydrator->hydrateArrays($resultSet->fetchAllAssociative(), ReadProject::class);
     }
