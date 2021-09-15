@@ -11,4 +11,6 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
+    Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle::class => ['all' => true],
+    Symplify\EasyHydrator\EasyHydratorBundle::class => ['all' => true],
 ];
