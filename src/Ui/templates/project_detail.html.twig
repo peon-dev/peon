@@ -1,14 +1,34 @@
+{% extends 'base.html.twig' %}
 
-<ul>
-    {% for project in projects %}
-        <li>
-            {{ project.remoteGitRepository.project }}
+{% block title %}Project {% endblock %}
 
-            <a href="{{ path('define_task', {projectId: project.projectId}) }}">Define task</a>
-            <a href="{{ path('delete_project', {projectId: project.projectId}) }}" onclick="return confirm('Are you sure you want to delete this project?');">Delete project</a>
-        </li>
-    {% endfor %}
-</ul>
+{% block content %}
+
+<span style="float: right;">
+    <a class="btn btn-sm btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
+        <i class="fas fa-plus-circle"></i>
+        Define task
+    </a>
+
+    <a class="btn btn-sm btn-danger" href="{{ path('delete_project', {projectId: activeProject.projectId}) }}" onclick="return confirm('Are you sure you want to delete this project?');">
+        <i class="fas fa-minus-circle"></i>
+        Delete project
+    </a>
+</span>
+
+<h2>
+    <i class="fab fa-gitlab"></i>
+    {{ activeProject.name }}
+</h2>
+
+
+{% if not tasks %}
+    <p class="guidelines-block">
+        Now continue by defining a task<br>
+        Task can be any command(s), that could result into a code changes<br>
+        <a href="{{ path('define_task', {projectId: activeProject.projectId}) }}" class="btn btn-lg btn-primary">Define task</a>
+    </p>
+{% endif %}
 
 <ul>
     {% for task in tasks %}
@@ -20,3 +40,5 @@
         </li>
     {% endfor %}
 </ul>
+
+{% endblock %}
