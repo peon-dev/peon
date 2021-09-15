@@ -61,6 +61,9 @@ return static function(ContainerConfigurator $configurator): void
     // Console commands
     $services->load('PHPMate\Cli\\', __DIR__ . '/../../../Cli/{*ConsoleCommand.php}');
 
+    // Read model providers
+    $services->load('PHPMate\Ui\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
+
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
         ->args([
             param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
