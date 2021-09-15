@@ -4,6 +4,7 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="PHPMate\Domain\Project\Project">
         <id name="projectId" type="project_id" />
+        <field name="name" />
         <embedded name="remoteGitRepository" class="PHPMate\Domain\Tools\Git\RemoteGitRepository" />
     </entity>
 </doctrine-mapping>
