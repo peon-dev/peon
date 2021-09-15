@@ -38,3 +38,44 @@
     border-color: darkblue;
     color: darkblue;
 }
+
+.jobs-list-table .btn-sm {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.jobs-list-table .btn.btn-warning {
+    background-color: #fff;
+    color: #d9a205;
+}
+
+.jobs-list-table .btn.btn-warning:hover {
+    background-color: #fff3d7;
+}
+
+.jobs-list-table .btn.btn-success {
+    background-color: #fff;
+    color: #0d942d;
+}
+
+.jobs-list-table .btn.btn-success:hover {
+    background-color: #d8efdd;
+}
+
+.jobs-list-table .btn.btn-primary {
+    background-color: #fff;
+    color: #0a58ca;
+}
+
+.jobs-list-table .btn.btn-primary:hover {
+    background-color: #d2e2f8;
+}
+
+.jobs-list-table .btn.btn-danger {
+    background-color: #fff;
+    color: #ea3749;
+}
+
+.jobs-list-table .btn.btn-danger:hover {
+    background-color: #fae4e5;
+}

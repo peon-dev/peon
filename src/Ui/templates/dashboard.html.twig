@@ -32,7 +32,7 @@
     {% if jobs is empty %}
         <p>No jobs executed yet.</p>
     {% else %}
-        <div class="table-responsive">
+        <div class="table-responsive jobs-list-table">
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
@@ -47,7 +47,7 @@
                         <tr>
                             <td>
                                 {% if job.pending %}
-                                    <span class="btn btn-sm">
+                                    <span class="btn btn-warning btn-sm">
                                         Pending <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
                                     </span>
                                 {% endif %}
