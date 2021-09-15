@@ -3,3 +3,8 @@ services:
         class: PHPMate\Packages\PHPStan\MessageBusExceptionExtension
         tags:
             - exceptionRules.dynamicMethodThrowTypeExtension
+
+    -
+        class: PHPMate\Packages\PHPStan\ArrayHydratorDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
