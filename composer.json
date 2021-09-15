@@ -27,6 +27,7 @@
         "dragonmantank/cron-expression": "^3.1",
         "guzzlehttp/psr7": "dev-fix-missing-uri-throws-annotation",
         "jetbrains/phpstorm-attributes": "^1.0",
+        "knplabs/knp-time-bundle": "^1.16",
         "lcobucci/clock": "^2.0",
         "monolog/monolog": "^2.2",
         "nette/utils": "^3.2",
