@@ -29,7 +29,7 @@ FROM job
 JOIN project
 JOIN task
 LEFT JOIN job_process ON job.job_id = job_process.job_id
-GROUP BY job_process.job_id
+GROUP BY job_process.job_id, job.scheduled_at
 ORDER BY job.scheduled_at DESC
 LIMIT ?
 SQL;

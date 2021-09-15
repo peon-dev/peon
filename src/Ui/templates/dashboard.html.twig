@@ -48,13 +48,15 @@
                             <td>
                                 {% if job.pending %}
                                     <span class="btn btn-warning btn-sm">
-                                        Pending <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        Pending
                                     </span>
                                 {% endif %}
 
                                 {% if job.inProgress %}
                                     <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
-                                        In progress <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        In progress
                                     </a>
                                 {% endif %}
 
