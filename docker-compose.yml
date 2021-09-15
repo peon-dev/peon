@@ -25,15 +25,7 @@ services:
         ports:
           - "${PHPMATE_DB_PORT:-3306}:3306"
 
-    php:
-        image: phpmate
-        volumes:
-            - .:/var/www
-        working_dir: /var/www
-        depends_on:
-            - composer
-            - db
-
+    # Helper service
     composer:
         image: phpmate
         build:
