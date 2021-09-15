@@ -18,3 +18,14 @@
     content: "* ";
     color: red;
 }
+
+.dashboard-projects a.card {
+    text-decoration: none;
+    background: #eeefff;
+    border-color: blue;
+}
+
+.dashboard-projects a.card:hover {
+    border-color: darkblue;
+    color: darkblue;
+}
