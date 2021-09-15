@@ -17,14 +17,21 @@
                     <div class="card-body">
                         <h5 class="card-title"><i class="fab fa-gitlab"></i> {{ project.name }}</h5>
                         <p class="card-text">
-                            4 tasks<br>
-                            4 jobs
+                            {{ project.tasksCount }} tasks<br>
+                            {{ project.jobsCount }} jobs
                         </p>
                     </div>
                 </a>
             </div>
         {% endfor %}
     </div>
+
+    {% if not projects %}
+        <p class="start-by-adding-project">
+            First step is to create a project by connecting your git repository<br>
+            <a href="{{ path('create_project') }}" class="btn btn-lg btn-primary">Create project</a>
+        </p>
+    {% endif %}
 
 
     <h3>Recent jobs</h3>
