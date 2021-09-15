@@ -7,6 +7,7 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Task\TasksCollection;
+use PHPMate\Ui\ReadModel\Dashboard\ProvideReadJobs;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,7 @@ final class DashboardController extends AbstractController
         private JobsCollection $jobsCollection,
         private ProjectsCollection $projectsCollection,
         private TasksCollection $tasksCollection,
+        private ProvideReadJobs $provideReadJobs,
     ) {}
 
 
@@ -24,7 +26,7 @@ final class DashboardController extends AbstractController
     public function __invoke(): Response
     {
         return $this->render('dashboard.html.twig', [
-            'jobs' => $this->jobsCollection->all(),
+            'jobs' => $this->provideReadJobs->provide(10),
             'projects' => $this->projectsCollection->all(),
             'tasks' => $this->tasksCollection->all(),
         ]);
