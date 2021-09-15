@@ -19,6 +19,15 @@
     color: red;
 }
 
+.dashboard-projects {
+    margin-bottom: 25px;
+}
+
+.dashboard-projects .card {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
 .dashboard-projects a.card {
     text-decoration: none;
     background: #eeefff;
