@@ -97,6 +97,9 @@
     "jetbrains/phpstorm-attributes": {
         "version": "1.0"
     },
+    "knplabs/knp-time-bundle": {
+        "version": "v1.16.1"
+    },
     "laminas/laminas-code": {
         "version": "4.4.2"
     },

@@ -13,4 +13,5 @@ return [
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
     Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle::class => ['all' => true],
     Symplify\EasyHydrator\EasyHydratorBundle::class => ['all' => true],
+    Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
 ];
