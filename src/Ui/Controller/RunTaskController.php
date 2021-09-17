@@ -12,6 +12,7 @@ use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\FlashType;
 use PHPMate\UseCase\RunTask;
@@ -22,7 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RunTaskController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus
+        private CommandBus $commandBus,
+        private TasksCollection $tasksCollection
     ) {}
 
 
@@ -36,11 +38,15 @@ final class RunTaskController extends AbstractController
     public function __invoke(string $taskId): Response
     {
         try {
+            $task = $this->tasksCollection->get(new TaskId($taskId));
+
             $this->commandBus->dispatch(
                 new RunTask(
                     new TaskId($taskId)
                 )
             );
+
+            return $this->redirectToRoute('project_detail', ['projectId' => $task->projectId]);
         } catch (TaskNotFound | ProjectNotFound) {
             throw $this->createNotFoundException();
         } catch (JobHasNoCommands) {
