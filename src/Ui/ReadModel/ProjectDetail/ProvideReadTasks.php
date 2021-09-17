@@ -27,7 +27,8 @@ SELECT
 	job.job_id as last_job_id, 
 	job.started_at as last_job_started_at, 
 	job.failed_at as last_job_failed_at, 
-	job.succeeded_at as last_job_succeeded_at
+	job.succeeded_at as last_job_succeeded_at,
+	job.scheduled_at as last_job_scheduled_at
 FROM  task
 LEFT JOIN job ON job.task_id = task.task_id AND job.scheduled_at = (
 	SELECT MAX(latest_job.scheduled_at)
