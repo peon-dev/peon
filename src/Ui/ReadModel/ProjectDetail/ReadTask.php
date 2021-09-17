@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\ReadModel\ProjectDetail;
 
+use Cron\CronExpression;
 use JetBrains\PhpStorm\Immutable;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
@@ -80,5 +81,14 @@ final class ReadTask
     public function getHumanReadableCron(): string
     {
         return CronTranslator::translate($this->schedule);
+    }
+
+
+    public function getNextRunTime(): \DateTimeImmutable
+    {
+        $cronExpression = new CronExpression($this->schedule);
+        $nextRun = $cronExpression->getNextRunDate();
+
+        return \DateTimeImmutable::createFromMutable($nextRun);
     }
 }
