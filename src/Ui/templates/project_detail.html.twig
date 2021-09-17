@@ -53,16 +53,14 @@
                     <td>
                         {% if task.schedule %}
                             <code>{{ task.schedule }}</code> <br><small class="text-muted">{{ task.humanReadableCron }}</small>
+                            <br>
+                            <small>
+                                <i class="far fa-clock"></i> next {{ task.nextRunTime|ago }}
+                            </small>
                         {% else %}
                             No schedule
                             <br><small class="text-muted">Run only manually</small>
                         {% endif %}
-                        {#
-                        <br>
-                        <small>
-                            <i class="far fa-clock"></i> next in 29 minutes
-                        </small>
-                        #}
                     </td>
 
                     <td>
