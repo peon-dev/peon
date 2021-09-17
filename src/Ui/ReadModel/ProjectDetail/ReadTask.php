@@ -8,6 +8,7 @@ use Cron\CronExpression;
 use JetBrains\PhpStorm\Immutable;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
+use Nette\Utils\JsonException;
 use PHPMate\Domain\Job\JobStatus;
 
 #[Immutable]
@@ -37,6 +38,9 @@ final class ReadTask
     }
 
 
+    /**
+     * @throws JsonException
+     */
     public function getCommandsWithNewLines(): string
     {
         $commandsArray = Json::decode($this->commands);
@@ -80,12 +84,23 @@ final class ReadTask
 
     public function getHumanReadableCron(): string
     {
+        if ($this->schedule === null) {
+            throw new \LogicException();
+        }
+
         return CronTranslator::translate($this->schedule);
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function getNextRunTime(): \DateTimeImmutable
     {
+        if ($this->schedule === null) {
+            throw new \LogicException();
+        }
+
         $cronExpression = new CronExpression($this->schedule);
         $nextRun = $cronExpression->getNextRunDate();
 
