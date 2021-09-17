@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Project {% endblock %}
+{% block title %}Project {{ activeProject.name }}{% endblock %}
 
 {% block content %}
 
@@ -30,15 +30,75 @@
     </p>
 {% endif %}
 
-<ul>
-    {% for task in tasks %}
-        <li>
-            {{ task.name }}
-            <a href="{{ path('run_task', {taskId: task.taskId}) }}">Run</a>
-            <a href="{{ path('redefine_task', {taskId: task.taskId}) }}">Edit</a>
-            <a href="{{ path('remove_task', {taskId: task.taskId}) }}" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="table-responsive jobs-list-table">
+    <table class="table table-hover align-middle">
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Schedule</th>
+            <th>Commands</th>
+            <th class="text-center">Last job</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>
+                        <a href="{{ path('redefine_task', {taskId: task.taskId}) }}">
+                            Rector
+                        </a>
+                    </td>
+
+                    <td>
+                        <code>{{ task.schedule }}</code> <br>{# <small class="text-muted">Every minute</small> #}
+                        {#
+                        <br>
+                        <small>
+                            <i class="far fa-clock"></i> next in 29 minutes
+                        </small>
+                        #}
+                    </td>
+
+                    <td>
+                        <code>
+                            {{ task.commandsWithNewLines|nl2br }}
+                        </code>
+                    </td>
+
+                    <td class="text-center">
+                        {% if task.lastJobId %}
+
+                            <a href="#" class="btn btn-success btn-sm">
+                                <i class="far fa-check-circle"></i>
+                                Succeeded
+                            </a>
+                            <br>
+                            <small class="text-muted">
+                                <i class="far fa-clock"></i> 29 minutes ago
+                            </small>
+                            <br>
+                        {% endif %}
+                        <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
+                            <i class="far fa-play-circle"></i>
+                            Run
+                        </a>
+                    </td>
+
+                    <td class="text-end">
+                        <a href="{{ path('redefine_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-pencil-alt"></i>
+                            Edit
+                        </a>
+
+                        <a class="btn btn-sm btn-danger" href="{{ path('remove_task', {taskId: task.taskId}) }}" onclick="return confirm('Are you sure you want to delete this task?');">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
