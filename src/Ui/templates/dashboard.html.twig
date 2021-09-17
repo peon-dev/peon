@@ -99,7 +99,7 @@
                                     <small class="text-muted">
                                         <i class="far fa-clock"></i>
                                         {% if job.executionTime >= 60 %}
-                                            {$job->executionTime / 60|floor}m
+                                            {{ (job.executionTime / 60)|round(0, 'floor') }}m
                                         {% endif %}
                                         {{ job.executionTime % 60|round }}s
                                     </small>
