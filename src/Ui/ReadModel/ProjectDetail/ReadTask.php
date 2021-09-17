@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\ReadModel\ProjectDetail;
 
 use JetBrains\PhpStorm\Immutable;
+use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
 use PHPMate\Domain\Job\JobStatus;
 
@@ -73,5 +74,11 @@ final class ReadTask
     public function hasJobFailed(): bool
     {
         return $this->lastJobStatus === JobStatus::FAILED;
+    }
+
+
+    public function getHumanReadableCron(): string
+    {
+        return CronTranslator::translate($this->schedule);
     }
 }
