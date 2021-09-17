@@ -52,7 +52,7 @@
 
                     <td>
                         {% if task.schedule %}
-                            <code>{{ task.schedule }}</code> <br><small class="text-muted">Every minute</small>
+                            <code>{{ task.schedule }}</code> <br><small class="text-muted">{{ task.humanReadableCron }}</small>
                         {% else %}
                             No schedule
                             <br><small class="text-muted">Run only manually</small>
