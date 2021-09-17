@@ -106,6 +106,9 @@
     "lcobucci/clock": {
         "version": "2.0.0"
     },
+    "lorisleiva/cron-translator": {
+        "version": "v0.2.1"
+    },
     "m4tthumphrey/php-gitlab-api": {
         "version": "11.4.0"
     },
