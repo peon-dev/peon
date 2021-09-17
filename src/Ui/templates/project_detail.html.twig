@@ -36,6 +36,7 @@
         <tr>
             <th>Task</th>
             <th>Schedule</th>
+            <th></th>
             <th>Commands</th>
             <th class="text-center">Last job</th>
             <th></th>
@@ -46,7 +47,7 @@
                 <tr>
                     <td>
                         <a href="{{ path('redefine_task', {taskId: task.taskId}) }}">
-                            Rector
+                            {{ task.name }}
                         </a>
                     </td>
 
@@ -61,6 +62,13 @@
                             No schedule
                             <br><small class="text-muted">Run only manually</small>
                         {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
+                            <i class="far fa-play-circle"></i>
+                            Run
+                        </a>
                     </td>
 
                     <td>
@@ -111,10 +119,6 @@
                             </small>
                             <br>
                         {% endif %}
-                        <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
-                            <i class="far fa-play-circle"></i>
-                            Run
-                        </a>
                     </td>
 
                     <td class="text-end">
