@@ -182,7 +182,7 @@ final class Git
         $this->processLogger->logResult($result);
 
         $commitCommand = sprintf(
-            'commit --author="%s <%s>" -a -m "%s"',
+            'commit --author="%s <%s>" -m "%s"',
             self::USER_NAME,
             self::USER_EMAIL,
             $commitMessage,
