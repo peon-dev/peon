@@ -116,11 +116,12 @@ class ExecuteJobHandlerTest extends KernelTestCase
     {
         $this->duplicateBranch('already-processed', $this->branchName);
 
-        $jobId = new JobId(self::JOB_ID);
+        $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
+        $jobId = new JobId(self::JOB_ID);
         $this->useCase->__invoke(new ExecuteJob($jobId));
 
-        $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
         self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
