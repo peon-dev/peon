@@ -243,9 +243,12 @@ class GitTest extends TestCase
         $processResult = new ProcessResult('', 0, '', 0);
 
         $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
+        $gitBinary->expects(self::exactly(2))
             ->method('executeCommand')
-            ->with('/', 'commit --author="PHPMate <bot@phpmate.io>" -a -m "Message"')
+            ->withConsecutive(
+                ['/', 'add .'],
+                ['/', 'commit --author="PHPMate <bot@phpmate.io>" -m "Message"'],
+            )
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
