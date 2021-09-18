@@ -99,10 +99,17 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                         $branchWithChanges,
                         '[PHP Mate] Task ' . $job->taskName
                     );
-                } // TODO: consider else branch (if MR already opened, that new commits were added)
+                }
+            } elseif ($this->git->remoteBranchExists($projectDirectory, $localGitRepository->jobBranch)) {
+                if ($this->gitProvider->hasMergeRequestForBranch($remoteGitRepository, $localGitRepository->jobBranch) === false) {
+                    $this->gitProvider->openMergeRequest(
+                        $remoteGitRepository,
+                        $localGitRepository->mainBranch,
+                        $localGitRepository->jobBranch,
+                        '[PHP Mate] Task ' . $job->taskName
+                    );
+                }
             }
-
-            // TODO: cover scenario when branch exists but merge request does not
 
             $job->succeeds($this->clock);
         } catch (JobHasStartedAlready $exception) {
