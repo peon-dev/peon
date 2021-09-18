@@ -6,6 +6,7 @@ namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\RemoveTask;
 use PHPMate\UseCase\RemoveTaskHandler;
@@ -16,7 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RemoveTaskController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus
+        private CommandBus $commandBus,
+        private TasksCollection $tasksCollection
     ) {}
 
 
@@ -24,11 +26,15 @@ final class RemoveTaskController extends AbstractController
     public function __invoke(string $taskId): Response
     {
         try {
+            $task = $this->tasksCollection->get(new TaskId($taskId));
+
             $this->commandBus->dispatch(
                 new RemoveTask(
                     new TaskId($taskId)
                 )
             );
+
+            return $this->redirectToRoute('project_detail', ['projectId' => $task->projectId]);
         } catch (TaskNotFound) {
             throw $this->createNotFoundException();
         }

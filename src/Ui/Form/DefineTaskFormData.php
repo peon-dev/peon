@@ -17,7 +17,7 @@ final class DefineTaskFormData
     #[NotBlank]
     public string $commands;
 
-    private ?CronExpression $schedule;
+    private ?CronExpression $schedule = null;
 
     /**
      * @return array<string>
