@@ -38,7 +38,5 @@ final class RemoveTaskController extends AbstractController
         } catch (TaskNotFound) {
             throw $this->createNotFoundException();
         }
-
-        return $this->redirectToRoute('dashboard');
     }
 }
