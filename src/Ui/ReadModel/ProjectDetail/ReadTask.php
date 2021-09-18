@@ -45,7 +45,7 @@ final class ReadTask
     {
         $commandsArray = Json::decode($this->commands);
 
-        return implode('"\n', $commandsArray);
+        return implode("\n", $commandsArray);
     }
 
 

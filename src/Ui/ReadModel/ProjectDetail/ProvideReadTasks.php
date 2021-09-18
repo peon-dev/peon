@@ -36,6 +36,7 @@ LEFT JOIN job ON job.task_id = task.task_id AND job.scheduled_at = (
 	WHERE latest_job.task_id = task.task_id
 	GROUP BY latest_job.task_id
 )
+ORDER BY task.name
 SQL;
 
         $resultSet = $this->connection->executeQuery($sql, ['projectId' => $projectId]);

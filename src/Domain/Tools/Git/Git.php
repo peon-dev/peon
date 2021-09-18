@@ -178,6 +178,9 @@ final class Git
      */
     public function commit(string $directory, string $commitMessage): void
     {
+        $result = $this->gitBinary->executeCommand($directory, 'add .');
+        $this->processLogger->logResult($result);
+
         $commitCommand = sprintf(
             'commit --author="%s <%s>" -a -m "%s"',
             self::USER_NAME,

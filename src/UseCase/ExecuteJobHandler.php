@@ -102,6 +102,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                 } // TODO: consider else branch (if MR already opened, that new commits were added)
             }
 
+            // TODO: cover scenario when branch exists but merge request does not
+
             $job->succeeds($this->clock);
         } catch (JobHasStartedAlready $exception) {
             // TODO, im not sure what should happen
