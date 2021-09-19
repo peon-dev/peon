@@ -19,7 +19,7 @@ final class ProcessLoggerTest extends TestCase
         $logger = new ProcessLogger();
         $logger->logResult($processResult);
 
-        $logs = $logger->getLogs();
+        $logs = $logger->popLogs();
 
         $loggedResult = $logs[array_key_first($logs)];
 

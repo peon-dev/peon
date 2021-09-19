@@ -24,9 +24,12 @@ final class ProcessLogger
     /**
      * @return ProcessResult[]
      */
-    public function getLogs(): array
+    public function popLogs(): array
     {
-        return $this->logs;
+        $logs = $this->logs;
+        $this->logs = [];
+
+        return $logs;
     }
 
 
