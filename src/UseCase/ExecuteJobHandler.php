@@ -127,7 +127,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             throw new JobExecutionFailed($throwable->getMessage(), previous: $throwable);
         } finally {
             // TODO: Consider dropping collector pattern for something more clean?
-            foreach ($this->processLogger->getLogs() as $processResult) {
+            foreach ($this->processLogger->popLogs() as $processResult) {
                 $job->addProcessResult($processResult);
             }
 
