@@ -22,6 +22,18 @@ RUN install-php-extensions \
 
 COPY .docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+COPY .docker/wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
+
+COPY .docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+RUN mkdir /docker-entrypoint.d/
+COPY .docker/entrypoints/*.sh /docker-entrypoint.d/
+RUN chmod +x /docker-entrypoint.d/*.sh
+
+ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
+
 USER 1000:1000
 
 
