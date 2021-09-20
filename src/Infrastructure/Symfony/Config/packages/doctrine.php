@@ -12,6 +12,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('doctrine', [
         'dbal' => [
             'url' => '%env(resolve:DATABASE_URL)%',
+            'schema_filter' => '~^(?!messenger_messages)~',
             'types' => [
                 DoctrineProjectIdType::NAME => DoctrineProjectIdType::class,
                 DoctrineTaskIdType::NAME => DoctrineTaskIdType::class,
