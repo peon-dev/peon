@@ -53,10 +53,10 @@ services:
     dashboard:
         image: ghcr.io/phpmate/phpmate:master
         environment:
-            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
+            DATABASE_URL: "postgresql://phpmate:phpmate@postgres:5432/phpmate?serverVersion=13&charset=utf8"
         restart: unless-stopped
         depends_on:
-            - mariadb
+            - postgres
         entrypoint: [ "bash", "/docker-entrypoint.sh" ]
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
         # If not using auth proxy, you need to make this service available:
@@ -68,7 +68,7 @@ services:
         depends_on:
             - dashboard
         environment:
-            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
+            DATABASE_URL: "postgresql://phpmate:phpmate@postgres:5432/phpmate?serverVersion=13&charset=utf8"
         restart: unless-stopped
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
@@ -77,18 +77,17 @@ services:
         depends_on:
             - dashboard
         environment:
-            DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
+            DATABASE_URL: "postgresql://phpmate:phpmate@postgres:5432/phpmate?serverVersion=13&charset=utf8"
         restart: unless-stopped
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
 
-    mariadb:
-        image: mariadb:10.6.4
-        restart: unless-stopped
-        volumes:
-            - ./db-data:/var/lib/mysql
+    postgres:
+        image: postgres:13
         environment:
-            MYSQL_DATABASE: phpmate
-            MYSQL_ROOT_PASSWORD: root
+            POSTGRES_USER: phpmate
+            POSTGRES_PASSWORD: phpmate
+        volumes:
+            - ./db-data:/var/lib/postgresql/data
 ```
 
 Then run `docker-compose up`

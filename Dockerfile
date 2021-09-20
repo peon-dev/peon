@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 RUN install-php-extensions \
     intl \
     zip \
-    pdo_mysql \
+    pdo_pgsql \
     xdebug
 
 COPY .docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
