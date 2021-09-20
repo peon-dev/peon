@@ -26,10 +26,10 @@ SELECT
     project.name as project_name,
     SUM(job_process.result_execution_time) as execution_time
 FROM job
-JOIN project
-JOIN task
+JOIN project ON project.project_id = job.project_id
+JOIN task ON task.task_id = job.task_id
 LEFT JOIN job_process ON job.job_id = job_process.job_id
-GROUP BY job_process.job_id, job.scheduled_at
+GROUP BY job.job_id, job_process.job_id, project.name, job.scheduled_at
 ORDER BY job.scheduled_at DESC
 LIMIT ?
 SQL;
