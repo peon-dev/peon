@@ -7,7 +7,7 @@ For development, clone repository and run it via `docker-compose up`
 To get into Docker container (etc for development or debugging):
 
 ```shell
-docker-compose run --rm php bash
+docker-compose run --rm dashboard bash
 ```
 
 ### Testing
@@ -88,3 +88,4 @@ It is recommended to set up daily cron that will pull newer Docker images:
 ```
 0 0 * * *    docker-compose -f /path/to/docker-compose.yml pull
 ```
+It is good idea to restart containers after pulling new image as well.
