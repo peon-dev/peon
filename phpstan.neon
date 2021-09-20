@@ -22,6 +22,9 @@ parameters:
         # Workaround, before better validation forms is solved
         - '#^PHPMate\\Domain\\Task\\InvalidCronExpression is never thrown in the corresponding try block$#'
 
+        # Symfony configs can be tricky
+        - '#^Parameter \#1 \$value of method Symfony\\Config\\Framework\\Messenger\\TransportConfig::options\(\) expects#'
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false
