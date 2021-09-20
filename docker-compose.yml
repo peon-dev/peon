@@ -7,24 +7,22 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
-            - mariadb
+            - postgres
         ports:
             - 8080:8080
         entrypoint: [ "bash", "/docker-entrypoint.sh" ]
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
 
-    mariadb:
-        image: mariadb:10.6.4
-        volumes:
-            - .docker-data/mariadb/:/var/lib/mysql
+    postgres:
+        # alpine is forbidden => https://stackoverflow.com/questions/58135353/postgres-seems-to-be-ignoring-my-default-collation
+        image: postgres:13
         environment:
-          MARIADB_DATABASE: phpmate
-          MARIADB_USER: phpmate
-          MARIADB_PASSWORD: phpmate
-          MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
-        restart: unless-stopped
+            POSTGRES_USER: phpmate
+            POSTGRES_PASSWORD: phpmate
+        volumes:
+            - .docker-data/postgres:/var/lib/postgresql/data
         ports:
-          - "${PHPMATE_DB_PORT:-3306}:3306"
+            - "${PHPMATE_POSTGRES_PORT:-5432}:5432"
 
     # Helper service
     composer:
