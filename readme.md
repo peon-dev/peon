@@ -49,7 +49,7 @@ services:
             # note $$ (it is escaped $ char)
             # default credentials: phpmate:phpmate
             HTPASSWD: phpmate:$$apr1$$crgzhdtf$$ZOr9u1GXhfUyT7pBcUuZ51
-    
+
     dashboard:
         image: ghcr.io/phpmate/phpmate:master
         environment:
@@ -57,6 +57,7 @@ services:
         restart: unless-stopped
         depends_on:
             - mariadb
+        entrypoint: [ "bash", "/docker-entrypoint.sh" ]
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
         # If not using auth proxy, you need to make this service available:
         # ports:
@@ -69,8 +70,7 @@ services:
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
-        entrypoint: [ "php" ]
-        command: [ "bin/worker" ]
+        command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
     scheduler:
         image: ghcr.io/phpmate/phpmate:master
@@ -79,8 +79,7 @@ services:
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
-        entrypoint: [ "php" ]
-        command: [ "bin/scheduler" ]
+        command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
 
     mariadb:
         image: mariadb:10.6.4

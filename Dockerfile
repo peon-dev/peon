@@ -32,8 +32,6 @@ RUN mkdir /docker-entrypoint.d/
 COPY .docker/entrypoints/*.sh /docker-entrypoint.d/
 RUN chmod +x /docker-entrypoint.d/*.sh
 
-ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
-
 USER 1000:1000
 
 

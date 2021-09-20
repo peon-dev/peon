@@ -7,12 +7,13 @@ services:
         working_dir: /var/www
         depends_on:
             - composer
-            - db
+            - mariadb
         ports:
             - 8080:8080
+        entrypoint: [ "bash", "/docker-entrypoint.sh" ]
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
 
-    db:
+    mariadb:
         image: mariadb:10.6.4
         volumes:
             - .docker-data/mariadb/:/var/lib/mysql
@@ -44,7 +45,7 @@ services:
         working_dir: /var/www
         depends_on:
             - dashboard
-        command: [ "bin/worker" ]
+        command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
     scheduler:
         image: phpmate
@@ -53,4 +54,4 @@ services:
         working_dir: /var/www
         depends_on:
             - dashboard
-        command: [ "bin/scheduler" ]
+        command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
