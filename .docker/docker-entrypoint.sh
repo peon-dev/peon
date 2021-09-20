@@ -6,11 +6,14 @@
 set -e
 
 # custom "decoration" - run scripts in /docker-entrypoint.d/ directory
-if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -print -quit 2>/dev/null | /bin/grep -q .; then
-    for f in $(/usr/bin/find /docker-entrypoint.d/ -type f -name "*.sh"); do
-        echo "$0: Launching $f";
-        "$f"
-    done
+# only when cmd is "php" to avoid entrypoints for bin/scheduler && bin/worker
+if [ "$1" = "php" ]; then
+    if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -print -quit 2>/dev/null | /bin/grep -q .; then
+        for f in $(/usr/bin/find /docker-entrypoint.d/ -type f -name "*.sh"); do
+            echo "$0: Launching $f";
+            "$f"
+        done
+    fi
 fi
 
 # continue with original entrypoint

@@ -41,6 +41,8 @@ services:
         image: beevelop/nginx-basic-auth:latest
         ports:
             - 8080:80
+        depends_on:
+            - dashboard
         environment:
             FORWARD_PORT: 8080
             # you can use https://hostingcanada.org/htpasswd-generator/ 
@@ -53,6 +55,8 @@ services:
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
+        depends_on:
+            - mariadb
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
         # If not using auth proxy, you need to make this service available:
         # ports:
@@ -60,16 +64,22 @@ services:
 
     worker:
         image: ghcr.io/phpmate/phpmate:master
+        depends_on:
+            - dashboard
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
+        entrypoint: [ "php" ]
         command: [ "bin/worker" ]
 
     scheduler:
         image: ghcr.io/phpmate/phpmate:master
+        depends_on:
+            - dashboard
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
+        entrypoint: [ "php" ]
         command: [ "bin/scheduler" ]
 
     mariadb:

@@ -43,8 +43,7 @@ services:
             - .:/var/www
         working_dir: /var/www
         depends_on:
-            - composer
-            - db
+            - dashboard
         command: [ "bin/worker" ]
 
     scheduler:
@@ -53,6 +52,5 @@ services:
             - .:/var/www
         working_dir: /var/www
         depends_on:
-            - composer
-            - db
+            - dashboard
         command: [ "bin/scheduler" ]
