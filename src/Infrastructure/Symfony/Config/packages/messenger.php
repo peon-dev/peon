@@ -32,6 +32,9 @@ return static function (FrameworkConfig $framework, ContainerConfigurator $confi
 
     $framework->messenger()
         ->transport('jobs')
+        ->options([
+            'auto_setup' => false,
+        ])
         ->dsn('%env(MESSENGER_TRANSPORT_DSN)%')
         ->retryStrategy()
             ->maxRetries(0);
