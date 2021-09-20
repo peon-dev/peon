@@ -53,7 +53,7 @@ services:
         environment:
             DATABASE_URL: "mysql://root:root@mariadb:3306/phpmate?serverVersion=mariadb-10.6.4&charset=utf8"
         restart: unless-stopped
-        command: [ "php", "-S", "0.0.0.0:8080", "-t", "dashboard/public" ]
+        command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
         # If not using auth proxy, you need to make this service available:
         # ports:
         #     - 8080:8080
