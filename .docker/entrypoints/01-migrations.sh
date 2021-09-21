@@ -1,9 +1,38 @@
 #!/usr/bin/env bash
 
-# Wait for database to be ready
+# Referenced and tweaked from http://stackoverflow.com/questions/6174220/parse-url-in-shell-script#6174447
+function extract_host_from_dsn
+{
+    dsn=$1
 
-# TODO: I dont like this to be hardcoded, it should parse DATABASE_URL env var instead and use host+port part
-wait-for-it postgres:5432 --timeout=60
+    proto="$(echo $dsn | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+    # remove the protocol
+    url="$(echo ${dsn/$proto/})"
+    # extract the user (if any)
+    userpass="$(echo $url | grep @ | cut -d@ -f1)"
+    pass="$(echo $userpass | grep : | cut -d: -f2)"
+    if [ -n "$pass" ]; then
+    user="$(echo $userpass | grep : | cut -d: -f1)"
+    else
+      user=$userpass
+    fi
+
+    # extract the host+port
+    host="$(echo ${url/$user:$pass@/} | cut -d/ -f1)"
+
+    echo $host
+}
+
+if [ -n "$DATABASE_URL" ]; then
+    db_host=$(extract_host_from_dsn $DATABASE_URL)
+else
+    db_host=postgres:5432
+fi
+
+echo $db_host
+
+# Wait for db connection to be ready
+wait-for-it $db_host --timeout=60
 
 # Run doctrine migrations
 bin/console doctrine:migrations:migrate --no-interaction
