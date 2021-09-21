@@ -29,8 +29,6 @@ else
     db_host=postgres:5432
 fi
 
-echo $db_host
-
 # Wait for db connection to be ready
 wait-for-it $db_host --timeout=60
 
