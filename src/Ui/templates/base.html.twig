@@ -7,8 +7,9 @@
     <title>{% block title %}{% endblock %} | DevMate</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/fontawesome-all.min.css') }}" rel="stylesheet">
+
+    {{ encore_entry_link_tags('app') }}
 </head>
 
 <body>
@@ -57,8 +58,8 @@
         <small class="text-muted">Found a bug? Have an idea? Please <a href="https://github.com/PHPMate/phpmate/issues/new" target="_blank">open issue</a>.</small>
     </div>
 
-    <script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+    {{ encore_entry_script_tags('app') }}
 </body>
 </html>
