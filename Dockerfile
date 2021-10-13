@@ -35,6 +35,22 @@ RUN chmod +x /docker-entrypoint.d/*.sh
 USER 1000:1000
 
 
+
+FROM node:14 as js-builder
+
+WORKDIR /build
+
+# Install npm packages
+COPY package.json yarn.lock webpack.config.js ./
+RUN yarn install
+
+# Production yarn build
+COPY ./assets ./assets
+
+RUN yarn run build
+
+
+
 FROM dev as prod
 
 USER root
@@ -47,6 +63,7 @@ RUN mkdir -p /www && chown 1000:1000 /www
 USER 1000:1000
 WORKDIR "/www"
 
+COPY --chown=1000:1000 --from=js-builder . .
 COPY --chown=1000:1000 . .
 
 RUN composer install --no-interaction
