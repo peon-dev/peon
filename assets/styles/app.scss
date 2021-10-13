@@ -1,3 +1,8 @@
+// $primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+
 .list-group.jobs-list-group .active {
     background: #eee;
     border-color: #bbb;
