@@ -13,6 +13,15 @@ services:
         entrypoint: [ "bash", "/docker-entrypoint.sh" ]
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
 
+    js-watch:
+        image: node:14
+        volumes:
+            - .:/var/www
+        working_dir: /var/www
+        restart: unless-stopped
+        entrypoint: [""]
+        command: "bash -c 'yarn install && yarn run watch'"
+
     postgres:
         # alpine is forbidden => https://stackoverflow.com/questions/58135353/postgres-seems-to-be-ignoring-my-default-collation
         image: postgres:13
