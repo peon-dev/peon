@@ -86,7 +86,8 @@
         "symfony/debug-bundle": "^5.3",
         "symfony/stopwatch": "^5.3",
         "symfony/var-dumper": "^5.3",
-        "symfony/web-profiler-bundle": "^5.3"
+        "symfony/web-profiler-bundle": "^5.3",
+        "symplify/config-transformer": "^9.4"
     },
     "autoload": {
         "psr-4": {
