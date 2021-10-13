@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{% block title %}Tasks{% endblock %}</h1>
+
+    ..
+
+    <h2>Cookbook</h2>
+
+    Typed properties
+    (requires PHP >= 7.4)
+
+    <a href="#">Example</a>
+    <pre><code>
+final class SomeClass
+{
+-    /**
+-     * @var int
+-     */
+-    private $count;
++    private int $count;
+}
+        </code></pre>
+
+{% endblock %}
