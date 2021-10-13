@@ -1,12 +1,12 @@
-// any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
 
+require('bootstrap');
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
