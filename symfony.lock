@@ -713,6 +713,9 @@
     "symplify/composer-json-manipulator": {
         "version": "9.4.60"
     },
+    "symplify/config-transformer": {
+        "version": "9.4.70"
+    },
     "symplify/console-package-builder": {
         "version": "9.4.60"
     },
