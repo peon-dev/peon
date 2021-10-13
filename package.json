@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@popperjs/core": "^2.10.2",
         "@symfony/stimulus-bridge": "^2.0.0",
         "@symfony/webpack-encore": "^1.0.0",
         "bootstrap": "^5.1.3",
