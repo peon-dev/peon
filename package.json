@@ -11,7 +11,8 @@
         "sass": "^1.42.1",
         "sass-loader": "^10.0.0",
         "stimulus": "^2.0.0",
-        "webpack-notifier": "^1.6.0"
+        "webpack-notifier": "^1.6.0",
+        "@fortawesome/fontawesome-free": "^5.15.4"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -20,8 +21,5 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.4"
     }
 }

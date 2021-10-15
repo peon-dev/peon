@@ -1,15 +1,11 @@
+import 'bootstrap';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
 import './styles/app.scss';
 
-// start the Stimulus application
 import './bootstrap';
-
-require('prismjs');
-require('prismjs/components/prism-diff');
-require('prismjs/themes/prism.css');
-
-require('bootstrap');
-require('@fortawesome/fontawesome-free/css/all.min.css');
-require('@fortawesome/fontawesome-free/js/all.js');
+import './highlight';
 
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 
