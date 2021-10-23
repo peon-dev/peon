@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{% block title %}Cookbook{% endblock %}</h1>
+
+    <section class="cookbook">
+        <p>You can choose from predefined tasks!</p>
+
+        <div class="dashboard-projects row row-cols-auto">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Unused private methods
+                        </h5>
+
+
+                        <pre><code class="language-diff"> class SomeClass
+ {
+-    private function skip(): int
+-    {
+-        return 10;
+-    }
+ }</code></pre>
+
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Active for 0 projects</small>
+
+                        <a href="#" class="btn btn-primary btn-sm float-end">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Typed properties
+                            <span class="badge rounded-pill bg-light text-dark">PHP >= 7.4</span>
+                        </h5>
+
+
+                        <pre><code class="language-diff">class SomeClass
+{
+-   /**
+-    * @var int
+-    */
+-   private $count;
++   private int $count;
+}</code></pre>
+
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Active for 0 projects</small>
+
+                        <a href="#" class="btn btn-primary btn-sm float-end">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Constructor properties promotion
+                            <span class="badge rounded-pill bg-light text-dark">PHP >= 8.0</span>
+                        </h5>
+
+
+                        <pre><code class="language-diff">class SomeClass
+{
+-   private string $variable;
+
+-   public function __construct(string $variable)
++   public function __construct(private string $variable)
+    {
+-       $this->variable = $variable;
+    }
+}</code></pre>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Active for 0 projects</small>
+
+                        <a href="#" class="btn btn-primary btn-sm float-end">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Unused catch exception variables
+                            <span class="badge rounded-pill bg-light text-dark">PHP >= 8.0</span>
+                        </h5>
+
+
+                        <pre><code class="language-diff">     try {
+-    } catch (Throwable $exception) {
++    } catch (Throwable) {
+     }</code></pre>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Active for 0 projects</small>
+
+                        <a href="#" class="btn btn-primary btn-sm float-end">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Union types
+                            <span class="badge rounded-pill bg-light text-dark">PHP >= 8.0</span>
+                        </h5>
+
+
+                        <pre><code class="language-diff"> class SomeClass
+ {
+-    /**
+-     * @param array|int $number
+-     * @return bool|float
+-     */
+-    public function go($number)
++    public function go(array|int $number): bool|float
+     {
+     }
+ }</code></pre>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Active for 0 projects</small>
+
+                        <a href="#" class="btn btn-primary btn-sm float-end">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

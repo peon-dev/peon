@@ -106,3 +106,21 @@
 .guidelines-block .btn {
     margin-top: 15px;
 }
+
+.cookbook {
+    pre {
+        border-radius: 5px;
+        margin-bottom: 0;
+    }
+
+    code {
+        background: #F7F8FAFF;
+        font-size: 13px;
+        line-height: 1.4em;
+    }
+
+    .card {
+        box-shadow:  2px 2px 7px rgba(0, 0, 0, .22);
+        border: 0;
+    }
+}
