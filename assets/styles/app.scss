@@ -97,14 +97,23 @@
     background-color: #fae4e5;
 }
 
-.guidelines-block {
-    text-align: center;
-    font-size: 22px;
-    margin-top: 50px;
-}
+.project-guidelines {
+    p {
+        text-align: center;
+    }
 
-.guidelines-block .btn {
-    margin-top: 15px;
+    .bigger {
+        font-size: 22px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .list-group {
+        max-width: 500px;
+        box-shadow:  2px 2px 7px rgba(0, 0, 0, .22);
+        padding: 10px;
+        margin: 15px auto;
+    }
 }
 
 .cookbook {
