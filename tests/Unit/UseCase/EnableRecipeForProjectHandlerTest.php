@@ -51,6 +51,8 @@ class EnableRecipeForProjectHandlerTest extends TestCase
 
     public function testProjectNotFound(): void
     {
+        $this->expectException(ProjectNotFound::class);
+
         $recipeName = new RecipeName('test');
         $projectId = new ProjectId('');
         $command = new EnableRecipeForProject(
@@ -64,14 +66,13 @@ class EnableRecipeForProjectHandlerTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $handler = new EnableRecipeForProjectHandler($projectsCollection, $recipesCollection);
 
-        $this->expectException(ProjectNotFound::class);
-
         $handler->__invoke($command);
     }
 
 
     public function testRecipeNotFound(): void
     {
+        $this->expectException(RecipeNotFound::class);
 
         $recipeName = new RecipeName('test');
         $projectId = new ProjectId('');
@@ -89,8 +90,6 @@ class EnableRecipeForProjectHandlerTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $handler = new EnableRecipeForProjectHandler($projectsCollection, $recipesCollection);
 
-        $this->expectException(RecipeNotFound::class);
-
         $handler->__invoke($command);
     }
 
@@ -98,5 +97,28 @@ class EnableRecipeForProjectHandlerTest extends TestCase
     public function testRecipeAlreadyEnabled(): void
     {
         $this->expectException(RecipeAlreadyEnabled::class);
+
+        $recipeName = new RecipeName('test');
+        $projectId = new ProjectId('');
+        $command = new EnableRecipeForProject(
+            $recipeName,
+            $projectId,
+        );
+
+        $recipesCollection = $this->createMock(RecipesCollection::class);
+        $recipesCollection->method('hasRecipeWithName')->willReturn(true);
+
+        $project = $this->createMock(Project::class);
+        $project->expects(self::once())
+            ->method('enableRecipe')
+            ->willThrowException(new RecipeAlreadyEnabled());
+
+        $projectsCollection = $this->createMock(ProjectsCollection::class);
+        $projectsCollection->method('get')
+            ->willReturn($project);
+
+        $handler = new EnableRecipeForProjectHandler($projectsCollection, $recipesCollection);
+
+        $handler->__invoke($command);
     }
 }
