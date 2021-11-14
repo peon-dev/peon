@@ -19,4 +19,9 @@ class Project
     ) {
         $this->name = $this->remoteGitRepository->getProject();
     }
+
+
+    public function enableRecipe(): void
+    {
+    }
 }
