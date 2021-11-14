@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Unit\UseCase;
 
 use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
+use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Cookbook\RecipeNotFound;
 use PHPMate\Domain\Project\Project;
+use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\UseCase\EnableRecipeForProject;
 use PHPMate\UseCase\EnableRecipeForProjectHandler;
 use PHPUnit\Framework\TestCase;
@@ -15,13 +18,28 @@ class EnableRecipeForProjectHandlerTest extends TestCase
 {
     public function testRecipeCanBeEnabled(): void
     {
-        $command = new EnableRecipeForProject();
-        $handler = new EnableRecipeForProjectHandler();
+        $recipeName = new RecipeName('test');
+        $projectId = new ProjectId('');
+        $command = new EnableRecipeForProject(
+            $recipeName,
+            $projectId,
+        );
 
-        $projectSpy = $this->createMock(Project::class);
-        $projectSpy->expects(self::once())
-            ->method('enableRecipe');
+        $project = $this->createMock(Project::class);
+        $project->expects(self::once())
+            ->method('enableRecipe')
+            ->with($recipeName);
 
+        $projectsCollection = $this->createMock(ProjectsCollection::class);
+        $projectsCollection->expects(self::once())
+            ->method('save');
+
+        $projectsCollection
+            ->expects(self::once())
+            ->method('get')
+            ->willReturn($project);
+
+        $handler = new EnableRecipeForProjectHandler($projectsCollection);
         $handler->__invoke($command);
     }
 
