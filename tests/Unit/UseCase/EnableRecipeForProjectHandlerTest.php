@@ -6,6 +6,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
 use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Cookbook\RecipeNotFound;
+use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
@@ -40,7 +41,10 @@ class EnableRecipeForProjectHandlerTest extends TestCase
             ->method('get')
             ->willReturn($project);
 
-        $handler = new EnableRecipeForProjectHandler($projectsCollection);
+        $recipesCollection = $this->createMock(RecipesCollection::class);
+        $recipesCollection->method('hasRecipeWithName')->willReturn(true);
+
+        $handler = new EnableRecipeForProjectHandler($projectsCollection, $recipesCollection);
         $handler->__invoke($command);
     }
 
@@ -54,8 +58,11 @@ class EnableRecipeForProjectHandlerTest extends TestCase
             $projectId,
         );
 
+        $recipesCollection = $this->createMock(RecipesCollection::class);
+        $recipesCollection->method('hasRecipeWithName')->willReturn(true);
+
         $projectsCollection = new InMemoryProjectsCollection();
-        $handler = new EnableRecipeForProjectHandler($projectsCollection);
+        $handler = new EnableRecipeForProjectHandler($projectsCollection, $recipesCollection);
 
         $this->expectException(ProjectNotFound::class);
 
@@ -65,7 +72,26 @@ class EnableRecipeForProjectHandlerTest extends TestCase
 
     public function testRecipeNotFound(): void
     {
+
+        $recipeName = new RecipeName('test');
+        $projectId = new ProjectId('');
+        $command = new EnableRecipeForProject(
+            $recipeName,
+            $projectId,
+        );
+
+        $recipesCollection = $this->createMock(RecipesCollection::class);
+        $recipesCollection->expects(self::once())
+            ->method('hasRecipeWithName')
+            ->with($recipeName)
+            ->willReturn(false);
+
+        $projectsCollection = new InMemoryProjectsCollection();
+        $handler = new EnableRecipeForProjectHandler($projectsCollection, $recipesCollection);
+
         $this->expectException(RecipeNotFound::class);
+
+        $handler->__invoke($command);
     }
 
 
