@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
 use PHPMate\Domain\Cookbook\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
@@ -21,6 +22,7 @@ final class EnableRecipeForProjectHandler  implements MessageHandlerInterface
     /**
      * @throws ProjectNotFound
      * @throws RecipeNotFound
+     * @throws RecipeAlreadyEnabled
      */
     public function __invoke(EnableRecipeForProject $command): void
     {
