@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
 #[Immutable]
@@ -21,7 +22,7 @@ class Project
     }
 
 
-    public function enableRecipe(): void
+    public function enableRecipe(RecipeName $recipe): void
     {
     }
 }
