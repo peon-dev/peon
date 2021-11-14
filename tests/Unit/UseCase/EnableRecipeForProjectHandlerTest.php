@@ -10,6 +10,7 @@ use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\UseCase\EnableRecipeForProject;
 use PHPMate\UseCase\EnableRecipeForProjectHandler;
 use PHPUnit\Framework\TestCase;
@@ -46,7 +47,19 @@ class EnableRecipeForProjectHandlerTest extends TestCase
 
     public function testProjectNotFound(): void
     {
+        $recipeName = new RecipeName('test');
+        $projectId = new ProjectId('');
+        $command = new EnableRecipeForProject(
+            $recipeName,
+            $projectId,
+        );
+
+        $projectsCollection = new InMemoryProjectsCollection();
+        $handler = new EnableRecipeForProjectHandler($projectsCollection);
+
         $this->expectException(ProjectNotFound::class);
+
+        $handler->__invoke($command);
     }
 
 
