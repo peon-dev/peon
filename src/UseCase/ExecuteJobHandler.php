@@ -12,14 +12,10 @@ use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\ProcessFailed;
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Tools\Composer\ComposerCommandFailed;
-use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
 use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Git\GitCommandFailed;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -31,7 +27,6 @@ final class ExecuteJobHandler implements MessageHandlerInterface
     public function __construct(
         private JobsCollection $jobsCollection,
         private ProjectsCollection $projects,
-        private ApplicationDirectoryProvider $projectDirectoryProvider,
         private PrepareApplicationGitRepository $prepareApplicationGitRepository,
         private BuildApplication $buildApplication,
         private Git $git,

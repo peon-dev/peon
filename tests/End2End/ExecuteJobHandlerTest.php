@@ -84,6 +84,8 @@ class ExecuteJobHandlerTest extends KernelTestCase
     {
         $this->deleteRemoteBranch($this->gitlabRepository->getProject(), $this->branchName);
         $this->branchNameProvider->resetState();
+
+        parent::tearDown();
     }
 
 

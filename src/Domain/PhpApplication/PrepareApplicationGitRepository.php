@@ -7,7 +7,6 @@ namespace PHPMate\Domain\PhpApplication;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitCommandFailed;
-use PHPMate\Domain\Project\ProjectsCollection;
 use Psr\Http\Message\UriInterface;
 
 final class PrepareApplicationGitRepository // TODO: better naming
@@ -16,7 +15,6 @@ final class PrepareApplicationGitRepository // TODO: better naming
         private Git $git,
         private ApplicationDirectoryProvider $projectDirectoryProvider,
         private BranchNameProvider $branchNameProvider,
-        private ProjectsCollection $projects,
     ) {}
 
 
