@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
+use PHPMate\Domain\Project\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Cookbook\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
@@ -96,7 +96,7 @@ class EnableRecipeForProjectHandlerTest extends TestCase
 
     public function testRecipeAlreadyEnabled(): void
     {
-        $this->expectException(RecipeAlreadyEnabled::class);
+        $this->expectException(RecipeAlreadyEnabledForProject::class);
 
         $recipeName = new RecipeName('test');
         $projectId = new ProjectId('');
@@ -111,7 +111,7 @@ class EnableRecipeForProjectHandlerTest extends TestCase
         $project = $this->createMock(Project::class);
         $project->expects(self::once())
             ->method('enableRecipe')
-            ->willThrowException(new RecipeAlreadyEnabled());
+            ->willThrowException(new RecipeAlreadyEnabledForProject());
 
         $projectsCollection = $this->createMock(ProjectsCollection::class);
         $projectsCollection->method('get')

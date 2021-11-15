@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\Domain\Project;
 
-use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
+use PHPMate\Domain\Project\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
@@ -26,7 +26,7 @@ class ProjectTest extends TestCase
 
         $project->enableRecipe(new RecipeName('test'));
 
-        $this->expectException(RecipeAlreadyEnabled::class);
+        $this->expectException(RecipeAlreadyEnabledForProject::class);
 
         $project->enableRecipe(new RecipeName('test'));
     }

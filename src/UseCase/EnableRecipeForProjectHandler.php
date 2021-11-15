@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
+use PHPMate\Domain\Project\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Project\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class EnableRecipeForProjectHandler  implements MessageHandlerInterface
+final class EnableRecipeForProjectHandler implements MessageHandlerInterface
 {
     public function __construct(
         private ProjectsCollection $projectsCollection,
@@ -22,7 +22,7 @@ final class EnableRecipeForProjectHandler  implements MessageHandlerInterface
     /**
      * @throws ProjectNotFound
      * @throws RecipeNotFound
-     * @throws RecipeAlreadyEnabled
+     * @throws RecipeAlreadyEnabledForProject
      */
     public function __invoke(EnableRecipeForProject $command): void
     {
