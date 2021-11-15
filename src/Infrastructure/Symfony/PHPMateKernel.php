@@ -41,7 +41,9 @@ class PHPMateKernel extends BaseKernel
      */
     public function registerBundles(): iterable
     {
+        /** @var array<class-string<Bundle>, array<string>> $contents */
         $contents = require __DIR__ . '/Config/bundles.php';
+
         foreach ($contents as $class => $envs) {
             if ($envs[$this->environment] ?? $envs['all'] ?? false) {
                 yield new $class();
