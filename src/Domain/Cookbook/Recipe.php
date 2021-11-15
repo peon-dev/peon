@@ -6,5 +6,5 @@ namespace PHPMate\Domain\Cookbook;
 
 final class Recipe
 {
-
+    public RecipeName $name;
 }
