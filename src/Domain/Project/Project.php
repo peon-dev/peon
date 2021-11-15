@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Project\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
@@ -40,5 +39,21 @@ class Project
         }
 
         $this->enabledRecipes[] = $recipe;
+    }
+
+
+    /**
+     * @throws RecipeNotEnabledForProject
+     */
+    public function disableRecipe(RecipeName $recipe): void
+    {
+        foreach ($this->enabledRecipes as $key => $enabledRecipe) {
+            if ($enabledRecipe->isEqual($recipe)) {
+                unset($this->enabledRecipes[$key]);
+                return;
+            }
+        }
+
+        throw new RecipeNotEnabledForProject();
     }
 }
