@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
+use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobsCollection;
@@ -24,6 +25,7 @@ use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Tools\Rector\Rector;
 use PHPMate\Domain\Tools\Rector\RectorBinary;
+use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
 use PHPMate\Infrastructure\Notification\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
@@ -56,13 +58,13 @@ return static function(ContainerConfigurator $configurator): void
     $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
     // Use cases
-    $services->load('PHPMate\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
+    $services->load('PHPMate\\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
 
     // Console commands
-    $services->load('PHPMate\Cli\\', __DIR__ . '/../../../Cli/{*ConsoleCommand.php}');
+    $services->load('PHPMate\\Cli\\', __DIR__ . '/../../../Cli/{*ConsoleCommand.php}');
 
     // Read model providers
-    $services->load('PHPMate\Ui\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
+    $services->load('PHPMate\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
 
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
         ->args([
@@ -103,4 +105,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(TasksCollection::class, DoctrineTasksCollection::class);
 
     $services->set(ProjectsCollection::class, DoctrineProjectsCollection::class);
+
+    $services->set(RecipesCollection::class, StaticRecipesCollection::class);
 };
