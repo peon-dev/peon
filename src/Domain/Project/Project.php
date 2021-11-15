@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Cookbook\RecipeAlreadyEnabled;
+use PHPMate\Domain\Project\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\RecipeName;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
@@ -29,13 +29,13 @@ class Project
 
 
     /**
-     * @throws RecipeAlreadyEnabled
+     * @throws RecipeAlreadyEnabledForProject
      */
     public function enableRecipe(RecipeName $recipe): void
     {
         foreach ($this->enabledRecipes as $enabledRecipe) {
             if ($enabledRecipe->isEqual($recipe)) {
-                throw new RecipeAlreadyEnabled();
+                throw new RecipeAlreadyEnabledForProject();
             }
         }
 
