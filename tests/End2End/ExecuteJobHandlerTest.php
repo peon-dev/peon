@@ -254,14 +254,17 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
 
     /**
-     * @return array<mixed>
+     * @return array<array{target_branch: string, title: string, iid: int}>
      */
     private function findMergeRequests(string $project, string $sourceBranch): array
     {
-        return $this->gitlabHttpClient->mergeRequests()->all($project, [
+        /** @var array<array{target_branch: string, title: string, iid: int}> $mergeRequests */
+        $mergeRequests = $this->gitlabHttpClient->mergeRequests()->all($project, [
             'state' => 'opened',
             'source_branch' => $sourceBranch,
         ]);
+
+        return $mergeRequests;
     }
 
 

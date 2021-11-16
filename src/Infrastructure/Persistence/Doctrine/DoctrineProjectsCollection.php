@@ -41,12 +41,16 @@ final class DoctrineProjectsCollection implements ProjectsCollection
      */
     public function all(): array
     {
-        return $this->entityManager
+        // Temporary solution, https://github.com/phpstan/phpstan-doctrine/issues/221
+        /** @var array<Project> $rows */
+        $rows = $this->entityManager
             ->createQueryBuilder()
             ->select('p')
             ->from(Project::class, 'p')
             ->getQuery()
             ->getResult();
+
+        return $rows;
     }
 
 

@@ -5,7 +5,7 @@ includes:
     - packages/PHPStan/extension.neon
 
 parameters:
-    level: 8 # TODO: max brutal 9
+    level: max
     paths:
         - src
         - bin

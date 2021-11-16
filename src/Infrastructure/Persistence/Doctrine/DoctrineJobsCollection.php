@@ -41,12 +41,16 @@ final class DoctrineJobsCollection implements JobsCollection
      */
     public function all(): array
     {
-        return $this->entityManager
+        // Temporary solution, https://github.com/phpstan/phpstan-doctrine/issues/221
+        /** @var array<Job> $rows */
+        $rows = $this->entityManager
             ->createQueryBuilder()
             ->select('j')
             ->from(Job::class, 'j')
             ->getQuery()
             ->getResult();
+
+        return $rows;
     }
 
 

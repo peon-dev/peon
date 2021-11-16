@@ -56,11 +56,15 @@ final class DoctrineTasksCollection implements TasksCollection
      */
     public function all(): array
     {
-        return $this->entityManager
+        // Temporary solution, https://github.com/phpstan/phpstan-doctrine/issues/221
+        /** @var array<Task> $rows */
+        $rows = $this->entityManager
             ->createQueryBuilder()
             ->select('t')
             ->from(Task::class, 't')
             ->getQuery()
             ->getResult();
+
+        return $rows;
     }
 }
