@@ -36,7 +36,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
                 $title,
             );
         } catch (\Throwable $throwable) {
-            throw new GitProviderCommunicationFailed($throwable->getMessage(), $throwable->getCode(), $throwable);
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
     }
 
@@ -62,6 +62,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
             $client = $this->createHttpClient($gitRepository);
             $project = $gitRepository->getProject();
 
+            /** @var array<mixed> $mergeRequests */
             $mergeRequests = $client->mergeRequests()->all($project, [
                 'state' => 'opened',
                 'source_branch' => $branch,
@@ -69,7 +70,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
 
             return count($mergeRequests) === 1;
         } catch (\Throwable $throwable) {
-            throw new GitProviderCommunicationFailed($throwable->getMessage(), $throwable->getCode(), $throwable);
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
     }
 
@@ -82,11 +83,12 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
         $client = $this->createHttpClient($gitRepository);
 
         try {
+            /** @var array{can_create_merge_request_in?: int} $project */
             $project = $client->projects()->show($gitRepository->getProject());
 
             return (bool) ($project['can_create_merge_request_in'] ?? false);
         } catch (\Throwable $throwable) {
-            throw new GitProviderCommunicationFailed($throwable->getMessage(), $throwable->getCode(), $throwable);
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
     }
 }

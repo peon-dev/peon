@@ -37,6 +37,9 @@ WHERE task.schedule IS NOT NULL
 GROUP BY task.task_id;
 SQL;
 
+        /**
+         * @var array<array{task_id: string, schedule: string, last_schedule: ?string}> $data
+         */
         $data = $this->entityManager->getConnection()->executeQuery($sql)->fetchAllAssociative();
 
         foreach ($data as $row) {

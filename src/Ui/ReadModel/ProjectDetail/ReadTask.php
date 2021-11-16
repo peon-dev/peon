@@ -43,6 +43,7 @@ final class ReadTask
      */
     public function getCommandsWithNewLines(): string
     {
+        /** @var array<string> $commandsArray */
         $commandsArray = Json::decode($this->commands);
 
         return implode("\n", $commandsArray);
