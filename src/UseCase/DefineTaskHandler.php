@@ -17,6 +17,8 @@ final class DefineTaskHandler implements MessageHandlerInterface
 
     public function __invoke(DefineTask $command): void
     {
+        // TODO: check project with id $command->projectId exists
+
         $taskId = $this->tasks->nextIdentity();
 
         $task = new Task(
