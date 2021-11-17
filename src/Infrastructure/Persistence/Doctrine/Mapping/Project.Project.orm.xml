@@ -5,6 +5,11 @@
     <entity name="PHPMate\Domain\Project\Project">
         <id name="projectId" type="project_id" />
         <field name="name" />
+        <field name="enabledRecipes" type="recipe_names_array">
+            <options>
+                <option name="default">{}</option>
+            </options>
+        </field>
         <embedded name="remoteGitRepository" class="PHPMate\Domain\Tools\Git\RemoteGitRepository" />
     </entity>
 </doctrine-mapping>

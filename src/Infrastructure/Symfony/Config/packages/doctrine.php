@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
+use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNamesArrayType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -17,6 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 DoctrineTaskIdType::NAME => DoctrineTaskIdType::class,
                 DoctrineJobIdType::NAME => DoctrineJobIdType::class,
                 DoctrineCronExpressionType::NAME => DoctrineCronExpressionType::class,
+                DoctrineRecipeNamesArrayType::NAME => DoctrineRecipeNamesArrayType::class,
             ],
         ],
         'orm' => [
