@@ -24,7 +24,9 @@ class ProjectTest extends TestCase
             )
         );
 
+        self::assertCount(0, $project->enabledRecipes);
         $project->enableRecipe(new RecipeName('test'));
+        self::assertCount(1, $project->enabledRecipes);
 
         $this->expectException(RecipeAlreadyEnabledForProject::class);
 
@@ -43,7 +45,10 @@ class ProjectTest extends TestCase
         );
 
         $project->enableRecipe(new RecipeName('test'));
+
+        self::assertCount(1, $project->enabledRecipes);
         $project->disableRecipe(new RecipeName('test'));
+        self::assertCount(0, $project->enabledRecipes);
 
         $this->expectException(RecipeNotEnabledForProject::class);
 
