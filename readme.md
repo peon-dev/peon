@@ -12,6 +12,8 @@ docker-compose run --rm dashboard bash
 
 ### Testing
 
+Tests can be run via `vendor/bin/phpunit` (in PHP container).
+
 In order to run end-to-end tests, you need to create `.env.test.local` and provide variable values there (see `.env.test` for list of variables).
 
 ### Xdebug
