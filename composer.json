@@ -76,6 +76,7 @@
         "zeichen32/gitlabapibundle": "^6.0"
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^6.7",
         "pepakriz/phpstan-exception-rules": "^0.12",
         "phpstan/phpstan": "^1.1",
         "phpstan/phpstan-phpunit": "^1.0",
@@ -123,7 +124,7 @@
     "extra": {
         "config-dir": "src/Infrastructure/Symfony/Config",
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "5.3.*"
         }
     },
