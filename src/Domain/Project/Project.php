@@ -16,9 +16,9 @@ class Project
     /**
      * @var array<RecipeName>
      */
-    private array $enabledRecipes = [];
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    public array $enabledRecipes = [];
 
-    // @TODO: assert can connect to repository
     public function __construct(
         public ProjectId $projectId,
         public RemoteGitRepository $remoteGitRepository
