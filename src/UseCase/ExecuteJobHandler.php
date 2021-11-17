@@ -46,6 +46,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
     {
         $job = $this->jobsCollection->get($command->jobId);
 
+        // TODO: check project with id $job->projectId exists
+
         try {
             $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
 

@@ -22,6 +22,8 @@ final class RedefineTaskHandler implements MessageHandlerInterface
     {
         $task = $this->tasks->get($command->taskId);
 
+        // TODO: check project with id $task->projectId exists
+
         $task->changeDefinition($command->name, $command->commands);
         $task->changeSchedule($command->schedule);
 

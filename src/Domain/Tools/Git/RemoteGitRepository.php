@@ -15,7 +15,6 @@ final class RemoteGitRepository
 
     /**
      * @throws InvalidRemoteUri
-     * @TODO: assert can connect to repository in static constructor
      */
     public function __construct(
         private string $repositoryUri,
