@@ -5,6 +5,19 @@ on: push
 jobs:
   tests:
     runs-on: ubuntu-latest
+    env:
+        DATABASE_URL: postgresql://phpmate:phpmate@127.0.0.1:5432/phpmate?serverVersion=13&charset=utf8
+
+    services:
+      db:
+          image: postgres:13
+          env:
+              POSTGRES_USER: phpmate
+              POSTGRES_PASSWORD: phpmate
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+          ports:
+              - 5432:5432
+
     steps:
       -   uses: actions/checkout@v2
       -   uses: shivammathur/setup-php@v2
