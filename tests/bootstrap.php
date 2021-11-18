@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Nette\Utils\FileSystem;
 use PHPMate\Infrastructure\Symfony\PHPMateKernel;
+use PHPMate\Tests\TestingDatabaseCaching;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Dotenv\Dotenv;
@@ -12,13 +14,21 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $_ENV['APP_ENV'] = 'test';
 (new Dotenv())->loadEnv(__DIR__ . '/../.env');
 
+$cacheFilePath = __DIR__ . '/.database.cache';
+$currentDatabaseHash = TestingDatabaseCaching::calculateDirectoriesHash(
+    __DIR__ . '/../src/Infrastructure/Persistence/Doctrine/Migrations',
+);
+
 // Skip database bootstrapping if running unit test(s)
-if (isRunningUnitTestOnly() === false) {
+if (
+    isRunningUnitTestOnly() === false
+    && TestingDatabaseCaching::isCacheUpToDate($cacheFilePath, $currentDatabaseHash) === false
+) {
     bootstrapDatabase();
+    FileSystem::write($cacheFilePath, $currentDatabaseHash);
 }
 
 
-// TODO: cache database, to save some time in local development
 function bootstrapDatabase(): void
 {
     $kernel = new PHPMateKernel('test', true);
