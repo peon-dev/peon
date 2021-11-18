@@ -76,6 +76,7 @@
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.7",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "pepakriz/phpstan-exception-rules": "^0.12",
         "phpstan/phpstan": "^1.1",
         "phpstan/phpstan-phpunit": "^1.0",

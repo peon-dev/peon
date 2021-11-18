@@ -21,6 +21,9 @@ return static function(ContainerConfigurator $configurator): void
         ->autoconfigure()
         ->autowire();
 
+    // Data fixtures
+    $services->load('PHPMate\\Tests\\DataFixtures\\', __DIR__ . '/../../../../tests/DataFixtures/{*.php}');
+
     $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
 
     $services->alias(JobsCollection::class, InMemoryJobsCollection::class);
