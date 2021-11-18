@@ -100,11 +100,15 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(GitProvider::class, GitLab::class);
     $services->alias(CheckWriteAccessToRemoteRepository::class, GitLab::class);
 
-    $services->set(JobsCollection::class, DoctrineJobsCollection::class);
+    $services->set(DoctrineJobsCollection::class);
+    $services->alias(JobsCollection::class, DoctrineJobsCollection::class);
 
-    $services->set(TasksCollection::class, DoctrineTasksCollection::class);
+    $services->set(DoctrineTasksCollection::class);
+    $services->alias(TasksCollection::class, DoctrineTasksCollection::class);
 
-    $services->set(ProjectsCollection::class, DoctrineProjectsCollection::class);
+    $services->set(DoctrineProjectsCollection::class);
+    $services->alias(ProjectsCollection::class, DoctrineProjectsCollection::class);
 
-    $services->set(RecipesCollection::class, StaticRecipesCollection::class);
+    $services->set(StaticRecipesCollection::class);
+    $services->alias(RecipesCollection::class, StaticRecipesCollection::class);
 };
