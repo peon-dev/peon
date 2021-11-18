@@ -17,6 +17,7 @@ $_ENV['APP_ENV'] = 'test';
 $cacheFilePath = __DIR__ . '/.database.cache';
 $currentDatabaseHash = TestingDatabaseCaching::calculateDirectoriesHash(
     __DIR__ . '/../src/Infrastructure/Persistence/Doctrine/Migrations',
+    __DIR__ . '/DataFixtures',
 );
 
 // Skip database bootstrapping if running unit test(s)
@@ -50,6 +51,12 @@ function bootstrapDatabase(): void
     // Faster than running migrations
     $application->run(new ArrayInput([
         'command' => 'doctrine:schema:create',
+    ]));
+
+    $application->run(new ArrayInput([
+        'command' => 'doctrine:fixtures:load',
+        '--append' => 1,
+        '--no-interaction' => 1,
     ]));
 
     $kernel->shutdown();
