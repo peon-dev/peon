@@ -49,30 +49,15 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
         $container = self::getContainer();
 
-        /** @var ExecuteJobHandler $useCase */
-        $useCase = $container->get(ExecuteJobHandler::class);
-        $this->useCase = $useCase;
+        $this->useCase = $container->get(ExecuteJobHandler::class);
+        $this->branchNameProvider = $container->get(BranchNameProvider::class);
+        $this->branchName = $this->branchNameProvider->provideForTask('test');
+        $this->jobsCollection = $container->get(JobsCollection::class);
+        $this->projectsCollection = $container->get(ProjectsCollection::class);
+        $this->clock = $container->get(Clock::class);
 
-        /** @var StatefulRandomPostfixBranchNameProvider $branchNameProvider */
-        $branchNameProvider = $container->get(BranchNameProvider::class);
-        $this->branchNameProvider = $branchNameProvider;
-        $this->branchName = $branchNameProvider->provideForTask('test');
-
-        /** @var JobsCollection $jobsCollection */
-        $jobsCollection = $container->get(JobsCollection::class);
-        $this->jobsCollection = $jobsCollection;
-
-        /** @var ProjectsCollection $projectsCollection */
-        $projectsCollection = $container->get(ProjectsCollection::class);
-        $this->projectsCollection = $projectsCollection;
-
-        /** @var Clock $clock */
-        $clock = $container->get(Clock::class);
-        $this->clock = $clock;
-
-        /** @var GitLab $gitLab */
         $gitLab = $container->get(GitLab::class);
-        $authentication = GitRepositoryAuthentication::fromPersonalAccessToken($personalAccessToken);
+        $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
         $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
         $this->gitlabHttpClient = $gitLab->createHttpClient($this->gitlabRepository);
 

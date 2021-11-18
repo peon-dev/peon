@@ -80,6 +80,7 @@
         "pepakriz/phpstan-exception-rules": "^0.12",
         "phpstan/phpstan": "^1.1",
         "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^5.3",
