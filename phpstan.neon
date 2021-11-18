@@ -3,6 +3,8 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
     - vendor/pepakriz/phpstan-exception-rules/extension.neon
     - packages/PHPStan/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
 
 parameters:
     level: max
@@ -10,10 +12,13 @@ parameters:
         - src
         - bin
         - tests
+    # checkUninitializedProperties: true # TODO: enable later
     excludePaths:
         - tests/bootstrap.php
     scanDirectories:
         - var/cache/dev/Symfony/Config
+    symfony:
+        container_xml_path: var/cache/dev/PHPMate_Infrastructure_Symfony_PHPMateKernelDevDebugContainer.xml
 
     ignoreErrors:
         # Scenario with general wrapping to make it safer
@@ -30,7 +35,7 @@ parameters:
         reportUnusedCheckedThrowsInSubtypes: false
         reportCheckedThrowsInGlobalScope: false
         uncheckedExceptions:
-            - LogicException
+            - LogicException # TODO: consider changing it to runtime exception or maybe switch to "checked" exceptions instead
             - Nette\IOException
             - PHPUnit\Framework\Exception
             - Symfony\Component\Form\Exception\OutOfBoundsException

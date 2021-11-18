@@ -205,6 +205,9 @@
     "phpstan/phpstan-phpunit": {
         "version": "0.12.22"
     },
+    "phpstan/phpstan-symfony": {
+        "version": "1.0.1"
+    },
     "phpunit/php-code-coverage": {
         "version": "9.2.6"
     },
