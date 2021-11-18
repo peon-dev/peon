@@ -66,28 +66,34 @@ return static function(ContainerConfigurator $configurator): void
     // Read model providers
     $services->load('PHPMate\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
 
+    // Infrastructure - load all implementations
+    $services->load('PHPMate\\Infrastructure\\', __DIR__ . '/../../../Infrastructure/**/{*.php}')
+        ->exclude([
+            __DIR__ . '/../../../Infrastructure/Persistence/Doctrine/Migrations', // Doctrine migrations
+            __DIR__ . '/../../../Infrastructure/Persistence/Doctrine/Type', // Doctrine custom DBAL types
+            __DIR__ . '/../../../Infrastructure/Symfony', // Symfony framework configuration
+        ]);
+
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
         ->args([
             param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
         ]);
+
     $services->alias(ApplicationDirectoryProvider::class, TemporaryLocalFileSystemApplicationDirectoryProvider::class);
 
-    $services->set(Composer::class);
-    $services->set(ComposerBinary::class, SymfonyProcessComposerBinary::class);
-
     $services->set(Git::class);
-    $services->set(GitBinary::class, SymfonyProcessGitBinary::class);
+    $services->set(Composer::class);
+    $services->set(ProcessLogger::class);
 
-    $services->set(PHPMateBranchNameProvider::class);
+    $services->alias(ComposerBinary::class, SymfonyProcessComposerBinary::class);
+
+    $services->alias(GitBinary::class, SymfonyProcessGitBinary::class);
+
     $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
 
-    $services->set(Rector::class);
-    $services->set(RectorBinary::class, SymfonyProcessRectorBinary::class);
+    $services->alias(RectorBinary::class, SymfonyProcessRectorBinary::class);
 
-    $services->set(DummyNotifier::class);
     $services->alias(Notifier::class, DummyNotifier::class);
-
-    $services->set(ProcessLogger::class);
 
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);
@@ -96,19 +102,14 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(BuildApplication::class);
     $services->set(PrepareApplicationGitRepository::class);
 
-    $services->set(GitLab::class);
     $services->alias(GitProvider::class, GitLab::class);
     $services->alias(CheckWriteAccessToRemoteRepository::class, GitLab::class);
 
-    $services->set(DoctrineJobsCollection::class);
     $services->alias(JobsCollection::class, DoctrineJobsCollection::class);
 
-    $services->set(DoctrineTasksCollection::class);
     $services->alias(TasksCollection::class, DoctrineTasksCollection::class);
 
-    $services->set(DoctrineProjectsCollection::class);
     $services->alias(ProjectsCollection::class, DoctrineProjectsCollection::class);
 
-    $services->set(StaticRecipesCollection::class);
     $services->alias(RecipesCollection::class, StaticRecipesCollection::class);
 };
