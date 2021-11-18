@@ -21,6 +21,8 @@ final class DashboardController extends AbstractController
     #[Route(path: '/', name: 'dashboard', methods: ['GET'])]
     public function __invoke(): Response
     {
+        throw new \Exception('test');
+
         return $this->render('dashboard.html.twig', [
             'jobs' => $this->provideReadJobs->provide(10),
             'projects' => $this->provideReadProjects->provide(),

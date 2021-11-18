@@ -755,9 +755,6 @@
     "theseer/tokenizer": {
         "version": "1.2.1"
     },
-    "tracy/tracy": {
-        "version": "v2.8.6"
-    },
     "twig/extra-bundle": {
         "version": "v3.3.1"
     },
