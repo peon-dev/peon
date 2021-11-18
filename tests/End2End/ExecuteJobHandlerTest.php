@@ -50,7 +50,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $container = self::getContainer();
 
         $this->useCase = $container->get(ExecuteJobHandler::class);
-        $this->branchNameProvider = $container->get(BranchNameProvider::class);
+        $this->branchNameProvider = $container->get(StatefulRandomPostfixBranchNameProvider::class);
         $this->branchName = $this->branchNameProvider->provideForTask('test');
         $this->jobsCollection = $container->get(JobsCollection::class);
         $this->projectsCollection = $container->get(ProjectsCollection::class);

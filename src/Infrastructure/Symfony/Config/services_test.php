@@ -21,7 +21,8 @@ return static function(ContainerConfigurator $configurator): void
         ->autoconfigure()
         ->autowire();
 
-    $services->set(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
+    $services->set(StatefulRandomPostfixBranchNameProvider::class);
+    $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
 
     $services->set(JobsCollection::class, InMemoryJobsCollection::class);
 
