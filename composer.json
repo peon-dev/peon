@@ -70,7 +70,6 @@
         "symfony/webpack-encore-bundle": "^1.12",
         "symfony/yaml": "5.3.*",
         "symplify/easy-hydrator": "^9.4",
-        "tracy/tracy": "^2.8",
         "twig/extra-bundle": "^3.0",
         "twig/twig": "^3.0",
         "zeichen32/gitlabapibundle": "^6.0"
