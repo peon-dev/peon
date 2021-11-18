@@ -18,7 +18,7 @@ final class ProvideReadJobs
     /**
      * @return array<ReadJob>
      */
-    public function provide(int $jobsCount): array
+    public function provide(int $maxJobsLimit): array
     {
         $sql = <<<SQL
 SELECT 
@@ -34,7 +34,7 @@ ORDER BY job.scheduled_at DESC
 LIMIT ?
 SQL;
 
-        $resultSet = $this->connection->executeQuery($sql, [$jobsCount], ['integer']);
+        $resultSet = $this->connection->executeQuery($sql, [$maxJobsLimit], ['integer']);
 
         return $this->hydrator->hydrateArrays($resultSet->fetchAllAssociative(), ReadJob::class);
     }
