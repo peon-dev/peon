@@ -25,8 +25,8 @@ final class DoctrineTasksCollectionTest extends KernelTestCase
     public function testPersistenceWorks(): void
     {
         /*
-         * Because we do not have empty database - it is populated with fixtures data
          * We need to set baseline - number of rows already in database, before interacting with it
+         * Because we do not have empty database - it is populated with fixtures data
          */
         $baselineCount = count($this->doctrineTasksCollection->all());
 
