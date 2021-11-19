@@ -62,3 +62,10 @@ services:
         depends_on:
             - dashboard
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
+
+    adminer:
+        image: adminer:4.8.0
+        ports:
+            - 8000:8080
+        depends_on:
+            - postgres

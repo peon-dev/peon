@@ -30,20 +30,12 @@ final class ProvideReadJobsTest extends KernelTestCase
 
         self::assertCount(2, $readJobs);
 
-        $job1 = $readJobs[0];
-        self::assertSame('phpmate-dogfood/rector', $job1->projectName);
-        self::assertSame(DataFixtures::PROJECT_ID, $job1->projectId);
-        self::assertSame($job1->jobId, DataFixtures::JOB_2_ID); // TODO: they should not be flipped
-        self::assertSame('task', $job1->taskName);
-        self::assertTrue($job1->hasFailed());
-        // TODO: cover assertion for SUM(job_process.result_execution_time) as execution_time
+        $job = $readJobs[0];
+        self::assertSame($job->jobId, DataFixtures::JOB_2_ID);
+        self::assertNotNull($job->executionTime);
 
-        $job2 = $readJobs[1];
-        self::assertSame('phpmate-dogfood/rector', $job2->projectName);
-        self::assertSame(DataFixtures::PROJECT_ID, $job2->projectId);
-        self::assertSame($job2->jobId, DataFixtures::JOB_1_ID); // TODO: they should not be flipped
-        self::assertSame('task', $job2->taskName);
-        self::assertTrue($job2->hasSucceeded());
-        // TODO: cover assertion for SUM(job_process.result_execution_time) as execution_time
+        $job = $readJobs[1];
+        self::assertSame($job->jobId, DataFixtures::JOB_1_ID);
+        self::assertNotNull($job->executionTime);
     }
 }

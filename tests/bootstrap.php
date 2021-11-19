@@ -53,11 +53,15 @@ function bootstrapDatabase(): void
         'command' => 'doctrine:schema:create',
     ]));
 
-    $application->run(new ArrayInput([
+    $result = $application->run(new ArrayInput([
         'command' => 'doctrine:fixtures:load',
         '--append' => 1,
         '--no-interaction' => 1,
     ]));
+
+    if ($result !== 0) {
+        throw new LogicException('Command doctrine:fixtures:load failed');
+    }
 
     $kernel->shutdown();
 }
