@@ -20,12 +20,12 @@ final class ProvideReadJobsTest extends KernelTestCase
     }
 
 
-    /**
-     * Data are populated from data fixtures
-     * @see \PHPMate\Tests\DataFixtures\DataFixtures
-     */
     public function testItWorks(): void
     {
+        /**
+         * Data are populated from data fixtures
+         * @see \PHPMate\Tests\DataFixtures\DataFixtures
+         */
         $readJobs = $this->provideReadJobs->provide(10);
 
         self::assertCount(2, $readJobs);
