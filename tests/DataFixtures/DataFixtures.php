@@ -6,9 +6,10 @@ namespace PHPMate\Tests\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Lcobucci\Clock\Clock;
+use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobId;
+use PHPMate\Domain\Process\ProcessResult;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Task\Task;
@@ -22,11 +23,6 @@ final class DataFixtures extends Fixture
     public const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
     public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
     public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
-
-
-    public function __construct(
-       private Clock $clock,
-    ) {}
 
 
     public function load(ObjectManager $manager): void
@@ -53,38 +49,75 @@ final class DataFixtures extends Fixture
 
         $manager->persist($task);
 
-        // TODO: fix order job1 vs job2 in database (frozen clock)
+        $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
         $job1Id = new JobId(self::JOB_1_ID);
         $job1 = new Job(
             $job1Id,
             $projectId,
             $taskId,
             $task->name,
-            $this->clock,
+            $job1Clock,
             $task->commands
         );
 
-        $job1->start($this->clock);
-        $job1->succeeds($this->clock);
+        $job1->start($job1Clock);
+        $job1->succeeds($job1Clock);
+
+
+        $job1->addProcessResult(
+            new ProcessResult(
+                'command1',
+                0,
+                '',
+                1.0
+            )
+        );
+
+        $job1->addProcessResult(
+            new ProcessResult(
+                'command2',
+                0,
+                '',
+                1.0
+            )
+        );
 
         $manager->persist($job1);
 
-        // TODO: fix order job1 vs job2 in database (frozen clock)
+
+        $job2Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 13:00:00'));
         $job2Id = new JobId(self::JOB_2_ID);
         $job2 = new Job(
             $job2Id,
             $projectId,
             $taskId,
             $task->name,
-            $this->clock,
+            $job2Clock,
             $task->commands
         );
 
-        $job2->start($this->clock);
-        $job2->fails($this->clock);
+        $job2->start($job2Clock);
+        $job2->fails($job2Clock);
+
+        $job2->addProcessResult(
+            new ProcessResult(
+                'command1',
+                0,
+                '',
+                1.0
+            )
+        );
+
+        $job2->addProcessResult(
+            new ProcessResult(
+                'command2',
+                1,
+                '',
+                1.0
+            )
+        );
 
         $manager->persist($job2);
-
         $manager->flush();
     }
 }

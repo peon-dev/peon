@@ -119,12 +119,6 @@ final class Job
     }
 
 
-    public function getExecutionTime(): ?int
-    {
-        return null; // TODO
-    }
-
-
     /**
      * @param array<string> $commands
      * @throws JobHasNoCommands
