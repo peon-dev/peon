@@ -29,10 +29,13 @@ final class DoctrineJobsCollectionTest extends KernelTestCase
 
     public function testPersistenceWorks(): void
     {
-        self::assertCount(0, $this->doctrineJobsCollection->all());
+        /*
+         * Because we do not have empty database - it is populated with fixtures data
+         * We need to set baseline - number of rows already in database, before interacting with it
+         */
+        $baselineCount = count($this->doctrineJobsCollection->all());
 
         $jobId = $this->doctrineJobsCollection->nextIdentity();
-
         // TODO: consider using some kind of factory
         $job = new Job(
             $jobId,
@@ -45,8 +48,9 @@ final class DoctrineJobsCollectionTest extends KernelTestCase
 
         $this->doctrineJobsCollection->save($job);
 
-        self::assertCount(1, $this->doctrineJobsCollection->all());
+        self::assertCount($baselineCount + 1, $this->doctrineJobsCollection->all());
 
+        // Nothing to assert, just make sure record is in database and exception is not thrown
         $this->doctrineJobsCollection->get($jobId);
     }
 }

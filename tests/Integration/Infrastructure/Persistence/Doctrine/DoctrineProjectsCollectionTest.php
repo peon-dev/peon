@@ -24,10 +24,13 @@ final class DoctrineProjectsCollectionTest extends KernelTestCase
 
     public function testPersistenceWorks(): void
     {
-        self::assertCount(0, $this->doctrineProjectsCollection->all());
+        /*
+         * Because we do not have empty database - it is populated with fixtures data
+         * We need to set baseline - number of rows already in database, before interacting with it
+         */
+        $baselineCount = count($this->doctrineProjectsCollection->all());
 
         $projectId = $this->doctrineProjectsCollection->nextIdentity();
-
         // TODO: consider using some kind of factory
         $remoteGitRepository = new RemoteGitRepository(
             'https://gitlab.com/phpmate/phpmate.git',
@@ -41,12 +44,12 @@ final class DoctrineProjectsCollectionTest extends KernelTestCase
         );
 
         $this->doctrineProjectsCollection->save($project);
+        self::assertCount($baselineCount + 1, $this->doctrineProjectsCollection->all());
 
-        self::assertCount(1, $this->doctrineProjectsCollection->all());
-
+        // Nothing to assert, just make sure record is in database and exception is not thrown
         $this->doctrineProjectsCollection->get($projectId);
-        $this->doctrineProjectsCollection->remove($projectId);
 
-        self::assertCount(0, $this->doctrineProjectsCollection->all());
+        $this->doctrineProjectsCollection->remove($projectId);
+        self::assertCount($baselineCount, $this->doctrineProjectsCollection->all());
     }
 }
