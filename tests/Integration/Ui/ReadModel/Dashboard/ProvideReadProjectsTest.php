@@ -19,10 +19,20 @@ final class ProvideReadProjectsTest extends KernelTestCase
     }
 
 
+    /**
+     * Data are populated from data fixtures
+     * @see \PHPMate\Tests\DataFixtures\DataFixtures
+     */
     public function testItWorks(): void
     {
         $readProjects = $this->provideReadProjects->provide();
 
-        self::assertCount(0, $readProjects);
+        self::assertCount(1, $readProjects);
+
+        $readProject = $readProjects[0];
+
+        self::assertSame('phpmate-dogfood/rector', $readProject->name);
+        self::assertSame(1, $readProject->tasksCount);
+        self::assertSame(2, $readProject->jobsCount);
     }
 }

@@ -24,10 +24,13 @@ final class DoctrineTasksCollectionTest extends KernelTestCase
 
     public function testPersistenceWorks(): void
     {
-        self::assertCount(0, $this->doctrineTasksCollection->all());
+        /*
+         * Because we do not have empty database - it is populated with fixtures data
+         * We need to set baseline - number of rows already in database, before interacting with it
+         */
+        $baselineCount = count($this->doctrineTasksCollection->all());
 
         $taskId = $this->doctrineTasksCollection->nextIdentity();
-
         // TODO: consider using some kind of factory
         $task = new Task(
             $taskId,
@@ -37,12 +40,12 @@ final class DoctrineTasksCollectionTest extends KernelTestCase
         );
 
         $this->doctrineTasksCollection->save($task);
+        self::assertCount($baselineCount + 1, $this->doctrineTasksCollection->all());
 
-        self::assertCount(1, $this->doctrineTasksCollection->all());
-
+        // Nothing to assert, just make sure record is in database and exception is not thrown
         $this->doctrineTasksCollection->get($taskId);
-        $this->doctrineTasksCollection->remove($taskId);
 
-        self::assertCount(0, $this->doctrineTasksCollection->all());
+        $this->doctrineTasksCollection->remove($taskId);
+        self::assertCount($baselineCount, $this->doctrineTasksCollection->all());
     }
 }
