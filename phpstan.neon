@@ -30,6 +30,11 @@ parameters:
         # Symfony configs can be tricky
         - '#^Parameter \#1 \$value of method Symfony\\Config\\Framework\\Messenger\\TransportConfig::options\(\) expects#'
 
+        # Ignore missing throws annotations for data fixtures
+        -
+            message: '#^Missing \@throws#'
+            path: tests/DataFixtures/DataFixtures.php
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false

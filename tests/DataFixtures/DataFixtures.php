@@ -18,8 +18,8 @@ use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
 final class DataFixtures extends Fixture
 {
-    private const PROJECT_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
-    private const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
+    public const PROJECT_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
+    public const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
     public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
     public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
 
@@ -33,13 +33,13 @@ final class DataFixtures extends Fixture
     {
         $projectId = new ProjectId(self::PROJECT_ID);
 
-        $project = new Project(
-            $projectId,
-            new RemoteGitRepository(
-                'https://gitlab.com/phpmate-dogfood/rector.git',
-                GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
-            )
+        // TODO: consider using some kind of factory, it is used on way too many places already
+        $remoteGitRepository = new RemoteGitRepository(
+            'https://gitlab.com/phpmate-dogfood/rector.git',
+            GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
         );
+
+        $project = new Project($projectId, $remoteGitRepository);
 
         $manager->persist($project);
 
