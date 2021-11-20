@@ -79,6 +79,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "pepakriz/phpstan-exception-rules": "^0.12",
         "phpstan/phpstan": "^1.1",
+        "phpstan/phpstan-doctrine": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^9.5",
