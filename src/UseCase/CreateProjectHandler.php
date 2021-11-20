@@ -6,8 +6,8 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\GitProvider\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
+use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -20,8 +20,8 @@ final class CreateProjectHandler implements MessageHandlerInterface
     ) {}
 
     /**
-     * @throws InsufficientAccessToRemoteRepository
-     * @throws GitProviderCommunicationFailed
+     * @throws \PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository
+     * @throws \PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed
      */
     public function __invoke(CreateProject $createProject): void
     {

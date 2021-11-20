@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Cookbook\RecipeName;
-use PHPMate\Domain\Project\Exceptions\RecipeAlreadyEnabledForProject;
-use PHPMate\Domain\Project\Exceptions\RecipeNotEnabledForProject;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
+use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
+use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
 
 class Project
 {

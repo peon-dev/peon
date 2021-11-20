@@ -6,7 +6,8 @@ namespace PHPMate\Domain\Task;
 
 use Cron\CronExpression;
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Task\Value\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Task

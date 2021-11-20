@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Tools\Composer;
 
 use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
 
 final class Composer
 {

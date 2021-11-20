@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Process;
 
 use Nette\Utils\Strings;
+use PHPMate\Domain\Process\Value\ProcessResult;
 
 final class ProcessLogger
 {

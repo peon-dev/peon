@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Unit\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
-use PHPMate\Domain\Cookbook\RecipeName;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNamesArrayType;
 use PHPUnit\Framework\TestCase;
 
 final class DoctrineRecipeNamesArrayTypeTest extends TestCase
 {
     /**
-     * @param array<RecipeName> $recipes
+     * @param array<\PHPMate\Domain\Cookbook\Value\RecipeName> $recipes
      * @dataProvider provideConvertToDatabaseValueData
      */
     public function testConvertToDatabaseValue(?array $recipes, ?string $expected): void

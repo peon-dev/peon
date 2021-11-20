@@ -5,9 +5,9 @@ namespace PHPMate\Tests\Unit\Domain\Tools\Composer;
 
 use PHPMate\Domain\Tools\Composer\Composer;
 use PHPMate\Domain\Tools\Composer\ComposerBinary;
-use PHPMate\Domain\Tools\Composer\ComposerEnvironment;
+use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
@@ -43,13 +43,13 @@ class ComposerTest extends TestCase
     public function provideTestInstallData(): \Generator
     {
         yield [
-            new ComposerEnvironment(),
+            new \PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment(),
             [],
         ];
 
         yield [
-            new ComposerEnvironment('{}'),
-            [ComposerEnvironment::AUTH => '{}'],
+            new \PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment('{}'),
+            [\PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment::AUTH => '{}'],
         ];
     }
 

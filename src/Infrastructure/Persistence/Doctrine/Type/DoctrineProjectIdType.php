@@ -6,7 +6,7 @@ namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 
 final class DoctrineProjectIdType extends Type
 {
@@ -26,7 +26,7 @@ final class DoctrineProjectIdType extends Type
 
 
     /**
-     * @param ProjectId $value
+     * @param \PHPMate\Domain\Project\Value\ProjectId $value
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {

@@ -7,7 +7,7 @@ namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use PHPMate\Domain\Cookbook\RecipeName;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 
 final class DoctrineRecipeNamesArrayType extends Type
 {

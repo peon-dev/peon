@@ -5,8 +5,8 @@ namespace PHPMate\Tests\Integration\Infrastructure\Persistence\Doctrine;
 
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Task\Value\TaskId;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

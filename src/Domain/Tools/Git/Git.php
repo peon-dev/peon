@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Tools\Git;
 
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
+use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Psr\Http\Message\UriInterface;
 use Symfony\Component\Process\Process;

@@ -5,14 +5,14 @@ namespace PHPMate\Tests\Unit\Domain\Job;
 
 use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exceptions\JobHasNoCommands;
-use PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet;
-use PHPMate\Domain\Job\Exceptions\JobHasStartedAlready;
-use PHPMate\Domain\Job\JobId;
-use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
+use PHPMate\Domain\Job\Exception\JobHasNoCommands;
+use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
+use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
+use PHPMate\Domain\Job\Value\JobId;
+use PHPMate\Domain\Process\Value\ProcessResult;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Task\Value\TaskId;
 use PHPUnit\Framework\TestCase;
 
 final class JobTest extends TestCase
@@ -102,7 +102,7 @@ final class JobTest extends TestCase
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
-        $this->expectException(\PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet::class);
+        $this->expectException(\PHPMate\Domain\Job\Exception\JobHasNotStartedYet::class);
         $job->succeeds($clock);
     }
 
@@ -112,7 +112,7 @@ final class JobTest extends TestCase
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
-        $this->expectException(\PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet::class);
+        $this->expectException(\PHPMate\Domain\Job\Exception\JobHasNotStartedYet::class);
         $job->fails($clock);
     }
 

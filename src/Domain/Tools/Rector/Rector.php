@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Tools\Rector;
 
 use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
+use PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
 final class Rector
 {

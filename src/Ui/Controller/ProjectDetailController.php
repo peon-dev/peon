@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadTasks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

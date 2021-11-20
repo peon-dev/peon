@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Domain\PhpApplication;
 
 use PHPMate\Domain\Tools\Composer\Composer;
-use PHPMate\Domain\Tools\Composer\ComposerCommandFailed;
-use PHPMate\Domain\Tools\Composer\ComposerEnvironment;
+use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
 
 final class BuildApplication // TODO: better naming
 {
@@ -16,7 +16,7 @@ final class BuildApplication // TODO: better naming
 
 
     /**
-     * @throws ComposerCommandFailed
+     * @throws \PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed
      */
     public function build(string $applicationDirectory): void
     {

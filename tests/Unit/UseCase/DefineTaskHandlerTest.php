@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\DefineTask;
 use PHPMate\UseCase\DefineTaskHandler;

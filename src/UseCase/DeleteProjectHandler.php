@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 

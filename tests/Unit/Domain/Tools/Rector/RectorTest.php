@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Unit\Domain\Tools\Rector;
 
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPMate\Domain\Tools\Rector\Rector;
 use PHPMate\Domain\Tools\Rector\RectorBinary;
-use PHPMate\Domain\Tools\Rector\RectorCommandFailed;
-use PHPMate\Domain\Tools\Rector\RectorProcessCommandConfiguration;
+use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
+use PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 use PHPUnit\Framework\TestCase;
 
 class RectorTest extends TestCase
@@ -27,7 +27,7 @@ class RectorTest extends TestCase
     /**
      * @dataProvider provideTestProcessData
      */
-    public function testProcess(RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
+    public function testProcess(\PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
     {
         $projectDirectory = '/';
         $dummyProcessResult = new ProcessResult('', 0, '', 0);
@@ -48,27 +48,27 @@ class RectorTest extends TestCase
 
     public function testProcessThrowsExceptionOnNonZeroExitCode(): void
     {
-        $this->expectException(RectorCommandFailed::class);
+        $this->expectException(\PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed::class);
 
         $projectDirectory = '/';
 
         $rectorBinary = $this->createMock(RectorBinary::class);
         $rectorBinary->expects(self::once())
             ->method('executeCommand')
-            ->willThrowException(new RectorCommandFailed());
+            ->willThrowException(new \PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed());
 
         $rector = new Rector($rectorBinary, $this->processLogger);
-        $rector->process($projectDirectory, new RectorProcessCommandConfiguration());
+        $rector->process($projectDirectory, new \PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration());
     }
 
 
     /**
-     * @return \Generator<array{RectorProcessCommandConfiguration, string}>
+     * @return \Generator<array{\PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration, string}>
      */
     public function provideTestProcessData(): \Generator
     {
         yield [
-            new RectorProcessCommandConfiguration(),
+            new \PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration(),
             'process',
         ];
 
@@ -78,7 +78,7 @@ class RectorTest extends TestCase
         ];
 
         yield [
-            new RectorProcessCommandConfiguration(workingDirectory: 'directory'),
+            new \PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration(workingDirectory: 'directory'),
             'process --working-dir directory',
         ];
 
@@ -88,7 +88,7 @@ class RectorTest extends TestCase
         ];
 
         yield [
-            new RectorProcessCommandConfiguration('autoload.php', 'directory', 'project/config.php'),
+            new \PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration('autoload.php', 'directory', 'project/config.php'),
             'process --autoload-file autoload.php --working-dir directory --config project/config.php',
         ];
     }

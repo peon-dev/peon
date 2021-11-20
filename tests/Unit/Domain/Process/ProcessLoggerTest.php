@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Unit\Domain\Process;
 
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 final class ProcessLoggerTest extends TestCase
@@ -14,7 +14,7 @@ final class ProcessLoggerTest extends TestCase
      */
     public function testProcessOutputWillBeSanitized(string $sensitiveInfo, string $expectedSanitization): void
     {
-        $processResult = new ProcessResult($sensitiveInfo, 0, $sensitiveInfo, 0);
+        $processResult = new \PHPMate\Domain\Process\Value\ProcessResult($sensitiveInfo, 0, $sensitiveInfo, 0);
 
         $logger = new ProcessLogger();
         $logger->logResult($processResult);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PHPMate\Infrastructure\Process\Symfony;
 
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPMate\Domain\Tools\Rector\RectorBinary;
-use PHPMate\Domain\Tools\Rector\RectorCommandFailed;
+use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -16,7 +16,7 @@ final class SymfonyProcessRectorBinary implements RectorBinary
 
 
     /**
-     * @throws RectorCommandFailed
+     * @throws \PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed
      */
     public function executeCommand(string $directory, string $command): ProcessResult
     {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 
 #[Immutable]
 final class DeleteProject

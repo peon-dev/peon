@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\Domain\Project;
 
-use PHPMate\Domain\Project\Exceptions\RecipeAlreadyEnabledForProject;
-use PHPMate\Domain\Cookbook\RecipeName;
+use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\Exceptions\RecipeNotEnabledForProject;
-use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
+use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ class ProjectTest extends TestCase
         self::assertCount(1, $project->enabledRecipes);
         self::assertTrue($recipeName->isEqual($project->enabledRecipes[0]));
 
-        $this->expectException(\PHPMate\Domain\Project\Exceptions\RecipeAlreadyEnabledForProject::class);
+        $this->expectException(\PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject::class);
         $project->enableRecipe($recipeName);
     }
 

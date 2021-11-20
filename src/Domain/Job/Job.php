@@ -8,14 +8,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exceptions\JobHasNoCommands;
-use PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet;
-use PHPMate\Domain\Job\Exceptions\JobHasStartedAlready;
+use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
+use PHPMate\Domain\Job\Exception\JobHasNoCommands;
+use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
+use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
+use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Process\JobProcess;
-use PHPMate\Domain\Process\ProcessResult;
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Process\Value\ProcessResult;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Task\Value\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Job

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\Persistence\InMemory;
 
 use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobId;
-use PHPMate\Domain\Job\Exceptions\JobNotFound;
+use PHPMate\Domain\Job\Value\JobId;
+use PHPMate\Domain\Job\Exception\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use ReflectionObject;
 
@@ -34,7 +34,7 @@ final class InMemoryJobsCollection implements JobsCollection
 
 
     /**
-     * @throws \PHPMate\Domain\Job\Exceptions\JobNotFound
+     * @throws \PHPMate\Domain\Job\Exception\JobNotFound
      */
     public function get(JobId $jobId): Job
     {

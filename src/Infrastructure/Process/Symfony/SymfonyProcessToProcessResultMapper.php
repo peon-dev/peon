@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Infrastructure\Process\Symfony;
 
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use Symfony\Component\Process\Process;
 
 final class SymfonyProcessToProcessResultMapper

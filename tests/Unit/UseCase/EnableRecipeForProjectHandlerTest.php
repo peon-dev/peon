@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Project\Exceptions\RecipeAlreadyEnabledForProject;
-use PHPMate\Domain\Cookbook\RecipeName;
-use PHPMate\Domain\Cookbook\RecipeNotFound;
+use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
+use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
+use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\UseCase\EnableRecipeForProject;

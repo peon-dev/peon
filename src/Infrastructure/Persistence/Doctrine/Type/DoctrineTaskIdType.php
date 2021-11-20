@@ -6,7 +6,7 @@ namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Task\Value\TaskId;
 
 final class DoctrineTaskIdType extends Type
 {

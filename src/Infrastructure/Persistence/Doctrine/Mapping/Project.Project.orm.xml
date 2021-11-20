@@ -10,6 +10,6 @@
                 <option name="default">{}</option>
             </options>
         </field>
-        <embedded name="remoteGitRepository" class="PHPMate\Domain\Tools\Git\RemoteGitRepository" />
+        <embedded name="remoteGitRepository" class="PHPMate\Domain\Tools\Git\Value\RemoteGitRepository" />
     </entity>
 </doctrine-mapping>
