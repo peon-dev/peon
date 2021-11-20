@@ -39,6 +39,7 @@ class Job
         public array $commands
     ) {
         $this->checkThereAreSomeCommands($commands);
+
         $this->scheduledAt = $clock->now();
         $this->processes = new ArrayCollection();
     }
@@ -85,7 +86,7 @@ class Job
     {
         $this->processes[] = new JobProcess(
             $this,
-            count($this->processes),
+            1 + count($this->processes),
             $processResult
         );
     }
