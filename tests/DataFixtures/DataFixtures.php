@@ -8,14 +8,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobId;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Job\Value\JobId;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TaskId;
-use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\Task\Value\TaskId;
+use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
 
 final class DataFixtures extends Fixture
 {

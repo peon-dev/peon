@@ -6,8 +6,8 @@ namespace PHPMate\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TaskId;
-use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\Value\TaskId;
+use PHPMate\Domain\Task\Exception\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 use Ramsey\Uuid\Uuid;
 
@@ -42,7 +42,7 @@ final class DoctrineTasksCollection implements TasksCollection
     }
 
     /**
-     * @throws TaskNotFound
+     * @throws \PHPMate\Domain\Task\Exception\TaskNotFound
      */
     public function get(TaskId $taskId): Task
     {

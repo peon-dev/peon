@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Task;
 
+use PHPMate\Domain\Task\Exception\TaskNotFound;
+use PHPMate\Domain\Task\Value\TaskId;
+
 interface TasksCollection
 {
     public function nextIdentity(): TaskId;

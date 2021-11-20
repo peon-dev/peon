@@ -6,7 +6,7 @@ namespace PHPMate\UseCase;
 
 use Cron\CronExpression;
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 
 #[Immutable]
 final class DefineTask

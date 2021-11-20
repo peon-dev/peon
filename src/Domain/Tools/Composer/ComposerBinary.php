@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Tools\Composer;
 
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
+use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 
 interface ComposerBinary
 {

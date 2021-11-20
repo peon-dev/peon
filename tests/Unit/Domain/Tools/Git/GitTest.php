@@ -7,7 +7,7 @@ use Nyholm\Psr7\Uri;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitBinary;
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\ProcessResult;
+use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase

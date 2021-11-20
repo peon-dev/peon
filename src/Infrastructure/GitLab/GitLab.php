@@ -8,15 +8,15 @@ use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\GitProvider\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
 {
     /**
-     * @throws GitProviderCommunicationFailed
+     * @throws \PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed
      */
     public function openMergeRequest(
         RemoteGitRepository $gitRepository,

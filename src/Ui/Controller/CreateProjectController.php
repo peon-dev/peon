@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
-use PHPMate\Domain\GitProvider\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\InvalidRemoteUri;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\Tools\Git\Exception\InvalidRemoteUri;
+use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\CreateProjectFormData;
 use PHPMate\Ui\Form\CreateProjectFormType;

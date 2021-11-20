@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Integration\Infrastructure\Persistence\Doctrine;
 
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Task;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
 use Ramsey\Uuid\Uuid;

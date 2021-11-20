@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\Persistence\InMemory;
 
 use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TaskId;
-use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\Value\TaskId;
+use PHPMate\Domain\Task\Exception\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 
 final class InMemoryTasksCollection implements TasksCollection

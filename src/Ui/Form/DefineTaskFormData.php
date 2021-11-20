@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Form;
 
 use Cron\CronExpression;
-use PHPMate\Domain\Task\InvalidCronExpression;
+use PHPMate\Domain\Task\Exception\InvalidCronExpression;
 use PHPMate\Domain\Task\Task;
 use Symfony\Component\Validator\Constraints\NotBlank;
 

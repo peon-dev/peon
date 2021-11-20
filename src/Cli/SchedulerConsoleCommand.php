@@ -7,7 +7,7 @@ namespace PHPMate\Cli;
 use Cron\CronExpression;
 use Doctrine\ORM\EntityManagerInterface;
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Task\TaskId;
+use PHPMate\Domain\Task\Value\TaskId;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\RunTask;
 use Psr\Log\LoggerInterface;

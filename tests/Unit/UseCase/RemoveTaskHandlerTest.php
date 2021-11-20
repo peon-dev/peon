@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TaskId;
-use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\Value\TaskId;
+use PHPMate\Domain\Task\Exception\TaskNotFound;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\UseCase\RemoveTask;
 use PHPMate\UseCase\RemoveTaskHandler;

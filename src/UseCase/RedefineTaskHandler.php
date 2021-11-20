@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Task\TaskNotFound;
+use PHPMate\Domain\Task\Exception\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 

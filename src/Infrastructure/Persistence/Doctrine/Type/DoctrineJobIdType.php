@@ -6,7 +6,7 @@ namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use PHPMate\Domain\Job\JobId;
+use PHPMate\Domain\Job\Value\JobId;
 
 final class DoctrineJobIdType extends Type
 {
@@ -26,7 +26,7 @@ final class DoctrineJobIdType extends Type
 
 
     /**
-     * @param JobId $value
+     * @param \PHPMate\Domain\Job\Value\JobId $value
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {

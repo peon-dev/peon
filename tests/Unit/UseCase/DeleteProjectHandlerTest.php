@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Project\ProjectId;
+use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
-use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
+use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\DeleteProject;

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\PhpApplication;
 
+use PHPMate\Domain\PhpApplication\Value\LocalApplication;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Git\GitCommandFailed;
+use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
 use Psr\Http\Message\UriInterface;
 
 final class PrepareApplicationGitRepository // TODO: better naming

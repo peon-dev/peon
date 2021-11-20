@@ -6,7 +6,7 @@
         <id name="job" association-key="true" />
         <id name="order" type="integer" column="`order`" />
 
-        <embedded name="result" class="PHPMate\Domain\Process\ProcessResult" />
+        <embedded name="result" class="PHPMate\Domain\Process\Value\ProcessResult" />
 
         <many-to-one field="job" target-entity="PHPMate\Domain\Job\Job" inversed-by="processes">
             <join-column name="job_id" referenced-column-name="job_id" />
