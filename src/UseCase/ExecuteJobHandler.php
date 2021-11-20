@@ -54,10 +54,11 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             $job->start($this->clock);
             $this->jobsCollection->save($job);
 
+            $taskName = $job->taskName;
             $remoteGitRepository = $project->remoteGitRepository;
             $localGitRepository = $this->prepareApplicationGitRepository->prepare(
                 $remoteGitRepository->getAuthenticatedUri(),
-                $job->taskName
+                $taskName
             );
             $projectDirectory = $localGitRepository->workingDirectory;
 
@@ -81,7 +82,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             }
 
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
-                $this->git->commit($projectDirectory, '[PHP Mate] Task ' . $job->taskName);
+                $this->git->commit($projectDirectory, '[PHP Mate] Task ' . $taskName);
                 $this->git->forcePush($projectDirectory);
 
                 // $this->notifier->notifyAboutNewChanges(); // TODO: add test
@@ -94,7 +95,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                         $remoteGitRepository,
                         $localGitRepository->mainBranch,
                         $branchWithChanges,
-                        '[PHP Mate] Task ' . $job->taskName
+                        '[PHP Mate] Task ' . $taskName
                     );
                 }
             } elseif ($this->git->remoteBranchExists($projectDirectory, $localGitRepository->jobBranch)) {
@@ -103,7 +104,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                         $remoteGitRepository,
                         $localGitRepository->mainBranch,
                         $localGitRepository->jobBranch,
-                        '[PHP Mate] Task ' . $job->taskName
+                        '[PHP Mate] Task ' . $taskName
                     );
                 }
             }

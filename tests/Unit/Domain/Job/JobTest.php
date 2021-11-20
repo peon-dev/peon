@@ -6,6 +6,7 @@ namespace PHPMate\Tests\Unit\Domain\Job;
 use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobHasNoCommands;
+use PHPMate\Domain\Job\JobHasNotStarted;
 use PHPMate\Domain\Job\JobHasStartedAlready;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Project\ProjectId;
@@ -34,8 +35,38 @@ final class JobTest extends TestCase
         $this->expectException(JobHasStartedAlready::class);
 
         $clock = FrozenClock::fromUTC();
+        $job = $this->createJob($clock);
 
-        $job = new Job(
+        $job->start($clock);
+        $job->start($clock);
+    }
+
+
+    public function testJobCanNotSuccessWithoutStarting(): void
+    {
+        $this->expectException(JobHasNotStarted::class);
+
+        $clock = FrozenClock::fromUTC();
+        $job = $this->createJob($clock);
+
+        $job->succeeds($clock);
+    }
+
+
+    public function testJobCanNotFailWithoutStarting(): void
+    {
+        $this->expectException(JobHasNotStarted::class);
+
+        $clock = FrozenClock::fromUTC();
+        $job = $this->createJob($clock);
+
+        $job->fails($clock);
+    }
+
+
+    private function createJob(FrozenClock $clock): Job
+    {
+        return new Job(
             new JobId(''),
             new ProjectId(''),
             new TaskId(''),
@@ -43,8 +74,5 @@ final class JobTest extends TestCase
             $clock,
             ['command']
         );
-
-        $job->start($clock);
-        $job->start($clock);
     }
 }
