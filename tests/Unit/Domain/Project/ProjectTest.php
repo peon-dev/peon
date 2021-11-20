@@ -29,13 +29,13 @@ class ProjectTest extends TestCase
 
         self::assertCount(0, $project->enabledRecipes);
 
-        $recipeName = new RecipeName('test');
+        $recipeName = RecipeName::TYPED_PROPERTIES();
         $project->enableRecipe($recipeName);
 
         self::assertCount(1, $project->enabledRecipes);
-        self::assertTrue($recipeName->isEqual($project->enabledRecipes[0]));
+        self::assertTrue($recipeName->equals($project->enabledRecipes[0]));
 
-        $this->expectException(\PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject::class);
+        $this->expectException(RecipeAlreadyEnabledForProject::class);
         $project->enableRecipe($recipeName);
     }
 
@@ -43,16 +43,16 @@ class ProjectTest extends TestCase
     public function testDisableRecipe(): void
     {
         $project = $this->createProject();
-        $toBeDisabledRecipeName = new RecipeName('to-be-removed');
+        $toBeDisabledRecipeName = RecipeName::UNUSED_PRIVATE_METHODS();
 
         $project->enableRecipe($toBeDisabledRecipeName);
-        $project->enableRecipe(new RecipeName('test'));
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES());
         self::assertCount(2, $project->enabledRecipes);
-        self::assertTrue($toBeDisabledRecipeName->isEqual($project->enabledRecipes[array_key_first($project->enabledRecipes)]));
+        self::assertTrue($toBeDisabledRecipeName->equals($project->enabledRecipes[array_key_first($project->enabledRecipes)]));
 
         $project->disableRecipe($toBeDisabledRecipeName);
         self::assertCount(1, $project->enabledRecipes);
-        self::assertFalse($toBeDisabledRecipeName->isEqual($project->enabledRecipes[array_key_first($project->enabledRecipes)]));
+        self::assertFalse($toBeDisabledRecipeName->equals($project->enabledRecipes[array_key_first($project->enabledRecipes)]));
 
         $this->expectException(RecipeNotEnabledForProject::class);
         $project->disableRecipe($toBeDisabledRecipeName);

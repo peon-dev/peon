@@ -20,7 +20,7 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
 {
     public function testRecipeCanBeDisabled(): void
     {
-        $recipeName = new RecipeName('test');
+        $recipeName = RecipeName::TYPED_PROPERTIES();
         $projectId = new ProjectId('');
         $command = new DisableRecipeForProject(
             $recipeName,
@@ -53,7 +53,7 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
     {
         $this->expectException(ProjectNotFound::class);
 
-        $recipeName = new RecipeName('test');
+        $recipeName = RecipeName::TYPED_PROPERTIES();
         $projectId = new ProjectId('');
         $command = new DisableRecipeForProject(
             $recipeName,
@@ -74,7 +74,7 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
     {
         $this->expectException(RecipeNotFound::class);
 
-        $recipeName = new RecipeName('test');
+        $recipeName = RecipeName::TYPED_PROPERTIES();
         $projectId = new ProjectId('');
         $command = new DisableRecipeForProject(
             $recipeName,
@@ -98,7 +98,7 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
     {
         $this->expectException(RecipeNotEnabledForProject::class);
 
-        $recipeName = new RecipeName('test');
+        $recipeName = RecipeName::TYPED_PROPERTIES();
         $projectId = new ProjectId('');
         $command = new DisableRecipeForProject(
             $recipeName,

@@ -30,7 +30,7 @@ final class InMemoryProjectsCollection implements ProjectsCollection
 
 
     /**
-     * @throws \PHPMate\Domain\Project\Exception\ProjectNotFound
+     * @throws ProjectNotFound
      */
     public function remove(ProjectId $projectId): void
     {
@@ -43,7 +43,7 @@ final class InMemoryProjectsCollection implements ProjectsCollection
 
 
     /**
-     * @throws \PHPMate\Domain\Project\Exception\ProjectNotFound
+     * @throws ProjectNotFound
      */
     public function get(ProjectId $projectId): Project
     {

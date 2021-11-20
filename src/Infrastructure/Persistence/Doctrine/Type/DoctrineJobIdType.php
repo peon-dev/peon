@@ -26,7 +26,7 @@ final class DoctrineJobIdType extends Type
 
 
     /**
-     * @param \PHPMate\Domain\Job\Value\JobId $value
+     * @param JobId $value
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {

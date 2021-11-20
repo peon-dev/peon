@@ -43,13 +43,13 @@ class ComposerTest extends TestCase
     public function provideTestInstallData(): \Generator
     {
         yield [
-            new \PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment(),
+            new ComposerEnvironment(),
             [],
         ];
 
         yield [
-            new \PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment('{}'),
-            [\PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment::AUTH => '{}'],
+            new ComposerEnvironment('{}'),
+            [ComposerEnvironment::AUTH => '{}'],
         ];
     }
 

@@ -16,7 +16,7 @@ final class BuildApplication // TODO: better naming
 
 
     /**
-     * @throws \PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed
+     * @throws ComposerCommandFailed
      */
     public function build(string $applicationDirectory): void
     {

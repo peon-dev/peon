@@ -7,6 +7,7 @@ namespace PHPMate\Infrastructure\Cookbook;
 use PHPMate\Domain\Cookbook\Recipe;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Cookbook\RecipesCollection;
+use function Safe\file_get_contents;
 
 final class StaticRecipesCollection implements RecipesCollection
 {
@@ -18,13 +19,26 @@ final class StaticRecipesCollection implements RecipesCollection
 
     public function __construct()
     {
+        $this->recipes[] = new Recipe(
+            RecipeName::UNUSED_PRIVATE_METHODS(),
+            'Unused private methods',
+            file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'),
+            null
+        );
+
+        $this->recipes[] = new Recipe(
+            RecipeName::TYPED_PROPERTIES(),
+            'Typed properties',
+            file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'),
+            7.4
+        );
     }
 
 
-    public function hasRecipeWithName(\PHPMate\Domain\Cookbook\Value\RecipeName $recipeName): bool
+    public function hasRecipeWithName(RecipeName $recipeName): bool
     {
         foreach ($this->recipes as $recipe) {
-            if ($recipe->name->isEqual($recipeName)) {
+            if ($recipe->name->equals($recipeName)) {
                 return true;
             }
         }

@@ -42,7 +42,7 @@ final class DoctrineTasksCollection implements TasksCollection
     }
 
     /**
-     * @throws \PHPMate\Domain\Task\Exception\TaskNotFound
+     * @throws TaskNotFound
      */
     public function get(TaskId $taskId): Task
     {

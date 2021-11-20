@@ -17,7 +17,7 @@ final class RemoveTaskHandler implements MessageHandlerInterface
 
 
     /**
-     * @throws \PHPMate\Domain\Task\Exception\TaskNotFound
+     * @throws TaskNotFound
      */
     public function __invoke(RemoveTask $command): void
     {

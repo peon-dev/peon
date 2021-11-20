@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 final class SymfonyProcessGitBinary implements GitBinary
 {
     /**
-     * @throws \PHPMate\Domain\Tools\Git\Exception\GitCommandFailed
+     * @throws GitCommandFailed
      */
     public function executeCommand(string $directory, string $command): ProcessResult
     {

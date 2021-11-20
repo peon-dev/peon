@@ -102,7 +102,7 @@ final class JobTest extends TestCase
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
-        $this->expectException(\PHPMate\Domain\Job\Exception\JobHasNotStartedYet::class);
+        $this->expectException(JobHasNotStartedYet::class);
         $job->succeeds($clock);
     }
 
@@ -112,7 +112,7 @@ final class JobTest extends TestCase
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
-        $this->expectException(\PHPMate\Domain\Job\Exception\JobHasNotStartedYet::class);
+        $this->expectException(JobHasNotStartedYet::class);
         $job->fails($clock);
     }
 

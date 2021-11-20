@@ -770,6 +770,9 @@
     "symplify/symplify-kernel": {
         "version": "9.4.60"
     },
+    "thecodingmachine/safe": {
+        "version": "v1.3.3"
+    },
     "theseer/tokenizer": {
         "version": "1.2.1"
     },

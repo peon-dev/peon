@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 final class DoctrineRecipeNamesArrayTypeTest extends TestCase
 {
     /**
-     * @param array<\PHPMate\Domain\Cookbook\Value\RecipeName> $recipes
+     * @param array<RecipeName> $recipes
      * @dataProvider provideConvertToDatabaseValueData
      */
     public function testConvertToDatabaseValue(?array $recipes, ?string $expected): void
@@ -34,16 +34,16 @@ final class DoctrineRecipeNamesArrayTypeTest extends TestCase
             [[], '{}'],
             [
                 [
-                    new RecipeName('test')
+                    RecipeName::TYPED_PROPERTIES()
                 ],
-                '{"test"}',
+                '{"typed-properties"}',
             ],
             [
                 [
-                    new RecipeName('test1'),
-                    new RecipeName('test2'),
+                    RecipeName::TYPED_PROPERTIES(),
+                    RecipeName::UNUSED_PRIVATE_METHODS(),
                 ],
-                '{"test1","test2"}',
+                '{"typed-properties","unused-private-methods"}',
             ],
         ];
     }
@@ -73,29 +73,29 @@ final class DoctrineRecipeNamesArrayTypeTest extends TestCase
             [null, null],
             ['{}', []],
             [
-                '{test}',
+                '{typed-properties}',
                 [
-                    new RecipeName('test')
+                    RecipeName::TYPED_PROPERTIES()
                 ],
             ],
             [
-                '{"test"}',
+                '{"typed-properties"}',
                 [
-                    new RecipeName('test')
+                    RecipeName::TYPED_PROPERTIES()
                 ],
             ],
             [
-                '{test1,test2}',
+                '{typed-properties,unused-private-methods}',
                 [
-                    new RecipeName('test1'),
-                    new RecipeName('test2'),
+                    RecipeName::TYPED_PROPERTIES(),
+                    RecipeName::UNUSED_PRIVATE_METHODS(),
                 ],
             ],
             [
-                '{"test1","test2"}',
+                '{"typed-properties","unused-private-methods"}',
                 [
-                    new RecipeName('test1'),
-                    new RecipeName('test2'),
+                    RecipeName::TYPED_PROPERTIES(),
+                    RecipeName::UNUSED_PRIVATE_METHODS(),
                 ],
             ],
         ];

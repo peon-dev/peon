@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 final class SymfonyProcessComposerBinary implements ComposerBinary
 {
     /**
-     * @throws \PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed
+     * @throws ComposerCommandFailed
      */
     public function executeCommand(string $directory, string $command, array $environmentVariables = []): ProcessResult
     {

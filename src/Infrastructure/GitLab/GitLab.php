@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
 {
     /**
-     * @throws \PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed
+     * @throws GitProviderCommunicationFailed
      */
     public function openMergeRequest(
         RemoteGitRepository $gitRepository,

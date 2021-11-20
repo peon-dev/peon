@@ -50,7 +50,7 @@ final class DoctrineRecipeNamesArrayType extends Type
         }
 
         $recipeNamesArray = array_map(static function (RecipeName $recipeName) {
-            return addcslashes($recipeName->name, '"');
+            return addcslashes($recipeName->toString(), '"');
         }, $value);
 
         return '{"' . implode('","', $recipeNamesArray) . '"}';
@@ -81,11 +81,11 @@ final class DoctrineRecipeNamesArrayType extends Type
         $array = [];
         foreach ($matches as $match) {
             if ('' !== $match[3]) {
-                $array[] = new RecipeName(stripcslashes($match[3]));
+                $array[] = RecipeName::fromString(stripcslashes($match[3]));
                 continue;
             }
 
-            $array[] = new RecipeName($match[2]);
+            $array[] = RecipeName::fromString($match[2]);
         }
 
         return $array;

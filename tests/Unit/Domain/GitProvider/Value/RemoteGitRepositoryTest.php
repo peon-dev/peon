@@ -63,10 +63,10 @@ class RemoteGitRepositoryTest extends TestCase
     }
 
 
-    private static function createRemoteGitRepository(string $repositoryUri): \PHPMate\Domain\GitProvider\Value\RemoteGitRepository
+    private static function createRemoteGitRepository(string $repositoryUri): RemoteGitRepository
     {
-        $authentication = new \PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication('phpmate', 'phpmate');
+        $authentication = new GitRepositoryAuthentication('phpmate', 'phpmate');
 
-        return new \PHPMate\Domain\GitProvider\Value\RemoteGitRepository($repositoryUri, $authentication);
+        return new RemoteGitRepository($repositoryUri, $authentication);
     }
 }
