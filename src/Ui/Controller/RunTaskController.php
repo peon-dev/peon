@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Job\JobExecutionFailed;
+use PHPMate\Domain\Job\JobHasFinishedAlready;
 use PHPMate\Domain\Job\JobHasNoCommands;
 use PHPMate\Domain\Job\JobHasNotStartedYet;
 use PHPMate\Domain\Job\JobHasStartedAlready;
@@ -30,6 +31,7 @@ final class RunTaskController extends AbstractController
 
     /**
      * @throws JobExecutionFailed
+     * @throws JobHasFinishedAlready
      * @throws JobHasNotStartedYet
      * @throws JobHasStartedAlready
      * @throws JobNotFound

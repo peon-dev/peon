@@ -5,6 +5,8 @@ includes:
     - packages/PHPStan/extension.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-symfony/rules.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
 
 parameters:
     level: max
@@ -15,10 +17,13 @@ parameters:
     # checkUninitializedProperties: true # TODO: enable later
     excludePaths:
         - tests/bootstrap.php
+        - tests/object-manager.php
     scanDirectories:
         - var/cache/dev/Symfony/Config
     symfony:
         container_xml_path: var/cache/dev/PHPMate_Infrastructure_Symfony_PHPMateKernelDevDebugContainer.xml
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
 
     ignoreErrors:
         # Scenario with general wrapping to make it safer

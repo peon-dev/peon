@@ -7,7 +7,7 @@ namespace PHPMate\Domain\Process;
 use JetBrains\PhpStorm\Immutable;
 
 #[Immutable]
-final class ProcessResult
+class ProcessResult
 {
     public function __construct(
         public string $command,

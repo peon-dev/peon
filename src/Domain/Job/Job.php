@@ -14,12 +14,12 @@ use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Task\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
-final class Job
+class Job
 {
-    public \DateTimeInterface $scheduledAt;
-    public ?\DateTimeInterface $startedAt = null;
-    public ?\DateTimeInterface $succeededAt = null;
-    public ?\DateTimeInterface $failedAt = null;
+    public \DateTimeImmutable $scheduledAt;
+    public ?\DateTimeImmutable $startedAt = null;
+    public ?\DateTimeImmutable $succeededAt = null;
+    public ?\DateTimeImmutable $failedAt = null;
 
     /**
      * @var Collection<int, JobProcess>
