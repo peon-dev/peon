@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Project;
+namespace PHPMate\Domain\Project\Exceptions;
 
 final class RecipeNotEnabledForProject extends \RuntimeException
 {

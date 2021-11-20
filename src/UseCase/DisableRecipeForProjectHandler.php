@@ -6,9 +6,9 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Cookbook\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Project\RecipeNotEnabledForProject;
+use PHPMate\Domain\Project\Exceptions\RecipeNotEnabledForProject;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class DisableRecipeForProjectHandler implements MessageHandlerInterface
@@ -20,7 +20,7 @@ final class DisableRecipeForProjectHandler implements MessageHandlerInterface
 
 
     /**
-     * @throws ProjectNotFound
+     * @throws \PHPMate\Domain\Project\Exceptions\ProjectNotFound
      * @throws RecipeNotFound
      * @throws RecipeNotEnabledForProject
      */

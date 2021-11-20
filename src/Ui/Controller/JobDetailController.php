@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Job\JobId;
-use PHPMate\Domain\Job\JobNotFound;
+use PHPMate\Domain\Job\Exceptions\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

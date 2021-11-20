@@ -6,14 +6,14 @@ namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobExecutionFailed;
-use PHPMate\Domain\Job\JobHasFinishedAlready;
-use PHPMate\Domain\Job\JobHasNoCommands;
-use PHPMate\Domain\Job\JobHasNotStartedYet;
-use PHPMate\Domain\Job\JobHasStartedAlready;
-use PHPMate\Domain\Job\JobNotFound;
+use PHPMate\Domain\Job\Exceptions\JobExecutionFailed;
+use PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready;
+use PHPMate\Domain\Job\Exceptions\JobHasNoCommands;
+use PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet;
+use PHPMate\Domain\Job\Exceptions\JobHasStartedAlready;
+use PHPMate\Domain\Job\Exceptions\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
@@ -34,9 +34,9 @@ final class RunTaskHandler implements MessageHandlerInterface
     /**
      * @throws TaskNotFound
      * @throws ProjectNotFound
-     * @throws JobHasNoCommands
-     * @throws JobNotFound
-     * @throws JobHasFinishedAlready
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasNoCommands
+     * @throws \PHPMate\Domain\Job\Exceptions\JobNotFound
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready
      * @throws JobHasStartedAlready
      * @throws JobHasNotStartedYet
      * @throws JobExecutionFailed

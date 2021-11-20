@@ -7,7 +7,7 @@ namespace PHPMate\Infrastructure\Persistence\Doctrine;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobId;
-use PHPMate\Domain\Job\JobNotFound;
+use PHPMate\Domain\Job\Exceptions\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use Ramsey\Uuid\Uuid;
 

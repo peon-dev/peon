@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\DeleteProject;

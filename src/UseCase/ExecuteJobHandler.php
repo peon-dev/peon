@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\JobExecutionFailed;
-use PHPMate\Domain\Job\JobHasFinishedAlready;
-use PHPMate\Domain\Job\JobHasNotStartedYet;
-use PHPMate\Domain\Job\JobHasStartedAlready;
+use PHPMate\Domain\Job\Exceptions\JobExecutionFailed;
+use PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready;
+use PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet;
+use PHPMate\Domain\Job\Exceptions\JobHasStartedAlready;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\ProcessFailed;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\Job\JobNotFound;
+use PHPMate\Domain\Job\Exceptions\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
@@ -40,8 +40,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
     /**
      * @throws JobNotFound
      * @throws JobHasStartedAlready
-     * @throws JobHasNotStartedYet
-     * @throws JobHasFinishedAlready
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready
      * @throws JobExecutionFailed
      */
     public function __invoke(ExecuteJob $command): void

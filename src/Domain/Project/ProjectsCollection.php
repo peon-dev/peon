@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Project;
 
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
+
 interface ProjectsCollection
 {
     /**

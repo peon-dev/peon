@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
+use PHPMate\Domain\Job\Exceptions\JobNotFound;
+
 interface JobsCollection
 {
     public function nextIdentity(): JobId;
