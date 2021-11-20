@@ -16,7 +16,7 @@ use PHPMate\Domain\Task\TaskId;
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 final class Job
 {
-    private \DateTimeInterface $scheduledAt;
+    public \DateTimeInterface $scheduledAt;
     public ?\DateTimeInterface $startedAt = null;
     public ?\DateTimeInterface $succeededAt = null;
     public ?\DateTimeInterface $failedAt = null;
@@ -49,35 +49,33 @@ final class Job
      */
     public function start(Clock $clock): void
     {
-        if ($this->startedAt !== null) {
-            throw new JobHasStartedAlready();
-        }
+        $this->checkJobHasNotStarted();
 
         $this->startedAt = $clock->now();
     }
 
 
     /**
-     * @throws JobHasNotStarted
+     * @throws JobHasNotStartedYet
+     * @throws JobHasFinishedAlready
      */
     public function succeeds(Clock $clock): void
     {
-        if ($this->startedAt === null) {
-            throw new JobHasNotStarted();
-        }
+        $this->checkJobHasStarted();
+        $this->checkJobHasNotFinished();
 
         $this->succeededAt = $clock->now();
     }
 
 
     /**
-     * @throws JobHasNotStarted
+     * @throws JobHasNotStartedYet
+     * @throws JobHasFinishedAlready
      */
     public function fails(Clock $clock): void
     {
-        if ($this->startedAt === null) {
-            throw new JobHasNotStarted();
-        }
+        $this->checkJobHasStarted();
+        $this->checkJobHasNotFinished();
 
         $this->failedAt = $clock->now();
     }
@@ -101,6 +99,43 @@ final class Job
     {
         if (count($commands) <= 0) {
             throw new JobHasNoCommands();
+        }
+    }
+
+
+    /**
+     * @throws JobHasFinishedAlready
+     */
+    private function checkJobHasNotFinished(): void
+    {
+        if ($this->succeededAt !== null) {
+            throw new JobHasFinishedAlready();
+        }
+
+        if ($this->failedAt !== null) {
+            throw new JobHasFinishedAlready();
+        }
+    }
+
+
+    /**
+     * @throws JobHasNotStartedYet
+     */
+    private function checkJobHasStarted(): void
+    {
+        if ($this->startedAt === null) {
+            throw new JobHasNotStartedYet();
+        }
+    }
+
+
+    /**
+     * @throws JobHasStartedAlready
+     */
+    private function checkJobHasNotStarted(): void
+    {
+        if ($this->startedAt !== null) {
+            throw new JobHasStartedAlready();
         }
     }
 }
