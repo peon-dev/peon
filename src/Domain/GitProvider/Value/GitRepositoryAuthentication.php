@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Git\Value;
+namespace PHPMate\Domain\GitProvider\Value;
 
 use JetBrains\PhpStorm\Immutable;
 
 #[Immutable]
 class GitRepositoryAuthentication
 {
-    private const GITLAB_PAT_USERNAME = 'gitlab-ci-token';
+    public const GITLAB_PAT_USERNAME = 'gitlab-ci-token';
 
 
     public function __construct(

@@ -6,7 +6,7 @@ namespace PHPMate\Domain\GitProvider;
 
 
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 
 interface GitProvider
 {

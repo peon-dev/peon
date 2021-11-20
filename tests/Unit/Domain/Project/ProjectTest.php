@@ -8,8 +8,8 @@ use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPUnit\Framework\TestCase;
 

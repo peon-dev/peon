@@ -13,7 +13,6 @@ use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Process\JobProcess;
 use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Value\TaskId;
@@ -27,7 +26,7 @@ class Job
     public ?\DateTimeImmutable $failedAt = null;
 
     /**
-     * @var Collection<int, JobProcess>
+     * @var Collection<int, JobProcessResult>
      */
     public Collection $processes;
 
@@ -89,7 +88,7 @@ class Job
 
     public function addProcessResult(ProcessResult $processResult): void
     {
-        $this->processes[] = new JobProcess(
+        $this->processes[] = new JobProcessResult(
             $this,
             1 + count($this->processes),
             $processResult

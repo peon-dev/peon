@@ -14,8 +14,8 @@ use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 
 final class DataFixtures extends Fixture
 {

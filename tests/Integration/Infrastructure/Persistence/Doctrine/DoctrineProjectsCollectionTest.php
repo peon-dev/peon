@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Integration\Infrastructure\Persistence\Doctrine;
 
 use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

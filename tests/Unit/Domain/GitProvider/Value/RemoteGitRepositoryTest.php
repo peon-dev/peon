@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Tools\Git\Value;
+namespace PHPMate\Tests\Unit\Domain\GitProvider\Value;
 
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
-use PHPMate\Domain\Tools\Git\Exception\InvalidRemoteUri;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Exception\InvalidRemoteUri;
 use PHPUnit\Framework\TestCase;
 
 class RemoteGitRepositoryTest extends TestCase
@@ -63,10 +63,10 @@ class RemoteGitRepositoryTest extends TestCase
     }
 
 
-    private static function createRemoteGitRepository(string $repositoryUri): RemoteGitRepository
+    private static function createRemoteGitRepository(string $repositoryUri): \PHPMate\Domain\GitProvider\Value\RemoteGitRepository
     {
-        $authentication = new \PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication('phpmate', 'phpmate');
+        $authentication = new \PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication('phpmate', 'phpmate');
 
-        return new RemoteGitRepository($repositoryUri, $authentication);
+        return new \PHPMate\Domain\GitProvider\Value\RemoteGitRepository($repositoryUri, $authentication);
     }
 }

@@ -5,8 +5,8 @@ namespace PHPMate\Tests\Unit\UseCase;
 
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\CreateProject;

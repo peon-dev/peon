@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Git\Value;
+namespace PHPMate\Domain\GitProvider\Value;
 
 use GuzzleHttp\Psr7\Uri;
 use Nette\Utils\Strings;
-use PHPMate\Domain\Tools\Git\Exception\InvalidRemoteUri;
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Exception\InvalidRemoteUri;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Psr\Http\Message\UriInterface;
 
 class RemoteGitRepository

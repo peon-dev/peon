@@ -6,9 +6,9 @@ namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\Tools\Git\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\Tools\Git\Exception\InvalidRemoteUri;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use PHPMate\Domain\GitProvider\Exception\InvalidRemoteUri;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\CreateProjectFormData;
 use PHPMate\Ui\Form\CreateProjectFormType;
