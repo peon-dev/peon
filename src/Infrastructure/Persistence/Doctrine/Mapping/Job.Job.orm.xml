@@ -12,7 +12,7 @@
         <field name="succeededAt" type="datetime_immutable" nullable="true" />
         <field name="failedAt" type="datetime_immutable" nullable="true" />
         <field name="commands" type="json" />
-        <one-to-many field="processes" target-entity="PHPMate\Domain\Process\JobProcess" mapped-by="job">
+        <one-to-many field="processes" target-entity="PHPMate\Domain\Job\JobProcessResult" mapped-by="job">
             <cascade>
                 <cascade-persist />
             </cascade>

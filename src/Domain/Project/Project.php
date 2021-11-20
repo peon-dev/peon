@@ -9,7 +9,7 @@ use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
 use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Tools\Git\Value\RemoteGitRepository;
+use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 
 class Project
 {
