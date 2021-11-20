@@ -87,86 +87,80 @@ final class JobTest extends TestCase
 
     public function testJobCanNotBeStartedTwice(): void
     {
-        $this->expectException(JobHasStartedAlready::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
         $job->start($clock);
+
+        $this->expectException(JobHasStartedAlready::class);
         $job->start($clock);
     }
 
 
     public function testJobCanNotSuccessWithoutStarting(): void
     {
-        $this->expectException(JobHasNotStartedYet::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
+        $this->expectException(JobHasNotStartedYet::class);
         $job->succeeds($clock);
     }
 
 
     public function testJobCanNotFailWithoutStarting(): void
     {
-        $this->expectException(JobHasNotStartedYet::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
+        $this->expectException(JobHasNotStartedYet::class);
         $job->fails($clock);
     }
 
 
     public function testJobCanNotFailWhenAlreadyFailed(): void
     {
-        $this->expectException(JobHasFinishedAlready::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
         $job->start($clock);
         $job->fails($clock);
+        $this->expectException(JobHasFinishedAlready::class);
         $job->fails($clock);
     }
 
 
     public function testJobCanNotFailWhenAlreadySucceeded(): void
     {
-        $this->expectException(JobHasFinishedAlready::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
         $job->start($clock);
         $job->succeeds($clock);
+        $this->expectException(JobHasFinishedAlready::class);
         $job->fails($clock);
     }
 
 
     public function testJobCanNotSucceedWhenAlreadyFailed(): void
     {
-        $this->expectException(JobHasFinishedAlready::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
         $job->start($clock);
         $job->fails($clock);
+        $this->expectException(JobHasFinishedAlready::class);
         $job->succeeds($clock);
     }
 
 
     public function testJobCanNotSucceedWhenAlreadySucceeded(): void
     {
-        $this->expectException(JobHasFinishedAlready::class);
-
         $clock = FrozenClock::fromUTC();
         $job = $this->createJob($clock);
 
         $job->start($clock);
         $job->succeeds($clock);
+        $this->expectException(JobHasFinishedAlready::class);
         $job->succeeds($clock);
     }
 
