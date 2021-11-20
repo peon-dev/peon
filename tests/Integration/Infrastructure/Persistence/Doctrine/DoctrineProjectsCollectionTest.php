@@ -7,6 +7,7 @@ use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
+use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DoctrineProjectsCollectionTest extends KernelTestCase
@@ -31,13 +32,8 @@ final class DoctrineProjectsCollectionTest extends KernelTestCase
         $baselineCount = count($this->doctrineProjectsCollection->all());
 
         $projectId = $this->doctrineProjectsCollection->nextIdentity();
-        // TODO: consider using some kind of factory
-        $remoteGitRepository = new RemoteGitRepository(
-            'https://gitlab.com/phpmate/phpmate.git',
-            GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
-        );
+        $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
-        // TODO: consider using some kind of factory
         $project = new Project(
             $projectId,
             $remoteGitRepository

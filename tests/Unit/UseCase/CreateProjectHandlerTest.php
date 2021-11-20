@@ -8,6 +8,7 @@ use PHPMate\Domain\GitProvider\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\CreateProject;
 use PHPMate\UseCase\CreateProjectHandler;
 use PHPUnit\Framework\TestCase;
@@ -22,14 +23,9 @@ final class CreateProjectHandlerTest extends TestCase
         self::assertCount(0, $projectsCollection->all());
 
         $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository);
-        $handler->__invoke(
-            new CreateProject(
-                new RemoteGitRepository(
-                    'https://gitlab.com/phpmate-dogfood/rector.git',
-                    GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
-                )
-            )
-        );
+        $remoteGitRepository = DataFixtures::createRemoteGitRepository();
+
+        $handler->__invoke(new CreateProject($remoteGitRepository));
 
         self::assertCount(1, $projectsCollection->all());
     }
@@ -43,14 +39,9 @@ final class CreateProjectHandlerTest extends TestCase
         $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(false);
 
         $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository);
-        $handler->__invoke(
-            new CreateProject(
-                new RemoteGitRepository(
-                    'https://gitlab.com/phpmate-dogfood/rector.git',
-                    GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
-                )
-            )
-        );
+        $remoteGitRepository = DataFixtures::createRemoteGitRepository();
+
+        $handler->__invoke(new CreateProject($remoteGitRepository));
     }
 
 

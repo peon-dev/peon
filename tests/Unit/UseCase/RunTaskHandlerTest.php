@@ -18,6 +18,7 @@ use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
+use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
@@ -38,10 +39,7 @@ final class RunTaskHandlerTest extends TestCase
 
         $projectId = new ProjectId('0');
         $taskId = new TaskId('0');
-        $remoteGitRepository = new RemoteGitRepository(
-            'https://gitlab.com/phpmate/phpmate.git',
-            GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
-        );
+        $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
         $projectsCollection->save(
             new Project($projectId, $remoteGitRepository)
