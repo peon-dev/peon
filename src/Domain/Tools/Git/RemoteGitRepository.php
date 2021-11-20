@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Uri;
 use Nette\Utils\Strings;
 use Psr\Http\Message\UriInterface;
 
-final class RemoteGitRepository
+class RemoteGitRepository
 {
     private ?UriInterface $uri = null;
 
