@@ -9,7 +9,7 @@ use JetBrains\PhpStorm\Immutable;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
-use PHPMate\Domain\Job\JobStatus;
+use PHPMate\Ui\ReadModel\JobStatus;
 
 #[Immutable]
 final class ReadTask
