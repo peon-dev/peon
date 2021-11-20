@@ -1,0 +1,7 @@
+ class SomeClass
+ {
+-    private function skip(): int
+-    {
+-        return 10;
+-    }
+ }

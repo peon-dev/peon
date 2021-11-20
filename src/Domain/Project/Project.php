@@ -36,7 +36,7 @@ class Project
     public function enableRecipe(RecipeName $recipe): void
     {
         foreach ($this->enabledRecipes as $enabledRecipe) {
-            if ($enabledRecipe->isEqual($recipe)) {
+            if ($enabledRecipe->equals($recipe)) {
                 throw new RecipeAlreadyEnabledForProject();
             }
         }
@@ -51,7 +51,7 @@ class Project
     public function disableRecipe(RecipeName $recipe): void
     {
         foreach ($this->enabledRecipes as $key => $enabledRecipe) {
-            if ($enabledRecipe->isEqual($recipe)) {
+            if ($enabledRecipe->equals($recipe)) {
                 unset($this->enabledRecipes[$key]);
                 return;
             }

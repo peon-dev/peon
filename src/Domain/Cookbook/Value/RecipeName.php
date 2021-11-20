@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Cookbook\Value;
 
-final class RecipeName
-{
-    public function __construct(
-        public string $name
-    ) {}
+use PHPMate\Packages\Enum\Enum;
 
-    public function isEqual(RecipeName $recipeName): bool
+final class RecipeName extends Enum
+{
+    private const UNUSED_PRIVATE_METHODS = 'unused-private-methods';
+    private const TYPED_PROPERTIES = 'typed-properties';
+
+
+    public static function UNUSED_PRIVATE_METHODS(): self
     {
-        return $this->name === $recipeName->name;
+        return new self(self::UNUSED_PRIVATE_METHODS);
+    }
+
+
+    public static function TYPED_PROPERTIES(): self
+    {
+        return new self(self::TYPED_PROPERTIES);
     }
 }

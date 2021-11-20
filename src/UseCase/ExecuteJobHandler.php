@@ -40,8 +40,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
     /**
      * @throws JobNotFound
      * @throws JobHasStartedAlready
-     * @throws \PHPMate\Domain\Job\Exception\JobHasNotStartedYet
-     * @throws \PHPMate\Domain\Job\Exception\JobHasFinishedAlready
+     * @throws JobHasNotStartedYet
+     * @throws JobHasFinishedAlready
      * @throws JobExecutionFailed
      */
     public function __invoke(ExecuteJob $command): void

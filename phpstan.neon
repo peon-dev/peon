@@ -40,6 +40,11 @@ parameters:
             message: '#^Missing \@throws#'
             path: tests/DataFixtures/DataFixtures.php
 
+        # Ignore missing throws annotations for data diffs
+        -
+            message: '#^Missing \@throws Safe\\Exceptions\\FilesystemException annotation$#'
+            path: src/Infrastructure/Cookbook/StaticRecipesCollection.php
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false

@@ -14,7 +14,7 @@ final class ProcessLoggerTest extends TestCase
      */
     public function testProcessOutputWillBeSanitized(string $sensitiveInfo, string $expectedSanitization): void
     {
-        $processResult = new \PHPMate\Domain\Process\Value\ProcessResult($sensitiveInfo, 0, $sensitiveInfo, 0);
+        $processResult = new ProcessResult($sensitiveInfo, 0, $sensitiveInfo, 0);
 
         $logger = new ProcessLogger();
         $logger->logResult($processResult);

@@ -20,8 +20,8 @@ final class CreateProjectHandler implements MessageHandlerInterface
     ) {}
 
     /**
-     * @throws \PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository
-     * @throws \PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed
+     * @throws InsufficientAccessToRemoteRepository
+     * @throws GitProviderCommunicationFailed
      */
     public function __invoke(CreateProject $createProject): void
     {

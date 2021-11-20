@@ -26,7 +26,7 @@ final class DoctrineProjectIdType extends Type
 
 
     /**
-     * @param \PHPMate\Domain\Project\Value\ProjectId $value
+     * @param ProjectId $value
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {

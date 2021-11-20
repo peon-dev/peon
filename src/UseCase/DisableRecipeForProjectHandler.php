@@ -20,7 +20,7 @@ final class DisableRecipeForProjectHandler implements MessageHandlerInterface
 
 
     /**
-     * @throws \PHPMate\Domain\Project\Exception\ProjectNotFound
+     * @throws ProjectNotFound
      * @throws RecipeNotFound
      * @throws RecipeNotEnabledForProject
      */

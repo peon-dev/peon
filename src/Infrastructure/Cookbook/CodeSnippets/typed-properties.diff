@@ -1,0 +1,8 @@
+ class SomeClass
+ {
+-    /**
+-     * @var int
+-     */
+-    private $count;
++    private int $count;
+ }

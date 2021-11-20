@@ -31,10 +31,10 @@ final class RunTaskController extends AbstractController
 
     /**
      * @throws JobExecutionFailed
-     * @throws \PHPMate\Domain\Job\Exception\JobHasFinishedAlready
-     * @throws \PHPMate\Domain\Job\Exception\JobHasNotStartedYet
-     * @throws \PHPMate\Domain\Job\Exception\JobHasStartedAlready
-     * @throws \PHPMate\Domain\Job\Exception\JobNotFound
+     * @throws JobHasFinishedAlready
+     * @throws JobHasNotStartedYet
+     * @throws JobHasStartedAlready
+     * @throws JobNotFound
      */
     #[Route(path: '/task/run/{taskId}', name: 'run_task')]
     public function __invoke(string $taskId): Response

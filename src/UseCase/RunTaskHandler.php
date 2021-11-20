@@ -34,9 +34,9 @@ final class RunTaskHandler implements MessageHandlerInterface
     /**
      * @throws TaskNotFound
      * @throws ProjectNotFound
-     * @throws \PHPMate\Domain\Job\Exception\JobHasNoCommands
-     * @throws \PHPMate\Domain\Job\Exception\JobNotFound
-     * @throws \PHPMate\Domain\Job\Exception\JobHasFinishedAlready
+     * @throws JobHasNoCommands
+     * @throws JobNotFound
+     * @throws JobHasFinishedAlready
      * @throws JobHasStartedAlready
      * @throws JobHasNotStartedYet
      * @throws JobExecutionFailed

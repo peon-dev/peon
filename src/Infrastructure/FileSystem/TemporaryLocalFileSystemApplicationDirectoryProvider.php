@@ -8,7 +8,7 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
 use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
 
-final class TemporaryLocalFileSystemApplicationDirectoryProvider implements \PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider
+final class TemporaryLocalFileSystemApplicationDirectoryProvider implements ApplicationDirectoryProvider
 {
     public function __construct(
         private string $baseDir

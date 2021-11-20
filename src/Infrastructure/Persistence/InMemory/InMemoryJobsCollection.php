@@ -34,7 +34,7 @@ final class InMemoryJobsCollection implements JobsCollection
 
 
     /**
-     * @throws \PHPMate\Domain\Job\Exception\JobNotFound
+     * @throws JobNotFound
      */
     public function get(JobId $jobId): Job
     {

@@ -16,7 +16,7 @@ final class SymfonyProcessRectorBinary implements RectorBinary
 
 
     /**
-     * @throws \PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed
+     * @throws RectorCommandFailed
      */
     public function executeCommand(string $directory, string $command): ProcessResult
     {
