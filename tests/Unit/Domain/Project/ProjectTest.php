@@ -10,6 +10,7 @@ use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\RecipeNotEnabledForProject;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
+use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
@@ -18,7 +19,7 @@ class ProjectTest extends TestCase
     {
         $project = $this->createProject();
 
-        self::assertSame('phpmate-dogfood/rector', $project->name);
+        self::assertSame(DataFixtures::PROJECT_NAME, $project->name);
     }
 
 
@@ -62,10 +63,7 @@ class ProjectTest extends TestCase
     {
         return new Project(
             new ProjectId(''),
-            new RemoteGitRepository(
-                'https://gitlab.com/phpmate-dogfood/rector.git',
-                GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
-            )
+            DataFixtures::createRemoteGitRepository()
         );
     }
 }
