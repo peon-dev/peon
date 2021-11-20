@@ -9,10 +9,13 @@ use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Value\ProjectId;
 
 #[Immutable]
-final class EnableRecipeForProject
+final class ChangeProjectRecipes
 {
+    /**
+     * @param array<RecipeName> $recipes
+     */
     public function __construct(
-        public RecipeName $recipeName,
-        public ProjectId $projectId
+        public ProjectId $projectId,
+        public array $recipes
     ) {}
 }
