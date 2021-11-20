@@ -31,6 +31,15 @@ class Project
 
 
     /**
+     * @param array<RecipeName> $recipes
+     */
+    public function changeRecipes(array $recipes): void
+    {
+        $this->enabledRecipes = $recipes;
+    }
+
+
+    /**
      * @throws RecipeAlreadyEnabledForProject
      */
     public function enableRecipe(RecipeName $recipe): void
