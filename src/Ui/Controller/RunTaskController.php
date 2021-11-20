@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
-use PHPMate\Domain\Job\JobExecutionFailed;
-use PHPMate\Domain\Job\JobHasFinishedAlready;
-use PHPMate\Domain\Job\JobHasNoCommands;
-use PHPMate\Domain\Job\JobHasNotStartedYet;
-use PHPMate\Domain\Job\JobHasStartedAlready;
-use PHPMate\Domain\Job\JobNotFound;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Job\Exceptions\JobExecutionFailed;
+use PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready;
+use PHPMate\Domain\Job\Exceptions\JobHasNoCommands;
+use PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet;
+use PHPMate\Domain\Job\Exceptions\JobHasStartedAlready;
+use PHPMate\Domain\Job\Exceptions\JobNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
@@ -31,10 +31,10 @@ final class RunTaskController extends AbstractController
 
     /**
      * @throws JobExecutionFailed
-     * @throws JobHasFinishedAlready
-     * @throws JobHasNotStartedYet
-     * @throws JobHasStartedAlready
-     * @throws JobNotFound
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasFinishedAlready
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasNotStartedYet
+     * @throws \PHPMate\Domain\Job\Exceptions\JobHasStartedAlready
+     * @throws \PHPMate\Domain\Job\Exceptions\JobNotFound
      */
     #[Route(path: '/task/run/{taskId}', name: 'run_task')]
     public function __invoke(string $taskId): Response

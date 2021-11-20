@@ -5,7 +5,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 
 use PHPMate\Domain\Project\ProjectId;
 use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Tools\Git\GitRepositoryAuthentication;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
-use PHPMate\Domain\Project\RecipeAlreadyEnabledForProject;
+use PHPMate\Domain\Project\Exceptions\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 

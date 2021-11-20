@@ -7,7 +7,7 @@ use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobExecutionFailed;
+use PHPMate\Domain\Job\Exceptions\JobExecutionFailed;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Process\ProcessFailed;

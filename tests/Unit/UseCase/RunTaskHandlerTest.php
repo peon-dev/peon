@@ -8,7 +8,7 @@ use Lcobucci\Clock\SystemClock;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\TaskId;
 use PHPMate\Domain\Task\TaskNotFound;

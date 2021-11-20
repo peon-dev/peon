@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace PHPMate\Domain\Job\Exceptions;
 
 final class JobHasStartedAlready extends \RuntimeException
 {

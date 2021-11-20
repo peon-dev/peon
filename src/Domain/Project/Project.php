@@ -6,6 +6,8 @@ namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Cookbook\RecipeName;
+use PHPMate\Domain\Project\Exceptions\RecipeAlreadyEnabledForProject;
+use PHPMate\Domain\Project\Exceptions\RecipeNotEnabledForProject;
 use PHPMate\Domain\Tools\Git\RemoteGitRepository;
 
 class Project

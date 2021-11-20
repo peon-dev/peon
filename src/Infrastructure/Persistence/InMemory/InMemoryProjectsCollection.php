@@ -6,7 +6,7 @@ namespace PHPMate\Infrastructure\Persistence\InMemory;
 
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\ProjectId;
-use PHPMate\Domain\Project\ProjectNotFound;
+use PHPMate\Domain\Project\Exceptions\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 
 final class InMemoryProjectsCollection implements ProjectsCollection
@@ -30,7 +30,7 @@ final class InMemoryProjectsCollection implements ProjectsCollection
 
 
     /**
-     * @throws ProjectNotFound
+     * @throws \PHPMate\Domain\Project\Exceptions\ProjectNotFound
      */
     public function remove(ProjectId $projectId): void
     {
@@ -43,7 +43,7 @@ final class InMemoryProjectsCollection implements ProjectsCollection
 
 
     /**
-     * @throws ProjectNotFound
+     * @throws \PHPMate\Domain\Project\Exceptions\ProjectNotFound
      */
     public function get(ProjectId $projectId): Project
     {
