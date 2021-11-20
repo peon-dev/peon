@@ -45,8 +45,9 @@ final class RunTaskHandler implements MessageHandlerInterface
         $task = $this->tasks->get($command->taskId);
         $project = $this->projects->get($task->projectId);
 
+        $jobId = $this->jobs->nextIdentity();
         $job = new Job(
-            $this->jobs->nextIdentity(),
+            $jobId,
             $project->projectId,
             $task->taskId,
             $task->name,
@@ -58,7 +59,7 @@ final class RunTaskHandler implements MessageHandlerInterface
 
         // TODO: should be event instead
         $this->commandBus->dispatch(
-            new ExecuteJob($job->jobId)
+            new ExecuteJob($jobId)
         );
     }
 }

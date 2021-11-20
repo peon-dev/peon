@@ -8,6 +8,7 @@ use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\JobId;
 use PHPMate\Domain\Job\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
+use ReflectionObject;
 
 final class InMemoryJobsCollection implements JobsCollection
 {

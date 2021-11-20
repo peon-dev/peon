@@ -16,20 +16,15 @@ use PHPMate\Domain\Task\TaskId;
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 final class Job
 {
-    public string $status = JobStatus::SCHEDULED;
-
-    public \DateTimeInterface $scheduledAt;
-
-    private ?\DateTimeInterface $startedAt = null;
-
-    private ?\DateTimeInterface $succeededAt = null;
-
-    private ?\DateTimeInterface $failedAt = null;
+    private \DateTimeInterface $scheduledAt;
+    public ?\DateTimeInterface $startedAt = null;
+    public ?\DateTimeInterface $succeededAt = null;
+    public ?\DateTimeInterface $failedAt = null;
 
     /**
-     * @var Collection<int, JobProcess>|array<JobProcess>
+     * @var Collection<int, JobProcess>
      */
-    public $processes;
+    public Collection $processes;
 
     /**
      * @param array<string> $commands
@@ -38,7 +33,7 @@ final class Job
     public function __construct(
         public JobId $jobId,
         public ProjectId $projectId,
-        public TaskId $taskId,
+        private TaskId $taskId,
         public string $taskName,
         Clock $clock,
         public array $commands
@@ -59,7 +54,6 @@ final class Job
         }
 
         $this->startedAt = $clock->now();
-        $this->status = JobStatus::IN_PROGRESS;
     }
 
 
@@ -73,7 +67,6 @@ final class Job
         }
 
         $this->succeededAt = $clock->now();
-        $this->status = JobStatus::SUCCEEDED;
     }
 
 
@@ -87,25 +80,6 @@ final class Job
         }
 
         $this->failedAt = $clock->now();
-        $this->status = JobStatus::FAILED;
-    }
-
-
-    public function hasFinished(): bool
-    {
-        return $this->succeededAt !== null || $this->failedAt !== null;
-    }
-
-
-    public function hasSucceeded(): bool
-    {
-        return $this->status === JobStatus::SUCCEEDED;
-    }
-
-
-    public function hasFailed(): bool
-    {
-        return $this->status === JobStatus::FAILED;
     }
 
 

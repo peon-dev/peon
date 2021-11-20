@@ -87,7 +87,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
-        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
@@ -111,7 +111,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
-        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
@@ -135,7 +135,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
-        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
@@ -158,7 +158,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
-        self::assertTrue($job->hasSucceeded(), 'Job should be succeeded!');
+        $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
     }
 
@@ -185,8 +185,9 @@ class ExecuteJobHandlerTest extends KernelTestCase
         // TODO: Find way how to assert that notification was dispatched
 
         $job = $this->jobsCollection->get($jobId);
-        self::assertTrue($job->hasFailed(), 'Job should be failed!');
+        $this->assertJobHasFailed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        // TODO there should be exact count of processes
         self::assertInstanceOf(JobExecutionFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -274,5 +275,17 @@ class ExecuteJobHandlerTest extends KernelTestCase
         );
 
         $this->jobsCollection->save($job);
+    }
+
+
+    private function assertJobHasSucceed(Job $job): void
+    {
+        self::assertNotNull($job->succeededAt, 'Job should be succeeded!');
+    }
+
+
+    private function assertJobHasFailed(Job $job): void
+    {
+        self::assertNotNull($job->failedAt, 'Job should be succeeded!');
     }
 }
