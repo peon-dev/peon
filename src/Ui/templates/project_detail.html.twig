@@ -10,7 +10,7 @@
         Add task
     </a>
 
-    <a class="btn btn-sm btn-primary" href="#">
+    <a class="btn btn-sm btn-primary" href="{{ path('project_recipes', {projectId: activeProject.projectId}) }}">
         <i class="fas fa-cog"></i>
         Recipes
     </a>
@@ -38,45 +38,22 @@
             <div class="col-md-6">
                 <p>You can choose from predefined recipes (<a target="_blank" href="{{ path('cookbook') }}">check out the cookbook</a>):</p>
 
-                <div class="list-group list-group-flush">
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="">
-                        Update Composer dependencies
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="">
-                        Unused private methods
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="">
-                        Typed properties
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="">
-                        Constructor properties promotion
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="">
-                        Unused catch exception variables
-                    </label>
-                    <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="">
-                        Union types
-                    </label>
-
-                    <div class="list-group-item text-center">
-                        <button class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-
+                <p>
+                    <a class="btn btn-md btn-primary" href="{{ path('project_recipes', {projectId: activeProject.projectId}) }}">
+                        Choose recipes
+                    </a>
+                </p>
             </div>
 
             <div class="col-md-6">
                 <p>
                     Or you can define custom task yourself
                 </p>
-
-                <em>(TODO: form here)</em>
+                <p>
+                    <a class="btn btn-md btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
+                        Add task
+                    </a>
+                </p>
             </div>
         </div>
 
