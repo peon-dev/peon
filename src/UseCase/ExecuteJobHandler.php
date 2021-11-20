@@ -6,7 +6,8 @@ namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\JobExecutionFailed;
-use PHPMate\Domain\Job\JobHasNotStarted;
+use PHPMate\Domain\Job\JobHasFinishedAlready;
+use PHPMate\Domain\Job\JobHasNotStartedYet;
 use PHPMate\Domain\Job\JobHasStartedAlready;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
@@ -39,7 +40,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
     /**
      * @throws JobNotFound
      * @throws JobHasStartedAlready
-     * @throws JobHasNotStarted
+     * @throws JobHasNotStartedYet
+     * @throws JobHasFinishedAlready
      * @throws JobExecutionFailed
      */
     public function __invoke(ExecuteJob $command): void
