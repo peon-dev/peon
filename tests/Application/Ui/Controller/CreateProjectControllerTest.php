@@ -3,18 +3,31 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Application\Ui\Controller;
 
+use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateProjectControllerTest extends WebTestCase
 {
-    public function testPageCanBeRendered(): void
+    public function testProjectWillBeAddedUsingForm(): void
     {
-        $client = self::createClient();
+        $client = static::createClient();
+        $container = self::getContainer();
+        $projectsCollection = $container->get(ProjectsCollection::class);
+        $projectsCountBeforeScenario = count($projectsCollection->all());
 
-        $client->request('GET', '/create-project');
+        $crawler = $client->request('GET', '/create-project');
 
         self::assertResponseIsSuccessful();
 
-        // TODO: maybe add more assertions later
+        $form = $crawler->selectButton('submit')->form();
+
+        $client->submit($form, [
+            $form->getName() . '[remoteRepositoryUri]' => 'https://gitlab.com/phpmate/phpmate.git',
+            $form->getName() . '[personalAccessToken]' => '...',
+        ]);
+
+        self::assertResponseRedirects('/');
+
+        self::assertCount(1 + $projectsCountBeforeScenario, $projectsCollection->all());
     }
 }
