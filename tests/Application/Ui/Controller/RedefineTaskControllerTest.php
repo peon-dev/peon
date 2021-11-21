@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Application\Ui\Controller;
 
+use PHPMate\Domain\Task\TasksCollection;
+use PHPMate\Domain\Task\Value\TaskId;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -20,17 +22,34 @@ final class RedefineTaskControllerTest extends WebTestCase
     }
 
 
-    public function testPageCanBeRendered(): void
+    public function testTaskCanBeChangedUsingForm(): void
     {
         $client = self::createClient();
+        $container = self::getContainer();
+        $tasksCollection = $container->get(TasksCollection::class);
         $taskId = DataFixtures::TASK_ID;
+        $projectId = DataFixtures::PROJECT_ID;
 
-        $client->request('GET', "/redefine-task/$taskId");
+        $crawler = $client->request('GET', "/redefine-task/$taskId");
 
-        self::assertResponseIsSuccessful();
+        $form = $crawler->selectButton('submit')->form();
 
-        // TODO: maybe add more assertions later
+        $commands = <<<STRING
+New command 1
+New command 2
+STRING;
+
+        $client->submit($form, [
+            $form->getName() . '[name]' => 'New name',
+            $form->getName() . '[schedule]' => '* * * * *',
+            $form->getName() . '[commands]' => $commands,
+        ]);
+
+        self::assertResponseRedirects("/project/$projectId");
+
+        $task = $tasksCollection->get(new TaskId($taskId));
+        self::assertSame('New name', $task->name);
+        self::assertSame('* * * * *', $task->schedule?->getExpression());
+        self::assertSame(['New command 1', 'New command 2'], $task->commands);
     }
-
-    // TODO: test form submission
 }

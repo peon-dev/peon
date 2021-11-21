@@ -28,7 +28,5 @@ final class JobDetailControllerTest extends WebTestCase
         $client->request('GET', "/job/$jobId");
 
         self::assertResponseIsSuccessful();
-
-        // TODO: maybe add more assertions later
     }
 }

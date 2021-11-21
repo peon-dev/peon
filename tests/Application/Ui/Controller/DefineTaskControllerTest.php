@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Application\Ui\Controller;
 
+use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -20,17 +21,28 @@ final class DefineTaskControllerTest extends WebTestCase
     }
 
 
-    public function testPageCanBeRendered(): void
+    public function testTaskWillBeAddedUsingForm(): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_ID;
+        $container = self::getContainer();
+        $tasksCollection = $container->get(TasksCollection::class);
+        $tasksCountBeforeScenario = count($tasksCollection->all());
 
-        $client->request('GET', "/define-task/$projectId");
+        $projectId = DataFixtures::PROJECT_ID;
+        $crawler = $client->request('GET', "/define-task/$projectId");
 
         self::assertResponseIsSuccessful();
 
-        // TODO: maybe add more assertions later
-    }
+        $form = $crawler->selectButton('submit')->form();
 
-    // TODO: test form submission
+        $client->submit($form, [
+            $form->getName() . '[name]' => 'Test',
+            $form->getName() . '[schedule]' => '* * * * *',
+            $form->getName() . '[commands]' => 'command',
+        ]);
+
+        self::assertResponseRedirects("/project/$projectId");
+
+        self::assertCount(1 + $tasksCountBeforeScenario, $tasksCollection->all());
+    }
 }
