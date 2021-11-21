@@ -25,10 +25,4 @@ return static function(ContainerConfigurator $configurator): void
     $services->load('PHPMate\\Tests\\DataFixtures\\', __DIR__ . '/../../../../tests/DataFixtures/{*.php}');
 
     $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
-
-    $services->alias(JobsCollection::class, InMemoryJobsCollection::class);
-
-    $services->alias(TasksCollection::class, InMemoryTasksCollection::class);
-
-    $services->alias(ProjectsCollection::class, InMemoryProjectsCollection::class);
 };

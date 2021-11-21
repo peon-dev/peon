@@ -36,6 +36,6 @@ final class DeleteProjectController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        return $this->redirectToRoute('project_detail', ['projectId' => $projectId]);
+        return $this->redirectToRoute('dashboard');
     }
 }

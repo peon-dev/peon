@@ -14,9 +14,9 @@ final class RedefineTaskControllerTest extends WebTestCase
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_ID;
+        $taskId = DataFixtures::TASK_ID;
 
-        $client->request('GET', "/redefine-task/$projectId");
+        $client->request('GET', "/redefine-task/$taskId");
 
         self::assertResponseIsSuccessful();
 
