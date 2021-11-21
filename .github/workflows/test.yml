@@ -27,6 +27,8 @@ jobs:
             extensions: mbstring # needed by phpunit
 
       -   run: composer install --dev --no-progress
+      -   run: yarn install
+      -   run: yarn run dev
 
       -   env:
               TEST_GITLAB_PERSONAL_ACCESS_TOKEN: ${{ secrets.TEST_GITLAB_PERSONAL_ACCESS_TOKEN }}

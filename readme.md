@@ -12,7 +12,11 @@ docker-compose run --rm dashboard bash
 
 ### Testing
 
-Tests can be run via `vendor/bin/phpunit` (in PHP container).
+`vendor/bin/phpunit` (in PHP container)  
+or <small>`docker-compose run --rm dashboard vendor/bin/phpunit` outside of container.</small>
+
+To run application tests, webpack must be built: `yarn install && yarn run dev`  
+*If you are using Docker for development, this is take care of already by `js-watch` service*. 
 
 In order to run end-to-end tests, you need to create `.env.test.local` and provide variable values there (see `.env.test` for list of variables).
 
