@@ -9,7 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class JobDetailControllerTest extends WebTestCase
 {
-    // TODO: test 404
+    public function testNonExistingJobWillShow404(): void
+    {
+        $client = self::createClient();
+        $jobId = '00000000-0000-0000-0000-000000000000';
+
+        $client->request('GET', "/job/$jobId");
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
 
     public function testPageCanBeRendered(): void
     {

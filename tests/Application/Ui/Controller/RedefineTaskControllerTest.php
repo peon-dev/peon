@@ -9,7 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class RedefineTaskControllerTest extends WebTestCase
 {
-    // TODO: test 404
+    public function testNonExistingTaskWillShow404(): void
+    {
+        $client = self::createClient();
+        $taskId = '00000000-0000-0000-0000-000000000000';
+
+        $client->request('GET', "/redefine-task/$taskId");
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
 
     public function testPageCanBeRendered(): void
     {
