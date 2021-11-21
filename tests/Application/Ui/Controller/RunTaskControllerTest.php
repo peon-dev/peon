@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Application\Ui\Controller;
 
+use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -20,14 +21,19 @@ final class RunTaskControllerTest extends WebTestCase
     }
 
 
-    public function testPageCanBeRendered(): void
+    public function testTaskCanBeRunAndJobWillBeCreated(): void
     {
         $client = self::createClient();
+        $container = self::getContainer();
+        $jobsCollection = $container->get(JobsCollection::class);
+        $jobsCountBeforeScenario = count($jobsCollection->all());
         $taskId = DataFixtures::TASK_ID;
 
         $client->request('GET', "/task/run/$taskId");
 
         $projectId = DataFixtures::PROJECT_ID;
         self::assertResponseRedirects("/project/$projectId");
+
+        self::assertCount(1 + $jobsCountBeforeScenario, $jobsCollection->all());
     }
 }

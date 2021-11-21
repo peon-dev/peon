@@ -14,7 +14,5 @@ final class CookbookControllerTest extends WebTestCase
         $client->request('GET', '/cookbook');
 
         self::assertResponseIsSuccessful();
-
-        // TODO: maybe add more assertions later
     }
 }
