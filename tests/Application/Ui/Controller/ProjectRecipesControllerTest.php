@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProjectRecipesControllerTest extends WebTestCase
 {
+    // TODO test 404
+
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
@@ -21,11 +23,5 @@ final class ProjectRecipesControllerTest extends WebTestCase
     }
 
 
-    public function testFormCanBeSent(): void
-    {
-        $client = self::createClient();
-
-        self::assertResponseIsSuccessful();
-        // TODO
-    }
+    // TODO test can be sent
 }

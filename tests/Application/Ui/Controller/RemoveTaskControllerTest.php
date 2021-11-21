@@ -18,8 +18,7 @@ final class RemoveTaskControllerTest extends WebTestCase
 
         $client->request('GET', "/remove-task/$taskId");
 
-        self::assertResponseIsSuccessful();
-
-        // TODO test redirect
+        $projectId = DataFixtures::PROJECT_ID;
+        self::assertResponseRedirects("/project/$projectId");
     }
 }

@@ -18,8 +18,7 @@ final class RunTaskControllerTest extends WebTestCase
 
         $client->request('GET', "/task/run/$taskId");
 
-        self::assertResponseIsSuccessful();
-
-        // TODO test redirect
+        $projectId = DataFixtures::PROJECT_ID;
+        self::assertResponseRedirects("/project/$projectId");
     }
 }

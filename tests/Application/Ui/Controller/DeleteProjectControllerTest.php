@@ -18,10 +18,6 @@ final class DeleteProjectControllerTest extends WebTestCase
 
         $client->request('GET', "/delete-project/$projectId");
 
-        self::assertResponseIsSuccessful();
-
-        // TODO redirect
-
-        // TODO: maybe add more assertions later
+        self::assertResponseRedirects('/');
     }
 }
