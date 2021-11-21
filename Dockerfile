@@ -64,6 +64,9 @@ USER 1000:1000
 WORKDIR "/www"
 
 COPY --chown=1000:1000 --from=js-builder . .
-COPY --chown=1000:1000 . .
 
+# Intentionally split into multiple steps to leverage docker caching
+COPY --chown=1000:1000 composer.json composer.lock symfony.lock ./
 RUN composer install --no-interaction
+
+COPY --chown=1000:1000 . .
