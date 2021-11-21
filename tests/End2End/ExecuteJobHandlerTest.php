@@ -26,9 +26,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ExecuteJobHandlerTest extends KernelTestCase
 {
-    private const JOB_ID = '0';
-    private const TASK_ID = '0';
-    private const PROJECT_ID = '0';
+    private const JOB_ID = 'a59be334-15e4-4b53-bc59-9900200af917';
+    private const TASK_ID = '67081fd2-3922-46ef-82b1-df5d02ad6f3e';
+    private const PROJECT_ID = 'f969c281-65f4-46ff-b77d-aff33a7da07c';
 
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
@@ -254,6 +254,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
     }
 
 
+    // TODO: instead of directly persisting, we could use fixtures or handlers
     private function prepareData(): void
     {
         $projectId = new ProjectId(self::PROJECT_ID);
