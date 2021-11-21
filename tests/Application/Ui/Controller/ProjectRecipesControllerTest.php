@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Application\Ui\Controller;
 
+use PHPMate\Domain\Cookbook\Value\RecipeName;
+use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -22,15 +25,24 @@ final class ProjectRecipesControllerTest extends WebTestCase
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
+        $container = self::getContainer();
+        $projectsCollection = $container->get(ProjectsCollection::class);
         $projectId = DataFixtures::PROJECT_ID;
 
-        $client->request('GET', "/project/$projectId/recipes");
+        $crawler = $client->request('GET', "/project/$projectId/recipes");
 
-        self::assertResponseIsSuccessful();
+        $form = $crawler->selectButton('submit')->form();
 
-        // TODO: maybe add more assertions later
+        $client->submit($form, [
+            $form->getName() . '[recipes]' => [
+                RecipeName::UNUSED_PRIVATE_METHODS()->toString(),
+                RecipeName::TYPED_PROPERTIES()->toString(),
+            ],
+        ]);
+
+        self::assertResponseRedirects("/project/$projectId");
+
+        $project = $projectsCollection->get(new ProjectId($projectId));
+        self::assertSame([RecipeName::UNUSED_PRIVATE_METHODS(), RecipeName::TYPED_PROPERTIES()], $project->enabledRecipes);
     }
-
-
-    // TODO test can be sent
 }
