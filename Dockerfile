@@ -67,6 +67,7 @@ COPY --chown=1000:1000 --from=js-builder . .
 
 # Intentionally split into multiple steps to leverage docker caching
 COPY --chown=1000:1000 composer.json composer.lock symfony.lock ./
-RUN composer install --no-interaction
+RUN composer install --no-interaction --no-scripts
 
 COPY --chown=1000:1000 . .
+RUN composer install --no-interaction
