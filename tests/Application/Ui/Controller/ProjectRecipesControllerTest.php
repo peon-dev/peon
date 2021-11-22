@@ -43,6 +43,6 @@ final class ProjectRecipesControllerTest extends WebTestCase
         self::assertResponseRedirects("/project/$projectId");
 
         $project = $projectsCollection->get(new ProjectId($projectId));
-        self::assertSame([RecipeName::UNUSED_PRIVATE_METHODS(), RecipeName::TYPED_PROPERTIES()], $project->enabledRecipes);
+        self::assertEquals([RecipeName::UNUSED_PRIVATE_METHODS(), RecipeName::TYPED_PROPERTIES()], $project->enabledRecipes);
     }
 }
