@@ -6,8 +6,9 @@ namespace PHPMate\UseCase;
 
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class ChangeProjectRecipesHandler
+final class ChangeProjectRecipesHandler implements MessageHandlerInterface
 {
     public function __construct(
         private ProjectsCollection $projectsCollection,
