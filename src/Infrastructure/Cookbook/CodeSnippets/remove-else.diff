@@ -1,0 +1,13 @@
+ class SomeClass
+ {
+     public function doSomething($value): int
+     {
+         if ($value === null) {
+             throw new \InvalidStateException;
+-        } else {
+-            return 10;
+         }
++
++        return 10;
+     }
+ }
