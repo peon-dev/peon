@@ -1,0 +1,16 @@
+ $food = 'cake';
+ 
+-switch($food) {
+-    case 'vegetable':
+-        return 'This food is healthy';
+-    case 'fruit':
+-        return 'This food is juicy';
+-    default:
+-        return 'This food is yummy';
+-}
+ 
++return match ($food) {
++    'vegetable' => 'This food is healthy',
++    'fruit' => 'This food is juicy',
++    default => 'This food is yummy',
++};

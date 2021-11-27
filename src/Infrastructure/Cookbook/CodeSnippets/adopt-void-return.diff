@@ -1,0 +1,8 @@
+ final class Nothing
+ {
+-    public function doNothing()
++    public function doNothing(): void
+     {
+         return;
+     }
+ }

@@ -1,6 +1,6 @@
  class SomeClass
  {
--    private function skip(): int
+-    private function unused(): int
 -    {
 -        return 10;
 -    }
