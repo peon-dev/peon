@@ -15,10 +15,6 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/janmikes/GitLabApiBundle"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/janmikes/Client"
         }
     ],
