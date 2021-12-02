@@ -1,4 +1,4 @@
-FROM php:8.0-cli as dev
+FROM php:8.1-cli as dev
 
 ENV COMPOSER_MEMORY_LIMIT=-1
 
