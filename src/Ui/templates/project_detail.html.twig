@@ -65,7 +65,14 @@
     <h2>Enabled recipes</h2>
     <ul>
         {% for recipeName in activeProject.enabledRecipes %}
-            <li>{{ recipeName.toString }}</li>
+            <li>
+                {{ recipeName.toString }}
+
+                <a href="{{ path('run_recipe', {recipeName: recipeName.toString, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-primary">
+                    <i class="far fa-play-circle"></i>
+                    Run
+                </a>
+            </li>
         {% endfor %}
     </ul>
 {% endif %}
