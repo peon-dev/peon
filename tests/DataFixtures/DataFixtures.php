@@ -7,6 +7,8 @@ namespace PHPMate\Tests\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Lcobucci\Clock\FrozenClock;
+use PHPMate\Domain\Cookbook\RecipesCollection;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Process\Value\ProcessResult;
@@ -16,6 +18,7 @@ use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\Value\TaskId;
 use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
 
 final class DataFixtures extends Fixture
 {
@@ -23,14 +26,20 @@ final class DataFixtures extends Fixture
     public const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
     public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
     public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
+    public const JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/phpmate/phpmate.git';
     public const PROJECT_NAME = 'phpmate/phpmate';
+
+    public function __construct(
+        private RecipesCollection $recipesCollection
+    ) {}
 
 
     public function load(ObjectManager $manager): void
     {
-        $projectId = new ProjectId(self::PROJECT_ID);
         $remoteGitRepository = self::createRemoteGitRepository();
+
+        $projectId = new ProjectId(self::PROJECT_ID);
         $project = new Project($projectId, $remoteGitRepository);
 
         $manager->persist($project);
@@ -94,6 +103,19 @@ final class DataFixtures extends Fixture
         }
 
         $manager->persist($job2);
+
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS());
+        $job3Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 14:00:00'));
+        $job3Id = new JobId(self::JOB_3_ID);
+        $job3 = Job::scheduleFromRecipe(
+            $job3Id,
+            $projectId,
+            $recipe,
+            $job3Clock,
+        );
+
+        $manager->persist($job3);
+
         $manager->flush();
     }
 
