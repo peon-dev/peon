@@ -269,10 +269,9 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $job = new Job(
             new JobId(self::JOB_ID),
             $projectId,
-            $taskId,
             'End2End Test',
+            ['vendor/bin/rector process'],
             $this->clock,
-            ['vendor/bin/rector process']
         );
 
         $this->jobsCollection->save($job);

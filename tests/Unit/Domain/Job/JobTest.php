@@ -78,8 +78,8 @@ final class JobTest extends TestCase
             new JobId(''),
             new ProjectId(''),
             '',
+            [],
             FrozenClock::fromUTC(),
-            []
         );
     }
 
@@ -184,8 +184,8 @@ final class JobTest extends TestCase
             new JobId(''),
             new ProjectId(''),
             '',
+            ['command'],
             $clock,
-            ['command']
         );
     }
 }
