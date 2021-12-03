@@ -59,4 +59,13 @@ final class StaticRecipesCollection implements RecipesCollection
 
         throw new \RuntimeException('Should not happen');
     }
+
+
+    /**
+     * @return array<Recipe>
+     */
+    public function all(): array
+    {
+        return $this->recipes;
+    }
 }
