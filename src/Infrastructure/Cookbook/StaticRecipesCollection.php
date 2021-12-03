@@ -24,7 +24,7 @@ final class StaticRecipesCollection implements RecipesCollection
             'Unused private methods',
             file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'),
             null,
-            ['time']
+            ["echo 'Dummy command 1'"]
         );
 
         $this->recipes[] = new Recipe(
@@ -32,7 +32,7 @@ final class StaticRecipesCollection implements RecipesCollection
             'Typed properties',
             file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'),
             7.4,
-            ['time']
+            ["echo 'Dummy command 2'"]
         );
     }
 
