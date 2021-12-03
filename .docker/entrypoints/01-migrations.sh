@@ -32,5 +32,8 @@ fi
 # Wait for db connection to be ready
 wait-for-it $db_host --timeout=60
 
+# To make sure, wait few more seconds for database system to start up (useful for cold starts)
+sleep 7
+
 # Run doctrine migrations
 bin/console doctrine:migrations:migrate --no-interaction
