@@ -5,8 +5,9 @@
     <entity name="PHPMate\Domain\Job\Job">
         <id name="jobId" type="job_id" />
         <field name="projectId" type="project_id" />
-        <field name="taskId" type="task_id" />
-        <field name="taskName" />
+        <field name="taskId" type="task_id" nullable="true" />
+        <field name="title" />
+        <field name="recipeName" nullable="true" />
         <field name="scheduledAt" type="datetime_immutable" />
         <field name="startedAt" type="datetime_immutable" nullable="true" />
         <field name="succeededAt" type="datetime_immutable" nullable="true" />

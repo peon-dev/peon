@@ -47,18 +47,16 @@ final class RunTaskHandler implements MessageHandlerInterface
         $project = $this->projects->get($task->projectId);
 
         $jobId = $this->jobs->nextIdentity();
-        $job = new Job(
+        $job = Job::scheduleFromTask(
             $jobId,
             $project->projectId,
-            $task->taskId,
-            $task->name,
+            $task,
             $this->clock,
-            $task->commands
         );
 
         $this->jobs->save($job);
 
-        // TODO: should be event instead
+        // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
             new ExecuteJob($jobId)
         );

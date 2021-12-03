@@ -77,7 +77,6 @@ final class JobTest extends TestCase
         new Job(
             new JobId(''),
             new ProjectId(''),
-            new TaskId(''),
             '',
             FrozenClock::fromUTC(),
             []
@@ -184,7 +183,6 @@ final class JobTest extends TestCase
         return new Job(
             new JobId(''),
             new ProjectId(''),
-            new TaskId(''),
             '',
             $clock,
             ['command']

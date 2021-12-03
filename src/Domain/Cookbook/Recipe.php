@@ -15,6 +15,7 @@ final class Recipe
         public string $title,
         public ?string $exampleCodeDiff,
         public ?float $minPhpVersionRequirement,
+        public array $commands,
     ) {}
 
     // TODO: we will need required tools

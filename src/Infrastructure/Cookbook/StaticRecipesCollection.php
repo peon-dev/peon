@@ -23,14 +23,16 @@ final class StaticRecipesCollection implements RecipesCollection
             RecipeName::UNUSED_PRIVATE_METHODS(),
             'Unused private methods',
             file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'),
-            null
+            null,
+            ['time']
         );
 
         $this->recipes[] = new Recipe(
             RecipeName::TYPED_PROPERTIES(),
             'Typed properties',
             file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'),
-            7.4
+            7.4,
+            ['time']
         );
     }
 
@@ -44,5 +46,17 @@ final class StaticRecipesCollection implements RecipesCollection
         }
 
         return false;
+    }
+
+
+    public function get(RecipeName $recipeName): Recipe
+    {
+        foreach ($this->recipes as $recipe) {
+            if ($recipe->name->equals($recipeName)) {
+                return $recipe;
+            }
+        }
+
+        throw new \RuntimeException('Should not happen');
     }
 }

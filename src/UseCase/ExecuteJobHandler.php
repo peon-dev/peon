@@ -56,7 +56,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             $job->start($this->clock);
             $this->jobsCollection->save($job);
 
-            $taskName = $job->taskName;
+            $taskName = $job->title;
             $remoteGitRepository = $project->remoteGitRepository;
             $localGitRepository = $this->prepareApplicationGitRepository->prepare(
                 $remoteGitRepository->getAuthenticatedUri(),
