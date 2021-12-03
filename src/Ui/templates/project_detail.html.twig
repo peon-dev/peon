@@ -62,19 +62,39 @@
 {% endif %}
 
 {% if activeProject.enabledRecipes %}
-    <h2>Enabled recipes</h2>
-    <ul>
-        {% for recipeName in activeProject.enabledRecipes %}
-            <li>
-                {{ recipeName.toString }}
-
-                <a href="{{ path('run_recipe', {recipeName: recipeName.toString, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-primary">
-                    <i class="far fa-play-circle"></i>
-                    Run
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="table-responsive jobs-list-table">
+        <table class="table table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Recipe</th>
+                <th>Schedule</th>
+                <th></th>
+                <th class="text-center">Last job</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for recipeName in activeProject.enabledRecipes %}
+                    <tr>
+                        <td>
+                            {{ recipesCollection.get(recipeName).title }}
+                        </td>
+                        <td>
+                            <small class="text-muted">Once every 2 hours</small>
+                        </td>
+                        <td>
+                            <a href="{{ path('run_recipe', {recipeName: recipeName.toString, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-primary">
+                                <i class="far fa-play-circle"></i>
+                                Run
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <small class="text-muted">TODO, sorry :(</small>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endif %}
 
 {% if tasks %}
