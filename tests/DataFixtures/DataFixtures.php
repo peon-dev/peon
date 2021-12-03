@@ -47,13 +47,11 @@ final class DataFixtures extends Fixture
 
         $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
         $job1Id = new JobId(self::JOB_1_ID);
-        $job1 = new Job(
+        $job1 = Job::scheduleFromTask(
             $job1Id,
             $projectId,
-            $taskId,
-            $task->name,
+            $task,
             $job1Clock,
-            $task->commands
         );
 
         $job1->start($job1Clock);
@@ -74,13 +72,11 @@ final class DataFixtures extends Fixture
 
         $job2Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 13:00:00'));
         $job2Id = new JobId(self::JOB_2_ID);
-        $job2 = new Job(
+        $job2 = Job::scheduleFromTask(
             $job2Id,
             $projectId,
-            $taskId,
-            $task->name,
+            $task,
             $job2Clock,
-            $task->commands
         );
 
         $job2->start($job2Clock);

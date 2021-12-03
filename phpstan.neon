@@ -42,7 +42,7 @@ parameters:
 
         # Ignore missing throws annotations for data diffs
         -
-            message: '#^Missing \@throws Safe\\Exceptions\\FilesystemException annotation$#'
+            message: '#^Missing \@throws #'
             path: src/Infrastructure/Cookbook/StaticRecipesCollection.php
 
     exceptionRules:

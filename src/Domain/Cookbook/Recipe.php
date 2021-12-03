@@ -10,6 +10,9 @@ use PHPMate\Domain\Cookbook\Value\RecipeName;
 #[Immutable]
 final class Recipe
 {
+    /**
+     * @param array<string> $commands
+     */
     public function __construct(
         public RecipeName $name,
         public string $title,

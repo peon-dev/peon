@@ -40,10 +40,9 @@ final class DoctrineJobsCollectionTest extends KernelTestCase
         $job = new Job(
             $jobId,
             new ProjectId(Uuid::uuid4()->toString()),
-            new TaskId(Uuid::uuid4()->toString()),
             'Task name',
+            ['command'],
             $this->clock,
-            ['command']
         );
 
         $this->doctrineJobsCollection->save($job);
