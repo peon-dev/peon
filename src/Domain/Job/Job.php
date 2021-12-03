@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Cookbook\Recipe;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
@@ -15,6 +16,7 @@ use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPMate\Domain\Project\Value\ProjectId;
+use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\Value\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
@@ -30,22 +32,73 @@ class Job
      */
     public Collection $processes;
 
+    private ?TaskId $taskId = null; // TODO: carefully, this is used in SchedulerConsoleCommand.php
+
+    private ?string $recipeName = null;
+
     /**
      * @param array<string> $commands
      * @throws JobHasNoCommands
      */
     public function __construct(
-        public JobId $jobId,
-        public ProjectId $projectId,
-        private TaskId $taskId,
-        public string $taskName,
+        public readonly JobId $jobId,
+        public readonly ProjectId $projectId,
+        public readonly string $title,
+        public readonly array $commands,
         Clock $clock,
-        public array $commands
     ) {
         $this->checkThereAreSomeCommands($commands);
 
         $this->scheduledAt = $clock->now();
         $this->processes = new ArrayCollection();
+    }
+
+
+    /**
+     * @throws JobHasNoCommands
+     */
+    public static function scheduleFromRecipe(
+        JobId $jobId,
+        ProjectId $projectId,
+        Recipe $recipe,
+        Clock $clock,
+    ): self
+    {
+        $job = new self(
+            $jobId,
+            $projectId,
+            $recipe->title,
+            $recipe->commands,
+            $clock,
+        );
+
+        $job->recipeName = $recipe->name->toString();
+
+        return $job;
+    }
+
+
+    /**
+     * @throws JobHasNoCommands
+     */
+    public static function scheduleFromTask(
+        JobId $jobId,
+        ProjectId $projectId,
+        Task $task,
+        Clock $clock,
+    ): self
+    {
+        $job = new self(
+            $jobId,
+            $projectId,
+            $task->name,
+            $task->commands,
+            $clock,
+        );
+
+        $job->taskId = $task->taskId;
+
+        return $job;
     }
 
 

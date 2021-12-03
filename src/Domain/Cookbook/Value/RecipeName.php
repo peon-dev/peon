@@ -8,8 +8,8 @@ use PHPMate\Packages\Enum\Enum;
 
 final class RecipeName extends Enum
 {
-    private const UNUSED_PRIVATE_METHODS = 'unused-private-methods';
-    private const TYPED_PROPERTIES = 'typed-properties';
+    public const UNUSED_PRIVATE_METHODS = 'unused-private-methods';
+    public const TYPED_PROPERTIES = 'typed-properties';
 
 
     public static function UNUSED_PRIVATE_METHODS(): self

@@ -26,19 +26,27 @@ final class DoctrineTaskIdType extends Type
 
 
     /**
-     * @param TaskId $value
+     * @param null|TaskId $value
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
+        if ($value === null) {
+            return null;
+        }
+
         return $value->id;
     }
 
 
     /**
-     * @param string $value
+     * @param ?string $value
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): TaskId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?TaskId
     {
+        if ($value === null) {
+            return null;
+        }
+
         return new TaskId($value);
     }
 
