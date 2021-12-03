@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Application\Ui\Controller;
 
+use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class CookbookControllerTest extends WebTestCase
@@ -11,8 +12,11 @@ final class CookbookControllerTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/cookbook');
+        $crawler = $client->request('GET', '/cookbook');
 
         self::assertResponseIsSuccessful();
+
+        $recipesInCollectionCount = count((new StaticRecipesCollection())->all());
+        self::assertCount($recipesInCollectionCount, $crawler->filter('.dashboard-projects .col'));
     }
 }
