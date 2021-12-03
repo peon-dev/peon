@@ -21,6 +21,6 @@ final class DashboardControllerTest extends WebTestCase
          */
 
         self::assertCount(1, $crawler->filter('.dashboard-projects > div'));
-        self::assertCount(2, $crawler->filter('.jobs-list-table tbody tr'));
+        self::assertCount(3, $crawler->filter('.jobs-list-table tbody tr'));
     }
 }
