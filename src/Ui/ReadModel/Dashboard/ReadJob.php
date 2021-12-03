@@ -14,7 +14,7 @@ final class ReadJob
 
     public function __construct(
         public string $jobId,
-        public string $taskName,
+        public string $title,
         public string $projectId,
         public string $projectName,
         public ?float $executionTime,
