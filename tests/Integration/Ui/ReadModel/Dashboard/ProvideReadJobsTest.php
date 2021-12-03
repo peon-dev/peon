@@ -28,13 +28,17 @@ final class ProvideReadJobsTest extends KernelTestCase
          */
         $readJobs = $this->provideReadJobs->provide(10);
 
-        self::assertCount(2, $readJobs);
+        self::assertCount(3, $readJobs);
 
         $job = $readJobs[0];
+        self::assertSame($job->jobId, DataFixtures::JOB_3_ID);
+        self::assertNull($job->executionTime);
+
+        $job = $readJobs[1];
         self::assertSame($job->jobId, DataFixtures::JOB_2_ID);
         self::assertNotNull($job->executionTime);
 
-        $job = $readJobs[1];
+        $job = $readJobs[2];
         self::assertSame($job->jobId, DataFixtures::JOB_1_ID);
         self::assertNotNull($job->executionTime);
     }
