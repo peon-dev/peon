@@ -39,6 +39,17 @@
         </div>
     </nav>
 
+    {% if activeProject is defined %}
+        <div class="active-project">
+            <h2>
+                <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
+                    <i class="fab fa-gitlab"></i>
+                    {{ activeProject.name }}
+                </a>
+            </h2>
+        </div>
+    {% endif %}
+
     <div class="container" style="padding-top: 20px; padding-bottom: 40px;">
         {% for label, messages in app.flashes %}
             {% for message in messages %}

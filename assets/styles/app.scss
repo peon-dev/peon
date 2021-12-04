@@ -133,3 +133,18 @@
         border: 0;
     }
 }
+
+.active-project {
+    padding: 15px 20px;
+    background: #dde4fa;
+    border-bottom: 1px solid #99a2c5;
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: 24px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
