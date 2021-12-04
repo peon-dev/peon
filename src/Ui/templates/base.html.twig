@@ -41,12 +41,14 @@
 
     {% if activeProject is defined %}
         <div class="active-project">
-            <h2>
-                <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
-                    <i class="fab fa-gitlab"></i>
-                    {{ activeProject.name }}
-                </a>
-            </h2>
+            <div class="container">
+                <h2>
+                    <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
+                        <i class="fab fa-gitlab"></i>
+                        {{ activeProject.name }}
+                    </a>
+                </h2>
+            </div>
         </div>
     {% endif %}
 
