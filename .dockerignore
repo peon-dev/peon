@@ -5,19 +5,19 @@
 .github
 .idea
 .sync
-
-/vendor
-/node_modules
-
-.env.local
-.env.*.local
-
+.phpstorm.meta.php
 .phpunit.result.cache
+.env.*
 
+tests/
+vendor/
+node_modules/
 var/
 
 docker-compose.yml
 docker-compose.override.yml
+phpstan.neon
+Dockerfile
 
 projects-bin/
 .docker-data/
