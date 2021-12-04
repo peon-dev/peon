@@ -44,7 +44,7 @@
                 <thead>
                     <tr>
                         <th>Status</th>
-                        <th>Task</th>
+                        <th>Job</th>
                         <th>Project</th>
                         <th>Duration</th>
                     </tr>
@@ -83,6 +83,13 @@
                             </td>
 
                             <td>
+                                <small class="text-muted">
+                                    {% if job.recipe %}
+                                        Recipe:
+                                    {% else %}
+                                        Task:
+                                    {% endif %}
+                                </small><br>
                                 <a href="{{ path('job_detail', {jobId: job.jobId}) }}">
                                     {{ job.title }}
                                 </a>

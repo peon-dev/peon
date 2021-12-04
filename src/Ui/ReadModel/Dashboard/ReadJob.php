@@ -18,6 +18,7 @@ final class ReadJob
         public string $projectId,
         public string $projectName,
         public ?float $executionTime,
+        public ?string $taskId,
         public ?\DateTimeImmutable $startedAt,
         public ?\DateTimeImmutable $succeededAt,
         public ?\DateTimeImmutable $failedAt,
@@ -53,5 +54,11 @@ final class ReadJob
     public function hasFailed(): bool
     {
         return $this->status === JobStatus::FAILED;
+    }
+
+
+    public function isRecipe(): bool
+    {
+        return $this->taskId === null;
     }
 }
