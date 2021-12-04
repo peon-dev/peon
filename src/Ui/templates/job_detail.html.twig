@@ -3,7 +3,7 @@
 {% block title %}Job detail{% endblock %}
 
 {% block content %}
-<h2>Job detail - {{ activeJob.title }}</h2>
+<h2>{{ activeJob.title }}</h2>
 
 <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
     {% for process in activeJob.processes %}

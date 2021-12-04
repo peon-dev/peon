@@ -28,7 +28,8 @@ final class RedefineTaskController extends AbstractController
 {
     public function __construct(
         private TasksCollection $tasks,
-        private CommandBus $commandBus
+        private CommandBus $commandBus,
+        private ProjectsCollection $projectsCollection,
     ) {}
 
 
@@ -37,6 +38,7 @@ final class RedefineTaskController extends AbstractController
     {
         try {
             $task = $this->tasks->get(new TaskId($taskId));
+            $project = $this->projectsCollection->get($task->projectId);
             $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
 
             try {
@@ -60,13 +62,14 @@ final class RedefineTaskController extends AbstractController
             } catch (InvalidCronExpression $invalidCronExpression) { // TODO this could be handled better way by custom validation rule
                 $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
             }
-        } catch (TaskNotFound) {
+        } catch (TaskNotFound | ProjectNotFound) {
             throw $this->createNotFoundException();
         }
 
         return $this->render('redefine_task.html.twig', [
             'task' => $task,
             'define_task_form' => $form->createView(),
+            'activeProject' => $project,
         ]);
     }
 }

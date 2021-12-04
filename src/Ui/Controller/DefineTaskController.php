@@ -62,6 +62,7 @@ final class DefineTaskController extends AbstractController
 
         return $this->render('define_task.html.twig', [
             'define_task_form' => $form->createView(),
+            'activeProject' => $activeProject,
         ]);
     }
 }
