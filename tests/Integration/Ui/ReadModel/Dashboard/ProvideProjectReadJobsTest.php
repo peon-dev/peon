@@ -6,7 +6,6 @@ namespace PHPMate\Tests\Integration\Ui\ReadModel\Dashboard;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\Ui\ReadModel\Dashboard\ProvideProjectReadJobs;
-use PHPMate\Ui\ReadModel\Dashboard\ProvideReadJobs;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ProvideProjectReadJobsTest extends KernelTestCase

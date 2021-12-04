@@ -69,12 +69,17 @@
             </thead>
             <tbody>
                 {% for recipeName in activeProject.enabledRecipes %}
+                    {% set recipe = recipesCollection.get(recipeName) %}
                     <tr>
                         <td>
-                            {{ recipesCollection.get(recipeName).title }}
+                            {{ recipe.title }}
                         </td>
                         <td>
-                            <small class="text-muted">Once every 2 hours</small>
+                            <small class="text-muted">{{ recipe.humanReadableCron }}</small>
+                            <br>
+                            <small>
+                                <i class="far fa-clock"></i> next {{ recipe.nextRunTime|ago }}
+                            </small>
                         </td>
                         <td>
                             <a href="{{ path('run_recipe', {recipeName: recipeName.toString, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-primary">
