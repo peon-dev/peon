@@ -6,7 +6,8 @@
 .idea
 .sync
 
-/vendor/
+/vendor
+/node_modules
 
 .env.local
 .env.*.local
@@ -14,7 +15,6 @@
 .phpunit.result.cache
 
 var/
-!dashboard/var/log/.gitignore
 
 docker-compose.yml
 docker-compose.override.yml
