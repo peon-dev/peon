@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\ReadModel\ProjectDetail;
 
 use Doctrine\DBAL\Connection;
-use PHPMate\Ui\ReadModel\Dashboard\ReadProject;
+use PHPMate\Domain\Project\Value\ProjectId;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideReadTasks
@@ -19,7 +19,7 @@ final class ProvideReadTasks
     /**
      * @return array<ReadTask>
      */
-    public function provide(string $projectId): array
+    public function provide(ProjectId $projectId): array
     {
         $sql = <<<SQL
 SELECT 
