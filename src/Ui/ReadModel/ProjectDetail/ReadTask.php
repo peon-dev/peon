@@ -14,7 +14,7 @@ use PHPMate\Ui\ReadModel\JobStatus;
 #[Immutable]
 final class ReadTask
 {
-    public string $lastJobStatus = JobStatus::SCHEDULED;
+    private string $lastJobStatus = JobStatus::SCHEDULED;
 
 
     public function __construct(
