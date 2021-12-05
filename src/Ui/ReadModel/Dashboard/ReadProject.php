@@ -13,6 +13,7 @@ final class ReadProject
         public string $projectId,
         public string $name,
         public int $tasksCount,
-        public int $jobsCount
+        public int $jobsCount,
+        public int $recipesCount,
     ) {}
 }

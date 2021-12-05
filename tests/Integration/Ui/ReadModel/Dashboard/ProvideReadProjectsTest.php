@@ -35,5 +35,6 @@ final class ProvideReadProjectsTest extends KernelTestCase
         self::assertSame(DataFixtures::PROJECT_ID, $readProject->projectId);
         self::assertSame(1, $readProject->tasksCount);
         self::assertSame(3, $readProject->jobsCount);
+        self::assertSame(2, $readProject->recipesCount);
     }
 }
