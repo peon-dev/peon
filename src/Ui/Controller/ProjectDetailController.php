@@ -9,6 +9,7 @@ use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Ui\ReadModel\Dashboard\ProvideProjectReadJobs;
+use PHPMate\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
 use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadTasks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ProjectDetailController extends AbstractController
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private ProvideReadTasks $provideReadTasks,
-        private RecipesCollection $recipesCollection,
-        private ProvideProjectReadJobs $provideProjectReadJobs,
+        private ProjectsCollection        $projectsCollection,
+        private ProvideReadTasks          $provideReadTasks,
+        private ProvideProjectReadJobs    $provideProjectReadJobs,
+        private ProvideProjectReadRecipes $provideProjectReadRecipes,
     ) {}
 
 
@@ -34,7 +35,7 @@ final class ProjectDetailController extends AbstractController
                 'activeProject' => $project,
                 'tasks' => $this->provideReadTasks->provide($project->projectId),
                 'jobs' => $this->provideProjectReadJobs->provide($project->projectId, 20),
-                'recipesCollection' => $this->recipesCollection, // TODO: this should not be in template, remove later, ugly pattern
+                'recipes' => $this->provideProjectReadRecipes->provide($project->projectId),
             ]);
         } catch (ProjectNotFound) {
             throw $this->createNotFoundException();
