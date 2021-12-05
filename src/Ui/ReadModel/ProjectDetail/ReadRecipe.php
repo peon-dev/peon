@@ -6,7 +6,6 @@ namespace PHPMate\Ui\ReadModel\ProjectDetail;
 
 use Cron\CronExpression;
 use Lorisleiva\CronTranslator\CronTranslator;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Ui\ReadModel\JobStatus;
 
 final class ReadRecipe
@@ -18,7 +17,7 @@ final class ReadRecipe
 
     public function __construct(
         public string $title,
-        public RecipeName $recipeName,
+        public string $recipeName,
         public ?string $lastJobId,
         public \DateTimeImmutable $lastJobScheduledAt,
         public ?\DateTimeImmutable $lastJobStartedAt,
