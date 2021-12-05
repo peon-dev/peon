@@ -68,8 +68,7 @@
             </tr>
             </thead>
             <tbody>
-                {% for recipeName in activeProject.enabledRecipes %}
-                    {% set recipe = recipesCollection.get(recipeName) %}
+                {% for recipe in recipes %}
                     <tr>
                         <td>
                             {{ recipe.title }}
@@ -88,7 +87,47 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            <small class="text-muted">TODO, sorry :(</small>
+                            {% if recipe.lastJobId %}
+
+                                {% if recipe.jobPending %}
+                                    <span class="btn btn-warning btn-sm">
+                                            <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                            Pending
+                                        </span>
+                                {% endif %}
+
+                                {% if recipe.jobInProgress %}
+                                    <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}">
+                                        <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        In progress
+                                    </a>
+                                {% endif %}
+
+                                {% if recipe.jobSucceeded %}
+                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-success btn-sm">
+                                        <i class="far fa-check-circle"></i>
+                                        Succeeded
+                                    </a>
+                                {% endif %}
+
+                                {% if recipe.jobFailed %}
+                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-danger btn-sm">
+                                        <i class="far fa-times-circle"></i>
+                                        Failed
+                                    </a>
+                                {% endif %}
+
+                                <br>
+
+                                <small class="text-muted">
+                                    <i class="far fa-clock"></i>
+
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ recipe.lastJobActionTime|date('j.n.Y H:i') }}">
+                                        {{ recipe.lastJobActionTime|ago }}
+                                    </span>
+                                </small>
+                                <br>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
