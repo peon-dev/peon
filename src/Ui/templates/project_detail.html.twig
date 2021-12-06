@@ -7,7 +7,7 @@
 <p>
     <a class="btn btn-sm btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
         <i class="fas fa-plus-circle"></i>
-        Add task
+        New task
     </a>
 
     <a class="btn btn-sm btn-primary" href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
@@ -153,9 +153,7 @@
                 {% for task in tasks %}
                     <tr>
                         <td>
-                            <a href="{{ path('redefine_task', {taskId: task.taskId}) }}">
-                                {{ task.name }}
-                            </a>
+                            {{ task.name }}
                         </td>
 
                         <td>
@@ -229,13 +227,8 @@
                         </td>
 
                         <td class="text-end">
-                            <a href="{{ path('redefine_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
-                                <i class="fas fa-pencil-alt"></i>
-                                Edit
-                            </a>
-
-                            <a class="btn btn-sm btn-danger" href="{{ path('remove_task', {taskId: task.taskId}) }}" onclick="return confirm('Are you sure you want to delete this task?');">
-                                Delete
+                            <a href="{{ path('redefine_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa fa-cog"></i>
                             </a>
                         </td>
                     </tr>

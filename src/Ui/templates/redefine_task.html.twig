@@ -8,4 +8,17 @@
 
         <input type="submit" name="submit" class="btn btn-primary" value="Update" />
     {{ form_end(define_task_form) }}
+
+    <hr>
+
+    <h3>Danger zone</h3>
+
+    <div class="card border-danger">
+        <div class="card-body">
+            <a class="btn btn-sm btn-outline-danger" href="{{ path('remove_task', {taskId: task.taskId}) }}" onclick="return confirm('Are you sure you want to delete this task?');">
+                Delete this task
+            </a>
+        </div>
+    </div>
+
 {% endblock %}
