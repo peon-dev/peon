@@ -48,6 +48,7 @@
                         <th>Job</th>
                         <th>Project</th>
                         <th>Duration</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +56,7 @@
                         <tr>
                             <td>
                                 {% if job.pending %}
-                                    <span class="btn btn-warning btn-sm">
+                                    <span class="btn btn-outline-warning btn-sm">
                                         <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
                                         Pending
                                     </span>
@@ -69,14 +70,14 @@
                                 {% endif %}
 
                                 {% if job.succeededAt %}
-                                    <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-success btn-sm">
+                                    <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-success btn-sm">
                                         <i class="far fa-check-circle"></i>
                                         Succeeded
                                     </a>
                                 {% endif %}
 
                                 {% if job.failed %}
-                                    <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-danger btn-sm">
+                                    <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-danger btn-sm">
                                         <i class="far fa-times-circle"></i>
                                         Failed
                                     </a>
@@ -129,6 +130,13 @@
                                             {{ job.startedAt|ago }}
                                         </span>
                                     {% endif %}
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                {% if job.mergeRequestUrl %}
+                                    <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                                        <i class="fa fa-code-branch"></i>
+                                    </a>
                                 {% endif %}
                             </td>
                         </tr>

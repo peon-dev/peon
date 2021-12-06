@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\ReadModel\Dashboard;
 
+use DateTimeImmutable;
 use JetBrains\PhpStorm\Immutable;
 use PHPMate\Ui\ReadModel\JobStatus;
 
@@ -17,11 +18,12 @@ final class ReadJob
         public string $title,
         public string $projectId,
         public string $projectName,
-        public ?float $executionTime,
-        public ?string $taskId,
-        public ?\DateTimeImmutable $startedAt,
-        public ?\DateTimeImmutable $succeededAt,
-        public ?\DateTimeImmutable $failedAt,
+        public float|null $executionTime,
+        public string|null $taskId,
+        public DateTimeImmutable|null $startedAt,
+        public DateTimeImmutable|null $succeededAt,
+        public DateTimeImmutable|null $failedAt,
+        public string|null $mergeRequestUrl,
     ){
         if ($failedAt !== null) {
             $this->status = JobStatus::FAILED;
