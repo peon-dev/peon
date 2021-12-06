@@ -10,9 +10,9 @@
         Add task
     </a>
 
-    <a class="btn btn-sm btn-primary" href="{{ path('project_recipes', {projectId: activeProject.projectId}) }}">
+    <a class="btn btn-sm btn-primary" href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
         <i class="fas fa-cog"></i>
-        Recipes
+        Cookbook
     </a>
 
     <a class="btn btn-sm btn-danger" href="{{ path('delete_project', {projectId: activeProject.projectId}) }}" onclick="return confirm('Are you sure you want to delete this project?');">

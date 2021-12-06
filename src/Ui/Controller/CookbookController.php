@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Cookbook\RecipesCollection;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
+use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Project\Value\ProjectId;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,15 +15,23 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CookbookController extends AbstractController
 {
     public function __construct(
-        private RecipesCollection $recipesCollection
+        private RecipesCollection $recipesCollection,
+        private ProjectsCollection $projectsCollection,
     ) {}
 
 
-    #[Route(path: '/cookbook', name: 'cookbook')]
-    public function __invoke(): Response
+    #[Route(path: '/projects/{projectId}/cookbook', name: 'cookbook')]
+    public function __invoke(string $projectId): Response
     {
-        return $this->render('cookbook.html.twig', [
-            'recipes' => $this->recipesCollection->all(),
-        ]);
+        try {
+            $project = $this->projectsCollection->get(new ProjectId($projectId));
+
+            return $this->render('cookbook.html.twig', [
+                'recipes' => $this->recipesCollection->all(),
+                'activeProject' => $project,
+            ]);
+        } catch (ProjectNotFound) {
+            throw $this->createNotFoundException();
+        }
     }
 }
