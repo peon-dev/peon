@@ -17,11 +17,11 @@
                         </div>
                         <div class="card-footer">
                             {% if activeProject.recipeEnabled(recipe.name) %}
-                                <a href="#" class="btn btn-link text-success btn-sm float-end">
+                                <a href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}" class="btn btn-link text-success btn-sm float-end">
                                     Enabled
                                 </a>
                             {% else %}
-                                <a href="#" class="btn btn-link btn-sm float-end" style="color: #888;">
+                                <a href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}" class="btn btn-link btn-sm float-end" style="color: #888;">
                                     Disabled
                                 </a>
                             {% endif %}

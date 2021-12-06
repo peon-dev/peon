@@ -10,6 +10,7 @@ final class RecipeName extends Enum
 {
     public const UNUSED_PRIVATE_METHODS = 'unused-private-methods';
     public const TYPED_PROPERTIES = 'typed-properties';
+    public const SWITCH_TO_MATCH = 'switch-to-match';
 
 
     public static function UNUSED_PRIVATE_METHODS(): self
@@ -21,5 +22,11 @@ final class RecipeName extends Enum
     public static function TYPED_PROPERTIES(): self
     {
         return new self(self::TYPED_PROPERTIES);
+    }
+
+
+    public static function SWITCH_TO_MATCH(): self
+    {
+        return new self(self::SWITCH_TO_MATCH);
     }
 }
