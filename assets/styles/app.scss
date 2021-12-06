@@ -76,24 +76,25 @@ $primary: #643cfe;
     padding-bottom: 2px;
 }
 
-.jobs-list-table .btn.btn-warning {
+.jobs-list-table .btn.btn-outline-warning {
     background-color: #fff;
     color: #d9a205;
 }
 
-.jobs-list-table .btn.btn-warning:hover {
+.jobs-list-table .btn.btn-outline-warning:hover {
     background-color: #fff3d7;
 }
 
-.jobs-list-table .btn.btn-success {
+.jobs-list-table .btn.btn-outline-success {
     background-color: #fff;
     color: #0d942d;
 }
 
-.jobs-list-table .btn.btn-success:hover {
+.jobs-list-table .btn.btn-outline-success:hover {
     background-color: #d8efdd;
 }
 
+/*
 .jobs-list-table .btn.btn-primary {
     background-color: #fff;
     color: #0a58ca;
@@ -102,13 +103,15 @@ $primary: #643cfe;
 .jobs-list-table .btn.btn-primary:hover {
     background-color: #d2e2f8;
 }
+*/
 
-.jobs-list-table .btn.btn-danger {
+
+.jobs-list-table .btn.btn-outline-danger {
     background-color: #fff;
     color: #ea3749;
 }
 
-.jobs-list-table .btn.btn-danger:hover {
+.jobs-list-table .btn.btn-outline-danger:hover {
     background-color: #fae4e5;
 }
 

@@ -17,7 +17,7 @@
                 <p>You can choose from predefined recipes (<a target="_blank" href="{{ path('cookbook') }}">check out the cookbook</a>):</p>
 
                 <p>
-                    <a class="btn btn-md btn-primary" href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
+                    <a class="btn btn-md btn-outline-primary" href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
                         Check cookbook
                     </a>
                 </p>
@@ -28,7 +28,7 @@
                     Or you can define custom task yourself
                 </p>
                 <p>
-                    <a class="btn btn-md btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
+                    <a class="btn btn-md btn-outline-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
                         Add task
                     </a>
                 </p>
@@ -76,7 +76,7 @@
                     </td>
 
                     <td>
-                        <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
+                        <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-outline-primary">
                             <i class="far fa-play-circle"></i>
                             Run
                         </a>
@@ -92,28 +92,28 @@
                         {% if task.lastJobId %}
 
                             {% if task.jobPending %}
-                                <span class="btn btn-warning btn-sm">
-                                        <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                <span class="btn btn-outline-warning btn-sm">
+                                        <span class="spinner-border text-outline-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
                                         Pending
                                     </span>
                             {% endif %}
 
                             {% if task.jobInProgress %}
-                                <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: task.lastJobId}) }}">
+                                <a class="btn btn-outline-primary btn-sm" href="{{ path('job_detail', {jobId: task.lastJobId}) }}">
                                     <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
                                     In progress
                                 </a>
                             {% endif %}
 
                             {% if task.jobSucceeded %}
-                                <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-success btn-sm">
+                                <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-outline-success btn-sm">
                                     <i class="far fa-check-circle"></i>
                                     Succeeded
                                 </a>
                             {% endif %}
 
                             {% if task.jobFailed %}
-                                <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-danger btn-sm">
+                                <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-outline-danger btn-sm">
                                     <i class="far fa-times-circle"></i>
                                     Failed
                                 </a>
@@ -169,7 +169,7 @@
                             </small>
                         </td>
                         <td>
-                            <a href="{{ path('run_recipe', {recipeName: recipe.recipeName, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-primary">
+                            <a href="{{ path('run_recipe', {recipeName: recipe.recipeName, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="far fa-play-circle"></i>
                                 Run
                             </a>
@@ -178,28 +178,28 @@
                             {% if recipe.lastJobId %}
 
                                 {% if recipe.jobPending %}
-                                    <span class="btn btn-warning btn-sm">
-                                            <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                    <span class="btn btn-outline-warning btn-sm">
+                                            <span class="spinner-border text-outline-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
                                             Pending
                                         </span>
                                 {% endif %}
 
                                 {% if recipe.jobInProgress %}
-                                    <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}">
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}">
                                         <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
                                         In progress
                                     </a>
                                 {% endif %}
 
                                 {% if recipe.jobSucceeded %}
-                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-success btn-sm">
+                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-outline-success btn-sm">
                                         <i class="far fa-check-circle"></i>
                                         Succeeded
                                     </a>
                                 {% endif %}
 
                                 {% if recipe.jobFailed %}
-                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-danger btn-sm">
+                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-outline-danger btn-sm">
                                         <i class="far fa-times-circle"></i>
                                         Failed
                                     </a>
@@ -234,6 +234,7 @@
                 <th>Status</th>
                 <th>Job</th>
                 <th>Duration</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -241,28 +242,28 @@
                 <tr>
                     <td>
                         {% if job.pending %}
-                            <span class="btn btn-warning btn-sm">
-                                    <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                            <span class="btn btn-outline-warning btn-sm">
+                                    <span class="spinner-border text-outline-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
                                     Pending
                                 </span>
                         {% endif %}
 
                         {% if job.inProgress %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
+                            <a class="btn btn-outline-primary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
                                 <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
                                 In progress
                             </a>
                         {% endif %}
 
                         {% if job.succeededAt %}
-                            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-success btn-sm">
+                            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-success btn-sm">
                                 <i class="far fa-check-circle"></i>
                                 Succeeded
                             </a>
                         {% endif %}
 
                         {% if job.failed %}
-                            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-danger btn-sm">
+                            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-danger btn-sm">
                                 <i class="far fa-times-circle"></i>
                                 Failed
                             </a>
@@ -309,6 +310,13 @@
                                         {{ job.startedAt|ago }}
                                     </span>
                             {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        {% if job.mergeRequestUrl %}
+                            <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                                <i class="fa fa-code-branch"></i>
+                            </a>
                         {% endif %}
                     </td>
                 </tr>

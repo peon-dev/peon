@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
+use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Process\Value\ProcessResult;
@@ -66,7 +67,7 @@ final class DataFixtures extends Fixture
         );
 
         $job1->start($job1Clock);
-        $job1->succeeds($job1Clock);
+        $job1->succeeds($job1Clock, new MergeRequest('https://phpmate.io'));
 
         foreach ($task->commands as $command) {
             $job1->addProcessResult(

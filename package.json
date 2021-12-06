@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "@popperjs/core": "^2.10.2",
         "@symfony/stimulus-bridge": "^2.0.0",
         "@symfony/webpack-encore": "^1.0.0",
@@ -10,8 +11,7 @@
         "sass": "^1.42.1",
         "sass-loader": "^10.0.0",
         "stimulus": "^2.0.0",
-        "webpack-notifier": "^1.6.0",
-        "@fortawesome/fontawesome-free": "^5.15.4"
+        "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -20,5 +20,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "jquery": "^3.6.0"
     }
 }
