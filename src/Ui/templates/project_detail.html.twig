@@ -159,6 +159,7 @@
                 <th>Schedule</th>
                 <th></th>
                 <th class="text-center">Last job</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -221,6 +222,13 @@
                                     </span>
                                 </small>
                                 <br>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            {% if recipe.lastJobMergeRequestUrl %}
+                                <a href="{{ recipe.lastJobMergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                                    <i class="fa fa-code-branch"></i>
+                                </a>
                             {% endif %}
                         </td>
                     </tr>

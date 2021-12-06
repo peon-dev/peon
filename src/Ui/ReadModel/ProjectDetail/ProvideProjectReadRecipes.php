@@ -31,7 +31,8 @@ SELECT
 	job.started_at as last_job_started_at,
 	job.failed_at as last_job_failed_at,
 	job.succeeded_at as last_job_succeeded_at,
-	job.scheduled_at as last_job_scheduled_at
+	job.scheduled_at as last_job_scheduled_at,
+	job.merge_request_url as last_job_merge_request_url
 FROM (
     SELECT project_id, unnest(enabled_recipes) as recipe_name
     FROM project
