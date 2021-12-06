@@ -41,7 +41,7 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
         $projectId = DataFixtures::PROJECT_ID;
-        $recipeName = RecipeName::TYPED_PROPERTIES;
+        $recipeName = RecipeName::SWITCH_TO_MATCH;
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
