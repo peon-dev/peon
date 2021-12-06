@@ -10,20 +10,20 @@ use ReflectionClass;
 abstract class Enum
 {
     /**
-     * @throws InvalidArgumentException
+     * @throws InvalidEnumValue
      */
     final protected function __construct(
         private string $value
     ) {
         if (!$this->hasOption($value)) {
-            throw new InvalidArgumentException();
+            throw new InvalidEnumValue();
         }
     }
 
 
     /**
      * @return static
-     * @throws InvalidArgumentException if the given option is out of range.
+     * @throws InvalidEnumValue if the given option is out of range.
      */
     final public static function fromString(string $value): self
     {
