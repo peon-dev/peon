@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Application\Ui\Controller;
 
 use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
+use PHPMate\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class CookbookControllerTest extends WebTestCase
@@ -12,7 +13,8 @@ final class CookbookControllerTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $crawler = $client->request('GET', '/cookbook');
+        $projectId = DataFixtures::PROJECT_ID;
+        $crawler = $client->request('GET', "/projects/$projectId/cookbook");
 
         self::assertResponseIsSuccessful();
 
