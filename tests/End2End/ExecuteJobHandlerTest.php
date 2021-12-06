@@ -89,6 +89,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        self::assertNotNull($job->mergeRequest);
     }
 
 
@@ -113,6 +114,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        self::assertNotNull($job->mergeRequest);
     }
 
 
@@ -137,6 +139,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        self::assertNotNull($job->mergeRequest);
     }
 
 
@@ -160,6 +163,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
         self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        self::assertNotNull($job->mergeRequest);
     }
 
 
@@ -190,6 +194,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         // TODO there should be exact count of processes
         self::assertInstanceOf(JobExecutionFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
+        self::assertNull($job->mergeRequest);
 
     }
 
@@ -200,7 +205,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
         self::assertCount(1, $mergeRequests, 'Merge request should be opened!');
         self::assertSame('master', $mergeRequests[0]['target_branch']);
-        self::assertSame('[PHP Mate] Task End2End Test', $mergeRequests[0]['title']);
+        self::assertSame('[PHP Mate] End2End Test', $mergeRequests[0]['title']);
 
         $commits = $this->gitlabHttpClient->mergeRequests()->commits($project,$mergeRequests[0]['iid']);
 

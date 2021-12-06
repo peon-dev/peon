@@ -10,6 +10,7 @@ use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -23,18 +24,21 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
         string $targetBranch,
         string $branchWithChanges,
         string $title,
-    ): void
+    ): MergeRequest
     {
         try {
             $client = $this->createHttpClient($gitRepository);
             $project = $gitRepository->getProject();
 
-            $client->mergeRequests()->create(
+            /** @var array{web_url: string} $mergeRequest */
+            $mergeRequest = $client->mergeRequests()->create(
                 $project,
                 $branchWithChanges,
                 $targetBranch,
                 $title,
             );
+
+            return new MergeRequest($mergeRequest['web_url']);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
@@ -56,7 +60,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
     /**
      * @throws GitProviderCommunicationFailed
      */
-    public function hasMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): bool
+    public function getMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): MergeRequest|null
     {
         try {
             $client = $this->createHttpClient($gitRepository);
@@ -68,7 +72,18 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
                 'source_branch' => $branch,
             ]);
 
-            return count($mergeRequests) === 1;
+            if (count($mergeRequests) === 0) {
+                return null;
+            }
+
+            if (count($mergeRequests) > 1) {
+                throw new GitProviderCommunicationFailed('Should not exist more than 1 merge request for branch');
+            }
+
+            /** @var array{web_url: string} $mergeRequest */
+            $mergeRequest = array_shift($mergeRequests);
+
+            return new MergeRequest($mergeRequest['web_url']);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }

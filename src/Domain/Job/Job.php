@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Cookbook\Recipe;
+use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
@@ -22,10 +24,11 @@ use PHPMate\Domain\Task\Value\TaskId;
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Job
 {
-    public \DateTimeImmutable $scheduledAt;
-    public ?\DateTimeImmutable $startedAt = null;
-    public ?\DateTimeImmutable $succeededAt = null;
-    public ?\DateTimeImmutable $failedAt = null;
+    public MergeRequest|null $mergeRequest = null;
+    public DateTimeImmutable $scheduledAt;
+    public DateTimeImmutable|null $startedAt = null;
+    public DateTimeImmutable|null $succeededAt = null;
+    public DateTimeImmutable|null $failedAt = null;
 
     /**
      * @var Collection<int, JobProcessResult>
@@ -117,8 +120,10 @@ class Job
      * @throws JobHasNotStartedYet
      * @throws JobHasFinishedAlready
      */
-    public function succeeds(Clock $clock): void
+    public function succeeds(Clock $clock, MergeRequest|null $mergeRequest = null): void
     {
+        $this->mergeRequest = $mergeRequest;
+
         $this->checkJobHasStarted();
         $this->checkJobHasNotFinished();
 
@@ -130,8 +135,10 @@ class Job
      * @throws JobHasNotStartedYet
      * @throws JobHasFinishedAlready
      */
-    public function fails(Clock $clock): void
+    public function fails(Clock $clock, MergeRequest|null $mergeRequest = null): void
     {
+        $this->mergeRequest = $mergeRequest;
+
         $this->checkJobHasStarted();
         $this->checkJobHasNotFinished();
 

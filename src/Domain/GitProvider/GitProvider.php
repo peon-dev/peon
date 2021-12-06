@@ -6,6 +6,7 @@ namespace PHPMate\Domain\GitProvider;
 
 
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 
 interface GitProvider
@@ -18,10 +19,10 @@ interface GitProvider
         string $targetBranch,
         string $branchWithChanges,
         string $title,
-    ): void;
+    ): MergeRequest;
 
     /**
      * @throws GitProviderCommunicationFailed
      */
-    public function hasMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): bool;
+    public function getMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): MergeRequest|null;
 }
