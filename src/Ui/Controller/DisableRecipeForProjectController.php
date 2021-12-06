@@ -43,9 +43,5 @@ final class DisableRecipeForProjectController extends AbstractController
         return $this->redirectToRoute('cookbook', [
             'projectId' => $projectId,
         ]);
-
-        return $this->redirectToRoute('cookbook', [
-            'projectId' => $projectId,
-        ]);
     }
 }
