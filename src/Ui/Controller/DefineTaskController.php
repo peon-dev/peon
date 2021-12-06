@@ -54,7 +54,7 @@ final class DefineTaskController extends AbstractController
                     )
                 );
 
-                return $this->redirectToRoute('project_detail', ['projectId' => $projectId]);
+                return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
             }
         } catch (InvalidCronExpression $invalidCronExpression) {
             $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));

@@ -48,7 +48,7 @@ final class RunTaskController extends AbstractController
                 )
             );
 
-            return $this->redirectToRoute('project_detail', ['projectId' => $task->projectId]);
+            return $this->redirectToRoute('project_overview', ['projectId' => $task->projectId]);
         } catch (TaskNotFound | ProjectNotFound) {
             throw $this->createNotFoundException();
         } catch (JobHasNoCommands) {

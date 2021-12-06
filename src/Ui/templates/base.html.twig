@@ -41,7 +41,7 @@
             <div class="container">
 
                 <h2>
-                    <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
+                    <a href="{{ path('project_overview', {projectId: activeProject.projectId}) }}">
                         <i class="fab fa-gitlab"></i>
                         {{ activeProject.name }}
                     </a>
@@ -49,7 +49,7 @@
 
 
                 <div class="active-project-nav">
-                    <a {% if app.request.pathInfo == path('project_detail', {projectId: activeProject.projectId}) %}class="active"{% endif %} href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
+                    <a {% if app.request.pathInfo == path('project_overview', {projectId: activeProject.projectId}) %}class="active"{% endif %} href="{{ path('project_overview', {projectId: activeProject.projectId}) }}">
                         Overview
                     </a>
 

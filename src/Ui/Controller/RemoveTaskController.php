@@ -34,7 +34,7 @@ final class RemoveTaskController extends AbstractController
                 )
             );
 
-            return $this->redirectToRoute('project_detail', ['projectId' => $task->projectId]);
+            return $this->redirectToRoute('project_overview', ['projectId' => $task->projectId]);
         } catch (TaskNotFound) {
             throw $this->createNotFoundException();
         }
