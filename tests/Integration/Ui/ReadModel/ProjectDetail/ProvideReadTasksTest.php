@@ -35,5 +35,6 @@ final class ProvideReadTasksTest extends KernelTestCase
 
         $task = $readTasks[0];
         self::assertSame(DataFixtures::TASK_ID, $task->taskId);
+        self::assertNotNull($task->lastJobMergeRequestUrl);
     }
 }

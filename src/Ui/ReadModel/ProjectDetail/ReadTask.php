@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\ReadModel\ProjectDetail;
 
 use Cron\CronExpression;
+use DateTimeImmutable;
 use JetBrains\PhpStorm\Immutable;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
@@ -20,13 +21,14 @@ final class ReadTask
     public function __construct(
         public string $taskId,
         public string $name,
-        public ?string $schedule,
+        public string|null $schedule,
         public string $commands,
-        public ?string $lastJobId,
-        public \DateTimeImmutable $lastJobScheduledAt,
-        public ?\DateTimeImmutable $lastJobStartedAt,
-        public ?\DateTimeImmutable $lastJobSucceededAt,
-        public ?\DateTimeImmutable $lastJobFailedAt,
+        public string|null $lastJobId,
+        public DateTimeImmutable $lastJobScheduledAt,
+        public DateTimeImmutable|null $lastJobStartedAt,
+        public DateTimeImmutable|null $lastJobSucceededAt,
+        public DateTimeImmutable|null $lastJobFailedAt,
+        public string|null $lastJobMergeRequestUrl,
     ) {
         if ($lastJobFailedAt !== null) {
             $this->lastJobStatus = JobStatus::FAILED;
