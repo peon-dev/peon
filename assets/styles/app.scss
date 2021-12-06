@@ -152,3 +152,18 @@
         text-decoration: none;
     }
 }
+
+h1 {
+    font-size: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 24px;
+}
