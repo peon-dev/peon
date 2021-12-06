@@ -57,7 +57,7 @@ final class RedefineTaskController extends AbstractController
                         )
                     );
 
-                    return $this->redirectToRoute('project_detail', ['projectId' => $task->projectId]);
+                    return $this->redirectToRoute('project_overview', ['projectId' => $task->projectId]);
                 }
             } catch (InvalidCronExpression $invalidCronExpression) { // TODO this could be handled better way by custom validation rule
                 $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));

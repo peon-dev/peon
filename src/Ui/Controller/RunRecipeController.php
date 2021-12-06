@@ -45,7 +45,7 @@ final class RunRecipeController extends AbstractController
                 )
             );
 
-            return $this->redirectToRoute('project_detail', ['projectId' => $projectId]);
+            return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
         } catch (ProjectNotFound) {
             throw $this->createNotFoundException();
         }

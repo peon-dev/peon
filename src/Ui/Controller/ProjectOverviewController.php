@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
-use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
@@ -15,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class ProjectDetailController extends AbstractController
+final class ProjectOverviewController extends AbstractController
 {
     public function __construct(
         private ProjectsCollection        $projectsCollection,
@@ -25,13 +24,13 @@ final class ProjectDetailController extends AbstractController
     ) {}
 
 
-    #[Route(path: '/project/{projectId}', name: 'project_detail')]
+    #[Route(path: '/project/{projectId}', name: 'project_overview')]
     public function __invoke(string $projectId): Response
     {
         try {
             $project = $this->projectsCollection->get(new ProjectId($projectId));
 
-            return $this->render('project_detail.html.twig', [
+            return $this->render('project_overview.html.twig', [
                 'activeProject' => $project,
                 'tasks' => $this->provideReadTasks->provide($project->projectId),
                 'jobs' => $this->provideProjectReadJobs->provide($project->projectId, 20),
