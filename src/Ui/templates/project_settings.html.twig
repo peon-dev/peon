@@ -3,6 +3,17 @@
 {% block content %}
     <h1>{% block title %}Project settings{% endblock %}</h1>
 
+    <div class="table-responsive">
+        <table class="table table-borderless align-middle">
+            <tr>
+                <th>Git repository:</th>
+                <td>
+                    {{ activeProject.remoteGitRepository.repositoryUri }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <h2>Danger zone</h2>
 
     <div class="card border-danger">

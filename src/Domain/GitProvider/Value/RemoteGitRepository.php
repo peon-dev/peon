@@ -19,7 +19,7 @@ class RemoteGitRepository
      * @throws InvalidRemoteUri
      */
     public function __construct(
-        private string $repositoryUri,
+        public string $repositoryUri,
         public GitRepositoryAuthentication $authentication
     ) {
         try {
