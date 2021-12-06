@@ -18,7 +18,7 @@ final class ProjectSettingsController extends AbstractController
     ) {}
 
 
-    #[Route(path: '/project/{projectId}/settings', name: 'project_settings')]
+    #[Route(path: '/projects/{projectId}/settings', name: 'project_settings')]
     public function __invoke(string $projectId): Response
     {
         try {
