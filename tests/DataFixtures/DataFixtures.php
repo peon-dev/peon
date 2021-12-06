@@ -57,6 +57,8 @@ final class DataFixtures extends Fixture
 
         $manager->persist($task);
 
+        $mergeRequest = new MergeRequest('https://phpmate.io');
+
         $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
         $job1Id = new JobId(self::JOB_1_ID);
         $job1 = Job::scheduleFromTask(
@@ -67,7 +69,7 @@ final class DataFixtures extends Fixture
         );
 
         $job1->start($job1Clock);
-        $job1->succeeds($job1Clock, new MergeRequest('https://phpmate.io'));
+        $job1->succeeds($job1Clock, $mergeRequest);
 
         foreach ($task->commands as $command) {
             $job1->addProcessResult(
@@ -92,7 +94,7 @@ final class DataFixtures extends Fixture
         );
 
         $job2->start($job2Clock);
-        $job2->fails($job2Clock);
+        $job2->fails($job2Clock, $mergeRequest);
 
         foreach ($task->commands as $command) {
             $job2->addProcessResult(

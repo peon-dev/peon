@@ -38,7 +38,7 @@ final class ProvideReadJobsTest extends KernelTestCase
         $job = $readJobs[1];
         self::assertSame($job->jobId, DataFixtures::JOB_2_ID);
         self::assertNotNull($job->executionTime);
-        self::assertNull($job->mergeRequestUrl);
+        self::assertNotNull($job->mergeRequestUrl);
 
         $job = $readJobs[2];
         self::assertSame($job->jobId, DataFixtures::JOB_1_ID);

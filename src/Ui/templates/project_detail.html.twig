@@ -133,6 +133,12 @@
                     </td>
 
                     <td class="text-end">
+                        {% if task.lastJobMergeRequestUrl %}
+                            <a href="{{ task.lastJobMergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                                <i class="fa fa-code-branch"></i>
+                            </a>
+                        {% endif %}
+
                         <a href="{{ path('redefine_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-light btn-outline-secondary">
                             <i class="fa fa-cog"></i>
                         </a>
