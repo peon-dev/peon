@@ -47,6 +47,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
     public function __invoke(ExecuteJob $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
+        $mergeRequest = null;
 
         // TODO: check project with id $job->projectId exists
 
@@ -83,35 +84,37 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                 }
             }
 
+            $branchWithChanges = $localGitRepository->jobBranch;
+            $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $branchWithChanges);
+
+            // Let's see if job changed something
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
-                $this->git->commit($projectDirectory, '[PHP Mate] Task ' . $taskName);
+                $this->git->commit($projectDirectory, '[PHP Mate] ' . $taskName);
                 $this->git->forcePush($projectDirectory);
 
                 // $this->notifier->notifyAboutNewChanges(); // TODO: add test
-                $branchWithChanges = $localGitRepository->jobBranch;
 
-                if ($this->gitProvider->hasMergeRequestForBranch($remoteGitRepository, $branchWithChanges) === false) {
-                    // TODO: [optional] assign to random user from provided list
-                    // TODO: description with list of provided users
-                    $this->gitProvider->openMergeRequest(
+                // Great, we have changed code and MR was not opened yet
+                if ($mergeRequest === null) {
+                    $mergeRequest = $this->gitProvider->openMergeRequest(
                         $remoteGitRepository,
                         $localGitRepository->mainBranch,
                         $branchWithChanges,
-                        '[PHP Mate] Task ' . $taskName
+                        '[PHP Mate] ' . $taskName
                     );
                 }
             } elseif ($this->git->remoteBranchExists($projectDirectory, $localGitRepository->jobBranch)) {
-                if ($this->gitProvider->hasMergeRequestForBranch($remoteGitRepository, $localGitRepository->jobBranch) === false) {
-                    $this->gitProvider->openMergeRequest(
+                if ($mergeRequest === null) {
+                    $mergeRequest = $this->gitProvider->openMergeRequest(
                         $remoteGitRepository,
                         $localGitRepository->mainBranch,
                         $localGitRepository->jobBranch,
-                        '[PHP Mate] Task ' . $taskName
+                        '[PHP Mate] ' . $taskName
                     );
                 }
             }
 
-            $job->succeeds($this->clock);
+            $job->succeeds($this->clock, $mergeRequest);
         } catch (JobHasStartedAlready $exception) {
             // TODO, im not sure what should happen
             // Do not fail the job, it might be already in progress
@@ -120,7 +123,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             // Lets just throw
             throw $exception;
         } catch (\Throwable $throwable) {
-            $job->fails($this->clock);
+            $job->fails($this->clock, $mergeRequest);
 
             // $this->notifier->notifyAboutFailedCommand($throwable);
 

@@ -13,6 +13,7 @@
         <field name="succeededAt" type="datetime_immutable" nullable="true" />
         <field name="failedAt" type="datetime_immutable" nullable="true" />
         <field name="commands" type="json" />
+        <field name="mergeRequest" />
         <one-to-many field="processes" target-entity="PHPMate\Domain\Job\JobProcessResult" mapped-by="job">
             <cascade>
                 <cascade-persist />
