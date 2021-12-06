@@ -39,11 +39,6 @@
     {% if activeProject is defined %}
         <div class="active-project">
             <div class="container">
-                <span class="float-end">
-                    <a href="{{ path('project_settings', {projectId: activeProject.projectId}) }}" class="btn btn-sm btn-light btn-outline-secondary">
-                        <i class="fa fa-cog"></i>
-                    </a>
-                </span>
 
                 <h2>
                     <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
@@ -51,6 +46,21 @@
                         {{ activeProject.name }}
                     </a>
                 </h2>
+
+
+                <div class="active-project-nav">
+                    <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
+                        Overview
+                    </a>
+
+                    <a href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
+                        Cookbook
+                    </a>
+
+                    <a href="{{ path('project_settings', {projectId: activeProject.projectId}) }}">
+                        Settings
+                    </a>
+                </div>
             </div>
         </div>
     {% endif %}

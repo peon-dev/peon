@@ -44,6 +44,21 @@
     color: darkblue;
 }
 
+.jobs-list-table {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    margin-bottom: 25px;
+
+    table {
+        margin-bottom: 0;
+    }
+
+    thead th {
+        background: #f3f3f3;
+        border-bottom-width: 2px;
+    }
+}
+
 .jobs-list-table a {
     text-decoration: none;
 }
