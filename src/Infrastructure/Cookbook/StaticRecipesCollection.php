@@ -34,6 +34,14 @@ final class StaticRecipesCollection implements RecipesCollection
             7.4,
             ["echo 'Dummy command 2'"]
         );
+
+        $this->recipes[] = new Recipe(
+            RecipeName::SWITCH_TO_MATCH(),
+            'Switch to match',
+            file_get_contents(__DIR__ . '/CodeSnippets/switch-to-match.diff'),
+            8.0,
+            ["echo 'Dummy command 3'"]
+        );
     }
 
 
