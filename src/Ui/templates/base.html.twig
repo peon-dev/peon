@@ -23,10 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link {% if app.request.pathInfo == path('dashboard') %}active{% endif %}" href="{{ path('dashboard') }}">
-                        Dashboard
-                    </a>
-                    <a class="nav-link {% if app.request.pathInfo == path('cookbook') %}active{% endif %}" href="{{ path('cookbook') }}">
-                        Cookbook
+                        Projects
                     </a>
                 </div>
             </div>

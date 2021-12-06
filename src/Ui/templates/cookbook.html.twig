@@ -4,12 +4,10 @@
     <h1>{% block title %}Cookbook{% endblock %}</h1>
 
     <section class="cookbook">
-        <p>You can choose from predefined tasks!</p>
-
         <div class="dashboard-projects row row-cols-auto">
             {% for recipe in recipes %}
                 <div class="col">
-                    <div class="card">
+                    <div class="card {% if activeProject.recipeEnabled(recipe.name) %}recipe-enabled{% endif %}">
                         <div class="card-body">
                             <h5 class="card-title">
                                 {{ recipe.title }}
@@ -17,15 +15,17 @@
 
                             <pre><code class="language-diff">{{ recipe.exampleCodeDiff }}</code></pre>
                         </div>
-                    <!--
-                        <div class="card-footer text-muted">
-                            <small>Active for 0 projects</small>
-
-                            <a href="#" class="btn btn-primary btn-sm float-end">
-                                <i class="fas fa-cog"></i>
-                            </a>
+                        <div class="card-footer">
+                            {% if activeProject.recipeEnabled(recipe.name) %}
+                                <a href="#" class="btn btn-link text-success btn-sm float-end">
+                                    Enabled
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-link btn-sm float-end" style="color: #888;">
+                                    Disabled
+                                </a>
+                            {% endif %}
                         </div>
-                    -->
                     </div>
                 </div>
             {% endfor %}

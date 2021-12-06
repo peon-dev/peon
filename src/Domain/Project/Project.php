@@ -68,4 +68,16 @@ class Project
 
         throw new RecipeNotEnabledForProject();
     }
+
+
+    public function isRecipeEnabled(RecipeName $recipe): bool
+    {
+        foreach ($this->enabledRecipes as $key => $enabledRecipe) {
+            if ($enabledRecipe->equals($recipe)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
