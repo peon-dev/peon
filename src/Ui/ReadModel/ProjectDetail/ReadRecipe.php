@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\ReadModel\ProjectDetail;
 
 use Cron\CronExpression;
+use DateTimeImmutable;
 use Lorisleiva\CronTranslator\CronTranslator;
 use PHPMate\Ui\ReadModel\JobStatus;
 
@@ -18,11 +19,12 @@ final class ReadRecipe
     public function __construct(
         public string $title,
         public string $recipeName,
-        public ?string $lastJobId,
-        public \DateTimeImmutable $lastJobScheduledAt,
-        public ?\DateTimeImmutable $lastJobStartedAt,
-        public ?\DateTimeImmutable $lastJobSucceededAt,
-        public ?\DateTimeImmutable $lastJobFailedAt,
+        public string|null $lastJobId,
+        public DateTimeImmutable $lastJobScheduledAt,
+        public DateTimeImmutable|null $lastJobStartedAt,
+        public DateTimeImmutable|null $lastJobSucceededAt,
+        public DateTimeImmutable|null $lastJobFailedAt,
+        public string|null $lastJobMergeRequestUrl,
     ) {
         if ($lastJobFailedAt !== null) {
             $this->lastJobStatus = JobStatus::FAILED;
@@ -34,7 +36,7 @@ final class ReadRecipe
     }
 
 
-    public function getLastJobActionTime(): \DateTimeImmutable
+    public function getLastJobActionTime(): DateTimeImmutable
     {
         return $this->lastJobFailedAt
             ?? $this->lastJobSucceededAt
@@ -76,11 +78,11 @@ final class ReadRecipe
     /**
      * @throws \Exception
      */
-    public function getNextRunTime(): \DateTimeImmutable
+    public function getNextRunTime(): DateTimeImmutable
     {
         $cronExpression = new CronExpression($this->schedule);
         $nextRun = $cronExpression->getNextRunDate();
 
-        return \DateTimeImmutable::createFromMutable($nextRun);
+        return DateTimeImmutable::createFromMutable($nextRun);
     }
 }

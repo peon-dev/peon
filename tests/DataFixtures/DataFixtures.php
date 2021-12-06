@@ -119,6 +119,9 @@ final class DataFixtures extends Fixture
             $job3Clock,
         );
 
+        $job3->start($job3Clock);
+        $job3->succeeds($job3Clock, $mergeRequest);
+
         $manager->persist($job3);
 
         $manager->flush();
