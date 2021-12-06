@@ -4,18 +4,6 @@
 
 {% block content %}
 
-<p>
-    <a class="btn btn-sm btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
-        <i class="fas fa-plus-circle"></i>
-        New task
-    </a>
-
-    <a class="btn btn-sm btn-primary" href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
-        <i class="fas fa-cog"></i>
-        Cookbook
-    </a>
-</p>
-
 {% if not tasks and not activeProject.enabledRecipes %}
     <section class="project-guidelines">
         <p class="bigger">
@@ -46,9 +34,114 @@
                 </p>
             </div>
         </div>
-
-
     </section>
+{% endif %}
+
+{% if tasks %}
+    <div class="table-responsive jobs-list-table">
+        <table class="table table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Task</th>
+                <th>Schedule</th>
+                <th></th>
+                <th>Commands</th>
+                <th class="text-center">Last job</th>
+                <th class="text-end">
+                    <a class="btn btn-sm btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
+                        <i class="fas fa-plus-circle"></i>
+                        New task
+                    </a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>
+                        {{ task.name }}
+                    </td>
+
+                    <td>
+                        {% if task.schedule %}
+                            <code>{{ task.schedule }}</code> <br><small class="text-muted">{{ task.humanReadableCron }}</small>
+                            <br>
+                            <small>
+                                <i class="far fa-clock"></i> next {{ task.nextRunTime|ago }}
+                            </small>
+                        {% else %}
+                            No schedule
+                            <br><small class="text-muted">Run only manually</small>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
+                            <i class="far fa-play-circle"></i>
+                            Run
+                        </a>
+                    </td>
+
+                    <td>
+                        <code>
+                            {{ task.commandsWithNewLines|nl2br }}
+                        </code>
+                    </td>
+
+                    <td class="text-center">
+                        {% if task.lastJobId %}
+
+                            {% if task.jobPending %}
+                                <span class="btn btn-warning btn-sm">
+                                        <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        Pending
+                                    </span>
+                            {% endif %}
+
+                            {% if task.jobInProgress %}
+                                <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: task.lastJobId}) }}">
+                                    <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                    In progress
+                                </a>
+                            {% endif %}
+
+                            {% if task.jobSucceeded %}
+                                <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-success btn-sm">
+                                    <i class="far fa-check-circle"></i>
+                                    Succeeded
+                                </a>
+                            {% endif %}
+
+                            {% if task.jobFailed %}
+                                <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-danger btn-sm">
+                                    <i class="far fa-times-circle"></i>
+                                    Failed
+                                </a>
+                            {% endif %}
+
+                            <br>
+
+                            <small class="text-muted">
+                                <i class="far fa-clock"></i>
+
+                                <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ task.lastJobActionTime|date('j.n.Y H:i') }}">
+                                    {{ task.lastJobActionTime|ago }}
+                                </span>
+                            </small>
+                            <br>
+                        {% endif %}
+                    </td>
+
+                    <td class="text-end">
+                        <a href="{{ path('redefine_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-light btn-outline-secondary">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endif %}
 
 {% if activeProject.enabledRecipes %}
@@ -123,108 +216,6 @@
                                 </small>
                                 <br>
                             {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% endif %}
-
-{% if tasks %}
-    <div class="table-responsive jobs-list-table">
-        <table class="table table-hover align-middle">
-            <thead>
-            <tr>
-                <th>Task</th>
-                <th>Schedule</th>
-                <th></th>
-                <th>Commands</th>
-                <th class="text-center">Last job</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>
-                            {{ task.name }}
-                        </td>
-
-                        <td>
-                            {% if task.schedule %}
-                                <code>{{ task.schedule }}</code> <br><small class="text-muted">{{ task.humanReadableCron }}</small>
-                                <br>
-                                <small>
-                                    <i class="far fa-clock"></i> next {{ task.nextRunTime|ago }}
-                                </small>
-                            {% else %}
-                                No schedule
-                                <br><small class="text-muted">Run only manually</small>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-primary">
-                                <i class="far fa-play-circle"></i>
-                                Run
-                            </a>
-                        </td>
-
-                        <td>
-                            <code>
-                                {{ task.commandsWithNewLines|nl2br }}
-                            </code>
-                        </td>
-
-                        <td class="text-center">
-                            {% if task.lastJobId %}
-
-                                {% if task.jobPending %}
-                                    <span class="btn btn-warning btn-sm">
-                                            <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
-                                            Pending
-                                        </span>
-                                {% endif %}
-
-                                {% if task.jobInProgress %}
-                                    <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: task.lastJobId}) }}">
-                                        <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
-                                        In progress
-                                    </a>
-                                {% endif %}
-
-                                {% if task.jobSucceeded %}
-                                    <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-success btn-sm">
-                                        <i class="far fa-check-circle"></i>
-                                        Succeeded
-                                    </a>
-                                {% endif %}
-
-                                {% if task.jobFailed %}
-                                    <a href="{{ path('job_detail', {jobId: task.lastJobId}) }}" class="btn btn-danger btn-sm">
-                                        <i class="far fa-times-circle"></i>
-                                        Failed
-                                    </a>
-                                {% endif %}
-
-                                <br>
-
-                                <small class="text-muted">
-                                    <i class="far fa-clock"></i>
-
-                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ task.lastJobActionTime|date('j.n.Y H:i') }}">
-                                        {{ task.lastJobActionTime|ago }}
-                                    </span>
-                                </small>
-                                <br>
-                            {% endif %}
-                        </td>
-
-                        <td class="text-end">
-                            <a href="{{ path('redefine_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-light btn-outline-secondary">
-                                <i class="fa fa-cog"></i>
-                            </a>
                         </td>
                     </tr>
                 {% endfor %}
