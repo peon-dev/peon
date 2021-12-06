@@ -37,7 +37,7 @@
     </nav>
 
     {% if activeProject is defined %}
-        <div class="active-project">
+        <div class="active-project-panel">
             <div class="container">
 
                 <h2>
@@ -49,15 +49,15 @@
 
 
                 <div class="active-project-nav">
-                    <a href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
+                    <a {% if app.request.pathInfo == path('project_detail', {projectId: activeProject.projectId}) %}class="active"{% endif %} href="{{ path('project_detail', {projectId: activeProject.projectId}) }}">
                         Overview
                     </a>
 
-                    <a href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
+                    <a {% if app.request.pathInfo == path('cookbook', {projectId: activeProject.projectId}) %}class="active"{% endif %} href="{{ path('cookbook', {projectId: activeProject.projectId}) }}">
                         Cookbook
                     </a>
 
-                    <a href="{{ path('project_settings', {projectId: activeProject.projectId}) }}">
+                    <a {% if app.request.pathInfo == path('project_settings', {projectId: activeProject.projectId}) %}class="active"{% endif %} href="{{ path('project_settings', {projectId: activeProject.projectId}) }}">
                         Settings
                     </a>
                 </div>
