@@ -2061,43 +2061,42 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "4.5.x-dev",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "7fcc8ea29120eae909b64cd25ff8b757a29fadf9"
+                "reference": "c99ef8e5629c33bfaa3a8f1df773e916af564cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/7fcc8ea29120eae909b64cd25ff8b757a29fadf9",
-                "reference": "7fcc8ea29120eae909b64cd25ff8b757a29fadf9",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/c99ef8e5629c33bfaa3a8f1df773e916af564cd6",
+                "reference": "c99ef8e5629c33bfaa3a8f1df773e916af564cd6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4, <8.2"
             },
-            "conflict": {
-                "phpspec/prophecy": "<1.9.0"
-            },
             "require-dev": {
-                "doctrine/annotations": "^1.10.4",
+                "doctrine/annotations": "^1.13.2",
                 "ext-phar": "*",
                 "laminas/laminas-coding-standard": "^2.3.0",
-                "laminas/laminas-stdlib": "^3.6.0",
-                "phpunit/phpunit": "^9.5.9",
+                "laminas/laminas-stdlib": "^3.6.1",
+                "phpunit/phpunit": "^9.5.10",
                 "psalm/plugin-phpunit": "^0.16.1",
-                "vimeo/psalm": "^4.10.0"
+                "vimeo/psalm": "^4.13.1"
             },
             "suggest": {
                 "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
                 "laminas/laminas-stdlib": "Laminas\\Stdlib component"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Laminas\\Code\\": "src/"
-                }
+                },
+                "files": [
+                    "polyfill/ReflectionEnumPolyfill.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2124,7 +2123,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-12-06T00:52:56+00:00"
+            "time": "2021-12-07T06:00:32+00:00"
         },
         {
             "name": "lcobucci/clock",
@@ -11752,12 +11751,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "e26f8fefe293849248fb3414805684d0ba1f94f3"
+                "reference": "48f62899325ede08503d5532d9e1c98d7983df55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/e26f8fefe293849248fb3414805684d0ba1f94f3",
-                "reference": "e26f8fefe293849248fb3414805684d0ba1f94f3",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/48f62899325ede08503d5532d9e1c98d7983df55",
+                "reference": "48f62899325ede08503d5532d9e1c98d7983df55",
                 "shasum": ""
             },
             "conflict": {
@@ -11973,6 +11972,7 @@
                 "prestashop/autoupgrade": ">=4,<4.10.1",
                 "prestashop/contactform": ">1.0.1,<4.3",
                 "prestashop/gamification": "<2.3.2",
+                "prestashop/prestashop": ">=1.7.5,<=1.7.8.1",
                 "prestashop/productcomments": ">=4,<4.2.1",
                 "prestashop/ps_emailsubscription": "<2.6.1",
                 "prestashop/ps_facetedsearch": "<3.4.1",
@@ -12171,7 +12171,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-06T18:19:48+00:00"
+            "time": "2021-12-07T22:15:12+00:00"
         },
         {
             "name": "sebastian/cli-parser",
