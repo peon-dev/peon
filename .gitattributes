@@ -1,0 +1,4 @@
+vendor-bin/**/composer.lock binary
+composer.lock binary
+symfony.lock binary
+yarn.lock.lock binary
