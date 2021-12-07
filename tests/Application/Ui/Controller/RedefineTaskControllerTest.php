@@ -45,7 +45,7 @@ STRING;
             $form->getName() . '[commands]' => $commands,
         ]);
 
-        self::assertResponseRedirects("/project/$projectId");
+        self::assertResponseRedirects("/projects/$projectId");
 
         $task = $tasksCollection->get(new TaskId($taskId));
         self::assertSame('New name', $task->name);

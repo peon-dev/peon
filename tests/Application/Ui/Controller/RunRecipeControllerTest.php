@@ -33,7 +33,7 @@ final class RunRecipeControllerTest extends WebTestCase
 
         $client->request('GET', "/projects/$projectId/run-recipe/$recipeName");
 
-        self::assertResponseRedirects("/project/$projectId");
+        self::assertResponseRedirects("/projects/$projectId");
 
         self::assertCount(1 + $jobsCountBeforeScenario, $jobsCollection->all());
     }

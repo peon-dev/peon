@@ -32,7 +32,7 @@ final class RemoveTaskControllerTest extends WebTestCase
 
         $client->request('GET', "/remove-task/$taskId");
 
-        self::assertResponseRedirects("/project/$projectId");
+        self::assertResponseRedirects("/projects/$projectId");
 
         self::assertCount(1 - $tasksCountBeforeScenario, $tasksCollection->all());
     }
