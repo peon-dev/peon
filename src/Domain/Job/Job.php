@@ -35,7 +35,7 @@ class Job
      */
     public Collection $processes;
 
-    private ?TaskId $taskId = null; // TODO: carefully, this is used in SchedulerConsoleCommand.php
+    private ?TaskId $taskId = null;
 
     private ?string $recipeName = null;
 
