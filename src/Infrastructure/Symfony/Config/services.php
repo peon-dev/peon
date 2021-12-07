@@ -61,7 +61,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->load('PHPMate\\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
 
     // Console commands
-    $services->load('PHPMate\\Cli\\', __DIR__ . '/../../../Cli/{*ConsoleCommand.php}');
+    $services->load('PHPMate\\Cli\\', __DIR__ . '/../../../Cli/**/{*ConsoleCommand.php}');
 
     // Read model providers
     $services->load('PHPMate\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');

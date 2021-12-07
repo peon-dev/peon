@@ -24,7 +24,9 @@ final class StaticRecipesCollection implements RecipesCollection
             'Unused private methods',
             file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'),
             null,
-            ["echo 'Dummy command 1'"]
+            [
+                '../../../bin/console phpmate:run-recipe:unused-private-methods $PWD' // TODO: oh my god this is so hacky and ugly :-) FIX IT
+            ]
         );
 
         $this->recipes[] = new Recipe(
@@ -32,7 +34,9 @@ final class StaticRecipesCollection implements RecipesCollection
             'Typed properties',
             file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'),
             7.4,
-            ["echo 'Dummy command 2'"]
+            [
+                '../../../bin/console phpmate:run-recipe:typed-properties $PWD' // TODO: oh my god this is so hacky and ugly :-) FIX IT
+            ]
         );
 
         $this->recipes[] = new Recipe(
@@ -40,7 +44,9 @@ final class StaticRecipesCollection implements RecipesCollection
             'Switch to match',
             file_get_contents(__DIR__ . '/CodeSnippets/switch-to-match.diff'),
             8.0,
-            ["echo 'Dummy command 3'"]
+            [
+                '../../../bin/console phpmate:run-recipe:switch-to-match $PWD' // TODO: oh my god this is so hacky and ugly :-) FIX IT
+            ]
         );
     }
 

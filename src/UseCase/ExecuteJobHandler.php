@@ -57,13 +57,13 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             $job->start($this->clock);
             $this->jobsCollection->save($job);
 
-            $taskName = $job->title;
+            $jobTitle = $job->title;
             $remoteGitRepository = $project->remoteGitRepository;
-            $localGitRepository = $this->prepareApplicationGitRepository->prepare(
+            $localApplication = $this->prepareApplicationGitRepository->prepare(
                 $remoteGitRepository->getAuthenticatedUri(),
-                $taskName
+                $jobTitle
             );
-            $projectDirectory = $localGitRepository->workingDirectory;
+            $projectDirectory = $localApplication->workingDirectory;
 
             $this->buildApplication->build($projectDirectory);
 
@@ -84,12 +84,12 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                 }
             }
 
-            $branchWithChanges = $localGitRepository->jobBranch;
+            $branchWithChanges = $localApplication->jobBranch;
             $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $branchWithChanges);
 
             // Let's see if job changed something
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
-                $this->git->commit($projectDirectory, '[PHP Mate] ' . $taskName);
+                $this->git->commit($projectDirectory, '[PHP Mate] ' . $jobTitle);
                 $this->git->forcePush($projectDirectory);
 
                 // $this->notifier->notifyAboutNewChanges(); // TODO: add test
@@ -98,18 +98,18 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                 if ($mergeRequest === null) {
                     $mergeRequest = $this->gitProvider->openMergeRequest(
                         $remoteGitRepository,
-                        $localGitRepository->mainBranch,
+                        $localApplication->mainBranch,
                         $branchWithChanges,
-                        '[PHP Mate] ' . $taskName
+                        '[PHP Mate] ' . $jobTitle
                     );
                 }
-            } elseif ($this->git->remoteBranchExists($projectDirectory, $localGitRepository->jobBranch)) {
+            } elseif ($this->git->remoteBranchExists($projectDirectory, $localApplication->jobBranch)) {
                 if ($mergeRequest === null) {
                     $mergeRequest = $this->gitProvider->openMergeRequest(
                         $remoteGitRepository,
-                        $localGitRepository->mainBranch,
-                        $localGitRepository->jobBranch,
-                        '[PHP Mate] ' . $taskName
+                        $localApplication->mainBranch,
+                        $localApplication->jobBranch,
+                        '[PHP Mate] ' . $jobTitle
                     );
                 }
             }
