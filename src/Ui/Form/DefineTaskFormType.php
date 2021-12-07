@@ -33,6 +33,7 @@ final class DefineTaskFormType extends AbstractType
             'label' => 'Commands',
             'help_html' => true,
             'help' => 'For example <code>vendor/bin/rector process src</code><br>One command per line',
+            'attr' => ['class' => 'code'],
         ]);
     }
 

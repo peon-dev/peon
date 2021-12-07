@@ -26,7 +26,7 @@ final class CreateProjectController extends AbstractController
     ) {}
 
 
-    #[Route(path: '/create-project', name: 'create_project')]
+    #[Route(path: '/add-project', name: 'add_project')]
     public function __invoke(Request $request): Response
     {
         $form = $this->createForm(CreateProjectFormType::class);
@@ -56,8 +56,8 @@ final class CreateProjectController extends AbstractController
             }
         }
 
-        return $this->render('create_project.html.twig', [
-            'create_project_form' => $form->createView(),
+        return $this->render('add_project.html.twig', [
+            'add_project_form' => $form->createView(),
         ]);
     }
 }
