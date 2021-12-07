@@ -24,6 +24,7 @@
         "php": ">=8.1.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "bamarni/composer-bin-plugin": "^1.4",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
@@ -121,10 +122,12 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "@composer bin all install --ansi"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "@composer bin all update --ansi"
         ]
     },
     "conflict": {
