@@ -41,7 +41,7 @@ final class DefineTaskControllerTest extends WebTestCase
             $form->getName() . '[commands]' => 'command',
         ]);
 
-        self::assertResponseRedirects("/project/$projectId");
+        self::assertResponseRedirects("/projects/$projectId");
 
         self::assertCount(1 + $tasksCountBeforeScenario, $tasksCollection->all());
     }

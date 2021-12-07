@@ -24,7 +24,7 @@ final class ProjectOverviewController extends AbstractController
     ) {}
 
 
-    #[Route(path: '/project/{projectId}', name: 'project_overview')]
+    #[Route(path: '/projects/{projectId}', name: 'project_overview')]
     public function __invoke(string $projectId): Response
     {
         try {
