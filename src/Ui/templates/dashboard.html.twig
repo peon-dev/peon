@@ -3,9 +3,9 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <a style="float: right;" href="{{ path('create_project') }}" class="btn btn-sm btn-primary">
+    <a style="float: right;" href="{{ path('add_project') }}" class="btn btn-sm btn-primary">
         <i class="fas fa-plus-circle"></i>
-        New project
+        Add project
     </a>
 
     <h2>Projects</h2>
@@ -30,7 +30,7 @@
     {% if not projects %}
         <p class="guidelines-block">
             First step is to create a project by connecting your git repository<br>
-            <a href="{{ path('create_project') }}" class="btn btn-lg btn-primary">Create project</a>
+            <a href="{{ path('add_project') }}" class="btn btn-lg btn-primary">Create project</a>
         </p>
     {% endif %}
 

@@ -15,7 +15,7 @@ class CreateProjectControllerTest extends WebTestCase
         $projectsCollection = $container->get(ProjectsCollection::class);
         $projectsCountBeforeScenario = count($projectsCollection->all());
 
-        $crawler = $client->request('GET', '/create-project');
+        $crawler = $client->request('GET', '/add-project');
 
         self::assertResponseIsSuccessful();
 

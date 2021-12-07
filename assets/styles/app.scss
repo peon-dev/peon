@@ -208,3 +208,18 @@ h2 {
     margin: 22px 0 12px;
     font-size: 24px;
 }
+
+.form-control {
+    background: #f9f9f9;
+    box-shadow: rgba(208, 215, 222, .4) 2px 2px 3px 1px inset;
+}
+
+input.form-control {
+    max-width: 500px;
+}
+
+textarea.code {
+    font-family: $font-family-monospace;
+    min-height: 100px;
+    font-size: 14px;
+}

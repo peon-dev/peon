@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{% block title %}Add project{% endblock %}</h1>
+
+    {{ form_start(add_project_form) }}
+        {{ form_widget(add_project_form) }}
+
+        <input type="submit" name="submit" class="btn btn-primary" />
+    {{ form_end(add_project_form) }}
+{% endblock %}
