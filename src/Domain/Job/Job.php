@@ -155,6 +155,50 @@ class Job
         );
     }
 
+    /**
+     * @TODO: delete
+     */
+    public function getMergeRequestUrl(): null|string
+    {
+        return $this->mergeRequest?->url;
+    }
+
+
+    /**
+     * @TODO: delete
+     */
+    public function isPending(): bool
+    {
+        return $this->startedAt === null;
+    }
+
+
+    /**
+     * @TODO: delete
+     */
+    public function isInProgress(): bool
+    {
+        return $this->startedAt !== null && $this->succeededAt === null && $this->failedAt === null;
+    }
+
+
+    /**
+     * @TODO: delete
+     */
+    public function hasSucceeded(): bool
+    {
+        return $this->succeededAt !== null;
+    }
+
+
+    /**
+     * @TODO: delete
+     */
+    public function hasFailed(): bool
+    {
+        return $this->failedAt !== null;
+    }
+
 
     /**
      * @param array<string> $commands
