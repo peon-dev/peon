@@ -29,7 +29,7 @@ final class RunRecipeControllerTest extends WebTestCase
         $jobsCollection = $container->get(JobsCollection::class);
         $jobsCountBeforeScenario = count($jobsCollection->all());
         $recipeName = RecipeName::UNUSED_PRIVATE_METHODS;
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
 
         $client->request('GET', "/projects/$projectId/run-recipe/$recipeName");
 

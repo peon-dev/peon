@@ -22,7 +22,7 @@ final class ProjectSettingsControllerTest extends WebTestCase
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
 
         $client->request('GET', "/projects/$projectId/settings");
 

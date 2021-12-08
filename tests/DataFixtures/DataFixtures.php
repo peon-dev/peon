@@ -23,7 +23,8 @@ use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
 
 final class DataFixtures extends Fixture
 {
-    public const PROJECT_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
+    public const PROJECT_1_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
+    public const PROJECT_2_ID = '4a05eef8-4127-472f-915a-c69eb59341b1';
     public const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
     public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
     public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
@@ -40,12 +41,17 @@ final class DataFixtures extends Fixture
     {
         $remoteGitRepository = self::createRemoteGitRepository();
 
-        $projectId = new ProjectId(self::PROJECT_ID);
+        $projectId = new ProjectId(self::PROJECT_1_ID);
         $project = new Project($projectId, $remoteGitRepository);
         $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS());
         $project->enableRecipe(RecipeName::TYPED_PROPERTIES());
 
         $manager->persist($project);
+
+        $emptyProjectId = new ProjectId(self::PROJECT_2_ID);
+        $emptyProject = new Project($emptyProjectId, $remoteGitRepository);
+
+        $manager->persist($emptyProject);
 
         $taskId = new TaskId(self::TASK_ID);
         $task = new Task(

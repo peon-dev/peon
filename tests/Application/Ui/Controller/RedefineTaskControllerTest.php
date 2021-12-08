@@ -28,7 +28,7 @@ final class RedefineTaskControllerTest extends WebTestCase
         $container = self::getContainer();
         $tasksCollection = $container->get(TasksCollection::class);
         $taskId = DataFixtures::TASK_ID;
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
 
         $crawler = $client->request('GET', "/redefine-task/$taskId");
 

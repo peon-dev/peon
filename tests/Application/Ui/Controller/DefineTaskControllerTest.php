@@ -28,7 +28,7 @@ final class DefineTaskControllerTest extends WebTestCase
         $tasksCollection = $container->get(TasksCollection::class);
         $tasksCountBeforeScenario = count($tasksCollection->all());
 
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         $crawler = $client->request('GET', "/define-task/$projectId");
 
         self::assertResponseIsSuccessful();

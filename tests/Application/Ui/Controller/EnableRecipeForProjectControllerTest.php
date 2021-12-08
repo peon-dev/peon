@@ -26,7 +26,7 @@ final class EnableRecipeForProjectControllerTest extends WebTestCase
     public function testNonExistingRecipeWillShow404(): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = 'something-not-existing';
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable");
@@ -40,7 +40,7 @@ final class EnableRecipeForProjectControllerTest extends WebTestCase
         $client = self::createClient();
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = RecipeName::TYPED_PROPERTIES;
 
         $project = $projectsCollection->get(new ProjectId($projectId));
@@ -60,7 +60,7 @@ final class EnableRecipeForProjectControllerTest extends WebTestCase
         $client = self::createClient();
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = RecipeName::SWITCH_TO_MATCH;
 
         $project = $projectsCollection->get(new ProjectId($projectId));

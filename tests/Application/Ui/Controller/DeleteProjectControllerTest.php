@@ -28,7 +28,7 @@ final class DeleteProjectControllerTest extends WebTestCase
         $projectsCollection = $container->get(ProjectsCollection::class);
         $projectsCountBeforeScenario = count($projectsCollection->all());
 
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         $client->request('GET', "/delete-project/$projectId");
 
         self::assertResponseRedirects('/');

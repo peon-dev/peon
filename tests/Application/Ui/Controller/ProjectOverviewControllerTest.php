@@ -19,13 +19,25 @@ final class ProjectOverviewControllerTest extends WebTestCase
     }
 
 
-    public function testPageCanBeRendered(): void
+    /**
+     * @dataProvider provideTestPageCanBeRenderedData
+     */
+    public function testPageCanBeRendered(string $projectId): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_ID;
 
         $client->request('GET', "/projects/$projectId");
 
         self::assertResponseIsSuccessful();
+    }
+
+
+    /**
+     * @return \Generator<array<string>>
+     */
+    public function provideTestPageCanBeRenderedData(): \Generator
+    {
+        yield [DataFixtures::PROJECT_1_ID];
+        yield [DataFixtures::PROJECT_2_ID];
     }
 }
