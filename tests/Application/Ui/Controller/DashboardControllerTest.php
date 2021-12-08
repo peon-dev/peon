@@ -20,7 +20,7 @@ final class DashboardControllerTest extends WebTestCase
          * @see \PHPMate\Tests\DataFixtures\DataFixtures
          */
 
-        self::assertCount(1, $crawler->filter('.dashboard-projects > div'));
+        self::assertCount(2, $crawler->filter('.dashboard-projects > div'));
         self::assertCount(3, $crawler->filter('.jobs-list-table tbody tr'));
     }
 }
