@@ -39,6 +39,8 @@ final class Composer
     /**
      * @return array<string>
      * @throws JsonException
+     *
+     * @TODO: WRITE UNIT TEST
      */
     public function getPsr4Roots(string $directory): array|null
     {

@@ -30,6 +30,7 @@ FROM project
 LEFT JOIN job ON job.project_id = project.project_id
 LEFT JOIN task ON task.project_id = project.project_id
 GROUP BY project.project_id
+ORDER BY project.name
 SQL;
 
         $resultSet = $this->connection->executeQuery($sql);
