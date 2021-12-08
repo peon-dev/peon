@@ -41,7 +41,9 @@ FROM (
 LEFT JOIN job ON job.recipe_name = project.recipe_name AND job.scheduled_at = (
 	SELECT MAX(latest_job.scheduled_at)
 	FROM job latest_job
-	WHERE latest_job.recipe_name = project.recipe_name
+	WHERE
+	    latest_job.recipe_name = project.recipe_name
+	    AND latest_job.project_id = :projectId
 	GROUP BY latest_job.recipe_name
 )
 ORDER BY project.recipe_name
