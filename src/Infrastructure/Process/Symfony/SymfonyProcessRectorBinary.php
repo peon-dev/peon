@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 
 final class SymfonyProcessRectorBinary implements RectorBinary
 {
-    private const BINARY_EXECUTABLE = 'vendor/bin/rector'; // TODO must be dynamic, for non-standard installations
+    private const BINARY_EXECUTABLE = __DIR__ . '/../../../../vendor-bin/rector/vendor/rector/rector/bin/rector'; // TODO must be dynamic, for non-standard installations
 
 
     /**
