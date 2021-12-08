@@ -32,6 +32,6 @@ final class DeleteProjectControllerTest extends WebTestCase
         $client->request('GET', "/delete-project/$projectId");
 
         self::assertResponseRedirects('/');
-        self::assertCount(1 - $projectsCountBeforeScenario, $projectsCollection->all());
+        self::assertCount($projectsCountBeforeScenario - 1, $projectsCollection->all());
     }
 }

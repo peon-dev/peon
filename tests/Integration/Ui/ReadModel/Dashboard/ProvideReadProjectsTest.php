@@ -28,7 +28,7 @@ final class ProvideReadProjectsTest extends KernelTestCase
          */
         $readProjects = $this->provideReadProjects->provide();
 
-        self::assertCount(1, $readProjects);
+        self::assertCount(2, $readProjects);
 
         $readProject = $readProjects[0];
 
