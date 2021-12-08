@@ -23,7 +23,6 @@ use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitBinary;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Notification\Notifier;
-use PHPMate\Domain\Tools\Rector\Rector;
 use PHPMate\Domain\Tools\Rector\RectorBinary;
 use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
 use PHPMate\Infrastructure\Notification\DummyNotifier;
@@ -69,9 +68,14 @@ return static function(ContainerConfigurator $configurator): void
     // Infrastructure - load all implementations
     $services->load('PHPMate\\Infrastructure\\', __DIR__ . '/../../../Infrastructure/**/{*.php}')
         ->exclude([
-            __DIR__ . '/../../../Infrastructure/Persistence/Doctrine/Migrations', // Doctrine migrations
-            __DIR__ . '/../../../Infrastructure/Persistence/Doctrine/Type', // Doctrine custom DBAL types
+            __DIR__ . '/../../../Infrastructure/Persistence/Doctrine/{Type,Migrations}', // Doctrine migrations and custom types
             __DIR__ . '/../../../Infrastructure/Symfony', // Symfony framework configuration
+        ]);
+
+    // Tools
+    $services->load('PHPMate\\Domain\\Tools\\', __DIR__ . '/../../../Domain/Tools/**/{*.php}')
+        ->exclude([
+            __DIR__ . '/../../../Domain/Tools/**/{Exception,Value}/*'
         ]);
 
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
