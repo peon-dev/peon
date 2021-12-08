@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\Cli\Recipes;
 
+use Nette\Utils\JsonException;
 use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Domain\Tools\Composer\Composer;
 use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
 use PHPMate\Domain\Tools\Rector\Rector;
 use PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +21,7 @@ final class RunRecipeUnusedPrivateMethodsConsoleCommand extends Command
     public function __construct(
         private Rector $rector,
         private ProcessLogger $processLogger,
+        private Composer $composer,
     ) {
         parent::__construct('phpmate:run-recipe:unused-private-methods');
     }
@@ -30,7 +34,8 @@ final class RunRecipeUnusedPrivateMethodsConsoleCommand extends Command
 
 
     /**
-     * @throws RectorCommandFailed
+     * @throws RuntimeException
+     * @throws JsonException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -39,8 +44,11 @@ final class RunRecipeUnusedPrivateMethodsConsoleCommand extends Command
 
         $output->writeln($applicationPath);
 
-        // TODO: detect PSR-4 roots
-        $paths = ['src'];
+        $paths = $this->composer->getPsr4Roots($applicationPath);
+
+        if ($paths === null) {
+            throw new RuntimeException('PSR-4 roots must be defined to run this recipe!');
+        }
 
         $configuration = new RectorProcessCommandConfiguration(
             autoloadFile: $applicationPath . '/vendor/autoload.php',
