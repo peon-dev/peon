@@ -23,15 +23,19 @@ final class Rector
         $command = 'process';
 
         if ($configuration->autoloadFile !== null) {
-            $command .= ' --autoload-file ' . $configuration->autoloadFile;
+            $command .= ' --autoload-file=' . $configuration->autoloadFile;
         }
 
         if ($configuration->workingDirectory) {
-            $command .= ' --working-dir ' . $configuration->workingDirectory;
+            $command .= ' --working-dir=' . $configuration->workingDirectory;
         }
 
         if ($configuration->config !== null) {
-            $command .= ' --config ' . $configuration->config;
+            $command .= ' --config=' . $configuration->config;
+        }
+
+        if ($configuration->paths) {
+            $command .= ' ' . implode(' ', $configuration->paths);
         }
 
         $result = $this->rectorBinary->executeCommand($directory, $command);
