@@ -13,7 +13,7 @@ final class CookbookControllerTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         $crawler = $client->request('GET', "/projects/$projectId/cookbook");
 
         self::assertResponseIsSuccessful();

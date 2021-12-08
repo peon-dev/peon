@@ -31,7 +31,7 @@ final class RunTaskControllerTest extends WebTestCase
 
         $client->request('GET', "/task/run/$taskId");
 
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
         self::assertResponseRedirects("/projects/$projectId");
 
         self::assertCount(1 + $jobsCountBeforeScenario, $jobsCollection->all());

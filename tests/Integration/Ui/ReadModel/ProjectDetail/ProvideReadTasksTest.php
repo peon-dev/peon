@@ -27,7 +27,7 @@ final class ProvideReadTasksTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \PHPMate\Tests\DataFixtures\DataFixtures
          */
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
 
         $readTasks = $this->provideReadTasksRecipes->provide(new ProjectId($projectId));
 

@@ -28,7 +28,7 @@ final class RemoveTaskControllerTest extends WebTestCase
         $tasksCollection = $container->get(TasksCollection::class);
         $tasksCountBeforeScenario = count($tasksCollection->all());
         $taskId = DataFixtures::TASK_ID;
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
 
         $client->request('GET', "/remove-task/$taskId");
 

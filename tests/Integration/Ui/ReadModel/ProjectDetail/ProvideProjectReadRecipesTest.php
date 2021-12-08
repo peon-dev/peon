@@ -28,7 +28,7 @@ class ProvideProjectReadRecipesTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \PHPMate\Tests\DataFixtures\DataFixtures
          */
-        $projectId = DataFixtures::PROJECT_ID;
+        $projectId = DataFixtures::PROJECT_1_ID;
 
         $readRecipes = $this->provideProjectReadRecipes->provide(new ProjectId($projectId));
 
