@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Tools\Composer;
 
+use Nette\Utils\Json;
+use Nette\Utils\JsonException;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
@@ -31,5 +33,24 @@ final class Composer
         $result = $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-interaction', $environmentVariables);
 
         $this->processLogger->logResult($result);
+    }
+
+
+    /**
+     * @return array<string>
+     * @throws JsonException
+     */
+    public function getPsr4Roots(string $directory): array|null
+    {
+        // TODO: throw exception if file missing
+        $json = file_get_contents($directory . '/composer.json');
+        assert(is_string($json));
+
+        /**
+         * @var array{autoload?: array{psr-4?: string[]}} $composer
+         */
+        $composer = Json::decode($json, Json::FORCE_ARRAY);
+
+        return $composer['autoload']['psr-4'] ?? null;
     }
 }
