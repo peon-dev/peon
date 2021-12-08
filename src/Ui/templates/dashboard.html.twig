@@ -63,7 +63,7 @@
                                 {% endif %}
 
                                 {% if job.inProgress %}
-                                    <a class="btn btn-primary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
                                         <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
                                         In progress
                                     </a>
