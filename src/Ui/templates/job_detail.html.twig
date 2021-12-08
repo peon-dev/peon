@@ -63,6 +63,12 @@
 </div>
 
 <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
+    {% if activeJob.inProgress %}
+        <div class="job-in-progress-animation-wrap">
+            <div class="dot-pulse"></div>
+        </div>
+    {% endif %}
+
     {% for process in activeJob.processes %}
         {# @var process \PHPMate\Domain\Job\JobProcess #}
         <div style="margin: 1.5em 0;color: #fff;">
