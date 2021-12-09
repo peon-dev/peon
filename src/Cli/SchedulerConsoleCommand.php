@@ -140,8 +140,8 @@ SQL;
                 $lastSchedule = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $projectData['last_schedule']);
                 assert($lastSchedule instanceof \DateTimeImmutable);
 
-                // TODO: this is static for now to run every 2 hours but should not be!!
-                $cron = new CronExpression('0 */2 * * *');
+                // TODO: this is static for now to run every 8 hours but should not be!!
+                $cron = new CronExpression('0 */8 * * *');
                 $nextSchedule = $cron->getNextRunDate($lastSchedule);
                 $now = $this->clock->now();
 

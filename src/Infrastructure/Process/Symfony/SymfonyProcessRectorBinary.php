@@ -26,8 +26,8 @@ final class SymfonyProcessRectorBinary implements RectorBinary
             $command
         );
 
-        // 20 minutes should be enough, ... hopefully ...
-        $timeout = 60 * 20;
+        // 60 minutes timeout should be enough, ... hopefully ...
+        $timeout = 60 * 60;
 
         try {
             $process = Process::fromShellCommandline($command, $directory, ['SHELL_VERBOSITY' => 0], timeout: $timeout);

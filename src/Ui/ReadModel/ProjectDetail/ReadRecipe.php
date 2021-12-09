@@ -11,7 +11,7 @@ use PHPMate\Ui\ReadModel\JobStatus;
 
 final class ReadRecipe
 {
-    public string $schedule = '0 */2 * * *';
+    public string $schedule = '0 */8 * * *';
 
     private string $lastJobStatus = JobStatus::SCHEDULED;
 
