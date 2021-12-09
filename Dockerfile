@@ -61,13 +61,10 @@ USER root
 # Unload xdebug extension by deleting config
 RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN mkdir -p /www && chown 1000:1000 /www
+RUN mkdir -p /www/var/cache && chown -R 1000:1000 /www
 
 USER 1000:1000
 WORKDIR "/www"
-
-RUN mkdir -p var/cache && chown 1000:1000 var
-
 
 COPY --chown=1000:1000 --from=js-builder /build .
 
