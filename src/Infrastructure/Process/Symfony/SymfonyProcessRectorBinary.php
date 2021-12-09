@@ -30,7 +30,7 @@ final class SymfonyProcessRectorBinary implements RectorBinary
         $timeout = 60 * 20;
 
         try {
-            $process = Process::fromShellCommandline($command, $directory, timeout: $timeout);
+            $process = Process::fromShellCommandline($command, $directory, ['SHELL_VERBOSITY' => 0], timeout: $timeout);
             $process->mustRun();
 
             return SymfonyProcessToProcessResultMapper::map($process);
