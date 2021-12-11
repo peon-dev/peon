@@ -7,7 +7,7 @@
         <div class="dashboard-projects row row-cols-auto">
             {% for recipe in recipes %}
                 <div class="col">
-                    <div class="card {% if activeProject.recipeEnabled(recipe.name) %}recipe-enabled{% endif %}">
+                    <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">
                                 {{ recipe.title }}
@@ -17,14 +17,30 @@
                         </div>
                         <div class="card-footer">
                             {% if activeProject.recipeEnabled(recipe.name) %}
-                                <a href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}" class="btn btn-link text-success btn-sm float-end">
-                                    Enabled
-                                </a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
+                                        Enabled with baseline
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable</a></li>
+                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Disable</a></li>
+                                    </ul>
+                                </div>
                             {% else %}
-                                <a href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}" class="btn btn-link btn-sm float-end" style="color: #888;">
-                                    Disabled
-                                </a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown">
+                                        Disabled
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable with baseline</a></li>
+                                    </ul>
+                                </div>
                             {% endif %}
+
+
                         </div>
                     </div>
                 </div>
