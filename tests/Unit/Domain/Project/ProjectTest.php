@@ -59,6 +59,50 @@ class ProjectTest extends TestCase
     }
 
 
+    public function testDisableRecipeWithBaseline(): void
+    {
+        $project = $this->createProject();
+        $toBeDisabledRecipeName = RecipeName::UNUSED_PRIVATE_METHODS();
+
+        $project->enableRecipeWithBaseline($toBeDisabledRecipeName, 'abcd');
+        $project->enableRecipeWithBaseline(RecipeName::TYPED_PROPERTIES(), 'abcd');
+        self::assertCount(2, $project->enabledRecipes);
+        self::assertCount(2, $project->baselines);
+        self::assertTrue($toBeDisabledRecipeName->equals($project->enabledRecipes[array_key_first($project->enabledRecipes)]));
+        self::assertTrue($toBeDisabledRecipeName->equals($project->baselines[array_key_first($project->baselines)]->recipeName));
+
+        $project->disableRecipe($toBeDisabledRecipeName);
+        self::assertCount(1, $project->enabledRecipes);
+        self::assertCount(1, $project->baselines);
+        self::assertFalse($toBeDisabledRecipeName->equals($project->enabledRecipes[array_key_first($project->enabledRecipes)]));
+        self::assertFalse($toBeDisabledRecipeName->equals($project->baselines[array_key_first($project->baselines)]->recipeName));
+
+        $this->expectException(RecipeNotEnabledForProject::class);
+        $project->disableRecipe($toBeDisabledRecipeName);
+    }
+
+
+    public function testEnableWithBaseline(): void
+    {
+        $project = $this->createProject();
+
+        self::assertCount(0, $project->enabledRecipes);
+
+        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $project->enableRecipeWithBaseline($recipeName, 'abcd');
+
+        self::assertCount(1, $project->enabledRecipes);
+        self::assertTrue($recipeName->equals($project->enabledRecipes[0]));
+
+        self::assertCount(1, $project->baselines);
+        self::assertTrue($recipeName->equals($project->baselines[0]->recipeName));
+        self::assertSame('abcd', $project->baselines[0]->baselineHash);
+
+        $this->expectException(RecipeAlreadyEnabledForProject::class);
+        $project->enableRecipeWithBaseline($recipeName, 'abcd');
+    }
+
+
     private function createProject(): Project
     {
         return new Project(
