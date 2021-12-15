@@ -10,11 +10,18 @@ use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use PHPMate\Domain\Project\Value\RecipeBaseline;
 
 class Project
 {
     #[Immutable]
     public string $name;
+
+    /**
+     * @var array<RecipeBaseline>
+     */
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    public array $baselines = [];
 
     /**
      * @var array<RecipeName>
@@ -32,6 +39,7 @@ class Project
 
     /**
      * @param array<RecipeName> $recipes
+     * @deprecated
      */
     public function changeRecipes(array $recipes): void
     {
@@ -55,6 +63,23 @@ class Project
 
 
     /**
+     * @throws RecipeAlreadyEnabledForProject
+     */
+    public function enableRecipeWithBaseline(RecipeName $recipeName, string $baselineHash): void
+    {
+        $this->enableRecipe($recipeName);
+
+        foreach ($this->baselines as $baseline) {
+            if ($baseline->recipeName->equals($recipeName)) {
+                throw new RecipeAlreadyEnabledForProject();
+            }
+        }
+
+        $this->baselines[] = new RecipeBaseline($recipeName, $baselineHash);
+    }
+
+
+    /**
      * @throws RecipeNotEnabledForProject
      */
     public function disableRecipe(RecipeName $recipe): void
@@ -62,6 +87,14 @@ class Project
         foreach ($this->enabledRecipes as $key => $enabledRecipe) {
             if ($enabledRecipe->equals($recipe)) {
                 unset($this->enabledRecipes[$key]);
+
+                // Recipe was enabled, check if it has baseline
+                foreach ($this->baselines as $baselineKey => $baseline) {
+                    if ($baseline->recipeName->equals($recipe)) {
+                        unset($this->baselines[$baselineKey]);
+                    }
+                }
+
                 return;
             }
         }
