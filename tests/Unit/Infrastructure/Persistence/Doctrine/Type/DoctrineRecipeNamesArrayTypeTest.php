@@ -24,27 +24,29 @@ final class DoctrineRecipeNamesArrayTypeTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
+
     /**
-     * @return array<array<mixed>>
+     * @return \Generator<array<mixed>>
      */
-    public function provideConvertToDatabaseValueData(): array
+    public function provideConvertToDatabaseValueData(): \Generator
     {
-        return [
-            [null, null],
-            [[], '{}'],
+        yield [null, null];
+
+        yield [[], '{}'];
+
+        yield [
             [
-                [
-                    RecipeName::TYPED_PROPERTIES()
-                ],
-                '{"typed-properties"}',
+                RecipeName::TYPED_PROPERTIES()
             ],
+            '{"typed-properties"}',
+        ];
+
+        yield [
             [
-                [
-                    RecipeName::TYPED_PROPERTIES(),
-                    RecipeName::UNUSED_PRIVATE_METHODS(),
-                ],
-                '{"typed-properties","unused-private-methods"}',
+                RecipeName::TYPED_PROPERTIES(),
+                RecipeName::UNUSED_PRIVATE_METHODS(),
             ],
+            '{"typed-properties","unused-private-methods"}',
         ];
     }
 
@@ -65,38 +67,41 @@ final class DoctrineRecipeNamesArrayTypeTest extends TestCase
 
 
     /**
-     * @return array<array<mixed>>
+     * @return \Generator<array<mixed>>
      */
-    public function provideConvertToPHPValueData(): array
+    public function provideConvertToPHPValueData(): \Generator
     {
-        return [
-            [null, null],
-            ['{}', []],
+        yield [null, null];
+
+        yield ['{}', []];
+
+        yield [
+            '{typed-properties}',
             [
-                '{typed-properties}',
-                [
-                    RecipeName::TYPED_PROPERTIES()
-                ],
+                RecipeName::TYPED_PROPERTIES()
             ],
+        ];
+
+        yield [
+            '{"typed-properties"}',
             [
-                '{"typed-properties"}',
-                [
-                    RecipeName::TYPED_PROPERTIES()
-                ],
+                RecipeName::TYPED_PROPERTIES()
             ],
+        ];
+
+        yield [
+            '{typed-properties,unused-private-methods}',
             [
-                '{typed-properties,unused-private-methods}',
-                [
-                    RecipeName::TYPED_PROPERTIES(),
-                    RecipeName::UNUSED_PRIVATE_METHODS(),
-                ],
+                RecipeName::TYPED_PROPERTIES(),
+                RecipeName::UNUSED_PRIVATE_METHODS(),
             ],
+        ];
+
+        yield [
+            '{"typed-properties","unused-private-methods"}',
             [
-                '{"typed-properties","unused-private-methods"}',
-                [
-                    RecipeName::TYPED_PROPERTIES(),
-                    RecipeName::UNUSED_PRIVATE_METHODS(),
-                ],
+                RecipeName::TYPED_PROPERTIES(),
+                RecipeName::UNUSED_PRIVATE_METHODS(),
             ],
         ];
     }

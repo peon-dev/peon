@@ -9,6 +9,7 @@ use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\PhpApplication\BuildApplication;
@@ -108,6 +109,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->alias(GitProvider::class, GitLab::class);
     $services->alias(CheckWriteAccessToRemoteRepository::class, GitLab::class);
+    $services->alias(GetLastCommitOfDefaultBranch::class, GitLab::class);
 
     $services->alias(JobsCollection::class, DoctrineJobsCollection::class);
 

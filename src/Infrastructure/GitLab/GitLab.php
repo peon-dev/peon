@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace PHPMate\Infrastructure\GitLab;
 
 use Gitlab\Client;
-use Gitlab\Exception\RuntimeException;
 use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use PHPMate\Domain\GitProvider\Value\Commit;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
+final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, GetLastCommitOfDefaultBranch
 {
     /**
      * @throws GitProviderCommunicationFailed
@@ -102,6 +101,30 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository
             $project = $client->projects()->show($gitRepository->getProject());
 
             return (bool) ($project['can_create_merge_request_in'] ?? false);
+        } catch (\Throwable $throwable) {
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
+        }
+    }
+
+
+    /**
+     * @throws GitProviderCommunicationFailed
+     *
+     */
+    public function getLastCommitOfDefaultBranch(RemoteGitRepository $gitRepository): Commit
+    {
+        $client = $this->createHttpClient($gitRepository);
+
+        try {
+            /** @var array{default_branch: string} $project */
+            $project = $client->projects()->show($gitRepository->getProject());
+
+            /** @var array{commit: array{short_id: string}} $branch */
+            $branch = $client->repositories()->branch($gitRepository->getProject(), $project['default_branch']);
+
+            return new Commit(
+              $branch['commit']['short_id']
+            );
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }

@@ -10,6 +10,11 @@
                 <option name="default">{}</option>
             </options>
         </field>
+        <field name="baselines" type="recipe_baselines_array">
+            <options>
+                <option name="default">[]</option>
+            </options>
+        </field>
         <embedded name="remoteGitRepository" class="PHPMate\Domain\GitProvider\Value\RemoteGitRepository" />
     </entity>
 </doctrine-mapping>
