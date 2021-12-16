@@ -6,6 +6,7 @@ namespace PHPMate\Ui\Controller;
 
 use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
+use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Project\Value\ProjectId;
@@ -23,6 +24,9 @@ final class EnableRecipeWithBaselineForProjectController extends AbstractControl
     ) {}
 
 
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     #[Route(path: '/projects/{projectId}/recipe/{recipeName}/enable-with-baseline', name: 'project_enable_recipe_with_baseline')]
     public function __invoke(string $projectId, string $recipeName): Response
     {
