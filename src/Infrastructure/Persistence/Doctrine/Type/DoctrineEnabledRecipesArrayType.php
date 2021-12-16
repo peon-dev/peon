@@ -31,6 +31,7 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
 
     /**
      * @return null|array<EnabledRecipe>
+     *
      * @throws ConversionException
      */
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?array
@@ -40,10 +41,7 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
         }
 
         $jsonData = parent::convertToPHPValue($value, $platform);
-
-        if (!is_array($jsonData)) {
-            throw ConversionException::conversionFailed($value, $this->getName());
-        }
+        assert(is_array($jsonData));
 
         $enabledRecipes = [];
 

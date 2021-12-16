@@ -9,7 +9,7 @@ use PHPMate\Domain\Project\Value\EnabledRecipe;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
 use PHPUnit\Framework\TestCase;
 
-final class DoctrineRecipeBaselinesArrayTypeTest extends TestCase
+final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
 {
     /**
      * @param array<EnabledRecipe> $baselines
@@ -83,10 +83,10 @@ final class DoctrineRecipeBaselinesArrayTypeTest extends TestCase
         ];
 
         yield [
-            '[{"recipe_name":"typed-properties","baseline_hash":"a"},{"recipe_name":"unused-private-methods","baseline_hash":"b"}]',
+            '[{"recipe_name":"typed-properties","baseline_hash":null},{"recipe_name":"unused-private-methods","baseline_hash":"a"}]',
             [
-                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a'),
-                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS(), 'b'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), null),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS(), 'a'),
             ],
         ];
     }

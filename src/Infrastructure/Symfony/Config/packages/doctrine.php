@@ -6,7 +6,6 @@ use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNamesArrayType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
