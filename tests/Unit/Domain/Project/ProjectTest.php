@@ -103,6 +103,40 @@ class ProjectTest extends TestCase
     }
 
 
+    public function testEnableRecipeThatHadBaselineWillRemoveBaseline(): void
+    {
+        $project = $this->createProject();
+
+        self::assertCount(0, $project->enabledRecipes);
+
+        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $project->enableRecipeWithBaseline($recipeName, 'abcd');
+
+        self::assertCount(1, $project->baselines);
+
+        $project->enableRecipe($recipeName);
+
+        self::assertCount(0, $project->baselines);
+    }
+
+
+    public function testEnableWithBaselineOnEnabledRecipeWillAddBaseline(): void
+    {
+        $project = $this->createProject();
+
+        self::assertCount(0, $project->enabledRecipes);
+
+        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $project->enableRecipe($recipeName);
+
+        self::assertCount(0, $project->baselines);
+
+        $project->enableRecipeWithBaseline($recipeName, 'abcd');
+
+        self::assertCount(1, $project->baselines);
+    }
+
+
     private function createProject(): Project
     {
         return new Project(
