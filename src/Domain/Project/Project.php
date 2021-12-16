@@ -54,6 +54,14 @@ class Project
     {
         foreach ($this->enabledRecipes as $enabledRecipe) {
             if ($enabledRecipe->equals($recipe)) {
+                // Ok, this recipe is already enabled, if it has baseline, remove it, otherwise it is error
+                foreach ($this->baselines as $baselineKey => $baseline) {
+                    if ($baseline->recipeName->equals($recipe)) {
+                        unset($this->baselines[$baselineKey]);
+                        return;
+                    }
+                }
+
                 throw new RecipeAlreadyEnabledForProject();
             }
         }
@@ -67,7 +75,9 @@ class Project
      */
     public function enableRecipeWithBaseline(RecipeName $recipeName, string $baselineHash): void
     {
-        $this->enableRecipe($recipeName);
+        if ($this->isRecipeEnabled($recipeName) === false) {
+            $this->enabledRecipes[] = $recipeName;
+        }
 
         foreach ($this->baselines as $baseline) {
             if ($baseline->recipeName->equals($recipeName)) {
@@ -103,10 +113,23 @@ class Project
     }
 
 
+    // TODO: used only in template, domain objects should not be in template
     public function isRecipeEnabled(RecipeName $recipe): bool
     {
         foreach ($this->enabledRecipes as $key => $enabledRecipe) {
             if ($enabledRecipe->equals($recipe)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // TODO: used only in template, domain objects should not be in template
+    public function hasRecipeBaseline(RecipeName $recipe): bool
+    {
+        foreach ($this->baselines as $key => $baseline) {
+            if ($baseline->recipeName->equals($recipe)) {
                 return true;
             }
         }

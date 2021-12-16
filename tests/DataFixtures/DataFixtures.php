@@ -44,7 +44,7 @@ final class DataFixtures extends Fixture
         $projectId = new ProjectId(self::PROJECT_1_ID);
         $project = new Project($projectId, $remoteGitRepository);
         $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS());
-        $project->enableRecipe(RecipeName::TYPED_PROPERTIES());
+        $project->enableRecipeWithBaseline(RecipeName::TYPED_PROPERTIES(), 'abcde');
 
         $manager->persist($project);
 
