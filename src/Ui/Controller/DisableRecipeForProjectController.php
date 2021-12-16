@@ -7,12 +7,10 @@ namespace PHPMate\Ui\Controller;
 use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Packages\Enum\InvalidEnumValue;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\DisableRecipeForProject;
-use PHPMate\UseCase\EnableRecipeForProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,8 +34,6 @@ final class DisableRecipeForProjectController extends AbstractController
             );
         } catch (ProjectNotFound | InvalidEnumValue | RecipeNotFound) {
             throw $this->createNotFoundException();
-        } catch (RecipeNotEnabledForProject) {
-            // Do nothing
         }
 
         return $this->redirectToRoute('cookbook', [

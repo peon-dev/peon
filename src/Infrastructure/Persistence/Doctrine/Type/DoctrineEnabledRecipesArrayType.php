@@ -8,11 +8,11 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\RecipeBaseline;
+use PHPMate\Domain\Project\Value\EnabledRecipe;
 
-final class DoctrineRecipeBaselinesArrayType extends JsonType
+final class DoctrineEnabledRecipesArrayType extends JsonType
 {
-    public const NAME = 'recipe_baselines_array';
+    public const NAME = 'enabled_recipes_array';
 
     public function getName(): string
     {
@@ -30,9 +30,8 @@ final class DoctrineRecipeBaselinesArrayType extends JsonType
     }
 
     /**
-     * @param null|string $value
+     * @return null|array<EnabledRecipe>
      * @throws ConversionException
-     * @return null|array<RecipeBaseline>
      */
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?array
     {
@@ -46,20 +45,21 @@ final class DoctrineRecipeBaselinesArrayType extends JsonType
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
-        $baselines = [];
+        $enabledRecipes = [];
 
         foreach ($jsonData as $baselineData) {
-            $baselines[] = new RecipeBaseline(
+            // TODO: what about some hydrator instead of doing it manually?
+            $enabledRecipes[] = new EnabledRecipe(
                 RecipeName::fromString($baselineData['recipe_name']),
                 $baselineData['baseline_hash'],
             );
         }
 
-        return $baselines;
+        return $enabledRecipes;
     }
 
     /**
-     * @param null|array<RecipeBaseline> $value
+     * @param null|array<EnabledRecipe> $value
      * @throws ConversionException
      */
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
@@ -71,8 +71,8 @@ final class DoctrineRecipeBaselinesArrayType extends JsonType
         $data = [];
 
         foreach ($value as $baseline) {
-            if (!is_a($baseline, RecipeBaseline::class)) {
-                throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [RecipeBaseline::class]);
+            if (!is_a($baseline, EnabledRecipe::class)) {
+                throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [EnabledRecipe::class]);
             }
 
             $data[] = [

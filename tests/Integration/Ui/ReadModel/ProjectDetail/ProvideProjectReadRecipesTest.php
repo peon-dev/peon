@@ -35,12 +35,12 @@ class ProvideProjectReadRecipesTest extends KernelTestCase
         self::assertCount(2, $readRecipes);
 
         $recipe = $readRecipes[0];
-        self::assertEquals(RecipeName::TYPED_PROPERTIES, $recipe->recipeName);
+        self::assertTrue(RecipeName::TYPED_PROPERTIES()->equals($recipe->getRecipeName()));
         self::assertNull($recipe->lastJobId);
         self::assertNull($recipe->lastJobMergeRequestUrl);
 
         $recipe = $readRecipes[1];
-        self::assertEquals(RecipeName::UNUSED_PRIVATE_METHODS, $recipe->recipeName);
+        self::assertTrue(RecipeName::UNUSED_PRIVATE_METHODS()->equals($recipe->getRecipeName()));
         self::assertNotNull($recipe->lastJobId);
         self::assertNotNull($recipe->lastJobMergeRequestUrl);
     }

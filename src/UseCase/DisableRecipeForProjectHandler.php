@@ -8,7 +8,6 @@ use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class DisableRecipeForProjectHandler implements MessageHandlerInterface
@@ -22,7 +21,6 @@ final class DisableRecipeForProjectHandler implements MessageHandlerInterface
     /**
      * @throws ProjectNotFound
      * @throws RecipeNotFound
-     * @throws RecipeNotEnabledForProject
      */
     public function __invoke(DisableRecipeForProject $command): void
     {

@@ -6,11 +6,9 @@ namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
-use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\Project\Value\RecipeBaseline;
+use PHPMate\Domain\Project\Value\EnabledRecipe;
 
 class Project
 {
@@ -18,13 +16,7 @@ class Project
     public string $name;
 
     /**
-     * @var array<RecipeBaseline>
-     */
-    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
-    public array $baselines = [];
-
-    /**
-     * @var array<RecipeName>
+     * @var array<EnabledRecipe>
      */
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     public array $enabledRecipes = [];
@@ -37,103 +29,28 @@ class Project
     }
 
 
-    /**
-     * @param array<RecipeName> $recipes
-     * @deprecated
-     */
-    public function changeRecipes(array $recipes): void
+    public function enableRecipe(RecipeName $recipeName, string|null $baseline = null): void
     {
-        $this->enabledRecipes = $recipes;
-    }
+        $recipeToBeEnabled = new EnabledRecipe($recipeName, $baseline);
 
-
-    /**
-     * @throws RecipeAlreadyEnabledForProject
-     */
-    public function enableRecipe(RecipeName $recipe): void
-    {
-        foreach ($this->enabledRecipes as $enabledRecipe) {
-            if ($enabledRecipe->equals($recipe)) {
-                // Ok, this recipe is already enabled, if it has baseline, remove it, otherwise it is error
-                foreach ($this->baselines as $baselineKey => $baseline) {
-                    if ($baseline->recipeName->equals($recipe)) {
-                        unset($this->baselines[$baselineKey]);
-                        return;
-                    }
-                }
-
-                throw new RecipeAlreadyEnabledForProject();
-            }
-        }
-
-        $this->enabledRecipes[] = $recipe;
-    }
-
-
-    /**
-     * @throws RecipeAlreadyEnabledForProject
-     */
-    public function enableRecipeWithBaseline(RecipeName $recipeName, string $baselineHash): void
-    {
-        if ($this->isRecipeEnabled($recipeName) === false) {
-            $this->enabledRecipes[] = $recipeName;
-        }
-
-        foreach ($this->baselines as $baseline) {
-            if ($baseline->recipeName->equals($recipeName)) {
-                throw new RecipeAlreadyEnabledForProject();
-            }
-        }
-
-        $this->baselines[] = new RecipeBaseline($recipeName, $baselineHash);
-    }
-
-
-    /**
-     * @throws RecipeNotEnabledForProject
-     */
-    public function disableRecipe(RecipeName $recipe): void
-    {
         foreach ($this->enabledRecipes as $key => $enabledRecipe) {
-            if ($enabledRecipe->equals($recipe)) {
-                unset($this->enabledRecipes[$key]);
-
-                // Recipe was enabled, check if it has baseline
-                foreach ($this->baselines as $baselineKey => $baseline) {
-                    if ($baseline->recipeName->equals($recipe)) {
-                        unset($this->baselines[$baselineKey]);
-                    }
-                }
-
+            if ($enabledRecipe->recipeName->equals($recipeName)) {
+                $this->enabledRecipes[$key] = $recipeToBeEnabled;
                 return;
             }
         }
 
-        throw new RecipeNotEnabledForProject();
+        $this->enabledRecipes[] = $recipeToBeEnabled;
     }
 
 
-    // TODO: used only in template, domain objects should not be in template
-    public function isRecipeEnabled(RecipeName $recipe): bool
+    public function disableRecipe(RecipeName $recipeName): void
     {
         foreach ($this->enabledRecipes as $key => $enabledRecipe) {
-            if ($enabledRecipe->equals($recipe)) {
-                return true;
+            if ($enabledRecipe->recipeName->equals($recipeName)) {
+                unset($this->enabledRecipes[$key]);
+                return;
             }
         }
-
-        return false;
-    }
-
-    // TODO: used only in template, domain objects should not be in template
-    public function hasRecipeBaseline(RecipeName $recipe): bool
-    {
-        foreach ($this->baselines as $key => $baseline) {
-            if ($baseline->recipeName->equals($recipe)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

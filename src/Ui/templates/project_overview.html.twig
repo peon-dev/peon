@@ -167,6 +167,11 @@
                     <tr>
                         <td>
                             {{ recipe.title }}
+                            {% if activeProject.recipeBaseline(recipe.recipeName) %}
+                                <span class="badge rounded-pill bg-light text-dark">Changed files only</span>
+                            {% else %}
+                                <span class="badge rounded-pill bg-light text-dark">Full codebase</span>
+                            {% endif %}
                         </td>
                         <td>
                             <small class="text-muted">{{ recipe.humanReadableCron }}</small>

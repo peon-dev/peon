@@ -9,7 +9,6 @@ use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Project\ProjectsCollection;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -27,7 +26,6 @@ final class EnableRecipeWithBaselineForProjectHandler implements MessageHandlerI
     /**
      * @throws RecipeNotFound
      * @throws ProjectNotFound
-     * @throws RecipeAlreadyEnabledForProject
      * @throws GitProviderCommunicationFailed
      */
     public function __invoke(EnableRecipeWithBaselineForProject $command): void
@@ -39,7 +37,7 @@ final class EnableRecipeWithBaselineForProjectHandler implements MessageHandlerI
         $project = $this->projectsCollection->get($command->projectId);
         $lastCommit = $this->getLastCommitOfDefaultBranch->getLastCommitOfDefaultBranch($project->remoteGitRepository);
 
-        $project->enableRecipeWithBaseline($command->recipeName, $lastCommit->hash);
+        $project->enableRecipe($command->recipeName, $lastCommit->hash);
 
         $this->projectsCollection->save($project);
     }
