@@ -34,7 +34,7 @@ SELECT
 	job.scheduled_at as last_job_scheduled_at,
 	job.merge_request_url as last_job_merge_request_url
 FROM (
-    SELECT project_id, unnest(enabled_recipes) as recipe_name
+    SELECT project_id, json_array_elements(enabled_recipes)->>'recipe_name' as recipe_name
     FROM project
     WHERE project_id = :projectId
     ) project
