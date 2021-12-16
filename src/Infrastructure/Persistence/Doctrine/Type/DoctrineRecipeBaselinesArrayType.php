@@ -14,6 +14,11 @@ final class DoctrineRecipeBaselinesArrayType extends JsonType
 {
     public const NAME = 'recipe_baselines_array';
 
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
