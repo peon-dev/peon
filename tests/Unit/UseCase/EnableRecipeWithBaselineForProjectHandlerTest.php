@@ -7,7 +7,6 @@ use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\GitProvider\Value\Commit;
 use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\Project\Exception\RecipeAlreadyEnabledForProject;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
@@ -34,7 +33,7 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $project = $this->createMock(Project::class);
         $project->remoteGitRepository = new RemoteGitRepository('https://gitlab.com/phpmate/phpmate.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'));
         $project->expects(self::once())
-            ->method('enableRecipeWithBaseline')
+            ->method('enableRecipe')
             ->with($recipeName, 'abcd');
 
         $projectsCollection = $this->createMock(ProjectsCollection::class);
@@ -106,41 +105,6 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
 
         $projectsCollection = new InMemoryProjectsCollection();
-        $handler = new EnableRecipeWithBaselineForProjectHandler($projectsCollection, $recipesCollection, $getLastCommitOfDefaultBranch);
-
-        $handler->__invoke($command);
-    }
-
-
-    public function testRecipeAlreadyEnabled(): void
-    {
-        $this->expectException(RecipeAlreadyEnabledForProject::class);
-
-        $recipeName = RecipeName::TYPED_PROPERTIES();
-        $projectId = new ProjectId('');
-        $command = new EnableRecipeWithBaselineForProject(
-            $recipeName,
-            $projectId,
-        );
-
-        $recipesCollection = $this->createMock(RecipesCollection::class);
-        $recipesCollection->method('hasRecipeWithName')->willReturn(true);
-
-        $project = $this->createMock(Project::class);
-        $project->remoteGitRepository = new RemoteGitRepository('https://gitlab.com/phpmate/phpmate.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'));
-        $project->expects(self::once())
-            ->method('enableRecipeWithBaseline')
-            ->willThrowException(new RecipeAlreadyEnabledForProject());
-
-        $projectsCollection = $this->createMock(ProjectsCollection::class);
-        $projectsCollection->method('get')
-            ->willReturn($project);
-
-        $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
-        $getLastCommitOfDefaultBranch->expects(self::once())
-            ->method('getLastCommitOfDefaultBranch')
-            ->willReturn(new Commit('abcd'));
-
         $handler = new EnableRecipeWithBaselineForProjectHandler($projectsCollection, $recipesCollection, $getLastCommitOfDefaultBranch);
 
         $handler->__invoke($command);

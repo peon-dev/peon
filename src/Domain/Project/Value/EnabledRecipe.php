@@ -6,10 +6,10 @@ namespace PHPMate\Domain\Project\Value;
 
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 
-final class RecipeBaseline
+final class EnabledRecipe
 {
     public function __construct(
         public readonly RecipeName $recipeName,
-        public readonly string $baselineHash,
+        public readonly string|null $baselineHash,
     ) {}
 }

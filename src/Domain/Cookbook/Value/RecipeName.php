@@ -6,7 +6,7 @@ namespace PHPMate\Domain\Cookbook\Value;
 
 use PHPMate\Packages\Enum\Enum;
 
-final class RecipeName extends Enum
+final class RecipeName extends Enum implements \Stringable
 {
     public const UNUSED_PRIVATE_METHODS = 'unused-private-methods';
     public const TYPED_PROPERTIES = 'typed-properties';
@@ -28,5 +28,11 @@ final class RecipeName extends Enum
     public static function SWITCH_TO_MATCH(): self
     {
         return new self(self::SWITCH_TO_MATCH);
+    }
+
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

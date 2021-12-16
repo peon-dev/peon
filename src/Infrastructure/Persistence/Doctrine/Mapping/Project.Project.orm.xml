@@ -5,12 +5,7 @@
     <entity name="PHPMate\Domain\Project\Project">
         <id name="projectId" type="project_id" />
         <field name="name" />
-        <field name="enabledRecipes" type="recipe_names_array">
-            <options>
-                <option name="default">{}</option>
-            </options>
-        </field>
-        <field name="baselines" type="recipe_baselines_array">
+        <field name="enabledRecipes" type="enabled_recipes_array">
             <options>
                 <option name="default">[]</option>
             </options>

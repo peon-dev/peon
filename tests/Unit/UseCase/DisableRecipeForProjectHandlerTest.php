@@ -10,7 +10,6 @@ use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Project\Exception\RecipeNotEnabledForProject;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\UseCase\DisableRecipeForProject;
 use PHPMate\UseCase\DisableRecipeForProjectHandler;
@@ -96,8 +95,6 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
 
     public function testRecipeNotEnabled(): void
     {
-        $this->expectException(RecipeNotEnabledForProject::class);
-
         $recipeName = RecipeName::TYPED_PROPERTIES();
         $projectId = new ProjectId('');
         $command = new DisableRecipeForProject(
@@ -110,8 +107,7 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
 
         $project = $this->createMock(Project::class);
         $project->expects(self::once())
-            ->method('disableRecipe')
-            ->willThrowException(new RecipeNotEnabledForProject());
+            ->method('disableRecipe');
 
         $projectsCollection = $this->createMock(ProjectsCollection::class);
         $projectsCollection->method('get')

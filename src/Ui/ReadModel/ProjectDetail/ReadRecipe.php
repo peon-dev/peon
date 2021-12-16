@@ -7,6 +7,7 @@ namespace PHPMate\Ui\ReadModel\ProjectDetail;
 use Cron\CronExpression;
 use DateTimeImmutable;
 use Lorisleiva\CronTranslator\CronTranslator;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Ui\ReadModel\JobStatus;
 
 final class ReadRecipe
@@ -18,7 +19,7 @@ final class ReadRecipe
 
     public function __construct(
         public string $title,
-        public string $recipeName,
+        private string $recipeName,
         public string|null $lastJobId,
         public DateTimeImmutable $lastJobScheduledAt,
         public DateTimeImmutable|null $lastJobStartedAt,
@@ -33,6 +34,12 @@ final class ReadRecipe
         } elseif ($lastJobStartedAt !== null) {
             $this->lastJobStatus = JobStatus::IN_PROGRESS;
         }
+    }
+
+
+    public function getRecipeName(): RecipeName
+    {
+        return RecipeName::fromString($this->recipeName);
     }
 
 

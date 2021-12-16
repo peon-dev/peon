@@ -45,7 +45,6 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
-        $baselinesBeforeScenario = $project->baselines;
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
 
@@ -53,7 +52,6 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         self::assertCount(count($enabledRecipesBeforeScenario), $project->enabledRecipes);
-        self::assertCount(count($baselinesBeforeScenario), $project->baselines);
     }
 
 
@@ -67,7 +65,6 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
-        $baselinesBeforeScenario = $project->baselines;
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
 
@@ -75,7 +72,6 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         self::assertCount(count($enabledRecipesBeforeScenario), $project->enabledRecipes);
-        self::assertCount(1 + count($baselinesBeforeScenario), $project->baselines);
     }
 
 
@@ -89,7 +85,6 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
-        $baselinesBeforeScenario = $project->baselines;
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
 
@@ -97,6 +92,5 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         self::assertCount(1 + count($enabledRecipesBeforeScenario), $project->enabledRecipes);
-        self::assertCount(1 + count($baselinesBeforeScenario), $project->baselines);
     }
 }

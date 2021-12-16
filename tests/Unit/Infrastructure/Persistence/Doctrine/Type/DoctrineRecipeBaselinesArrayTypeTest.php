@@ -5,20 +5,20 @@ namespace PHPMate\Tests\Unit\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\RecipeBaseline;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeBaselinesArrayType;
+use PHPMate\Domain\Project\Value\EnabledRecipe;
+use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
 use PHPUnit\Framework\TestCase;
 
 final class DoctrineRecipeBaselinesArrayTypeTest extends TestCase
 {
     /**
-     * @param array<RecipeBaseline> $baselines
+     * @param array<EnabledRecipe> $baselines
      * @dataProvider provideConvertToDatabaseValueData
      */
     public function testConvertToDatabaseValue(?array $baselines, ?string $expected): void
     {
         $platform = new PostgreSQL100Platform();
-        $type = new DoctrineRecipeBaselinesArrayType();
+        $type = new DoctrineEnabledRecipesArrayType();
 
         $actual = $type->convertToDatabaseValue($baselines, $platform);
 
@@ -36,28 +36,28 @@ final class DoctrineRecipeBaselinesArrayTypeTest extends TestCase
 
         yield [
                 [
-                    new RecipeBaseline(RecipeName::TYPED_PROPERTIES(), 'a')
+                    new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a')
                 ],
                 '[{"recipe_name":"typed-properties","baseline_hash":"a"}]',
             ];
 
         yield [
             [
-                new RecipeBaseline(RecipeName::TYPED_PROPERTIES(), 'a'),
-                new RecipeBaseline(RecipeName::UNUSED_PRIVATE_METHODS(), 'b'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a'),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS(), 'b'),
             ],
             '[{"recipe_name":"typed-properties","baseline_hash":"a"},{"recipe_name":"unused-private-methods","baseline_hash":"b"}]',
         ];
     }
 
     /**
-     * @param array<RecipeBaseline> $expected
+     * @param array<EnabledRecipe> $expected
      * @dataProvider provideConvertToPHPValueData
      */
     public function testConvertToPHPValue(?string $value, ?array $expected): void
     {
         $platform = new PostgreSQL100Platform();
-        $type = new DoctrineRecipeBaselinesArrayType();
+        $type = new DoctrineEnabledRecipesArrayType();
 
         $actual = $type->convertToPHPValue($value, $platform);
 
@@ -78,15 +78,15 @@ final class DoctrineRecipeBaselinesArrayTypeTest extends TestCase
         yield [
             '[{"recipe_name":"typed-properties","baseline_hash":"a"}]',
             [
-                new RecipeBaseline(RecipeName::TYPED_PROPERTIES(), 'a'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a'),
             ],
         ];
 
         yield [
             '[{"recipe_name":"typed-properties","baseline_hash":"a"},{"recipe_name":"unused-private-methods","baseline_hash":"b"}]',
             [
-                new RecipeBaseline(RecipeName::TYPED_PROPERTIES(), 'a'),
-                new RecipeBaseline(RecipeName::UNUSED_PRIVATE_METHODS(), 'b'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a'),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS(), 'b'),
             ],
         ];
     }
