@@ -25,7 +25,7 @@ SELECT
        project.project_id, project.name,
        count(DISTINCT task.task_id) as tasks_count,
        count(DISTINCT job.job_id) as jobs_count,
-       cardinality(project.enabled_recipes) as recipes_count
+       json_array_length(project.enabled_recipes) as recipes_count
 FROM project
 LEFT JOIN job ON job.project_id = project.project_id
 LEFT JOIN task ON task.project_id = project.project_id
