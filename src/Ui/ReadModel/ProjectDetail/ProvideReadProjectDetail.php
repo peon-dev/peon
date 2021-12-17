@@ -44,8 +44,15 @@ SQL;
          */
         $enabledRecipes = [];
 
+        assert(is_string($row['enabled_recipes']));
+
+        /**
+         * @var array<array{recipe_name: string, baseline_hash: string|null}> $enabledRecipesJson
+         */
+        $enabledRecipesJson = Json::decode($row['enabled_recipes'], Json::FORCE_ARRAY);
+
         // TODO: Temporary fix until we have proper hydrator
-        foreach (Json::decode($row['enabled_recipes'], Json::FORCE_ARRAY) as $enabledRecipe) {
+        foreach ($enabledRecipesJson as $enabledRecipe) {
             $enabledRecipes[] = new EnabledRecipe(
                 RecipeName::from($enabledRecipe['recipe_name']),
                 $enabledRecipe['baseline_hash'],
@@ -53,7 +60,6 @@ SQL;
         }
 
         $row['enabled_recipes'] = $enabledRecipes;
-
 
         return $this->hydrator->hydrateArray($row, ReadProjectDetail::class);
     }
