@@ -181,7 +181,7 @@
                             </small>
                         </td>
                         <td>
-                            <a href="{{ path('run_recipe', {recipeName: recipe.recipeName, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-outline-primary">
+                            <a href="{{ path('run_recipe', {recipeName: recipe.recipeName.value, projectId: activeProject.projectId}) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="far fa-play-circle"></i>
                                 Run
                             </a>

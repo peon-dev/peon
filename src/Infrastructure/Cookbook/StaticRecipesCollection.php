@@ -20,7 +20,7 @@ final class StaticRecipesCollection implements RecipesCollection
     public function __construct()
     {
         $this->recipes[] = new Recipe(
-            RecipeName::UNUSED_PRIVATE_METHODS(),
+            RecipeName::UNUSED_PRIVATE_METHODS,
             'Unused private methods',
             file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'),
             null,
@@ -30,7 +30,7 @@ final class StaticRecipesCollection implements RecipesCollection
         );
 
         $this->recipes[] = new Recipe(
-            RecipeName::TYPED_PROPERTIES(),
+            RecipeName::TYPED_PROPERTIES,
             'Typed properties',
             file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'),
             7.4,
@@ -40,7 +40,7 @@ final class StaticRecipesCollection implements RecipesCollection
         );
 
         $this->recipes[] = new Recipe(
-            RecipeName::SWITCH_TO_MATCH(),
+            RecipeName::SWITCH_TO_MATCH,
             'Switch to match',
             file_get_contents(__DIR__ . '/CodeSnippets/switch-to-match.diff'),
             8.0,
@@ -54,7 +54,7 @@ final class StaticRecipesCollection implements RecipesCollection
     public function hasRecipeWithName(RecipeName $recipeName): bool
     {
         foreach ($this->recipes as $recipe) {
-            if ($recipe->name->equals($recipeName)) {
+            if ($recipe->name === $recipeName) {
                 return true;
             }
         }
@@ -66,7 +66,7 @@ final class StaticRecipesCollection implements RecipesCollection
     public function get(RecipeName $recipeName): Recipe
     {
         foreach ($this->recipes as $recipe) {
-            if ($recipe->name->equals($recipeName)) {
+            if ($recipe->name === $recipeName) {
                 return $recipe;
             }
         }

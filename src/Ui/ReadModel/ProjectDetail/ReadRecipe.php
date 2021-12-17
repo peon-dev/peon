@@ -39,7 +39,7 @@ final class ReadRecipe
 
     public function getRecipeName(): RecipeName
     {
-        return RecipeName::fromString($this->recipeName);
+        return RecipeName::from($this->recipeName);
     }
 
 

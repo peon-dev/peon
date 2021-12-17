@@ -51,7 +51,7 @@ final class RunRecipeHandlerTest extends TestCase
         $handler->__invoke(
             new RunRecipe(
                 $projectId,
-                RecipeName::TYPED_PROPERTIES()
+                RecipeName::TYPED_PROPERTIES
             )
         );
 

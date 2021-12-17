@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
-use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Task\Exception\InvalidCronExpression;
 use PHPMate\Domain\Task\Value\TaskId;
 use PHPMate\Domain\Task\Exception\TaskNotFound;
@@ -14,10 +12,8 @@ use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
-use PHPMate\UseCase\DefineTask;
-use PHPMate\UseCase\DefineTaskHandler;
+use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use PHPMate\UseCase\RedefineTask;
-use PHPMate\UseCase\RedefineTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,16 +25,19 @@ final class RedefineTaskController extends AbstractController
     public function __construct(
         private TasksCollection $tasks,
         private CommandBus $commandBus,
-        private ProjectsCollection $projectsCollection,
+        private ProvideReadProjectDetail $provideReadProjectDetail,
     ) {}
 
 
+    /**
+     * @throws \Nette\Utils\JsonException
+     */
     #[Route(path: '/redefine-task/{taskId}', name: 'redefine_task')]
     public function __invoke(string $taskId, Request $request): Response
     {
         try {
             $task = $this->tasks->get(new TaskId($taskId));
-            $project = $this->projectsCollection->get($task->projectId);
+            $project = $this->provideReadProjectDetail->provide($task->projectId);
             $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
 
             try {

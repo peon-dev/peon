@@ -25,17 +25,17 @@ class ProjectTest extends TestCase
 
         self::assertCount(0, $project->enabledRecipes);
 
-        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $recipeName = RecipeName::TYPED_PROPERTIES;
         $project->enableRecipe($recipeName);
 
         self::assertCount(1, $project->enabledRecipes);
-        self::assertTrue($recipeName->equals($project->enabledRecipes[0]->recipeName));
+        self::assertSame($recipeName, $project->enabledRecipes[0]->recipeName);
         self::assertNull($project->enabledRecipes[0]->baselineHash);
 
         $project->enableRecipe($recipeName, '12345');
 
         self::assertCount(1, $project->enabledRecipes);
-        self::assertTrue($recipeName->equals($project->enabledRecipes[0]->recipeName));
+        self::assertSame($recipeName, $project->enabledRecipes[0]->recipeName);
         self::assertSame('12345', $project->enabledRecipes[0]->baselineHash);
     }
 
@@ -44,17 +44,17 @@ class ProjectTest extends TestCase
     {
         $project = $this->createProject();
 
-        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS());
-        $project->enableRecipe(RecipeName::TYPED_PROPERTIES());
+        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES);
         self::assertCount(2, $project->enabledRecipes);
 
-        $project->disableRecipe(RecipeName::TYPED_PROPERTIES());
+        $project->disableRecipe(RecipeName::TYPED_PROPERTIES);
         self::assertCount(1, $project->enabledRecipes);
 
-        $project->disableRecipe(RecipeName::TYPED_PROPERTIES());
+        $project->disableRecipe(RecipeName::TYPED_PROPERTIES);
         self::assertCount(1, $project->enabledRecipes);
 
-        $project->disableRecipe(RecipeName::UNUSED_PRIVATE_METHODS());
+        $project->disableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
         self::assertCount(0, $project->enabledRecipes);
     }
 

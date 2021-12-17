@@ -129,7 +129,7 @@ SQL;
                     $this->commandBus->dispatch(
                         new RunRecipe(
                             new ProjectId($row['project_id']),
-                            RecipeName::fromString($row['enabled_recipe_name'])
+                            RecipeName::from($row['enabled_recipe_name'])
                         )
                     );
 
@@ -149,7 +149,7 @@ SQL;
                     $this->commandBus->dispatch(
                         new RunRecipe(
                             new ProjectId($row['project_id']),
-                            RecipeName::fromString($row['enabled_recipe_name'])
+                            RecipeName::from($row['enabled_recipe_name'])
                         )
                     );
 

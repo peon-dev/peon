@@ -23,8 +23,8 @@
                                     </button>
 
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable for full codebase</a></li>
-                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Disable</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for full codebase</a></li>
+                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Disable</a></li>
                                     </ul>
                                 {% elseif activeProject.recipeEnabled(recipe.name) %}
                                     <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
@@ -32,8 +32,8 @@
                                     </button>
 
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable for changed files</a></li>
-                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Disable</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for changed files</a></li>
+                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Disable</a></li>
                                     </ul>
                                 {% else %}
                                     <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown">
@@ -41,8 +41,8 @@
                                     </button>
 
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable for full codebase</a></li>
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: activeProject.projectId, recipeName: recipe.name.toString}) }}">Enable for changed files</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for full codebase</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for changed files</a></li>
                                     </ul>
                                 {% endif %}
                             </div>

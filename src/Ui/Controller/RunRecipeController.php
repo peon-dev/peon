@@ -41,7 +41,7 @@ final class RunRecipeController extends AbstractController
             $this->commandBus->dispatch(
                 new RunRecipe(
                     new ProjectId($projectId),
-                    RecipeName::fromString($recipeName)
+                    RecipeName::from($recipeName)
                 )
             );
 

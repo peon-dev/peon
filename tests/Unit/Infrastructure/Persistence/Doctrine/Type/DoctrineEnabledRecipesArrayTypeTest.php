@@ -36,15 +36,15 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
 
         yield [
                 [
-                    new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a')
+                    new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a')
                 ],
                 '[{"recipe_name":"typed-properties","baseline_hash":"a"}]',
             ];
 
         yield [
             [
-                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a'),
-                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS(), 'b'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a'),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, 'b'),
             ],
             '[{"recipe_name":"typed-properties","baseline_hash":"a"},{"recipe_name":"unused-private-methods","baseline_hash":"b"}]',
         ];
@@ -78,15 +78,15 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
         yield [
             '[{"recipe_name":"typed-properties","baseline_hash":"a"}]',
             [
-                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), 'a'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a'),
             ],
         ];
 
         yield [
             '[{"recipe_name":"typed-properties","baseline_hash":null},{"recipe_name":"unused-private-methods","baseline_hash":"a"}]',
             [
-                new EnabledRecipe(RecipeName::TYPED_PROPERTIES(), null),
-                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS(), 'a'),
+                new EnabledRecipe(RecipeName::TYPED_PROPERTIES, null),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, 'a'),
             ],
         ];
     }

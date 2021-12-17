@@ -43,8 +43,8 @@ final class DataFixtures extends Fixture
 
         $projectId = new ProjectId(self::PROJECT_1_ID);
         $project = new Project($projectId, $remoteGitRepository);
-        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS());
-        $project->enableRecipe(RecipeName::TYPED_PROPERTIES(), 'abcde');
+        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
 
         $manager->persist($project);
 
@@ -115,7 +115,7 @@ final class DataFixtures extends Fixture
 
         $manager->persist($job2);
 
-        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS());
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
         $job3Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 14:00:00'));
         $job3Id = new JobId(self::JOB_3_ID);
         $job3 = Job::scheduleFromRecipe(
