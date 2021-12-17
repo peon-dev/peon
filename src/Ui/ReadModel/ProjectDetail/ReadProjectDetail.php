@@ -23,18 +23,6 @@ final class ReadProjectDetail
     ) {}
 
 
-    public function getEnabledRecipe(RecipeName $recipeName): EnabledRecipe|null
-    {
-        foreach ($this->enabledRecipes as $enabledRecipe) {
-            if ($recipeName === $enabledRecipe->recipeName) {
-                return $enabledRecipe;
-            }
-        }
-
-        return null;
-    }
-
-
     public function hasRecipeBaseline(RecipeName $recipeName): bool
     {
         $recipe = $this->getEnabledRecipe($recipeName);
@@ -50,5 +38,17 @@ final class ReadProjectDetail
     public function isRecipeEnabled(RecipeName $recipeName): bool
     {
         return $this->getEnabledRecipe($recipeName) !== null;
+    }
+
+
+    private function getEnabledRecipe(RecipeName $recipeName): EnabledRecipe|null
+    {
+        foreach ($this->enabledRecipes as $enabledRecipe) {
+            if ($recipeName === $enabledRecipe->recipeName) {
+                return $enabledRecipe;
+            }
+        }
+
+        return null;
     }
 }
