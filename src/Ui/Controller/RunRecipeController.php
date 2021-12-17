@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Ui\Controller;
 
+use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
@@ -41,12 +42,12 @@ final class RunRecipeController extends AbstractController
             $this->commandBus->dispatch(
                 new RunRecipe(
                     new ProjectId($projectId),
-                    RecipeName::from($recipeName)
+                    RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
                 )
             );
 
             return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
-        } catch (ProjectNotFound) {
+        } catch (ProjectNotFound | RecipeNotFound) {
             throw $this->createNotFoundException();
         }
     }

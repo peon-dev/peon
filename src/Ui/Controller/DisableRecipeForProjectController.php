@@ -27,7 +27,7 @@ final class DisableRecipeForProjectController extends AbstractController
         try {
             $this->commandBus->dispatch(
                 new DisableRecipeForProject(
-                    RecipeName::from($recipeName),
+                    RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
                     new ProjectId($projectId)
                 )
             );
