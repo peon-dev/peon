@@ -8,7 +8,6 @@ use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Packages\Enum\InvalidEnumValue;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\DisableRecipeForProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,11 +27,11 @@ final class DisableRecipeForProjectController extends AbstractController
         try {
             $this->commandBus->dispatch(
                 new DisableRecipeForProject(
-                    RecipeName::fromString($recipeName),
+                    RecipeName::from($recipeName),
                     new ProjectId($projectId)
                 )
             );
-        } catch (ProjectNotFound | InvalidEnumValue | RecipeNotFound) {
+        } catch (ProjectNotFound | RecipeNotFound) {
             throw $this->createNotFoundException();
         }
 

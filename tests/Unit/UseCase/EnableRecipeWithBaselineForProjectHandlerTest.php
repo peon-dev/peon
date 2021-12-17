@@ -23,7 +23,7 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 {
     public function testRecipeCanBeEnabled(): void
     {
-        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $recipeName = RecipeName::TYPED_PROPERTIES;
         $projectId = new ProjectId('');
         $command = new EnableRecipeWithBaselineForProject(
             $recipeName,
@@ -66,7 +66,7 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
     {
         $this->expectException(ProjectNotFound::class);
 
-        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $recipeName = RecipeName::TYPED_PROPERTIES;
         $projectId = new ProjectId('');
         $command = new EnableRecipeWithBaselineForProject(
             $recipeName,
@@ -89,7 +89,7 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
     {
         $this->expectException(RecipeNotFound::class);
 
-        $recipeName = RecipeName::TYPED_PROPERTIES();
+        $recipeName = RecipeName::TYPED_PROPERTIES;
         $projectId = new ProjectId('');
         $command = new EnableRecipeWithBaselineForProject(
             $recipeName,

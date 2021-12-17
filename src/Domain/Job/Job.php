@@ -75,7 +75,7 @@ class Job
             $clock,
         );
 
-        $job->recipeName = $recipe->name->toString();
+        $job->recipeName = $recipe->name->value;
 
         return $job;
     }

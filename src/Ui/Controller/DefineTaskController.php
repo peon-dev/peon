@@ -11,6 +11,7 @@ use PHPMate\Domain\Task\Exception\InvalidCronExpression;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Ui\Form\DefineTaskFormData;
 use PHPMate\Ui\Form\DefineTaskFormType;
+use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use PHPMate\UseCase\DefineTask;
 use PHPMate\UseCase\DefineTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,16 +23,19 @@ use Symfony\Component\Routing\Annotation\Route;
 final class DefineTaskController extends AbstractController
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private CommandBus $commandBus
+        private CommandBus $commandBus,
+        private ProvideReadProjectDetail $provideReadProjectDetail,
     ) {}
 
 
+    /**
+     * @throws \Nette\Utils\JsonException
+     */
     #[Route(path: '/define-task/{projectId}', name: 'define_task')]
     public function __invoke(string $projectId, Request $request): Response
     {
         try {
-            $activeProject = $this->projectsCollection->get(new ProjectId($projectId));
+            $activeProject = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
         } catch (ProjectNotFound) {
             throw $this->createNotFoundException();
         }
@@ -47,7 +51,7 @@ final class DefineTaskController extends AbstractController
 
                 $this->commandBus->dispatch(
                     new DefineTask(
-                        $activeProject->projectId,
+                        new ProjectId($projectId),
                         $data->name,
                         $data->getCommandsAsArray(),
                         $data->getSchedule()

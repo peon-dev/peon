@@ -57,7 +57,7 @@ SQL;
          */
         $recipes = [];
         foreach ($this->recipesCollection->all() as $recipe) {
-            $recipes[$recipe->name->toString()] = $recipe;
+            $recipes[$recipe->name->value] = $recipe;
         }
 
         // Add recipe title to every row
