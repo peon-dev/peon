@@ -31,7 +31,7 @@ final class EnableRecipeWithBaselineForProjectController extends AbstractControl
         try {
             $this->commandBus->dispatch(
                 new EnableRecipeWithBaselineForProject(
-                    RecipeName::from($recipeName),
+                    RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
                     new ProjectId($projectId)
                 )
             );

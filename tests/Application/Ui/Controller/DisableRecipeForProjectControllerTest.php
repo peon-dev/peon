@@ -17,7 +17,7 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::TYPED_PROPERTIES;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/disable");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/disable");
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -46,7 +46,7 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/disable");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/disable");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 
@@ -66,7 +66,7 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/disable");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/disable");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 

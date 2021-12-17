@@ -17,7 +17,7 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::SWITCH_TO_MATCH;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -46,7 +46,7 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 
@@ -66,7 +66,7 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 
@@ -86,7 +86,7 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 

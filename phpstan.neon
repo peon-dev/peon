@@ -28,6 +28,7 @@ parameters:
     ignoreErrors:
         # PHPStan does not support enums
         - "#^Access to undefined constant PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName#"
+        - "#^Call to an undefined static method PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::tryFrom\\(\\)#"
         - "#^Call to an undefined static method PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::from\\(\\)#"
         - "#Access to an undefined property PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::\\$value\\.#"
 

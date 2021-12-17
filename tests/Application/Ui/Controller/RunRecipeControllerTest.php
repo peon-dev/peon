@@ -16,7 +16,7 @@ final class RunRecipeControllerTest extends WebTestCase
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::UNUSED_PRIVATE_METHODS;
 
-        $client->request('GET', "/projects/$projectId/run-recipe/$recipeName");
+        $client->request('GET', "/projects/$projectId/run-recipe/$recipeName->value");
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -31,7 +31,7 @@ final class RunRecipeControllerTest extends WebTestCase
         $recipeName = RecipeName::UNUSED_PRIVATE_METHODS;
         $projectId = DataFixtures::PROJECT_1_ID;
 
-        $client->request('GET', "/projects/$projectId/run-recipe/$recipeName");
+        $client->request('GET', "/projects/$projectId/run-recipe/$recipeName->value");
 
         self::assertResponseRedirects("/projects/$projectId");
 

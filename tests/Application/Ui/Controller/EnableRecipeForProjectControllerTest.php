@@ -17,7 +17,7 @@ final class EnableRecipeForProjectControllerTest extends WebTestCase
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::SWITCH_TO_MATCH;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable");
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -46,7 +46,7 @@ final class EnableRecipeForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 
@@ -66,7 +66,7 @@ final class EnableRecipeForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
 
-        $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable");
+        $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
 
