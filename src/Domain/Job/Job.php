@@ -35,9 +35,9 @@ class Job
      */
     public Collection $processes;
 
-    private ?TaskId $taskId = null;
+    public readonly ?TaskId $taskId;
 
-    private ?string $recipeName = null;
+    public readonly ?string $recipeName;
 
     /**
      * @param array<string> $commands

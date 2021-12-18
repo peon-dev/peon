@@ -49,20 +49,19 @@ final class ExecuteJobHandler implements MessageHandlerInterface
         $job = $this->jobsCollection->get($command->jobId);
         $mergeRequest = null;
 
-        // TODO: check project with id $job->projectId exists
-
         try {
-            $project = $this->projects->get($job->projectId); // TODO: consider to drop dependency on project and pass only what is needed via command
+            $project = $this->projects->get($job->projectId);
+            $jobTitle = $job->title;
+            $remoteGitRepository = $project->remoteGitRepository;
 
             $job->start($this->clock);
             $this->jobsCollection->save($job);
 
-            $jobTitle = $job->title;
-            $remoteGitRepository = $project->remoteGitRepository;
             $localApplication = $this->prepareApplicationGitRepository->prepare(
                 $remoteGitRepository->getAuthenticatedUri(),
                 $jobTitle
             );
+
             $projectDirectory = $localApplication->workingDirectory;
 
             $this->buildApplication->build($projectDirectory);
@@ -91,8 +90,6 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             if ($this->git->hasUncommittedChanges($projectDirectory)) {
                 $this->git->commit($projectDirectory, '[PHP Mate] ' . $jobTitle);
                 $this->git->forcePush($projectDirectory);
-
-                // $this->notifier->notifyAboutNewChanges(); // TODO: add test
 
                 // Great, we have changed code and MR was not opened yet
                 if ($mergeRequest === null) {
@@ -124,8 +121,6 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             throw $exception;
         } catch (\Throwable $throwable) {
             $job->fails($this->clock, $mergeRequest);
-
-            // $this->notifier->notifyAboutFailedCommand($throwable);
 
             throw new JobExecutionFailed($throwable->getMessage(), previous: $throwable);
         } finally {
