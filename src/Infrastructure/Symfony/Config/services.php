@@ -23,10 +23,8 @@ use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitBinary;
 use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Notification\Notifier;
 use PHPMate\Domain\Tools\Rector\RectorBinary;
 use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
-use PHPMate\Infrastructure\Notification\DummyNotifier;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
@@ -97,8 +95,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
 
     $services->alias(RectorBinary::class, SymfonyProcessRectorBinary::class);
-
-    $services->alias(Notifier::class, DummyNotifier::class);
 
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);
