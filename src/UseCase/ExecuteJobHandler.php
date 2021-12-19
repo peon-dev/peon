@@ -57,6 +57,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             $job->start($this->clock);
             $this->jobsCollection->save($job);
 
+            // 1. Prepare git (clone) repository to local application
             $localApplication = $this->prepareApplicationGitRepository->prepare(
                 $remoteGitRepository->getAuthenticatedUri(),
                 $jobTitle
@@ -64,8 +65,10 @@ final class ExecuteJobHandler implements MessageHandlerInterface
 
             $projectDirectory = $localApplication->workingDirectory;
 
+            // 2. build application
             $this->buildApplication->build($projectDirectory);
 
+            // 3. run commands
             foreach ($job->commands as $jobCommand) {
                 // TODO: decouple
                 $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
@@ -83,6 +86,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
                 }
             }
 
+            // 4. merge request
             $branchWithChanges = $localApplication->jobBranch;
             $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $branchWithChanges);
 
