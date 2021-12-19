@@ -4,19 +4,41 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
-final class ExecuteRecipeJobHandlerTest
+use PHPUnit\Framework\TestCase;
+
+final class ExecuteRecipeJobHandlerTest extends TestCase
 {
-    public function test(): void
+    public function testNotFoundJobWillThrowException(): void
     {
-        // Find job by id
-        // Check project exists by id -> fail job? should it start at all?
-        // Clone repository
-        // Build application
+    }
 
-        // Run recipe
 
-        // Open merge request
+    public function testMissingProjectWillCancelJob(): void
+    {
+    }
 
-        // Job succeeds
+
+    public function testFailedCloningRepositoryWillFailJob(): void
+    {
+    }
+
+
+    public function testFailedBuildingApplicationWillFailJob(): void
+    {
+    }
+
+
+    public function testFailedRunningRecipeWillFailJob(): void
+    {
+    }
+
+
+    public function testFailedOpeningMergeRequestWillFailJob(): void
+    {
+    }
+
+
+    public function testJobWillSucceed(): void
+    {
     }
 }

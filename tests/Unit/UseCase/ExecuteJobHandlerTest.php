@@ -8,17 +8,37 @@ use PHPUnit\Framework\TestCase;
 
 final class ExecuteJobHandlerTest extends TestCase
 {
-    public function test(): void
+    public function testNotFoundJobWillThrowException(): void
     {
-        // Find job by id
-        // Check project exists by id -> fail job? should it start at all?
-        // Clone repository
-        // Build application
+    }
 
-        // Run commands
 
-        // Open merge request
+    public function testMissingProjectWillCancelJob(): void
+    {
+    }
 
-        // Job succeeds
+
+    public function testFailedCloningRepositoryWillFailJob(): void
+    {
+    }
+
+
+    public function testFailedBuildingApplicationWillFailJob(): void
+    {
+    }
+
+
+    public function testFailedRunningCommandWillFailJob(): void
+    {
+    }
+
+
+    public function testFailedOpeningMergeRequestWillFailJob(): void
+    {
+    }
+
+
+    public function testJobWillSucceed(): void
+    {
     }
 }
