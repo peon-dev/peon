@@ -30,8 +30,12 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
             $projectId,
         );
 
-        $project = $this->createMock(Project::class);
-        $project->remoteGitRepository = new RemoteGitRepository('https://gitlab.com/phpmate/phpmate.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'));
+        $project = $this->getMockBuilder(Project::class)
+            ->setConstructorArgs([
+                new ProjectId(''),
+                new RemoteGitRepository('https://gitlab.com/phpmate/phpmate.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'))
+            ])
+            ->getMock();
         $project->expects(self::once())
             ->method('enableRecipe')
             ->with($recipeName, 'abcd');
