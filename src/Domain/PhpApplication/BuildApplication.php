@@ -8,7 +8,7 @@ use PHPMate\Domain\Tools\Composer\Composer;
 use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
 
-final class BuildApplication // TODO: better naming
+class BuildApplication // TODO: better naming
 {
     public function __construct(
         private Composer $composer,

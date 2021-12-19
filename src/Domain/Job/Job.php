@@ -26,6 +26,7 @@ class Job
 {
     public MergeRequest|null $mergeRequest = null;
     public DateTimeImmutable $scheduledAt;
+    public DateTimeImmutable|null $canceledAt = null;
     public DateTimeImmutable|null $startedAt = null;
     public DateTimeImmutable|null $succeededAt = null;
     public DateTimeImmutable|null $failedAt = null;
@@ -113,6 +114,12 @@ class Job
         $this->checkJobHasNotStarted();
 
         $this->startedAt = $clock->now();
+    }
+
+
+    public function cancel(Clock $clock): void
+    {
+        $this->canceledAt = $clock->now();
     }
 
 

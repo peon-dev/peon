@@ -10,6 +10,7 @@
         <field name="recipeName" nullable="true" />
         <field name="scheduledAt" type="datetime_immutable" />
         <field name="startedAt" type="datetime_immutable" nullable="true" />
+        <field name="canceledAt" type="datetime_immutable" nullable="true" />
         <field name="succeededAt" type="datetime_immutable" nullable="true" />
         <field name="failedAt" type="datetime_immutable" nullable="true" />
         <field name="commands" type="json" />

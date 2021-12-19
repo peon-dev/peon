@@ -13,6 +13,7 @@ use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\Exception\ProcessFailed;
 use PHPMate\Domain\Process\ProcessLogger;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\Exception\JobNotFound;
@@ -123,6 +124,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             // Maybe it already finished
             // Lets just throw
             throw $exception;
+        } catch (ProjectNotFound) {
+            $job->cancel($this->clock);
         } catch (\Throwable $throwable) {
             $job->fails($this->clock, $mergeRequest);
 
