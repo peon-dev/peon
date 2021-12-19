@@ -7,7 +7,7 @@ namespace PHPMate\Domain\Process;
 use Nette\Utils\Strings;
 use PHPMate\Domain\Process\Value\ProcessResult;
 
-final class ProcessLogger
+class ProcessLogger
 {
     /**
      * @var ProcessResult[]

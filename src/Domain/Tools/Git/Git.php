@@ -11,7 +11,7 @@ use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Psr\Http\Message\UriInterface;
 use Symfony\Component\Process\Process;
 
-final class Git
+class Git
 {
     private const USER_NAME = 'PHPMate';
     private const USER_EMAIL = 'bot@phpmate.io';

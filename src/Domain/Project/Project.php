@@ -12,8 +12,7 @@ use PHPMate\Domain\Project\Value\EnabledRecipe;
 
 class Project
 {
-    #[Immutable]
-    public string $name;
+    public readonly string $name;
 
     /**
      * @var array<EnabledRecipe>
@@ -22,8 +21,8 @@ class Project
     public array $enabledRecipes = [];
 
     public function __construct(
-        public ProjectId $projectId,
-        public RemoteGitRepository $remoteGitRepository
+        public readonly ProjectId $projectId,
+        public readonly RemoteGitRepository $remoteGitRepository
     ) {
         $this->name = $this->remoteGitRepository->getProject();
     }

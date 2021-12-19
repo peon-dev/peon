@@ -10,7 +10,7 @@ use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
 use Psr\Http\Message\UriInterface;
 
-final class PrepareApplicationGitRepository // TODO: better naming
+class PrepareApplicationGitRepository // TODO: better naming
 {
     public function __construct(
         private Git $git,
