@@ -33,9 +33,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
         private ProjectsCollection $projects,
         private PrepareApplicationGitRepository $prepareApplicationGitRepository,
         private BuildApplication $buildApplication,
-        private Git $git,
-        private GitProvider $gitProvider,
-        private ProcessLogger $processLogger,
+        private ProcessLogger $processLogger, // TODO: drop this dependency
         private Clock $clock,
         private RunJobCommands $runJobCommands,
         private UpdateMergeRequest $updateMergeRequest,
