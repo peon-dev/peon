@@ -22,7 +22,6 @@ final class Version20211220203931 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE job ADD canceled_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
         $this->addSql('COMMENT ON COLUMN job.canceled_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('ALTER TABLE project DROP baselines');
     }
 
     public function down(Schema $schema): void
@@ -30,6 +29,5 @@ final class Version20211220203931 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE job DROP canceled_at');
-        $this->addSql('ALTER TABLE project ADD baselines JSON DEFAULT \'[]\' NOT NULL');
     }
 }
