@@ -12,6 +12,7 @@ use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobsCollection;
+use PHPMate\Domain\Job\RunJobCommands;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Project\ProjectsCollection;
@@ -28,6 +29,7 @@ use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
 use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
 use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
+use PHPMate\Infrastructure\Job\LoggingSymfonyProcessRunJobCommands;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
@@ -114,4 +116,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(ProjectsCollection::class, DoctrineProjectsCollection::class);
 
     $services->alias(RecipesCollection::class, StaticRecipesCollection::class);
+
+    $services->alias(RunJobCommands::class, LoggingSymfonyProcessRunJobCommands::class);
 };
