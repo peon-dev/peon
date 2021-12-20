@@ -13,6 +13,7 @@ use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Job\RunJobCommands;
+use PHPMate\Domain\Job\RunJobRecipe;
 use PHPMate\Domain\Job\UpdateMergeRequest;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
@@ -38,6 +39,7 @@ use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessRectorBinary;
+use PHPMate\UseCase\ExecuteTaskJobHandler;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -119,6 +121,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(RecipesCollection::class, StaticRecipesCollection::class);
 
     $services->alias(RunJobCommands::class, LoggingSymfonyProcessRunJobCommands::class);
-
+    $services->set(RunJobRecipe::class); // TODO: think how to do it automatically, it is not interface
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
 };
