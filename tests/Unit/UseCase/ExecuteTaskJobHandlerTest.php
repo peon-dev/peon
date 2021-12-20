@@ -27,24 +27,24 @@ use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
-use PHPMate\UseCase\ExecuteJob;
-use PHPMate\UseCase\ExecuteJobHandler;
+use PHPMate\UseCase\ExecuteTaskJob;
+use PHPMate\UseCase\ExecuteTaskJobHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class ExecuteJobHandlerTest extends TestCase
+final class ExecuteTaskJobHandlerTest extends TestCase
 {
     public function testNotFoundJobWillThrowException(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $jobsCollection = $this->createMock(JobsCollection::class);
         $jobsCollection->expects(self::once())
             ->method('get')
             ->willThrowException(new JobNotFound());
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $this->createMock(ProjectsCollection::class),
             $this->createMock(PrepareApplicationGitRepository::class),
@@ -64,7 +64,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testMissingProjectWillCancelJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $job = $this->createJobMock($jobId);
         $job->expects(self::once())
@@ -81,7 +81,7 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('get')
             ->willThrowException(new ProjectNotFound());
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $projectsCollection,
             $this->createMock(PrepareApplicationGitRepository::class),
@@ -99,7 +99,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedPreparingGitRepositoryWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $job = $this->createJobMock($jobId);
         $job->expects(self::once())
@@ -120,7 +120,7 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('prepare')
             ->willThrowException(new GitCommandFailed());
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $projectsCollection,
             $prepareApplicationGitRepository,
@@ -140,7 +140,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedBuildingApplicationWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $job = $this->createJobMock($jobId);
         $job->expects(self::once())
@@ -165,7 +165,7 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('build')
             ->willThrowException(new ComposerCommandFailed());
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $projectsCollection,
             $prepareApplicationGitRepository,
@@ -185,7 +185,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedRunningCommandWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $job = $this->createJobMock($jobId);
         $job->expects(self::once())
@@ -212,7 +212,7 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('run')
             ->willThrowException(new ProcessFailed());
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $projectsCollection,
             $prepareApplicationGitRepository,
@@ -232,7 +232,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedOpeningMergeRequestWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $job = $this->createJobMock($jobId);
         $job->expects(self::once())
@@ -260,7 +260,7 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('update')
             ->willThrowException(new GitProviderCommunicationFailed());
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $projectsCollection,
             $prepareApplicationGitRepository,
@@ -280,7 +280,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testJobWillSucceed(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteTaskJob($jobId);
 
         $job = $this->createJobMock($jobId);
         $job->expects(self::once())
@@ -315,7 +315,7 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('update')
             ->willReturn(new MergeRequest('url'));
 
-        $handler = new ExecuteJobHandler(
+        $handler = new ExecuteTaskJobHandler(
             $jobsCollection,
             $projectsCollection,
             $prepareApplicationGitRepository,

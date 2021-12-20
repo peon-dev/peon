@@ -26,7 +26,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-final class ExecuteJobHandler implements MessageHandlerInterface
+final class ExecuteTaskJobHandler implements MessageHandlerInterface
 {
     public function __construct(
         private JobsCollection $jobsCollection,
@@ -47,7 +47,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
      * @throws JobHasFinishedAlready
      * @throws JobExecutionFailed
      */
-    public function __invoke(ExecuteJob $command): void
+    public function __invoke(ExecuteTaskJob $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
         $mergeRequest = null;

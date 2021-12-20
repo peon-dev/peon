@@ -20,11 +20,11 @@ use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 use PHPMate\Infrastructure\GitLab\GitLab;
-use PHPMate\UseCase\ExecuteJob;
-use PHPMate\UseCase\ExecuteJobHandler;
+use PHPMate\UseCase\ExecuteTaskJob;
+use PHPMate\UseCase\ExecuteTaskJobHandler;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ExecuteJobHandlerTest extends KernelTestCase
+class ExecuteTaskJobHandlerTest extends KernelTestCase
 {
     private const JOB_ID = 'a59be334-15e4-4b53-bc59-9900200af917';
     private const TASK_ID = '67081fd2-3922-46ef-82b1-df5d02ad6f3e';
@@ -32,7 +32,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
-    private ExecuteJobHandler $useCase;
+    private ExecuteTaskJobHandler $useCase;
     private Client $gitlabHttpClient;
     private JobsCollection $jobsCollection;
     private ProjectsCollection $projectsCollection;
@@ -49,7 +49,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
         $container = self::getContainer();
 
-        $this->useCase = $container->get(ExecuteJobHandler::class);
+        $this->useCase = $container->get(ExecuteTaskJobHandler::class);
         $this->branchNameProvider = $container->get(StatefulRandomPostfixBranchNameProvider::class);
         $this->branchName = $this->branchNameProvider->provideForTask('test');
         $this->jobsCollection = $container->get(JobsCollection::class);
@@ -82,7 +82,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
     {
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->__invoke(new ExecuteJob($jobId));
+        $this->useCase->__invoke(new ExecuteTaskJob($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -107,7 +107,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $jobId = new JobId(self::JOB_ID);
-        $this->useCase->__invoke(new ExecuteJob($jobId));
+        $this->useCase->__invoke(new ExecuteTaskJob($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -132,7 +132,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->__invoke(new ExecuteJob($jobId));
+        $this->useCase->__invoke(new ExecuteTaskJob($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -156,7 +156,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
 
         $jobId = new JobId(self::JOB_ID);
 
-        $this->useCase->__invoke(new ExecuteJob($jobId));
+        $this->useCase->__invoke(new ExecuteTaskJob($jobId));
 
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
@@ -181,7 +181,7 @@ class ExecuteJobHandlerTest extends KernelTestCase
         $jobId = new JobId(self::JOB_ID);
 
         try {
-            $this->useCase->__invoke(new ExecuteJob($jobId));
+            $this->useCase->__invoke(new ExecuteTaskJob($jobId));
         } catch (\Throwable $exception) {
             // Just to capture
         }

@@ -19,7 +19,7 @@ use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\UseCase\ExecuteJob;
+use PHPMate\UseCase\ExecuteTaskJob;
 use PHPMate\UseCase\RunTaskHandler;
 use PHPMate\UseCase\RunTask;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
@@ -35,7 +35,7 @@ final class RunTaskHandlerTest extends TestCase
         $commandBusSpy = $this->createMock(CommandBus::class);
         $commandBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(ExecuteJob::class));
+            ->with(new IsInstanceOf(ExecuteTaskJob::class));
 
         $projectId = new ProjectId('0');
         $taskId = new TaskId('0');
