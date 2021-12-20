@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
+use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\GitProvider;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Domain\PhpApplication\Value\LocalApplication;
+use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
 use PHPMate\Domain\Tools\Git\Git;
 
 class UpdateMergeRequest
@@ -20,6 +22,10 @@ class UpdateMergeRequest
     }
 
 
+    /**
+     * @throws GitProviderCommunicationFailed
+     * @throws GitCommandFailed
+     */
     public function update(
         LocalApplication    $localApplication,
         RemoteGitRepository $remoteGitRepository,
