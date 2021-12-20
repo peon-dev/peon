@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Job\Value\JobId;
 
 #[Immutable]
-final class ExecuteJob
+final class ExecuteTaskJob
 {
     public function __construct(
         public JobId $jobId
