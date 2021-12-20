@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Domain\Job;
 
-use PHPMate\Domain\Cookbook\RecipesCollection;
+use Nette\Utils\JsonException;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Process\Exception\ProcessFailed;
 use PHPMate\Domain\Tools\Composer\Composer;
@@ -16,7 +16,6 @@ class RunJobRecipe
     public function __construct(
         private Rector $rector,
         private Composer $composer,
-        private RecipesCollection $recipesCollection,
     )
     {
     }
@@ -31,10 +30,19 @@ class RunJobRecipe
 
         $recipeName = RecipeName::from($job->recipeName);
 
-        $this->runSimpleRectorProcessCommandWithConfiguration($workingDirectory, $recipeName);
+        try {
+            $this->runSimpleRectorProcessCommandWithConfiguration($workingDirectory, $recipeName);
+        } catch (\Throwable $throwable) {
+            throw new ProcessFailed($throwable->getMessage(), previous: $throwable);
+        }
     }
 
 
+    /**
+
+     * @throws JsonException
+     * @throws \RuntimeException
+     */
     private function runSimpleRectorProcessCommandWithConfiguration(
         string $workingDirectory,
         RecipeName $recipeName
