@@ -9,6 +9,8 @@ use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
+use PHPMate\Domain\Job\RunJobCommands;
+use PHPMate\Domain\Job\UpdateMergeRequest;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\Exception\ProcessFailed;
@@ -35,6 +37,8 @@ final class ExecuteJobHandler implements MessageHandlerInterface
         private GitProvider $gitProvider,
         private ProcessLogger $processLogger,
         private Clock $clock,
+        private RunJobCommands $runJobCommands,
+        private UpdateMergeRequest $updateMergeRequest,
     ) {}
 
 
@@ -70,52 +74,10 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             $this->buildApplication->build($projectDirectory);
 
             // 3. run commands
-            foreach ($job->commands as $jobCommand) {
-                // TODO: decouple
-                $process = Process::fromShellCommandline($jobCommand, $projectDirectory, timeout: 60 * 20);
-
-                try {
-                    $process->mustRun();
-                } catch (ProcessFailedException $processFailedException) {
-                    $process = $processFailedException->getProcess();
-
-                    throw new ProcessFailed($processFailedException->getMessage(), previous: $processFailedException);
-                } finally {
-                    $processResult = SymfonyProcessToProcessResultMapper::map($process);
-
-                    $this->processLogger->logResult($processResult);
-                }
-            }
+            $this->runJobCommands->run($job, $projectDirectory);
 
             // 4. merge request
-            $branchWithChanges = $localApplication->jobBranch;
-            $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $branchWithChanges);
-
-            // Let's see if job changed something
-            if ($this->git->hasUncommittedChanges($projectDirectory)) {
-                $this->git->commit($projectDirectory, '[PHP Mate] ' . $jobTitle);
-                $this->git->forcePush($projectDirectory);
-
-                // Great, we have changed code and MR was not opened yet
-                if ($mergeRequest === null) {
-                    $mergeRequest = $this->gitProvider->openMergeRequest(
-                        $remoteGitRepository,
-                        $localApplication->mainBranch,
-                        $branchWithChanges,
-                        '[PHP Mate] ' . $jobTitle
-                    );
-                }
-            } elseif ($this->git->remoteBranchExists($projectDirectory, $localApplication->jobBranch)) {
-                if ($mergeRequest === null) {
-                    $mergeRequest = $this->gitProvider->openMergeRequest(
-                        $remoteGitRepository,
-                        $localApplication->mainBranch,
-                        $localApplication->jobBranch,
-                        '[PHP Mate] ' . $jobTitle
-                    );
-                }
-            }
-
+            $mergeRequest = $this->updateMergeRequest->update($localApplication, $remoteGitRepository, $jobTitle);
             $job->succeeds($this->clock, $mergeRequest);
         } catch (JobHasStartedAlready $exception) {
             // TODO, im not sure what should happen
