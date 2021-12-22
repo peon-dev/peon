@@ -8,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 
 class RunJobRecipeTest extends TestCase
 {
+    public function testItWorks(): void
+    {
+    }
+
+
     public function testAllConfigurationFilesExists(): void
     {
     }

@@ -208,7 +208,7 @@ class GitTest extends TestCase
     }
 
 
-    public function testForcePush(): void
+    public function testForcePushWithLease(): void
     {
         $processResult = new ProcessResult('', 0, '', 0);
 
@@ -219,7 +219,7 @@ class GitTest extends TestCase
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
-        $git->forcePush('/');
+        $git->forcePushWithLease('/');
     }
 
 

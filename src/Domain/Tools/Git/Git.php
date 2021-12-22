@@ -139,7 +139,7 @@ class Git
     /**
      * @throws GitCommandFailed
      */
-    public function forcePush(string $directory): void
+    public function forcePushWithLease(string $directory): void
     {
         $result = $this->gitBinary->executeCommand($directory, 'push -u origin --all --force-with-lease');
 
