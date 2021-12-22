@@ -33,33 +33,39 @@ class UpdateMergeRequest
     ): MergeRequest|null
     {
         $workingDirectory = $localApplication->workingDirectory;
-        $branchWithChanges = $localApplication->jobBranch;
 
-        $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $branchWithChanges);
-
-        // Let's see if job changed something
         if ($this->git->hasUncommittedChanges($workingDirectory)) {
             $this->git->commit($workingDirectory, '[PHP Mate] ' . $title);
-            $this->git->forcePush($workingDirectory);
+            $this->git->forcePushWithLease($workingDirectory);
 
-            // Great, we have changed code and MR was not opened yet
-            if ($mergeRequest === null) {
-                $mergeRequest = $this->gitProvider->openMergeRequest(
-                    $remoteGitRepository,
-                    $localApplication->mainBranch,
-                    $branchWithChanges,
-                    '[PHP Mate] ' . $title
-                );
-            }
-        } elseif ($this->git->remoteBranchExists($workingDirectory, $localApplication->jobBranch)) {
-            if ($mergeRequest === null) {
-                $mergeRequest = $this->gitProvider->openMergeRequest(
-                    $remoteGitRepository,
-                    $localApplication->mainBranch,
-                    $localApplication->jobBranch,
-                    '[PHP Mate] ' . $title
-                );
-            }
+            return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+        }
+
+        // Branch exists, it should have MR no matter what
+        // When this can happen? MR manually closed?
+        if ($this->git->remoteBranchExists($workingDirectory, $localApplication->jobBranch)) {
+            return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+        }
+
+        return null;
+    }
+
+
+    private function getOpenedMergeRequestOrOpenNewOne(
+        RemoteGitRepository $remoteGitRepository,
+        LocalApplication $localApplication,
+        string $title
+    ): MergeRequest
+    {
+        $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $localApplication->jobBranch);
+
+        if ($mergeRequest === null) {
+            return $this->gitProvider->openMergeRequest(
+                $remoteGitRepository,
+                $localApplication->mainBranch,
+                $localApplication->jobBranch,
+                '[PHP Mate] ' . $title
+            );
         }
 
         return $mergeRequest;

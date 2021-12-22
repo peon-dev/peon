@@ -41,7 +41,7 @@ class PrepareApplicationGitRepository // TODO: better naming
         if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
             try {
                 $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);
-                $this->git->forcePush($applicationDirectory);
+                $this->git->forcePushWithLease($applicationDirectory);
             } catch (GitCommandFailed) {
                 $this->git->abortRebase($applicationDirectory);
                 $this->git->resetCurrentBranch($applicationDirectory, $mainBranch);
