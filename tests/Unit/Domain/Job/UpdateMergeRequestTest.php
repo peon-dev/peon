@@ -8,7 +8,27 @@ use PHPUnit\Framework\TestCase;
 
 final class UpdateMergeRequestTest extends TestCase
 {
-    public function testItWorks(): void
+    public function testLocalChangesNewMergeRequestShouldBeOpened(): void
+    {
+    }
+
+
+    public function testLocalChangesMergeRequestAlreadyOpened(): void
+    {
+    }
+
+
+    public function testNoChangesRemoteBranchExistsNewMergeRequestShouldBeOpened(): void
+    {
+    }
+
+
+    public function testNoChangesRemoteBranchExistsMergeRequestAlreadyOpened(): void
+    {
+    }
+
+
+    public function testNoLocalChangesNoRemoteBranchNothingHappens(): void
     {
     }
 }

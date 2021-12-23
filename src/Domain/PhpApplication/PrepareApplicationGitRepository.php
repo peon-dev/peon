@@ -32,22 +32,41 @@ class PrepareApplicationGitRepository // TODO: better naming
         $mainBranch = $this->git->getCurrentBranch($applicationDirectory);
         $newBranch = $this->branchNameProvider->provideForTask($taskName);
 
-        if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
-            $this->git->checkoutRemoteBranch($applicationDirectory, $newBranch);
-        }
-
-        $this->git->checkoutNewBranch($applicationDirectory, $newBranch);
+        $this->checkoutBranch($applicationDirectory, $newBranch);
 
         if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
-            try {
-                $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);
-                $this->git->forcePushWithLease($applicationDirectory);
-            } catch (GitCommandFailed) {
-                $this->git->abortRebase($applicationDirectory);
-                $this->git->resetCurrentBranch($applicationDirectory, $mainBranch);
-            }
+            $this->updateToMain($applicationDirectory, $mainBranch);
         }
 
         return new LocalApplication($applicationDirectory, $mainBranch, $newBranch);
+    }
+
+
+    /**
+     * @throws GitCommandFailed
+     */
+    private function checkoutBranch(string $applicationDirectory, string $newBranch): void
+    {
+        if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
+            $this->git->checkoutRemoteBranch($applicationDirectory, $newBranch);
+            return;
+        }
+
+        $this->git->checkoutNewBranch($applicationDirectory, $newBranch);
+    }
+
+
+    /**
+     * @throws GitCommandFailed
+     */
+    private function updateToMain(string $applicationDirectory, string $mainBranch): void
+    {
+        try {
+            $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);
+            $this->git->forcePushWithLease($applicationDirectory);
+        } catch (GitCommandFailed) {
+            $this->git->abortRebase($applicationDirectory);
+            $this->git->resetCurrentBranch($applicationDirectory, $mainBranch);
+        }
     }
 }
