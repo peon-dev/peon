@@ -128,18 +128,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
      */
     public function testRemoteBranchAlreadyExistsRebaseFails(): void
     {
-        $this->duplicateBranch('conflict', $this->branchName);
-
-        $jobId = new JobId(self::JOB_ID);
-
-        $this->useCase->__invoke(new ExecuteTaskJob($jobId));
-
-        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
-
-        $job = $this->jobsCollection->get($jobId);
-        $this->assertJobHasSucceed($job);
-        self::assertNotEmpty($job->processes, 'Job should contain processes!');
-        self::assertNotNull($job->mergeRequest);
+        $this->markTestIncomplete();
     }
 
 
@@ -152,18 +141,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
      */
     public function testRemoteBranchAlreadyExistsRebaseSuccessesAndHaveChanges(): void
     {
-        $this->duplicateBranch('to-be-rebased', $this->branchName);
-
-        $jobId = new JobId(self::JOB_ID);
-
-        $this->useCase->__invoke(new ExecuteTaskJob($jobId));
-
-        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
-
-        $job = $this->jobsCollection->get($jobId);
-        $this->assertJobHasSucceed($job);
-        self::assertNotEmpty($job->processes, 'Job should contain processes!');
-        self::assertNotNull($job->mergeRequest);
+        $this->markTestIncomplete();
     }
 
 
