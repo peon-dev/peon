@@ -54,5 +54,10 @@ class ComposerTest extends TestCase
     }
 
 
+    public function testGetPsr4Roots(): void
+    {
+    }
+
+
     // TODO: cover logging by tests
 }

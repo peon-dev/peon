@@ -24,12 +24,8 @@ class RunJobRecipe
     /**
      * @throws ProcessFailed
      */
-    public function run(Job $job, string $workingDirectory): void
+    public function run(RecipeName $recipeName, string $workingDirectory): void
     {
-        assert($job->recipeName !== null);
-
-        $recipeName = RecipeName::from($job->recipeName);
-
         try {
             $this->runSimpleRectorProcessCommandWithConfiguration($workingDirectory, $recipeName);
         } catch (\Throwable $throwable) {
@@ -39,7 +35,6 @@ class RunJobRecipe
 
 
     /**
-
      * @throws JsonException
      * @throws \RuntimeException
      */

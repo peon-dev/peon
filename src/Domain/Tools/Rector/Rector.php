@@ -8,7 +8,7 @@ use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
 use PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
-final class Rector
+class Rector
 {
     public function __construct(
         private RectorBinary $rectorBinary,

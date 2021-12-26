@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
@@ -66,7 +67,10 @@ final class ExecuteRecipeJobHandler implements MessageHandlerInterface
             $this->buildApplication->build($projectDirectory);
 
             // 3. run recipe
-            $this->runJobRecipe->run($job, $projectDirectory);
+            $recipeName = $job->recipeName;
+            assert($recipeName !== null);
+
+            $this->runJobRecipe->run(RecipeName::from($recipeName), $projectDirectory);
 
             // 4. merge request
             $mergeRequest = $this->updateMergeRequest->update($localApplication, $remoteGitRepository, $jobTitle);
