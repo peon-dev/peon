@@ -26,6 +26,8 @@ final class LoggingSymfonyProcessRunJobCommands implements RunJobCommands
      */
     public function run(Job $job, string $workingDirectory): void
     {
+        assert(is_array($job->commands));
+
         foreach ($job->commands as $jobCommand) {
             // TODO: decouple
             $process = Process::fromShellCommandline($jobCommand, $workingDirectory, timeout: 60 * 20);

@@ -6,13 +6,11 @@ namespace PHPMate\Tests\Unit\Domain\Job;
 use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Process\Value\ProcessResult;
 use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Value\TaskId;
 use PHPUnit\Framework\TestCase;
 
 final class JobTest extends TestCase
@@ -67,20 +65,6 @@ final class JobTest extends TestCase
         self::assertNotNull($job->startedAt);
         self::assertNotNull($job->failedAt);
         self::assertNull($job->succeededAt);
-    }
-
-
-    public function testJobMustContainCommands(): void
-    {
-        $this->expectException(JobHasNoCommands::class);
-
-        new Job(
-            new JobId(''),
-            new ProjectId(''),
-            '',
-            [],
-            FrozenClock::fromUTC(),
-        );
     }
 
 
