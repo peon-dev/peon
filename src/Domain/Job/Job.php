@@ -13,7 +13,6 @@ use PHPMate\Domain\Cookbook\Recipe;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Value\JobId;
@@ -41,26 +40,20 @@ class Job
 
     /**
      * @param array<string> $commands
-     * @throws JobHasNoCommands
      */
     public function __construct(
         public readonly JobId $jobId,
         public readonly ProjectId $projectId,
         public readonly string $title,
-        public readonly array $commands,
+        public readonly array|null $commands,
         Clock $clock,
         public readonly RecipeName|null $recipeName = null,
     ) {
-        $this->checkThereAreSomeCommands($commands);
-
         $this->scheduledAt = $clock->now();
         $this->processes = new ArrayCollection();
     }
 
 
-    /**
-     * @throws JobHasNoCommands
-     */
     public static function scheduleFromRecipe(
         JobId $jobId,
         ProjectId $projectId,
@@ -72,16 +65,13 @@ class Job
             $jobId,
             $projectId,
             $recipe->title,
-            $recipe->commands,
+            null,
             $clock,
             $recipe->name,
         );
     }
 
 
-    /**
-     * @throws JobHasNoCommands
-     */
     public static function scheduleFromTask(
         JobId $jobId,
         ProjectId $projectId,
@@ -201,18 +191,6 @@ class Job
     public function hasFailed(): bool
     {
         return $this->failedAt !== null;
-    }
-
-
-    /**
-     * @param array<string> $commands
-     * @throws JobHasNoCommands
-     */
-    private function checkThereAreSomeCommands(array $commands): void
-    {
-        if (count($commands) <= 0) {
-            throw new JobHasNoCommands();
-        }
     }
 
 

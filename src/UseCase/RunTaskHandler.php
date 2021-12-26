@@ -8,7 +8,6 @@ use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Exception\JobNotFound;
@@ -34,7 +33,6 @@ final class RunTaskHandler implements MessageHandlerInterface
     /**
      * @throws TaskNotFound
      * @throws ProjectNotFound
-     * @throws JobHasNoCommands
      * @throws JobNotFound
      * @throws JobHasFinishedAlready
      * @throws JobHasStartedAlready

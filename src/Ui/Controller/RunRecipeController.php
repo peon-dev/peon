@@ -8,7 +8,6 @@ use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNoCommands;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Exception\JobNotFound;
@@ -32,7 +31,6 @@ final class RunRecipeController extends AbstractController
      * @throws JobHasFinishedAlready
      * @throws JobHasNotStartedYet
      * @throws JobHasStartedAlready
-     * @throws JobHasNoCommands
      * @throws JobNotFound
      */
     #[Route(path: '/projects/{projectId}/run-recipe/{recipeName}', name: 'run_recipe')]
