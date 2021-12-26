@@ -10,7 +10,7 @@ use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
 
-final class Composer
+class Composer
 {
     public function __construct(
         private ComposerBinary $composerBinary,
@@ -39,8 +39,6 @@ final class Composer
     /**
      * @return array<string>
      * @throws JsonException
-     *
-     * @TODO: WRITE UNIT TEST
      */
     public function getPsr4Roots(string $directory): array|null
     {
