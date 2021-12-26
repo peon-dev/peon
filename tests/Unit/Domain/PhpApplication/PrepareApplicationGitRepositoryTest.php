@@ -8,6 +8,7 @@ use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
 use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Tools\Git\BranchNameProvider;
+use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPUnit\Framework\TestCase;
 
@@ -61,21 +62,103 @@ class PrepareApplicationGitRepositoryTest extends TestCase
 
     public function testRemoteBranchExistsRebaseSucceededWillBeForcePushed(): void
     {
+        $git = $this->createMock(Git::class);
+        $git->method('remoteBranchExists')
+            ->willReturn(true);
+        $git->method('getCurrentBranch')
+            ->willReturn('main');
+
+        $git->expects(self::once())
+            ->method('rebaseBranchAgainstUpstream')
+            ->with('/', 'main');
+        $git->expects(self::once())
+            ->method('forcePushWithLease');
+
+        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider->expects(self::once())
+            ->method('provide')
+            ->willReturn('/');
+
+        $branchNameProvider = $this->createMock(BranchNameProvider::class);
+
+        $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
+            $git,
+            $projectDirectoryProvider,
+            $branchNameProvider,
+        );
+
+        $prepareApplicationGitRepository->prepare(
+            $this->getRemoteGitRepository()->getAuthenticatedUri(),
+            'Task',
+        );
     }
 
 
     public function testRemoteBranchExistsRebaseFailedBranchWillBeReset(): void
     {
+        $git = $this->createMock(Git::class);
+        $git->method('remoteBranchExists')
+            ->willReturn(true);
+        $git->method('getCurrentBranch')
+            ->willReturn('main');
+        $git->method('rebaseBranchAgainstUpstream')
+            ->willThrowException(new GitCommandFailed());
+
+        $git->expects(self::once())
+            ->method('abortRebase');
+        $git->expects(self::once())
+            ->method('resetCurrentBranch')
+            ->with('/', 'main');
+
+        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider->expects(self::once())
+            ->method('provide')
+            ->willReturn('/');
+
+        $branchNameProvider = $this->createMock(BranchNameProvider::class);
+
+        $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
+            $git,
+            $projectDirectoryProvider,
+            $branchNameProvider,
+        );
+
+        $prepareApplicationGitRepository->prepare(
+            $this->getRemoteGitRepository()->getAuthenticatedUri(),
+            'Task',
+        );
     }
 
 
     public function testRemoteBranchExistsAndWillBeCheckedOut(): void
     {
-    }
+        $git = $this->createMock(Git::class);
+        $git->method('remoteBranchExists')
+            ->willReturn(true);
+        $git->method('getCurrentBranch')
+            ->willReturn('main');
 
+        $git->expects(self::once())
+            ->method('checkoutRemoteBranch')
+            ->with('/', 'task');
 
-    public function testRemoteBranchNotExistsAndNewWillBeCheckedOut(): void
-    {
+        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider->expects(self::once())
+            ->method('provide')
+            ->willReturn('/');
+
+        $branchNameProvider = $this->createBranchNameProvider();
+
+        $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
+            $git,
+            $projectDirectoryProvider,
+            $branchNameProvider,
+        );
+
+        $prepareApplicationGitRepository->prepare(
+            $this->getRemoteGitRepository()->getAuthenticatedUri(),
+            'Task',
+        );
     }
 
 
@@ -85,5 +168,16 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             'https://gitlab.com/phpmate/phpmate.git',
             GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
         );
+    }
+
+
+    private function createBranchNameProvider(): BranchNameProvider
+    {
+        $branchNameProvider = $this->createMock(BranchNameProvider::class);
+        $branchNameProvider->method('provideForTask')
+            ->with('Task')
+            ->willReturn('task');
+
+        return $branchNameProvider;
     }
 }
