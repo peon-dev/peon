@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Tests\Unit\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
@@ -342,6 +343,7 @@ final class ExecuteRecipeJobHandlerTest extends TestCase
                 'Title',
                 ['command'],
                 $this->createMock(Clock::class),
+                RecipeName::TYPED_PROPERTIES,
             ])
             ->getMock();
     }

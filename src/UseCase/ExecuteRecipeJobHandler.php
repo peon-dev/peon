@@ -70,7 +70,7 @@ final class ExecuteRecipeJobHandler implements MessageHandlerInterface
             $recipeName = $job->recipeName;
             assert($recipeName !== null);
 
-            $this->runJobRecipe->run(RecipeName::from($recipeName), $projectDirectory);
+            $this->runJobRecipe->run($recipeName, $projectDirectory);
 
             // 4. merge request
             $mergeRequest = $this->updateMergeRequest->update($localApplication, $remoteGitRepository, $jobTitle);

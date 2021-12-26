@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Cookbook\Recipe;
+use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNoCommands;
@@ -38,8 +39,6 @@ class Job
 
     public readonly ?TaskId $taskId;
 
-    public readonly ?string $recipeName;
-
     /**
      * @param array<string> $commands
      * @throws JobHasNoCommands
@@ -50,6 +49,7 @@ class Job
         public readonly string $title,
         public readonly array $commands,
         Clock $clock,
+        public readonly RecipeName|null $recipeName = null,
     ) {
         $this->checkThereAreSomeCommands($commands);
 
@@ -68,17 +68,14 @@ class Job
         Clock $clock,
     ): self
     {
-        $job = new self(
+        return new self(
             $jobId,
             $projectId,
             $recipe->title,
             $recipe->commands,
             $clock,
+            $recipe->name,
         );
-
-        $job->recipeName = $recipe->name->value;
-
-        return $job;
     }
 
 
