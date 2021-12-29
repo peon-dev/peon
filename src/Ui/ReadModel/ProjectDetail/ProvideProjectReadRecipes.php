@@ -38,13 +38,13 @@ FROM (
     FROM project
     WHERE project_id = :projectId
     ) project
-LEFT JOIN job ON job.recipe_name = project.recipe_name AND job.scheduled_at = (
+LEFT JOIN job ON job.enabled_recipe->>'recipe_name' = project.recipe_name AND job.scheduled_at = (
 	SELECT MAX(latest_job.scheduled_at)
 	FROM job latest_job
 	WHERE
-	    latest_job.recipe_name = project.recipe_name
+	    latest_job.enabled_recipe->>'recipe_name' = project.recipe_name
 	    AND latest_job.project_id = :projectId
-	GROUP BY latest_job.recipe_name
+	GROUP BY latest_job.enabled_recipe->>'recipe_name'
 )
 ORDER BY project.recipe_name
 SQL;
