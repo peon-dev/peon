@@ -26,13 +26,6 @@ parameters:
         objectManagerLoader: tests/object-manager.php
 
     ignoreErrors:
-        # PHPStan does not support enums
-        - "#^Access to undefined constant PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName#"
-        - "#^Call to an undefined static method PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::tryFrom\\(\\)#"
-        - "#^Call to an undefined static method PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::from\\(\\)#"
-        - "#^Call to an undefined static method PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::cases\\(\\)#"
-        - "#Access to an undefined property PHPMate\\\\Domain\\\\Cookbook\\\\Value\\\\RecipeName::\\$value\\.#"
-
         # Scenario with general wrapping to make it safer
         - '#^Throwable is never thrown in the corresponding try block$#'
 
