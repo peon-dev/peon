@@ -123,6 +123,7 @@ final class DataFixtures extends Fixture
             $projectId,
             $recipe,
             $job3Clock,
+            null,
         );
 
         $job3->start($job3Clock);

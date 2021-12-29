@@ -49,7 +49,8 @@ final class RunRecipeHandler implements MessageHandlerInterface
             $jobId,
             $project->projectId,
             $recipe,
-            $this->clock
+            $this->clock,
+            $project->getEnabledRecipe($command->recipeName)?->baselineHash
         );
 
         $this->jobsCollection->save($job);

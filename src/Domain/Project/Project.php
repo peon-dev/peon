@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
+use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
@@ -25,6 +26,18 @@ class Project
         public readonly RemoteGitRepository $remoteGitRepository
     ) {
         $this->name = $this->remoteGitRepository->getProject();
+    }
+
+
+    public function getEnabledRecipe(RecipeName $recipeName): EnabledRecipe|null
+    {
+        foreach ($this->enabledRecipes as $enabledRecipe) {
+            if ($enabledRecipe->recipeName === $recipeName) {
+                return $enabledRecipe;
+            }
+        }
+
+        return null;
     }
 
 
