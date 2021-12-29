@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\Domain\Tools\Git;
 
+use Generator;
 use Nyholm\Psr7\Uri;
 use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Git\GitBinary;
@@ -79,9 +80,9 @@ class GitTest extends TestCase
 
 
     /**
-     * @return \Generator<array{string, bool}>
+     * @return Generator<array{string, bool}>
      */
-    public function provideTestHasUncommittedChangesData(): \Generator
+    public function provideTestHasUncommittedChangesData(): Generator
     {
         yield [
             ' M some/file.php',
@@ -147,9 +148,9 @@ class GitTest extends TestCase
 
 
     /**
-     * @return \Generator<array{string, bool}>
+     * @return Generator<array{string, bool}>
      */
-    public function provideTestRemoteBranchExistsData(): \Generator
+    public function provideTestRemoteBranchExistsData(): Generator
     {
         yield [
             'a076d105a41bd46485eed50a5b5ffe2e20f43a4e	refs/heads/phpmate',
@@ -253,6 +254,52 @@ class GitTest extends TestCase
 
         $git = new Git($gitBinary, $this->logger);
         $git->commit('/', 'Message');
+    }
+
+
+    /**
+     * @dataProvider provideTestGetChangedFilesSinceCommitData
+     * @param array<string> $expectedChangedFiles
+     */
+    public function testGetChangedFilesSinceCommit(string $commandOutput, array $expectedChangedFiles): void
+    {
+        $processResult = new ProcessResult('', 0, $commandOutput, 0);
+
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with(
+                '/', 'diff --name-only --diff-filter=d hash'
+            )
+            ->willReturn($processResult);
+
+        $git = new Git($gitBinary, $this->logger);
+        $changedFiles = $git->getChangedFilesSinceCommit('/', 'hash');
+
+        self::assertSame($expectedChangedFiles, $changedFiles);
+    }
+
+
+    /**
+     * @return Generator<array{string, array<string>}>
+     */
+    public function provideTestGetChangedFilesSinceCommitData(): Generator
+    {
+        yield [
+            '',
+            [],
+        ];
+
+        yield [
+            'file.txt',
+            ['file.txt'],
+        ];
+
+        yield [
+            'file1.txt
+file2.txt',
+            ['file1.txt', 'file2.txt']
+        ];
     }
 
     // TODO: add tests covering situations - logger logs

@@ -22,19 +22,19 @@ final class StaticRecipesCollection implements RecipesCollection
         $this->recipes[] = new Recipe(
             RecipeName::UNUSED_PRIVATE_METHODS,
             'Unused private methods',
-            file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'),
+            file_get_contents(__DIR__ . '/CodeSnippets/unused-private-methods.diff'), // TODO: delete, we do not really need this in domain
         );
 
         $this->recipes[] = new Recipe(
             RecipeName::TYPED_PROPERTIES,
             'Typed properties',
-            file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'),
+            file_get_contents(__DIR__ . '/CodeSnippets/typed-properties.diff'), // TODO: delete, we do not really need this in domain
         );
 
         $this->recipes[] = new Recipe(
             RecipeName::SWITCH_TO_MATCH,
             'Switch to match',
-            file_get_contents(__DIR__ . '/CodeSnippets/switch-to-match.diff'),
+            file_get_contents(__DIR__ . '/CodeSnippets/switch-to-match.diff'), // TODO: delete, we do not really need this in domain
         );
     }
 
