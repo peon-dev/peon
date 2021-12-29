@@ -15,7 +15,7 @@ use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\UseCase\ExecuteTaskJob;
+use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\RunRecipe;
 use PHPMate\UseCase\RunRecipeHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
@@ -31,7 +31,7 @@ final class RunRecipeHandlerTest extends TestCase
         $commandBusSpy = $this->createMock(CommandBus::class);
         $commandBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(ExecuteTaskJob::class));
+            ->with(new IsInstanceOf(ExecuteJob::class));
 
         $projectId = new ProjectId('0');
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();

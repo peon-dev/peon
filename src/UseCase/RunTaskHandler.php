@@ -56,7 +56,7 @@ final class RunTaskHandler implements MessageHandlerInterface
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
-            new ExecuteTaskJob($jobId)
+            new ExecuteJob($jobId)
         );
     }
 }
