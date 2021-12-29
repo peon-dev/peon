@@ -6,11 +6,5 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set(TypedPropertyRector::class)
-        ->configure([
-            TypedPropertyRector::CLASS_LIKE_TYPE_ONLY => false,
-        ])
-        ->configure([
-            TypedPropertyRector::PRIVATE_PROPERTY_ONLY => false,
-        ]);
+    $services->set(TypedPropertyRector::class);
 };
