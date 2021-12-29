@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use JetBrains\PhpStorm\Immutable;
 use PHPMate\Domain\Job\Value\JobId;
 
-final class ExecuteRecipeJob
+#[Immutable]
+final class ExecuteJob
 {
     public function __construct(
-        public readonly JobId $jobId
+        public JobId $jobId
     ) {}
 }

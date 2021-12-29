@@ -10,6 +10,7 @@ use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\RunJobCommands;
+use PHPMate\Domain\Job\RunJobRecipe;
 use PHPMate\Domain\Job\UpdateMergeRequest;
 use PHPMate\Domain\PhpApplication\BuildApplication;
 use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
@@ -26,7 +27,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-final class ExecuteTaskJobHandler implements MessageHandlerInterface
+final class ExecuteJobHandler implements MessageHandlerInterface
 {
     public function __construct(
         private JobsCollection $jobsCollection,
@@ -36,6 +37,7 @@ final class ExecuteTaskJobHandler implements MessageHandlerInterface
         private ProcessLogger $processLogger, // TODO: drop this dependency
         private Clock $clock,
         private RunJobCommands $runJobCommands,
+        private RunJobRecipe $runJobRecipe,
         private UpdateMergeRequest $updateMergeRequest,
     ) {}
 
@@ -47,7 +49,7 @@ final class ExecuteTaskJobHandler implements MessageHandlerInterface
      * @throws JobHasFinishedAlready
      * @throws JobExecutionFailed
      */
-    public function __invoke(ExecuteTaskJob $command): void
+    public function __invoke(ExecuteJob $command): void
     {
         $job = $this->jobsCollection->get($command->jobId);
         $mergeRequest = null;
@@ -72,7 +74,13 @@ final class ExecuteTaskJobHandler implements MessageHandlerInterface
             $this->buildApplication->build($projectDirectory);
 
             // 3. run commands
-            $this->runJobCommands->run($job, $projectDirectory);
+            if ($job->commands !== null) {
+                $this->runJobCommands->run($job, $projectDirectory);
+            }
+
+            if ($job->enabledRecipe !== null) {
+                $this->runJobRecipe->run($job->enabledRecipe, $projectDirectory);
+            }
 
             // 4. merge request
             $mergeRequest = $this->updateMergeRequest->update($localApplication, $remoteGitRepository, $jobTitle);

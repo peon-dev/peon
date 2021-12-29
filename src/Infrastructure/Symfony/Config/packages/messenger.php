@@ -4,7 +4,7 @@ use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\Packages\MessageBus\Command\CommandHandlerInterface;
 use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
-use PHPMate\UseCase\ExecuteTaskJob;
+use PHPMate\UseCase\ExecuteJob;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\FrameworkConfig;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -41,6 +41,6 @@ return static function (FrameworkConfig $framework, ContainerConfigurator $confi
 
     $framework->messenger()
         // async is whatever name you gave your transport above
-        ->routing(ExecuteTaskJob::class)->senders(['jobs']);
+        ->routing(ExecuteJob::class)->senders(['jobs']);
 
 };
