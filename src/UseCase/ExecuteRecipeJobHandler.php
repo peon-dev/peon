@@ -19,6 +19,7 @@ use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
 use PHPMate\Domain\Process\ProcessLogger;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Domain\Project\Value\EnabledRecipe;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class ExecuteRecipeJobHandler implements MessageHandlerInterface
@@ -67,10 +68,10 @@ final class ExecuteRecipeJobHandler implements MessageHandlerInterface
             $this->buildApplication->build($projectDirectory);
 
             // 3. run recipe
-            $recipeName = $job->recipeName;
-            assert($recipeName !== null);
+            $enabledRecipe = $job->enabledRecipe;
+            assert($enabledRecipe !== null);
 
-            $this->runJobRecipe->run($recipeName, $projectDirectory);
+            $this->runJobRecipe->run($enabledRecipe, $projectDirectory);
 
             // 4. merge request
             $mergeRequest = $this->updateMergeRequest->update($localApplication, $remoteGitRepository, $jobTitle);

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
+use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipeType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
 use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
@@ -21,6 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 DoctrineCronExpressionType::NAME => DoctrineCronExpressionType::class,
                 DoctrineEnabledRecipesArrayType::NAME => DoctrineEnabledRecipesArrayType::class,
                 DoctrineRecipeNameType::NAME => DoctrineRecipeNameType::class,
+                DoctrineEnabledRecipeType::NAME => DoctrineEnabledRecipeType::class,
             ],
         ],
         'orm' => [

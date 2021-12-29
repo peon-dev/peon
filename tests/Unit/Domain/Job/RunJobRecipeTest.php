@@ -5,7 +5,9 @@ namespace PHPMate\Tests\Unit\Domain\Job;
 
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Job\RunJobRecipe;
+use PHPMate\Domain\Project\Value\EnabledRecipe;
 use PHPMate\Domain\Tools\Composer\Composer;
+use PHPMate\Domain\Tools\Git\Git;
 use PHPMate\Domain\Tools\Rector\Rector;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +16,7 @@ class RunJobRecipeTest extends TestCase
     /**
      * @dataProvider provideTestAllConfigurationFilesExistsData
      */
-    public function testAllConfigurationFilesExists(RecipeName $recipeName): void
+    public function testAllConfigurationFilesExists(EnabledRecipe $enabledRecipe): void
     {
         $rector = $this->createMock(Rector::class);
         $rector->expects(self::once())
@@ -25,22 +27,25 @@ class RunJobRecipeTest extends TestCase
             ->method('getPsr4Roots')
             ->willReturn([]);
 
+        $git = $this->createMock(Git::class);
+
         $runJobRecipe = new RunJobRecipe(
             $rector,
             $composer,
+            $git,
         );
 
-        $runJobRecipe->run($recipeName, '/');
+        $runJobRecipe->run($enabledRecipe, '/');
     }
 
 
     /**
-     * @return \Generator<array{RecipeName}>
+     * @return \Generator<array{EnabledRecipe}>
      */
     public function provideTestAllConfigurationFilesExistsData(): \Generator
     {
         foreach (RecipeName::cases() as $recipeName) {
-            yield [$recipeName];
+            yield [new EnabledRecipe($recipeName, null)];
         }
     }
 }

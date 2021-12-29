@@ -7,7 +7,7 @@
         <field name="projectId" type="project_id" />
         <field name="taskId" type="task_id" nullable="true" />
         <field name="title" />
-        <field name="recipeName" type="recipe_name" nullable="true" />
+        <field name="enabledRecipe" type="enabled_recipe" nullable="true" />
         <field name="scheduledAt" type="datetime_immutable" />
         <field name="startedAt" type="datetime_immutable" nullable="true" />
         <field name="canceledAt" type="datetime_immutable" nullable="true" />

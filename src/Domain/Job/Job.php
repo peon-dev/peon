@@ -10,13 +10,13 @@ use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Cookbook\Recipe;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
 use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Process\Value\ProcessResult;
+use PHPMate\Domain\Project\Value\EnabledRecipe;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Task;
 use PHPMate\Domain\Task\Value\TaskId;
@@ -47,7 +47,7 @@ class Job
         public readonly string $title,
         public readonly array|null $commands,
         Clock $clock,
-        public readonly RecipeName|null $recipeName = null,
+        public readonly EnabledRecipe|null $enabledRecipe = null,
     ) {
         $this->scheduledAt = $clock->now();
         $this->processes = new ArrayCollection();
@@ -59,6 +59,7 @@ class Job
         ProjectId $projectId,
         Recipe $recipe,
         Clock $clock,
+        string|null $baselineHash,
     ): self
     {
         return new self(
@@ -67,7 +68,10 @@ class Job
             $recipe->title,
             null,
             $clock,
-            $recipe->name,
+            new EnabledRecipe(
+                $recipe->name,
+                $baselineHash,
+            ),
         );
     }
 
