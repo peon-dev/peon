@@ -193,4 +193,26 @@ class Git
 
         $this->processLogger->logResult($result);
     }
+
+
+    /**
+     * @return array<string>
+     * @throws GitCommandFailed
+     */
+    public function getChangedFilesSinceCommit(string $directory, string $commitHash): array
+    {
+        $command = sprintf('diff --name-only --diff-filter=d %s', $commitHash);
+
+        $result = $this->gitBinary->executeCommand($directory, $command);
+
+        $this->processLogger->logResult($result);
+
+        $files = preg_split("/\r\n|\n|\r/", trim($result->output), flags: PREG_SPLIT_NO_EMPTY);
+
+        if (!is_array($files)) {
+            throw new GitCommandFailed();
+        }
+
+        return $files;
+    }
 }
