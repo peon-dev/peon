@@ -222,7 +222,7 @@ class Git
      */
     public function pull(string $directory): void
     {
-        $result = $this->gitBinary->executeCommand($directory, 'pull --rebase --ff-only');
+        $result = $this->gitBinary->executeCommand($directory, 'pull --rebase');
 
         $this->processLogger->logResult($result);
     }

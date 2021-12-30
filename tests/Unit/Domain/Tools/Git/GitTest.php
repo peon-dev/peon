@@ -264,7 +264,7 @@ class GitTest extends TestCase
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'pull --rebase --ff-only')
+            ->with('/', 'pull --rebase')
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
