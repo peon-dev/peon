@@ -3,7 +3,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <embeddable name="PHPMate\Domain\Process\Value\ProcessResult">
-        <field name="command" />
+        <field name="command" type="text" />
         <field name="exitCode" type="integer" />
         <field name="executionTime" type="float" />
         <field name="output" type="text" />
