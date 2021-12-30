@@ -65,9 +65,9 @@ final class RedefineTaskController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        return $this->render('redefine_task.html.twig', [
+        return $this->renderForm('redefine_task.html.twig', [
             'task' => $task,
-            'define_task_form' => $form->createView(),
+            'define_task_form' => $form,
             'activeProject' => $project,
         ]);
     }

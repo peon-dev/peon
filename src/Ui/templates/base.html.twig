@@ -7,6 +7,7 @@
     <title>{% block title %}{% endblock %} | DevMate</title>
 
     {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_script_tags('app') }}
 </head>
 
 <body>
@@ -80,7 +81,5 @@
     <div class="fixed-bottom navbar-light bg-light text-center p-2">
         <small class="text-muted">Found a bug? Have an idea? Please <a href="https://github.com/PHPMate/phpmate/issues/new" target="_blank">open issue</a>.</small>
     </div>
-
-    {{ encore_entry_script_tags('app') }}
 </body>
 </html>

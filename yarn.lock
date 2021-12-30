@@ -958,7 +958,7 @@
     schema-utils "^3.0.0"
 
 "@symfony/ux-turbo@file:vendor/symfony/ux-turbo/Resources/assets":
-  version "0.0.0"
+  version "0.1.0"
 
 "@symfony/webpack-encore@^1.0.0":
   version "1.6.1"
