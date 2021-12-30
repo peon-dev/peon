@@ -64,8 +64,8 @@ final class DefineTaskController extends AbstractController
             $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
         }
 
-        return $this->render('define_task.html.twig', [
-            'define_task_form' => $form->createView(),
+        return $this->renderForm('define_task.html.twig', [
+            'define_task_form' => $form,
             'activeProject' => $activeProject,
         ]);
     }
