@@ -269,6 +269,6 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
     private function assertJobHasFailed(Job $job): void
     {
-        self::assertNotNull($job->failedAt, 'Job should be succeeded!');
+        self::assertNotNull($job->failedAt, 'Job should be failed!');
     }
 }

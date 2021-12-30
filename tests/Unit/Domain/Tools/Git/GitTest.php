@@ -257,6 +257,21 @@ class GitTest extends TestCase
     }
 
 
+    public function testPull(): void
+    {
+        $processResult = new ProcessResult('', 0, '', 0);
+
+        $gitBinary = $this->createMock(GitBinary::class);
+        $gitBinary->expects(self::once())
+            ->method('executeCommand')
+            ->with('/', 'pull')
+            ->willReturn($processResult);
+
+        $git = new Git($gitBinary, $this->logger);
+        $git->pull('/');
+    }
+
+
     /**
      * @dataProvider provideTestGetChangedFilesSinceCommitData
      * @param array<string> $expectedChangedFiles

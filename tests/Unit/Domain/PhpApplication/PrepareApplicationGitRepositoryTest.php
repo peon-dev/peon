@@ -69,6 +69,9 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->willReturn('main');
 
         $git->expects(self::once())
+            ->method('pull')
+            ->with('/');
+        $git->expects(self::once())
             ->method('rebaseBranchAgainstUpstream')
             ->with('/', 'main');
         $git->expects(self::once())
