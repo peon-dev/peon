@@ -142,6 +142,12 @@
     "m4tthumphrey/php-gitlab-api": {
         "version": "11.4.x-dev"
     },
+    "mangoweb/clock": {
+        "version": "v0.2.2"
+    },
+    "mangoweb/monolog-tracy-handler": {
+        "version": "v1.0.2"
+    },
     "monolog/monolog": {
         "version": "2.3.2"
     },
@@ -766,6 +772,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
+    },
+    "tracy/tracy": {
+        "version": "v2.9.0"
     },
     "twig/extra-bundle": {
         "version": "v3.3.1"

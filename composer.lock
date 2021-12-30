@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f946d53b5076404f34ac9e493a3ce856",
+    "content-hash": "4cf7e3d73e8f820fb23e8217ac0770a4",
     "packages": [
         {
             "name": "bamarni/composer-bin-plugin",
@@ -10718,6 +10718,85 @@
             "time": "2021-10-28T05:46:28+00:00"
         },
         {
+            "name": "mangoweb/clock",
+            "version": "v0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mangoweb-backend/clock.git",
+                "reference": "044610ebda90e9f0b8f03f95ecfb0ea6ed924d29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mangoweb-backend/clock/zipball/044610ebda90e9f0b8f03f95ecfb0ea6ed924d29",
+                "reference": "044610ebda90e9f0b8f03f95ecfb0ea6ed924d29",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1 || ~8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "~0.12"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mangoweb\\Clock\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Clock class",
+            "support": {
+                "issues": "https://github.com/mangoweb-backend/clock/issues",
+                "source": "https://github.com/mangoweb-backend/clock/tree/v0.2.2"
+            },
+            "time": "2020-11-08T10:06:46+00:00"
+        },
+        {
+            "name": "mangoweb/monolog-tracy-handler",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mangoweb-backend/monolog-tracy-handler.git",
+                "reference": "a4c4eddd02f0ba347ee7bef859c167c0a72dcfc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mangoweb-backend/monolog-tracy-handler/zipball/a4c4eddd02f0ba347ee7bef859c167c0a72dcfc7",
+                "reference": "a4c4eddd02f0ba347ee7bef859c167c0a72dcfc7",
+                "shasum": ""
+            },
+            "require": {
+                "mangoweb/clock": "~0.2.0",
+                "monolog/monolog": "~1.24 || ~2.0",
+                "php": "~7.1 || ~8.0",
+                "tracy/tracy": "~2.6"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1.2",
+                "nette/tester": "~2.0",
+                "phpstan/phpstan-shim": "~0.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mangoweb\\MonologTracyHandler\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Integrates Tracy into Monolog, supports uploading Tracy bluescreens to AWS S3",
+            "support": {
+                "issues": "https://github.com/mangoweb-backend/monolog-tracy-handler/issues",
+                "source": "https://github.com/mangoweb-backend/monolog-tracy-handler/tree/v1.0.2"
+            },
+            "time": "2021-03-21T10:28:14+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.10.2",
             "source": {
@@ -13595,6 +13674,80 @@
                 }
             ],
             "time": "2021-07-28T10:34:58+00:00"
+        },
+        {
+            "name": "tracy/tracy",
+            "version": "v2.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tracy.git",
+                "reference": "551a7d936dfbd7075ced9a604b9527d1f7bfa8b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/551a7d936dfbd7075ced9a604b9527d1f7bfa8b4",
+                "reference": "551a7d936dfbd7075ced9a604b9527d1f7bfa8b4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-session": "*",
+                "php": ">=7.2 <8.2"
+            },
+            "conflict": {
+                "nette/di": "<3.0"
+            },
+            "require-dev": {
+                "latte/latte": "^2.5",
+                "nette/di": "^3.0",
+                "nette/mail": "^3.0",
+                "nette/tester": "^2.2",
+                "nette/utils": "^3.0",
+                "phpstan/phpstan": "^1.0",
+                "psr/log": "^1.0 || ^2.0 || ^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.9-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src"
+                ],
+                "files": [
+                    "src/Tracy/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "😎  Tracy: the addictive tool to ease debugging PHP code for cool developers. Friendly design, logging, profiler, advanced features like debugging AJAX calls or CLI support. You will love it.",
+            "homepage": "https://tracy.nette.org",
+            "keywords": [
+                "Xdebug",
+                "debug",
+                "debugger",
+                "nette",
+                "profiler"
+            ],
+            "support": {
+                "issues": "https://github.com/nette/tracy/issues",
+                "source": "https://github.com/nette/tracy/tree/v2.9.0"
+            },
+            "time": "2021-12-20T18:19:46+00:00"
         }
     ],
     "aliases": [
