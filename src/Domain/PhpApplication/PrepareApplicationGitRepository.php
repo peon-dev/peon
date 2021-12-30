@@ -36,6 +36,7 @@ class PrepareApplicationGitRepository // TODO: better naming
 
         if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
             $this->git->trackRemoteBranch($applicationDirectory, $newBranch);
+            $this->git->pull($applicationDirectory);
             $this->syncWithHead($applicationDirectory, $mainBranch);
         }
 
@@ -49,7 +50,6 @@ class PrepareApplicationGitRepository // TODO: better naming
     private function syncWithHead(string $applicationDirectory, string $mainBranch): void
     {
         try {
-            $this->git->pull($applicationDirectory);
             $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);
             $this->git->forcePushWithLease($applicationDirectory);
         } catch (GitCommandFailed) {
