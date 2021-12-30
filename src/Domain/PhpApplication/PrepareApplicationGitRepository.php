@@ -32,10 +32,11 @@ class PrepareApplicationGitRepository // TODO: better naming
         $mainBranch = $this->git->getCurrentBranch($applicationDirectory);
         $newBranch = $this->branchNameProvider->provideForTask($taskName);
 
-        $this->checkoutBranch($applicationDirectory, $newBranch);
+        $this->git->checkoutNewBranch($applicationDirectory, $newBranch);
 
         if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
-            $this->updateToMain($applicationDirectory, $mainBranch);
+            $this->git->trackRemoteBranch($applicationDirectory, $newBranch);
+            $this->syncWithHead($applicationDirectory, $mainBranch);
         }
 
         return new LocalApplication($applicationDirectory, $mainBranch, $newBranch);
@@ -45,21 +46,7 @@ class PrepareApplicationGitRepository // TODO: better naming
     /**
      * @throws GitCommandFailed
      */
-    private function checkoutBranch(string $applicationDirectory, string $newBranch): void
-    {
-        if ($this->git->remoteBranchExists($applicationDirectory, $newBranch)) {
-            $this->git->checkoutRemoteBranch($applicationDirectory, $newBranch);
-            return;
-        }
-
-        $this->git->checkoutNewBranch($applicationDirectory, $newBranch);
-    }
-
-
-    /**
-     * @throws GitCommandFailed
-     */
-    private function updateToMain(string $applicationDirectory, string $mainBranch): void
+    private function syncWithHead(string $applicationDirectory, string $mainBranch): void
     {
         try {
             $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);

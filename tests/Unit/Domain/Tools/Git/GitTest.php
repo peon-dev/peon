@@ -164,18 +164,18 @@ class GitTest extends TestCase
     }
 
 
-    public function testCheckoutRemoteBranch(): void
+    public function testTrackRemoteBranch(): void
     {
         $processResult = new ProcessResult('', 0, '', 0);
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'checkout origin/phpmate')
+            ->with('/', 'branch --set-upstream-to origin/phpmate')
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
-        $git->checkoutRemoteBranch('/', 'phpmate');
+        $git->trackRemoteBranch('/', 'phpmate');
     }
 
 
@@ -269,7 +269,7 @@ class GitTest extends TestCase
         $gitBinary->expects(self::once())
             ->method('executeCommand')
             ->with(
-                '/', 'diff --name-only --diff-filter=d hash'
+                '/', 'diff --name-only --diff-filter=d hash origin/HEAD'
             )
             ->willReturn($processResult);
 
