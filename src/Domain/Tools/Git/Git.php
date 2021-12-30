@@ -215,4 +215,12 @@ class Git
 
         $this->processLogger->logResult($result);
     }
+
+
+    public function pull(string $directory): void
+    {
+        $result = $this->gitBinary->executeCommand($directory, 'pull');
+
+        $this->processLogger->logResult($result);
+    }
 }

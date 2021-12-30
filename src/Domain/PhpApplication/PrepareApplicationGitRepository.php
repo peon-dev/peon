@@ -49,6 +49,7 @@ class PrepareApplicationGitRepository // TODO: better naming
     private function syncWithHead(string $applicationDirectory, string $mainBranch): void
     {
         try {
+            $this->git->pull($applicationDirectory);
             $this->git->rebaseBranchAgainstUpstream($applicationDirectory, $mainBranch);
             $this->git->forcePushWithLease($applicationDirectory);
         } catch (GitCommandFailed) {
