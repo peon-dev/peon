@@ -2,8 +2,25 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Mangoweb\MonologTracyHandler\TracyHandler;
+use Symfony\Config\MonologConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->extension('monolog', ['handlers' => ['main' => ['type' => 'stream', 'path' => '%kernel.logs_dir%/%kernel.environment%.log', 'level' => 'debug', 'channels' => ['!event']], 'console' => ['type' => 'console', 'process_psr_3_messages' => false, 'channels' => ['!event', '!doctrine', '!console']]]]);
+return static function (MonologConfig $monologConfig): void {
+    $monologConfig->handler('tracy')
+        ->type('service')
+        ->id(TracyHandler::class)
+        ->level('error');
+
+    $monologConfig->handler('main')
+        ->type('stream')
+        ->path('%kernel.logs_dir%/%kernel.environment%.log')
+        ->level('debug')
+        ->channels()
+            ->elements(['!event']);
+
+    $monologConfig->handler('console')
+        ->type('console')
+        ->processPsr3Messages(false)
+        ->channels()
+            ->elements(['!event', '!doctrine', '!console']);
 };
