@@ -21,7 +21,7 @@ parameters:
         - tests/object-manager.php
     scanDirectories:
         - var/cache/dev/Symfony/Config
-    scanFiles:
+    bootstrapFiles:
         - vendor-bin/rector/vendor/autoload.php
     symfony:
         container_xml_path: var/cache/dev/PHPMate_Infrastructure_Symfony_PHPMateKernelDevDebugContainer.xml
