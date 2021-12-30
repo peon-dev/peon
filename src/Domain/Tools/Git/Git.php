@@ -114,19 +114,6 @@ class Git
     /**
      * @throws GitCommandFailed
      */
-    public function checkoutRemoteBranch(string $directory, string $branch): void
-    {
-        $command = sprintf('checkout origin/%s', $branch);
-
-        $result = $this->gitBinary->executeCommand($directory, $command);
-
-        $this->processLogger->logResult($result);
-    }
-
-
-    /**
-     * @throws GitCommandFailed
-     */
     public function rebaseBranchAgainstUpstream(string $directory, string $mainBranch): void
     {
         $command = sprintf('rebase origin/%s', $mainBranch);
@@ -201,7 +188,7 @@ class Git
      */
     public function getChangedFilesSinceCommit(string $directory, string $commitHash): array
     {
-        $command = sprintf('diff --name-only --diff-filter=d %s', $commitHash);
+        $command = sprintf('diff --name-only --diff-filter=d %s origin/HEAD', $commitHash);
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
@@ -214,5 +201,18 @@ class Git
         }
 
         return $files;
+    }
+
+
+    /**
+     * @throws GitCommandFailed
+     */
+    public function trackRemoteBranch(string $directory, string $branch): void
+    {
+        $command = sprintf('branch --set-upstream-to origin/%s', $branch);
+
+        $result = $this->gitBinary->executeCommand($directory, $command);
+
+        $this->processLogger->logResult($result);
     }
 }

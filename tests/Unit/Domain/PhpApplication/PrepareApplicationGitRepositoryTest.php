@@ -27,7 +27,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         $git->expects(self::once())
             ->method('checkoutNewBranch')
             ->with('/', 'task');
-        $git->expects(self::exactly(2)) // TODO: SHOULD BE ONLY ONCE!!
+        $git->expects(self::once())
             ->method('remoteBranchExists')
             ->with('/', 'task')
             ->willReturn(false);
@@ -139,7 +139,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->willReturn('main');
 
         $git->expects(self::once())
-            ->method('checkoutRemoteBranch')
+            ->method('trackRemoteBranch')
             ->with('/', 'task');
 
         $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
