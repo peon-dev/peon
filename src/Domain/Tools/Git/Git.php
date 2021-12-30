@@ -217,6 +217,9 @@ class Git
     }
 
 
+    /**
+     * @throws GitCommandFailed
+     */
     public function pull(string $directory): void
     {
         $result = $this->gitBinary->executeCommand($directory, 'pull');
