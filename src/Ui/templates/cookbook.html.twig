@@ -3,7 +3,7 @@
 {% block content %}
     <h1>{% block title %}Cookbook{% endblock %}</h1>
 
-    <section class="cookbook">
+    <section class="cookbook" data-controller="cookbook">
         <div class="dashboard-projects row row-cols-auto">
             {% for recipe in recipes %}
                 <div class="col">
