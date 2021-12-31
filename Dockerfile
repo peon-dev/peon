@@ -36,22 +36,7 @@ USER 1000:1000
 
 
 
-FROM node:14 as js-builder
-
-WORKDIR /build
-
-# Install npm packages
-COPY package.json yarn.lock webpack.config.js ./
-RUN yarn install
-
-# Production yarn build
-COPY ./assets ./assets
-
-RUN yarn run build
-
-
-
-FROM dev as prod
+FROM dev as prod-composer
 
 ENV APP_ENV="prod"
 ENV APP_DEBUG=0
@@ -64,15 +49,40 @@ RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN mkdir -p /www/var/cache && chown -R 1000:1000 /www
 
 USER 1000:1000
-WORKDIR "/www"
-
-COPY --chown=1000:1000 --from=js-builder /build .
+WORKDIR /www
 
 # Intentionally split into multiple steps to leverage docker layer caching
 COPY --chown=1000:1000 composer.json composer.lock symfony.lock ./
 
 RUN composer install --no-interaction --no-scripts
 
+
+
+FROM node:14 as js-builder
+
+WORKDIR /build
+
+# We need /vendor here
+COPY --from=prod-composer /www .
+
+# Install npm packages
+COPY package.json yarn.lock webpack.config.js ./
+RUN yarn install
+
+# Production yarn build
+COPY ./assets ./assets
+
+RUN yarn run build
+
+
+
+FROM prod-composer as prod
+
+# Copy js build
+COPY --chown=1000:1000 --from=js-builder /build .
+
+# Copy application source code
 COPY --chown=1000:1000 . .
+
 # Need to run again to trigger scripts with application code present
 RUN composer install --no-interaction
