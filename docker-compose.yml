@@ -8,6 +8,7 @@ services:
         depends_on:
             - composer
             - postgres
+            - mercure
         ports:
             - 8080:8080
         entrypoint: [ "bash", "/docker-entrypoint.sh" ]
@@ -79,11 +80,11 @@ services:
             MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
             # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
             MERCURE_EXTRA_DIRECTIVES: |
-                cors_origins http://dashboard
+                cors_origins *
         # Comment the following line to disable the development mode
         command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
         volumes:
             - .docker-data/mercure_data:/data
             - .docker-data/mercure_config:/config
         ports:
-          - "80"
+          - 8081:80

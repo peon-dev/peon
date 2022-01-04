@@ -4,6 +4,8 @@
 
 {% block content %}
 
+<div {{ turbo_stream_listen('project-overview') }} id="messages"></div>
+
 {% if not tasks and not activeProject.enabledRecipes %}
     <section class="project-guidelines">
         <p class="bigger">
