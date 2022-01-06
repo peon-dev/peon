@@ -60,6 +60,9 @@ return static function(ContainerConfigurator $configurator): void
     // Controllers
     $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
+    // Event subscribers
+    $services->load('PHPMate\\Subscribers\\', __DIR__ . '/../../../Subscribers/{*When*.php}');
+
     // Use cases
     $services->load('PHPMate\\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
 
