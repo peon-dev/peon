@@ -1,0 +1,81 @@
+<tr>
+    <td>
+        {% if job.pending %}
+            <span class="btn btn-outline-warning btn-sm">
+                <span class="spinner-border text-outline-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                Pending
+            </span>
+        {% endif %}
+
+        {% if job.inProgress %}
+            <a class="btn btn-outline-primary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
+                <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
+                In progress
+            </a>
+        {% endif %}
+
+        {% if job.succeededAt %}
+            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-success btn-sm">
+                <i class="far fa-check-circle"></i>
+                Succeeded
+            </a>
+        {% endif %}
+
+        {% if job.failed %}
+            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-danger btn-sm">
+                <i class="far fa-times-circle"></i>
+                Failed
+            </a>
+        {% endif %}
+    </td>
+
+    <td>
+        <small class="text-muted">
+            {% if job.recipe %}
+                Recipe:
+            {% else %}
+                Task:
+            {% endif %}
+        </small><br>
+        <a href="{{ path('job_detail', {jobId: job.jobId}) }}">
+            {{ job.title }}
+        </a>
+    </td>
+
+    <td>
+        {% if job.executionTime %}
+            <small class="text-muted">
+                <i class="far fa-clock"></i>
+                {% if job.executionTime >= 60 %}
+                    {{ (job.executionTime / 60)|round(0, 'floor') }}m
+                {% endif %}
+                {{ job.executionTime % 60|round }}s
+            </small>
+            <br>
+        {% endif %}
+
+        {% if job.startedAt %}
+            <i class="far fa-calendar-alt"></i>
+            {% if job.succeeded %}
+                <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.succeededAt|date('j.n.Y H:i') }}">
+                    {{ job.succeededAt|ago }}
+                </span>
+            {% elseif job.failed %}
+                <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.failedAt|date('j.n.Y H:i') }}">
+                    {{ job.failedAt|ago }}
+                </span>
+            {% elseif job.inProgress %}
+                <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.startedAt|date('j.n.Y H:i') }}">
+                    {{ job.startedAt|ago }}
+                </span>
+            {% endif %}
+        {% endif %}
+    </td>
+    <td class="text-end">
+        {% if job.mergeRequestUrl %}
+            <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                <i class="fa fa-code-branch"></i>
+            </a>
+        {% endif %}
+    </td>
+</tr>
