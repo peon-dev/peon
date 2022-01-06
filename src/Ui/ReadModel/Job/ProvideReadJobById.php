@@ -34,6 +34,6 @@ SQL;
 
         $resultSet = $this->connection->executeQuery($sql, [$jobId]);
 
-        return $this->hydrator->hydrateArray($resultSet->fetchAllAssociative(), ReadJob::class);
+        return $this->hydrator->hydrateArray($resultSet->fetchAssociative(), ReadJob::class);
     }
 }
