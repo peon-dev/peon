@@ -3,6 +3,8 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    <div {{ turbo_stream_listen('project-' ~ activeProject.projectId ~ 'overview') }}></div>
+
     <a style="float: right;" href="{{ path('add_project') }}" class="btn btn-sm btn-primary">
         <i class="fas fa-plus-circle"></i>
         Add project

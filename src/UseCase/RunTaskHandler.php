@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Job\Event\JobScheduled;
 use PHPMate\Domain\Job\Job;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
@@ -17,6 +18,7 @@ use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Domain\Task\Exception\TaskNotFound;
 use PHPMate\Domain\Task\TasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class RunTaskHandler implements MessageHandlerInterface
@@ -27,6 +29,7 @@ final class RunTaskHandler implements MessageHandlerInterface
         private ProjectsCollection $projects,
         private Clock $clock,
         private CommandBus $commandBus,
+        private EventBus $eventBus,
     ) {}
 
 
@@ -53,6 +56,11 @@ final class RunTaskHandler implements MessageHandlerInterface
         );
 
         $this->jobs->save($job);
+
+        // TODO: this event could be dispatched in entity
+        $this->eventBus->dispatch(
+            new JobScheduled($jobId, $project->projectId)
+        );
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
