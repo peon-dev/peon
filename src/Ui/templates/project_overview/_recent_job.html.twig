@@ -1,4 +1,4 @@
-<tr>
+<tr class="{{ isNew|default(false) ? ' new-item' }}">
     <td>
         {% if job.pending %}
             <span class="btn btn-outline-warning btn-sm">
