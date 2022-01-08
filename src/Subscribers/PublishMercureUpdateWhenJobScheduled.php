@@ -36,5 +36,12 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
                 ])
             )
         );
+
+        $this->hub->publish(
+            new Update(
+                'dashboard',
+                $this->twig->render('dashboard.stream.html.twig')
+            )
+        );
     }
 }

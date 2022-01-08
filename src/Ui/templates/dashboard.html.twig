@@ -3,7 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <div {{ turbo_stream_listen('project-' ~ activeProject.projectId ~ 'overview') }}></div>
+    <div {{ turbo_stream_listen('dashboard') }}></div>
 
     <a style="float: right;" href="{{ path('add_project') }}" class="btn btn-sm btn-primary">
         <i class="fas fa-plus-circle"></i>
@@ -18,11 +18,11 @@
                 <a href="{{ path('project_overview', {projectId: project.projectId}) }}" class="card">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fab fa-gitlab"></i> {{ project.name }}</h5>
-                        <p class="card-text">
+                        <div class="card-text" id="project-{{ project.projectId }}-stats">
                             {{ project.tasksCount }} tasks<br>
                             {{ project.recipesCount }} recipes<br>
                             {{ project.jobsCount }} jobs
-                        </p>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -53,7 +53,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="recent-jobs">
                     {% for job in jobs %}
                         <tr>
                             <td>

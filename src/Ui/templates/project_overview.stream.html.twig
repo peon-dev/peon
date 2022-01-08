@@ -1,5 +1,15 @@
-<turbo-stream action="append" target="recent-jobs-div">
+<turbo-stream action="prepend" target="recent-jobs">
     <template>
         {{ include('project_overview/_recent_job.html.twig') }}
     </template>
 </turbo-stream>
+
+
+<turbo-stream action="replace" target="last-job-{{ job.recipe ? 'test' : job.taskId }}">
+    <template>
+        X
+    </template>
+</turbo-stream>
+
+
+
