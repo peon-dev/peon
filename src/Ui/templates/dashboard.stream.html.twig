@@ -1,6 +1,10 @@
 <turbo-stream action="prepend" target="recent-jobs">
     <template>
-        <tr><td>Xxyz</td></tr>
+        <tr class="{{ isNew|default(false) ? 'new-item' }}">
+            <td>
+                Xxyz
+            </td>
+        </tr>
     </template>
 </turbo-stream>
 
