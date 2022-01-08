@@ -6,6 +6,7 @@ namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
 use PHPMate\Domain\Cookbook\RecipesCollection;
+use PHPMate\Domain\Job\Event\JobScheduled;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
@@ -16,6 +17,7 @@ use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class RunRecipeHandler implements MessageHandlerInterface
@@ -26,6 +28,7 @@ final class RunRecipeHandler implements MessageHandlerInterface
         private JobsCollection $jobsCollection,
         private Clock $clock,
         private CommandBus $commandBus,
+        private EventBus $eventBus,
     ) {
     }
 
@@ -54,6 +57,11 @@ final class RunRecipeHandler implements MessageHandlerInterface
         );
 
         $this->jobsCollection->save($job);
+
+        // TODO: this event could be dispatched in entity
+        $this->eventBus->dispatch(
+            new JobScheduled($jobId, $project->projectId)
+        );
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(

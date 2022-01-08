@@ -33,7 +33,8 @@ GROUP BY job.job_id, job_process_result.job_id, project.name, job.scheduled_at
 SQL;
 
         $resultSet = $this->connection->executeQuery($sql, [$jobId]);
+        $data = $resultSet->fetchAssociative();
 
-        return $this->hydrator->hydrateArray($resultSet->fetchAssociative(), ReadJob::class);
+        return $this->hydrator->hydrateArray($data, ReadJob::class);
     }
 }

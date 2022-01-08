@@ -90,7 +90,7 @@
                         </code>
                     </td>
 
-                    <td class="text-center">
+                    <td class="text-center" id="last-job-{{ task.taskId }}">
                         {% if task.lastJobId %}
 
                             {% if task.jobPending %}
@@ -188,7 +188,7 @@
                                 Run
                             </a>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" id="last-job-{{ recipe.recipeName.value }}">
                             {% if recipe.lastJobId %}
 
                                 {% if recipe.jobPending %}
@@ -231,13 +231,15 @@
                                 <br>
                             {% endif %}
                         </td>
-                        <td class="text-end">
+
+                        <td class="text-end" id="last-job-{{ recipe.recipeName.value }}-merge-request">
                             {% if recipe.lastJobMergeRequestUrl %}
                                 <a href="{{ recipe.lastJobMergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
                                     <i class="fa fa-code-branch"></i>
                                 </a>
                             {% endif %}
                         </td>
+
                     </tr>
                 {% endfor %}
             </tbody>
@@ -259,9 +261,9 @@
             </tr>
             </thead>
             <tbody id="recent-jobs">
-            {% for job in jobs %}
-                {{ include('project_overview/_recent_job.html.twig') }}
-            {% endfor %}
+                {% for job in jobs %}
+                    {{ include('project_overview/_recent_job.html.twig') }}
+                {% endfor %}
             </tbody>
         </table>
     </div>
