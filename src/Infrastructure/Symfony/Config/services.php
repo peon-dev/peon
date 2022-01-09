@@ -82,7 +82,7 @@ return static function(ContainerConfigurator $configurator): void
     // Tools
     $services->load('PHPMate\\Domain\\Tools\\', __DIR__ . '/../../../Domain/Tools/**/{*.php}')
         ->exclude([
-            __DIR__ . '/../../../Domain/Tools/**/{Exception,Value}/*'
+            __DIR__ . '/../../../Domain/Tools/**/{Exception,Value,Event}/*'
         ]);
 
     $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\UseCase;
 
 use Lcobucci\Clock\Clock;
+use PHPMate\Domain\Job\Event\JobStatusChanged;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
 use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
@@ -23,6 +24,7 @@ use PHPMate\Domain\Job\Exception\JobNotFound;
 use PHPMate\Domain\Job\JobsCollection;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -39,6 +41,7 @@ final class ExecuteJobHandler implements MessageHandlerInterface
         private RunJobCommands $runJobCommands,
         private RunJobRecipe $runJobRecipe,
         private UpdateMergeRequest $updateMergeRequest,
+        private EventBus $eventBus,
     ) {}
 
 
@@ -61,6 +64,14 @@ final class ExecuteJobHandler implements MessageHandlerInterface
 
             $job->start($this->clock);
             $this->jobsCollection->save($job);
+
+            // TODO: this event could be dispatched in entity
+            $this->eventBus->dispatch(
+                new JobStatusChanged(
+                    $job->jobId,
+                    $job->projectId,
+                )
+            );
 
             // 1. Prepare git (clone) repository to local application
             $localApplication = $this->prepareApplicationGitRepository->prepare(
@@ -105,6 +116,14 @@ final class ExecuteJobHandler implements MessageHandlerInterface
             }
 
             $this->jobsCollection->save($job);
+
+            // TODO: this event could be dispatched in entity
+            $this->eventBus->dispatch(
+                new JobStatusChanged(
+                    $job->jobId,
+                    $job->projectId,
+                )
+            );
         }
     }
 }
