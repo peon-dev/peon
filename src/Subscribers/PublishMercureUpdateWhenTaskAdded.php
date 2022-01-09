@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Task\Event\TaskAdded;
+use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-final class PublishMercureUpdateWhenTaskAdded
+final class PublishMercureUpdateWhenTaskAdded implements EventHandlerInterface
 {
     public function __construct(
         private HubInterface $hub,
@@ -22,8 +23,5 @@ final class PublishMercureUpdateWhenTaskAdded
         // Dashboard - project stats
         // Project overview - tasks table append
 
-        $update = new Update();
-
-        $this->hub->publish($update);
     }
 }
