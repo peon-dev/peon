@@ -27,7 +27,7 @@ final class PublishMercureUpdateWhenRecipeDisabled implements EventHandlerInterf
     {
         $project = $this->provideReadProjectDetail->provide($event->projectId);
 
-        // Dashboard - project stats
+        // TODO: Dashboard - project stats
 
         $this->hub->publish(
             new Update(
@@ -43,7 +43,7 @@ final class PublishMercureUpdateWhenRecipeDisabled implements EventHandlerInterf
             new Update(
                 'project-' . $event->projectId->id . '-overview',
                 $this->twig->render('recipes.stream.html.twig', [
-                    'projectId' => $event->projectId,
+                    'project' => $project,
                     'recipes' => $this->provideProjectReadRecipes->provide($event->projectId),
                 ])
             )
