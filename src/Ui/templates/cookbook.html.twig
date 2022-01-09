@@ -3,6 +3,8 @@
 {% block content %}
     <h1>{% block title %}Cookbook{% endblock %}</h1>
 
+    <div {{ turbo_stream_listen('project-' ~ activeProject.projectId ~ '-cookbook') }}></div>
+
     <section class="cookbook" data-controller="cookbook">
         <div class="dashboard-projects row row-cols-auto">
             {% for recipe in recipes %}
@@ -17,34 +19,10 @@
                         </div>
                         <div class="card-footer">
                             <div class="btn-group">
-                                {% if activeProject.recipeBaseline(recipe.name) %}
-                                    <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
-                                        Enabled for changed files
-                                    </button>
-
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for full codebase</a></li>
-                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Disable</a></li>
-                                    </ul>
-                                {% elseif activeProject.recipeEnabled(recipe.name) %}
-                                    <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
-                                        Enabled for full codebase
-                                    </button>
-
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for changed files</a></li>
-                                        <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Disable</a></li>
-                                    </ul>
-                                {% else %}
-                                    <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown">
-                                        Disabled
-                                    </button>
-
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for full codebase</a></li>
-                                        <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: activeProject.projectId, recipeName: recipe.name.value}) }}">Enable for changed files</a></li>
-                                    </ul>
-                                {% endif %}
+                                {{ include('cookbook/_recipe_dropdown.html.twig', {
+                                    project: activeProject,
+                                    recipeName: recipe.name
+                                }) }}
                             </div>
 
 

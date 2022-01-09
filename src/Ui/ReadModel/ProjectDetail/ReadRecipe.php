@@ -17,6 +17,7 @@ final class ReadRecipe
     private string $lastJobStatus = JobStatus::SCHEDULED;
 
 
+
     public function __construct(
         public string $title,
         private string $recipeName,
@@ -26,6 +27,8 @@ final class ReadRecipe
         public DateTimeImmutable|null $lastJobSucceededAt,
         public DateTimeImmutable|null $lastJobFailedAt,
         public string|null $lastJobMergeRequestUrl,
+        public readonly string|null $baseline = null,
+        public readonly string|null $projectId = null,
     ) {
         if ($lastJobFailedAt !== null) {
             $this->lastJobStatus = JobStatus::FAILED;
@@ -91,5 +94,16 @@ final class ReadRecipe
         $nextRun = $cronExpression->getNextRunDate();
 
         return DateTimeImmutable::createFromMutable($nextRun);
+    }
+
+
+    public function getBaseline()
+    {
+        return null;
+    }
+
+    public function getProjectId()
+    {
+        return '72fd1c5f-7fdd-4cd1-a48f-4cf244458f45';
     }
 }

@@ -1,0 +1,95 @@
+{% if recipes %}
+    <div class="table-responsive jobs-list-table">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Recipe</th>
+                    <th>Schedule</th>
+                    <th></th>
+                    <th class="text-center">Last job</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                    <tr id="recipe-{{ recipe.recipeName.value }}-row">
+                        <td>
+                            {{ recipe.title }}
+                            {% if recipe.baseline %}
+                                <span class="badge rounded-pill bg-light text-dark">Changed files only</span>
+                            {% else %}
+                                <span class="badge rounded-pill bg-light text-dark">Full codebase</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <small class="text-muted">{{ recipe.humanReadableCron }}</small>
+                            <br>
+                            <small>
+                                <i class="far fa-clock"></i> next {{ recipe.nextRunTime|ago }}
+                            </small>
+                        </td>
+                        <td>
+                            <turbo-frame id="recipe-{{ recipe.recipeName.value }}-run">
+                                <a href="{{ path('run_recipe', {recipeName: recipe.recipeName.value, projectId: recipe.projectId}) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="far fa-play-circle"></i>
+                                    Run
+                                </a>
+                            </turbo-frame>
+                        </td>
+                        <td class="text-center" id="last-job-{{ recipe.recipeName.value }}">
+                            {% if recipe.lastJobId %}
+
+                                {% if recipe.jobPending %}
+                                    <span class="btn btn-outline-warning btn-sm">
+                                                        <span class="spinner-border text-outline-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                                        Pending
+                                                    </span>
+                                {% endif %}
+
+                                {% if recipe.jobInProgress %}
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}">
+                                        <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
+                                        In progress
+                                    </a>
+                                {% endif %}
+
+                                {% if recipe.jobSucceeded %}
+                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-outline-success btn-sm">
+                                        <i class="far fa-check-circle"></i>
+                                        Succeeded
+                                    </a>
+                                {% endif %}
+
+                                {% if recipe.jobFailed %}
+                                    <a href="{{ path('job_detail', {jobId: recipe.lastJobId}) }}" class="btn btn-outline-danger btn-sm">
+                                        <i class="far fa-times-circle"></i>
+                                        Failed
+                                    </a>
+                                {% endif %}
+
+                                <br>
+
+                                <small class="text-muted">
+                                    <i class="far fa-clock"></i>
+
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ recipe.lastJobActionTime|date('j.n.Y H:i') }}">
+                                        {{ recipe.lastJobActionTime|ago }}
+                                    </span>
+                                </small>
+                                <br>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end" id="last-job-{{ recipe.recipeName.value }}-merge-request">
+                            {% if recipe.lastJobMergeRequestUrl %}
+                                <a href="{{ recipe.lastJobMergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                                    <i class="fa fa-code-branch"></i>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
