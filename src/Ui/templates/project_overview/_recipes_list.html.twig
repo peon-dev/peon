@@ -15,7 +15,7 @@
                     <tr id="recipe-{{ recipe.recipeName.value }}-row">
                         <td>
                             {{ recipe.title }}
-                            {% if recipe.baseline %}
+                            {% if project.recipeBaseline(recipe.recipeName) %}
                                 <span class="badge rounded-pill bg-light text-dark">Changed files only</span>
                             {% else %}
                                 <span class="badge rounded-pill bg-light text-dark">Full codebase</span>
@@ -30,7 +30,7 @@
                         </td>
                         <td>
                             <turbo-frame id="recipe-{{ recipe.recipeName.value }}-run">
-                                <a href="{{ path('run_recipe', {recipeName: recipe.recipeName.value, projectId: recipe.projectId}) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ path('run_recipe', {recipeName: recipe.recipeName.value, projectId: project.projectId}) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="far fa-play-circle"></i>
                                     Run
                                 </a>

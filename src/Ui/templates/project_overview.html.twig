@@ -155,7 +155,9 @@
 {% endif %}
 
     <div id="project-{{ activeProject.projectId }}-recipes-list">
-        {{ include('project_overview/_recipes_list.html.twig') }}
+        {{ include('project_overview/_recipes_list.html.twig', {
+            project: activeProject
+        }) }}
     </div>
 
 {% if jobs %}
