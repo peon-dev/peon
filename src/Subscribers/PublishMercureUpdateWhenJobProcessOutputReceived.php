@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace PHPMate\Subscribers;
 
-use PHPMate\Domain\Task\Event\TaskChanged;
+use PHPMate\Domain\Job\Event\JobProcessOutputReceived;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-final class PublishMercureUpdateWhenTaskChanged
+final class PublishMercureUpdateWhenJobProcessOutputReceived
 {
     public function __construct(
         private HubInterface $hub,
@@ -17,9 +17,9 @@ final class PublishMercureUpdateWhenTaskChanged
     ) {}
 
 
-    public function __invoke(TaskChanged $event): void
+    public function __invoke(JobProcessOutputReceived $event): void
     {
-        // Project overview - task row
+        // Job detail - log
 
         $update = new Update();
 
