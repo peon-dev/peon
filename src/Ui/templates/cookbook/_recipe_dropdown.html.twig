@@ -1,0 +1,30 @@
+<turbo-frame id="cookbook-recipe-dropdown-{{ recipeName.value }}">
+    {% if project.recipeBaseline(recipeName) %}
+        <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
+            Enabled for changed files
+        </button>
+
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: project.projectId, recipeName: recipeName.value}) }}">Enable for full codebase</a></li>
+            <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: project.projectId, recipeName: recipeName.value}) }}">Disable</a></li>
+        </ul>
+    {% elseif project.recipeEnabled(recipeName) %}
+        <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
+            Enabled for full codebase
+        </button>
+
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: project.projectId, recipeName: recipeName.value}) }}">Enable for changed files</a></li>
+            <li><a class="text-danger dropdown-item" href="{{ path('project_disable_recipe', {projectId: project.projectId, recipeName: recipeName.value}) }}">Disable</a></li>
+        </ul>
+    {% else %}
+        <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown">
+            Disabled
+        </button>
+
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('project_enable_recipe', {projectId: project.projectId, recipeName: recipeName.value}) }}">Enable for full codebase</a></li>
+            <li><a class="dropdown-item" href="{{ path('project_enable_recipe_with_baseline', {projectId: project.projectId, recipeName: recipeName.value}) }}">Enable for changed files</a></li>
+        </ul>
+    {% endif %}
+</turbo-frame>
