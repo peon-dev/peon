@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PHPMate\Domain\Project\Event;
+
+use PHPMate\Domain\Project\Value\ProjectId;
+
+final class ProjectAdded
+{
+    public function __construct(
+        public readonly ProjectId $projectId
+    ) {}
+}

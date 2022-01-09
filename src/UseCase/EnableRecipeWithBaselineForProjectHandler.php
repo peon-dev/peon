@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace PHPMate\UseCase;
 
+use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
 use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
 use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class EnableRecipeWithBaselineForProjectHandler implements MessageHandlerInterface
@@ -18,6 +20,7 @@ final class EnableRecipeWithBaselineForProjectHandler implements MessageHandlerI
         private ProjectsCollection $projectsCollection,
         private RecipesCollection $recipesCollection,
         private GetLastCommitOfDefaultBranch $getLastCommitOfDefaultBranch,
+        private EventBus $eventBus,
     )
     {
     }
@@ -40,5 +43,13 @@ final class EnableRecipeWithBaselineForProjectHandler implements MessageHandlerI
         $project->enableRecipe($command->recipeName, $lastCommit->hash);
 
         $this->projectsCollection->save($project);
+
+        // TODO: this event could be dispatched in entity
+        $this->eventBus->dispatch(
+            new RecipeEnabled(
+                $project->projectId,
+                $command->recipeName,
+            )
+        );
     }
 }
