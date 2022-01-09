@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Project\Event\ProjectDeleted;
+use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-final class PublishMercureUpdateWhenProjectDeleted
+final class PublishMercureUpdateWhenProjectDeleted implements EventHandlerInterface
 {
     public function __construct(
         private HubInterface $hub,
@@ -22,8 +23,5 @@ final class PublishMercureUpdateWhenProjectDeleted
         // Dashboard - remove project
         // Project overview - delete
 
-        $update = new Update();
-
-        $this->hub->publish($update);
     }
 }

@@ -168,7 +168,7 @@
                 </thead>
                 <tbody>
                     {% for recipe in recipes %}
-                        <tr>
+                        <tr id="recipe-{{ recipe.recipeName.value }}-row">
                             <td>
                                 {{ recipe.title }}
                                 {% if activeProject.recipeBaseline(recipe.recipeName) %}

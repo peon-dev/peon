@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Job\Event\JobStatusChanged;
+use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-final class PublishMercureUpdateWhenJobStatusChanged
+final class PublishMercureUpdateWhenJobStatusChanged implements EventHandlerInterface
 {
     public function __construct(
         private HubInterface $hub,
@@ -23,8 +24,5 @@ final class PublishMercureUpdateWhenJobStatusChanged
         // Project overview - recent jobs
         // Project overview - last job (task or recipe)
 
-        $update = new Update();
-
-        $this->hub->publish($update);
     }
 }

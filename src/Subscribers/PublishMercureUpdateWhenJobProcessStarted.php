@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Job\Event\JobProcessStarted;
+use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-final class PublishMercureUpdateWhenJobProcessStarted
+final class PublishMercureUpdateWhenJobProcessStarted implements EventHandlerInterface
 {
     public function __construct(
         private HubInterface $hub,
@@ -21,8 +22,5 @@ final class PublishMercureUpdateWhenJobProcessStarted
     {
         // Job detail - log
 
-        $update = new Update();
-
-        $this->hub->publish($update);
     }
 }
