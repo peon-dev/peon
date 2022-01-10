@@ -1,4 +1,4 @@
-<tr class="{{ isNew|default(false) ? ' new-item' }}">
+<tr class="{{ isNew|default(false) ? ' new-item' }}" id="recent-job-{{ job.jobId }}">
     <td>
         {% if job.pending %}
             <span class="btn btn-outline-warning btn-sm">
@@ -71,6 +71,7 @@
             {% endif %}
         {% endif %}
     </td>
+
     <td class="text-end">
         {% if job.mergeRequestUrl %}
             <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">

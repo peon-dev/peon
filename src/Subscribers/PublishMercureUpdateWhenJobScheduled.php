@@ -26,7 +26,7 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
      */
     public function __invoke(JobScheduled $event): void
     {
-        $job = $this->provideReadJobById->provide($event->jobId->id);
+        $job = $this->provideReadJobById->provide($event->jobId);
 
         $this->hub->publish(
             new Update(

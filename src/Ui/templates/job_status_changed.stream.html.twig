@@ -1,12 +1,10 @@
-<turbo-stream action="prepend" target="recent-jobs">
+<turbo-stream action="replace" target="recent-job-{{ job.jobId }}">
     <template>
-        {{ include('project_overview/_recent_job.html.twig', {
-            isNew: true
-        }) }}
+        {{ include('project_overview/_recent_job.html.twig') }}
     </template>
 </turbo-stream>
 
-<turbo-stream action="update" target="{{ job.recipe ? 'recipe-' ~ job.recipeName : 'task-' ~ job.taskId }}-last-job">
+<turbo-stream action="replace" target="last-job-{{ job.jobId }}">
     <template>
         {{ include('project_overview/_last_job.html.twig', {
             jobId: job.jobId,
@@ -19,7 +17,7 @@
     </template>
 </turbo-stream>
 
-<turbo-stream action="update" target="{{ job.recipe ? 'recipe-' ~ job.recipeName : 'task-' ~ job.taskId }}-last-job-merge-request">
+<turbo-stream action="update" target="last-job-{{ job.jobId }}-merge-request">
     <template>
         {{ include('project_overview/_last_job_merge_request.html.twig', {
             jobId: job.jobId,
