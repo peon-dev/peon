@@ -1,0 +1,9 @@
+{% if jobId %}
+    <span id="last-job-{{ jobId }}-merge-request">
+        {% if jobMergeRequestUrl %}
+            <a href="{{ jobMergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+                <i class="fa fa-code-branch"></i>
+            </a>
+        {% endif %}
+    </span>
+{% endif %}

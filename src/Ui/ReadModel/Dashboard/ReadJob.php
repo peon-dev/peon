@@ -20,6 +20,8 @@ final class ReadJob
         public string $projectName,
         public float|null $executionTime,
         public string|null $taskId,
+        public string|null $recipeName,
+        public DateTimeImmutable $scheduledAt,
         public DateTimeImmutable|null $startedAt,
         public DateTimeImmutable|null $succeededAt,
         public DateTimeImmutable|null $failedAt,
@@ -62,5 +64,14 @@ final class ReadJob
     public function isRecipe(): bool
     {
         return $this->taskId === null;
+    }
+
+
+    public function getActionTime(): \DateTimeImmutable
+    {
+        return $this->failedAt
+            ?? $this->succeededAt
+            ?? $this->startedAt
+            ?? $this->scheduledAt;
     }
 }

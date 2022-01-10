@@ -22,7 +22,7 @@ final class ProvideReadJobs
     {
         $sql = <<<SQL
 SELECT 
-    job.job_id, job.project_id, job.task_id, job.title, job.started_at, job.succeeded_at, job.failed_at,
+    job.job_id, job.project_id, job.task_id, job.enabled_recipe->>'recipe_name' AS recipe_name, job.title, job.scheduled_at, job.started_at, job.succeeded_at, job.failed_at,
     job.merge_request_url,
     project.name as project_name,
     SUM(job_process_result.execution_time) as execution_time
