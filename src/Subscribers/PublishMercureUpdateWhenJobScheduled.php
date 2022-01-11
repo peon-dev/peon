@@ -6,6 +6,7 @@ namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Job\Event\JobScheduled;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
+use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
 use PHPMate\Ui\ReadModel\Job\ProvideReadJobById;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -18,6 +19,7 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
         private Environment $twig,
         private HubInterface $hub,
         private ProvideReadJobById $provideReadJobById,
+        private ProvideReadProjectById $provideReadProjectById,
     ) {}
 
 
@@ -27,6 +29,7 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
     public function __invoke(JobScheduled $event): void
     {
         $job = $this->provideReadJobById->provide($event->jobId);
+        $project = $this->provideReadProjectById->provide($event->projectId);
 
         $this->hub->publish(
             new Update(
@@ -40,7 +43,10 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
         $this->hub->publish(
             new Update(
                 'dashboard',
-                $this->twig->render('dashboard.stream.html.twig')
+                $this->twig->render('dashboard.stream.html.twig', [
+                    'job' => $job,
+                    'project' => $project,
+                ])
             )
         );
     }

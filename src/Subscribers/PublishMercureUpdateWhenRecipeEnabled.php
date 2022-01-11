@@ -6,6 +6,7 @@ namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
+use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
 use PHPMate\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
 use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Component\Mercure\HubInterface;
@@ -19,20 +20,20 @@ final class PublishMercureUpdateWhenRecipeEnabled implements EventHandlerInterfa
         private Environment               $twig,
         private ProvideProjectReadRecipes $provideProjectReadRecipes,
         private ProvideReadProjectDetail  $provideReadProjectDetail,
+        private ProvideReadProjectById $provideReadProjectById,
     ) {}
 
 
     public function __invoke(RecipeEnabled $event): void
     {
-        $project = $this->provideReadProjectDetail->provide($event->projectId);
-
-        // TODO: Dashboard - project stats
+        $projectDetail = $this->provideReadProjectDetail->provide($event->projectId);
+        $project = $this->provideReadProjectById->provide($event->projectId);
 
         $this->hub->publish(
             new Update(
                 'project-' . $event->projectId->id . '-cookbook',
                 $this->twig->render('cookbook.stream.html.twig', [
-                    'project' => $project,
+                    'project' => $projectDetail,
                     'recipeName' => $event->recipeName
                 ])
             )
@@ -42,8 +43,17 @@ final class PublishMercureUpdateWhenRecipeEnabled implements EventHandlerInterfa
             new Update(
                 'project-' . $event->projectId->id . '-overview',
                 $this->twig->render('recipes.stream.html.twig', [
-                    'project' => $project,
+                    'project' => $projectDetail,
                     'recipes' => $this->provideProjectReadRecipes->provide($event->projectId),
+                ])
+            )
+        );
+
+        $this->hub->publish(
+            new Update(
+                'dashboard',
+                $this->twig->render('dashboard.project_stats.stream.html.twig', [
+                    'project' => $project,
                 ])
             )
         );
