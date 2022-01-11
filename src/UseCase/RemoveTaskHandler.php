@@ -24,13 +24,13 @@ final class RemoveTaskHandler implements MessageHandlerInterface
      */
     public function __invoke(RemoveTask $command): void
     {
-        // TODO: check project with id $task->projectId exists
+        $task = $this->tasks->get($command->taskId);
 
         $this->tasks->remove($command->taskId);
 
         // TODO: this event could be dispatched in entity
         $this->eventBus->dispatch(
-            new TaskDeleted($command->taskId)
+            new TaskDeleted($command->taskId, $task->projectId)
         );
     }
 }

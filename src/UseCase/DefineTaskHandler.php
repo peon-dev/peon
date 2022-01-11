@@ -37,7 +37,7 @@ final class DefineTaskHandler implements MessageHandlerInterface
 
         // TODO: this event could be dispatched in entity
         $this->eventBus->dispatch(
-            new TaskAdded($taskId)
+            new TaskAdded($taskId, $task->projectId)
         );
     }
 }
