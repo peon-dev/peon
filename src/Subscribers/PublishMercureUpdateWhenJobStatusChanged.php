@@ -22,14 +22,22 @@ final class PublishMercureUpdateWhenJobStatusChanged implements EventHandlerInte
 
     public function __invoke(JobStatusChanged $event): void
     {
-        // Dashboard - recent jobs
-        // Project overview - last job (task or recipe)
+        $job = $this->provideReadJobById->provide($event->jobId);
 
         $this->hub->publish(
             new Update(
                 'project-' . $event->projectId->id . '-overview',
                 $this->twig->render('job_status_changed.stream.html.twig', [
-                    'job' => $this->provideReadJobById->provide($event->jobId),
+                    'job' => $job,
+                ])
+            )
+        );
+
+        $this->hub->publish(
+            new Update(
+                'dashboard',
+                $this->twig->render('dashboard.job_status_changed.stream.html.twig', [
+                    'job' => $job,
                 ])
             )
         );
