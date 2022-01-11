@@ -13,8 +13,6 @@ use Twig\Environment;
 final class PublishMercureUpdateWhenJobProcessStarted implements EventHandlerInterface
 {
     public function __construct(
-        private HubInterface $hub,
-        private Environment $twig,
     ) {}
 
 

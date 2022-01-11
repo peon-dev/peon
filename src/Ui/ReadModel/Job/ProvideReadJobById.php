@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\ReadModel\Job;
 
 use Doctrine\DBAL\Connection;
+use PHPMate\Domain\Job\Exception\JobNotFound;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Ui\ReadModel\Dashboard\ReadJob;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
@@ -17,6 +18,9 @@ final class ProvideReadJobById // TODO: test
     ) {}
 
 
+    /**
+     * @throws JobNotFound
+     */
     public function provide(JobId $jobId): ReadJob
     {
         $sql = <<<SQL
@@ -35,6 +39,10 @@ SQL;
 
         $resultSet = $this->connection->executeQuery($sql, [$jobId]);
         $data = $resultSet->fetchAssociative();
+
+        if ($data === false) {
+            throw new JobNotFound();
+        }
 
         return $this->hydrator->hydrateArray($data, ReadJob::class);
     }

@@ -5,6 +5,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
+use PHPMate\Domain\Job\Event\JobScheduled;
 use PHPMate\Domain\Job\Value\JobId;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\Value\ProjectId;
@@ -18,6 +19,7 @@ use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\RunTaskHandler;
@@ -36,6 +38,10 @@ final class RunTaskHandlerTest extends TestCase
         $commandBusSpy->expects(self::once())
             ->method('dispatch')
             ->with(new IsInstanceOf(ExecuteJob::class));
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobScheduled::class));
 
         $projectId = new ProjectId('0');
         $taskId = new TaskId('0');
@@ -56,7 +62,8 @@ final class RunTaskHandlerTest extends TestCase
             $jobsCollection,
             $projectsCollection,
             FrozenClock::fromUTC(),
-            $commandBusSpy
+            $commandBusSpy,
+            $eventBusSpy,
         );
 
         $useCase->__invoke(
@@ -75,13 +82,15 @@ final class RunTaskHandlerTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $tasksCollection = new InMemoryTasksCollection();
         $dummyCommandBus = $this->createMock(CommandBus::class);
+        $dummyEventBus = $this->createMock(EventBus::class);
 
         $useCase = new RunTaskHandler(
             $tasksCollection,
             $jobsCollection,
             $projectsCollection,
             FrozenClock::fromUTC(),
-            $dummyCommandBus
+            $dummyCommandBus,
+            $dummyEventBus,
         );
 
         $useCase->__invoke(
@@ -98,6 +107,7 @@ final class RunTaskHandlerTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $tasksCollection = new InMemoryTasksCollection();
         $dummyCommandBus = $this->createMock(CommandBus::class);
+        $dummyEventBus = $this->createMock(EventBus::class);
 
         $taskId = new TaskId('0');
         $projectId = new ProjectId('0');
@@ -111,7 +121,8 @@ final class RunTaskHandlerTest extends TestCase
             $jobsCollection,
             $projectsCollection,
             FrozenClock::fromUTC(),
-            $dummyCommandBus
+            $dummyCommandBus,
+            $dummyEventBus,
         );
 
         $useCase->__invoke(

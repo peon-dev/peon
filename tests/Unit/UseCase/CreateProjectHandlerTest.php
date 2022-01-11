@@ -7,10 +7,14 @@ use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
 use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use PHPMate\Domain\Project\Event\ProjectAdded;
+use PHPMate\Domain\Task\Event\TaskAdded;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\CreateProject;
 use PHPMate\UseCase\CreateProjectHandler;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
 final class CreateProjectHandlerTest extends TestCase
@@ -20,9 +24,14 @@ final class CreateProjectHandlerTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(true);
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(ProjectAdded::class));
+
         self::assertCount(0, $projectsCollection->all());
 
-        $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository);
+        $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository, $eventBusSpy);
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
         $handler->__invoke(new CreateProject($remoteGitRepository));
@@ -38,7 +47,9 @@ final class CreateProjectHandlerTest extends TestCase
         $projectsCollection = new InMemoryProjectsCollection();
         $checkWriteAccessToRemoteRepository = $this->createCheckWriteAccessToRemoteRepository(false);
 
-        $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository);
+        $dummyEventBus = $this->createMock(EventBus::class);
+
+        $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository, $dummyEventBus);
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
         $handler->__invoke(new CreateProject($remoteGitRepository));

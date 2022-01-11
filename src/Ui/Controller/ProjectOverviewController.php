@@ -25,9 +25,6 @@ final class ProjectOverviewController extends AbstractController
     ) {}
 
 
-    /**
-     * @throws \Nette\Utils\JsonException
-     */
     #[Route(path: '/projects/{projectId}', name: 'project_overview')]
     public function __invoke(string $projectId): Response
     {

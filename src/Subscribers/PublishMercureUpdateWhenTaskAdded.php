@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Subscribers;
 
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Task\Event\TaskAdded;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
@@ -20,6 +21,9 @@ final class PublishMercureUpdateWhenTaskAdded implements EventHandlerInterface
     ) {}
 
 
+    /**
+     * @throws ProjectNotFound
+     */
     public function __invoke(TaskAdded $event): void
     {
         // TODO: Project overview - tasks table append

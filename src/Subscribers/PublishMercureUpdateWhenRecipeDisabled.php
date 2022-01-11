@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Cookbook\Event\RecipeDisabled;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
@@ -25,6 +26,9 @@ final class PublishMercureUpdateWhenRecipeDisabled implements EventHandlerInterf
     ) {}
 
 
+    /**
+     * @throws ProjectNotFound
+     */
     public function __invoke(RecipeDisabled $event): void
     {
         $projectDetail = $this->provideReadProjectDetail->provide($event->projectId);

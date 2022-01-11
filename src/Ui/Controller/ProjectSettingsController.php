@@ -19,9 +19,6 @@ final class ProjectSettingsController extends AbstractController
     ) {}
 
 
-    /**
-     * @throws \Nette\Utils\JsonException
-     */
     #[Route(path: '/projects/{projectId}/settings', name: 'project_settings')]
     public function __invoke(string $projectId): Response
     {

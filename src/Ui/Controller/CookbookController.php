@@ -20,9 +20,6 @@ final class CookbookController extends AbstractController
     ) {}
 
 
-    /**
-     * @throws \Nette\Utils\JsonException
-     */
     #[Route(path: '/projects/{projectId}/cookbook', name: 'cookbook')]
     public function __invoke(string $projectId): Response
     {

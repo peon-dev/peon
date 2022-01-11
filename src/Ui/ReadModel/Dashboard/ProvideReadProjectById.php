@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\Value\ProjectId;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
@@ -16,6 +17,9 @@ final class ProvideReadProjectById // TODO: test
     ) {}
 
 
+    /**
+     * @throws ProjectNotFound
+     */
     public function provide(ProjectId $projectId): ReadProject
     {
         $sql = <<<SQL
@@ -33,7 +37,12 @@ ORDER BY project.name
 SQL;
 
         $resultSet = $this->connection->executeQuery($sql, [$projectId]);
+        $data = $resultSet->fetchAssociative();
 
-        return $this->hydrator->hydrateArray($resultSet->fetchAssociative(), ReadProject::class);
+        if ($data === false) {
+            throw new ProjectNotFound();
+        }
+
+        return $this->hydrator->hydrateArray($data, ReadProject::class);
     }
 }

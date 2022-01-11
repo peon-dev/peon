@@ -13,8 +13,6 @@ use Twig\Environment;
 final class PublishMercureUpdateWhenProjectDeleted implements EventHandlerInterface
 {
     public function __construct(
-        private HubInterface $hub,
-        private Environment $twig,
     ) {}
 
 
@@ -22,6 +20,5 @@ final class PublishMercureUpdateWhenProjectDeleted implements EventHandlerInterf
     {
         // TODO: Dashboard - remove project
         // TODO: Project overview - delete
-
     }
 }
