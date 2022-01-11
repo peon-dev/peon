@@ -22,7 +22,7 @@ final class PublishMercureUpdateWhenTaskAdded implements EventHandlerInterface
 
     public function __invoke(TaskAdded $event): void
     {
-        // Project overview - tasks table append
+        // TODO: Project overview - tasks table append
 
         $project = $this->provideReadProjectById->provide($event->projectId);
 

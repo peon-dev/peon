@@ -20,6 +20,6 @@ final class PublishMercureUpdateWhenJobProcessOutputReceived implements EventHan
 
     public function __invoke(JobProcessOutputReceived $event): void
     {
-        // Job detail - log
+        // TODO: Job detail - log
     }
 }

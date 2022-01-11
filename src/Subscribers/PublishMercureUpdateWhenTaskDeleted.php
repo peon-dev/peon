@@ -22,7 +22,7 @@ final class PublishMercureUpdateWhenTaskDeleted implements EventHandlerInterface
 
     public function __invoke(TaskDeleted $event): void
     {
-        // Project overview - task row
+        // TODO: Project overview - task row
 
         $project = $this->provideReadProjectById->provide($event->projectId);
 

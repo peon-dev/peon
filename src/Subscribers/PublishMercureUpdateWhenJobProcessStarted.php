@@ -20,7 +20,6 @@ final class PublishMercureUpdateWhenJobProcessStarted implements EventHandlerInt
 
     public function __invoke(JobProcessStarted $event): void
     {
-        // Job detail - log
-
+        // TODO: Job detail - log
     }
 }
