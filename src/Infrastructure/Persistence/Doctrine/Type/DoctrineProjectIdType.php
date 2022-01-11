@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
+namespace Peon\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\ProjectId;
 
 final class DoctrineProjectIdType extends Type
 {

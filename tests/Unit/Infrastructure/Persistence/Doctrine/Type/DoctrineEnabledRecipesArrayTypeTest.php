@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Infrastructure\Persistence\Doctrine\Type;
+namespace Peon\Tests\Unit\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
 use PHPUnit\Framework\TestCase;
 
 final class DoctrineEnabledRecipesArrayTypeTest extends TestCase

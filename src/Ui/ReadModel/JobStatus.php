@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel;
+namespace Peon\Ui\ReadModel;
 
 final class JobStatus
 {

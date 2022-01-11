@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\InMemory;
+namespace Peon\Infrastructure\Persistence\InMemory;
 
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\JobsCollection;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\JobsCollection;
 use ReflectionObject;
 
 final class InMemoryJobsCollection implements JobsCollection

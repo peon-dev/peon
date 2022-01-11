@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\UseCase\EnableRecipeWithBaselineForProject;
+use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\UseCase\EnableRecipeWithBaselineForProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

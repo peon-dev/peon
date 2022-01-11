@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Process\Symfony;
+namespace Peon\Infrastructure\Process\Symfony;
 
-use PHPMate\Domain\Tools\Git\GitBinary;
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Domain\Tools\Git\GitBinary;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 

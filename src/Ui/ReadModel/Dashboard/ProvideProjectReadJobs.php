@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\Dashboard;
+namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\ProjectId;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideProjectReadJobs

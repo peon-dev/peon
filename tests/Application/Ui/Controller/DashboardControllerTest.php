@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -17,7 +17,7 @@ final class DashboardControllerTest extends WebTestCase
 
         /**
          * Data are populated from data fixtures
-         * @see \PHPMate\Tests\DataFixtures\DataFixtures
+         * @see \Peon\Tests\DataFixtures\DataFixtures
          */
 
         self::assertCount(2, $crawler->filter('.dashboard-projects > div'));

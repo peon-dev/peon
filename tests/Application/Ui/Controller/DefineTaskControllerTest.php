@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Tests\DataFixtures\DataFixtures;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DefineTaskControllerTest extends WebTestCase

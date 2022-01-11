@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\PhpApplication;
+namespace Peon\Domain\PhpApplication;
 
 interface ApplicationDirectoryProvider
 {

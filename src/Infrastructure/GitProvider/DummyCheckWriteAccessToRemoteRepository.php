@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\GitProvider;
+namespace Peon\Infrastructure\GitProvider;
 
-use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 
 final class DummyCheckWriteAccessToRemoteRepository implements CheckWriteAccessToRemoteRepository
 {

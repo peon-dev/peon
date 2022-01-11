@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\ProjectDetail;
+namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Cron\CronExpression;
 use DateTimeImmutable;
 use Lorisleiva\CronTranslator\CronTranslator;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Ui\ReadModel\JobStatus;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Ui\ReadModel\JobStatus;
 
 final class ReadRecipe
 {

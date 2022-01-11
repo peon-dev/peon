@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\UseCase\DeleteProject;
-use PHPMate\UseCase\DeleteProjectHandler;
-use PHPMate\UseCase\RemoveTask;
-use PHPMate\UseCase\RemoveTaskHandler;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\UseCase\DeleteProject;
+use Peon\UseCase\DeleteProjectHandler;
+use Peon\UseCase\RemoveTask;
+use Peon\UseCase\RemoveTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

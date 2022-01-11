@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace Peon\Domain\Job;
 
 use Nette\Utils\JsonException;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Process\Exception\ProcessFailed;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
-use PHPMate\Domain\Tools\Composer\Composer;
-use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Rector\Rector;
-use PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Tools\Composer\Composer;
+use Peon\Domain\Tools\Git\Git;
+use Peon\Domain\Tools\Rector\Rector;
+use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
 class RunJobRecipe
 {

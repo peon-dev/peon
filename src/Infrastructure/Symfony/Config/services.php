@@ -7,39 +7,39 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
-use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Job\RunJobCommands;
-use PHPMate\Domain\Job\RunJobRecipe;
-use PHPMate\Domain\Job\UpdateMergeRequest;
-use PHPMate\Domain\PhpApplication\BuildApplication;
-use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Domain\Tools\Composer\Composer;
-use PHPMate\Domain\Tools\Composer\ComposerBinary;
-use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
-use PHPMate\Domain\Tools\Git\BranchNameProvider;
-use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Git\GitBinary;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Tools\Rector\RectorBinary;
-use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
-use PHPMate\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
-use PHPMate\Infrastructure\Git\PHPMateBranchNameProvider;
-use PHPMate\Infrastructure\GitLab\GitLab;
-use PHPMate\Infrastructure\Job\LoggingSymfonyProcessRunJobCommands;
-use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
-use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
-use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
-use PHPMate\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
-use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
-use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
-use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessRectorBinary;
-use PHPMate\UseCase\ExecuteJobHandler;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\GitProvider\GitProvider;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Job\RunJobCommands;
+use Peon\Domain\Job\RunJobRecipe;
+use Peon\Domain\Job\UpdateMergeRequest;
+use Peon\Domain\PhpApplication\BuildApplication;
+use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Domain\Tools\Composer\Composer;
+use Peon\Domain\Tools\Composer\ComposerBinary;
+use Peon\Domain\PhpApplication\ApplicationDirectoryProvider;
+use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\Git;
+use Peon\Domain\Tools\Git\GitBinary;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Tools\Rector\RectorBinary;
+use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
+use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
+use Peon\Infrastructure\Git\PeonBranchNameProvider;
+use Peon\Infrastructure\GitLab\GitLab;
+use Peon\Infrastructure\Job\LoggingSymfonyProcessRunJobCommands;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
+use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
+use Peon\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
+use Peon\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
+use Peon\Infrastructure\Process\Symfony\SymfonyProcessRectorBinary;
+use Peon\UseCase\ExecuteJobHandler;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -58,29 +58,29 @@ return static function(ContainerConfigurator $configurator): void
         ->public();
 
     // Controllers
-    $services->load('PHPMate\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
+    $services->load('Peon\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');
 
     // Event subscribers
-    $services->load('PHPMate\\Subscribers\\', __DIR__ . '/../../../Subscribers/{*When*.php}');
+    $services->load('Peon\\Subscribers\\', __DIR__ . '/../../../Subscribers/{*When*.php}');
 
     // Use cases
-    $services->load('PHPMate\\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
+    $services->load('Peon\\UseCase\\', __DIR__ . '/../../../UseCase/{*Handler.php}');
 
     // Console commands
-    $services->load('PHPMate\\Cli\\', __DIR__ . '/../../../Cli/**/{*ConsoleCommand.php}');
+    $services->load('Peon\\Cli\\', __DIR__ . '/../../../Cli/**/{*ConsoleCommand.php}');
 
     // Read model providers
-    $services->load('PHPMate\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
+    $services->load('Peon\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
 
     // Infrastructure - load all implementations
-    $services->load('PHPMate\\Infrastructure\\', __DIR__ . '/../../../Infrastructure/**/{*.php}')
+    $services->load('Peon\\Infrastructure\\', __DIR__ . '/../../../Infrastructure/**/{*.php}')
         ->exclude([
             __DIR__ . '/../../../Infrastructure/Persistence/Doctrine/{Type,Migrations}', // Doctrine migrations and custom types
             __DIR__ . '/../../../Infrastructure/Symfony', // Symfony framework configuration
         ]);
 
     // Tools
-    $services->load('PHPMate\\Domain\\Tools\\', __DIR__ . '/../../../Domain/Tools/**/{*.php}')
+    $services->load('Peon\\Domain\\Tools\\', __DIR__ . '/../../../Domain/Tools/**/{*.php}')
         ->exclude([
             __DIR__ . '/../../../Domain/Tools/**/{Exception,Value,Event}/*'
         ]);
@@ -100,7 +100,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->alias(GitBinary::class, SymfonyProcessGitBinary::class);
 
-    $services->alias(BranchNameProvider::class, PHPMateBranchNameProvider::class);
+    $services->alias(BranchNameProvider::class, PeonBranchNameProvider::class);
 
     $services->alias(RectorBinary::class, SymfonyProcessRectorBinary::class);
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\ProjectDetail;
+namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Doctrine\DBAL\Connection;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\ProjectId;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideReadProjectDetail

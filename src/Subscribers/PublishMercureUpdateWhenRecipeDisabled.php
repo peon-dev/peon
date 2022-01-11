@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Subscribers;
+namespace Peon\Subscribers;
 
-use PHPMate\Domain\Cookbook\Event\RecipeDisabled;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
-use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
+use Peon\Domain\Cookbook\Event\RecipeDisabled;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventHandlerInterface;
+use Peon\Ui\ReadModel\Dashboard\ProvideReadProjectById;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;

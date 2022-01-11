@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Job\Exception\JobExecutionFailed;
-use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
-use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\UseCase\RunRecipe;
+use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Job\Exception\JobExecutionFailed;
+use Peon\Domain\Job\Exception\JobHasFinishedAlready;
+use Peon\Domain\Job\Exception\JobHasNotStartedYet;
+use Peon\Domain\Job\Exception\JobHasStartedAlready;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\UseCase\RunRecipe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

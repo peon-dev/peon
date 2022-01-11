@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
-use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\Project\Event\ProjectAdded;
-use PHPMate\Domain\Task\Event\TaskAdded;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\UseCase\CreateProject;
-use PHPMate\UseCase\CreateProjectHandler;
+use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use Peon\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Project\Event\ProjectAdded;
+use Peon\Domain\Task\Event\TaskAdded;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\UseCase\CreateProject;
+use Peon\UseCase\CreateProjectHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 

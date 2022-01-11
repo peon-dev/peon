@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
-use PHPMate\Domain\Task\Event\TaskAdded;
-use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
+use Peon\Domain\Task\Event\TaskAdded;
+use Peon\Domain\Task\Task;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class DefineTaskHandler implements MessageHandlerInterface

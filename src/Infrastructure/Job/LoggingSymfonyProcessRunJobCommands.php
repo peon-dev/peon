@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Job;
+namespace Peon\Infrastructure\Job;
 
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\RunJobCommands;
-use PHPMate\Domain\Process\Exception\ProcessFailed;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\RunJobCommands;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 

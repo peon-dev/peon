@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Task;
+namespace Peon\Domain\Task;
 
 use Cron\CronExpression;
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Value\TaskId;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Value\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Task

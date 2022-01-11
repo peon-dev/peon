@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Integration\Infrastructure\Persistence\Doctrine;
+namespace Peon\Tests\Integration\Infrastructure\Persistence\Doctrine;
 
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

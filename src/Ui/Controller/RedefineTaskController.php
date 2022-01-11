@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Task\Exception\InvalidCronExpression;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\Ui\Form\DefineTaskFormData;
-use PHPMate\Ui\Form\DefineTaskFormType;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
-use PHPMate\UseCase\RedefineTask;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Task\Exception\InvalidCronExpression;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Ui\Form\DefineTaskFormData;
+use Peon\Ui\Form\DefineTaskFormType;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
+use Peon\UseCase\RedefineTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

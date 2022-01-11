@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Subscribers;
+namespace Peon\Subscribers;
 
-use PHPMate\Domain\Job\Event\JobStatusChanged;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
-use PHPMate\Ui\ReadModel\Job\ProvideReadJobById;
+use Peon\Domain\Job\Event\JobStatusChanged;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Packages\MessageBus\Event\EventHandlerInterface;
+use Peon\Ui\ReadModel\Job\ProvideReadJobById;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;

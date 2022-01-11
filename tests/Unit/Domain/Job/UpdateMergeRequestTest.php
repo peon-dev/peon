@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Job;
+namespace Peon\Tests\Unit\Domain\Job;
 
-use PHPMate\Domain\Job\UpdateMergeRequest;
+use Peon\Domain\Job\UpdateMergeRequest;
 use PHPUnit\Framework\TestCase;
 
 final class UpdateMergeRequestTest extends TestCase

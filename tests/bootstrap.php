@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Nette\Utils\FileSystem;
-use PHPMate\Infrastructure\Symfony\PHPMateKernel;
-use PHPMate\Tests\TestingDatabaseCaching;
+use Peon\Infrastructure\Symfony\PeonKernel;
+use Peon\Tests\TestingDatabaseCaching;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Dotenv\Dotenv;
@@ -32,7 +32,7 @@ if (
 
 function bootstrapDatabase(): void
 {
-    $kernel = new PHPMateKernel('test', true);
+    $kernel = new PeonKernel('test', true);
     $kernel->boot();
 
     $application = new Application($kernel);

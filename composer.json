@@ -1,5 +1,5 @@
 {
-    "name": "phpmate/phpmate",
+    "name": "peon/peon",
     "type": "project",
     "description": "",
     "authors": [
@@ -105,9 +105,9 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPMate\\": "src",
-            "PHPMate\\Packages\\MessageBus\\": "packages/MessageBus",
-            "PHPMate\\Packages\\Enum\\": "packages/Enum"
+            "Peon\\": "src",
+            "Peon\\Packages\\MessageBus\\": "packages/MessageBus",
+            "Peon\\Packages\\Enum\\": "packages/Enum"
         },
         "exclude-from-classmap": [
             "src/Infrastructure/Persistence/Doctrine/Migrations"
@@ -115,8 +115,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPMate\\Packages\\PHPStan\\": "packages/PHPStan",
-            "PHPMate\\Tests\\": "tests"
+            "Peon\\Packages\\PHPStan\\": "packages/PHPStan",
+            "Peon\\Tests\\": "tests"
         }
     },
     "scripts": {

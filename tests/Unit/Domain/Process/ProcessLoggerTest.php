@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Process;
+namespace Peon\Tests\Unit\Domain\Process;
 
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 final class ProcessLoggerTest extends TestCase
@@ -34,28 +34,28 @@ final class ProcessLoggerTest extends TestCase
     public function provideTestProcessOutputWillBeSanitizedData(): \Generator
     {
         yield [
-            'git clone https://username:password-password@gitlab.com/phpmate/phpmate.git .',
-            'git clone https://username:****@gitlab.com/phpmate/phpmate.git .',
+            'git clone https://username:password-password@gitlab.com/peon/peon.git .',
+            'git clone https://username:****@gitlab.com/peon/peon.git .',
         ];
 
         yield [
-            'git clone http://username:password-password@gitlab.com/phpmate/phpmate.git .',
-            'git clone http://username:****@gitlab.com/phpmate/phpmate.git .',
+            'git clone http://username:password-password@gitlab.com/peon/peon.git .',
+            'git clone http://username:****@gitlab.com/peon/peon.git .',
         ];
 
         yield [
-            'git clone git://username:password-password@gitlab.com/phpmate/phpmate.git .',
-            'git clone git://username:****@gitlab.com/phpmate/phpmate.git .',
+            'git clone git://username:password-password@gitlab.com/peon/peon.git .',
+            'git clone git://username:****@gitlab.com/peon/peon.git .',
         ];
 
         yield [
-            "git clone https://username:password-password@gitlab.com/phpmate/phpmate.git .\ngit clone https://username:password-password@gitlab.com/phpmate/phpmate.git .",
-            "git clone https://username:****@gitlab.com/phpmate/phpmate.git .\ngit clone https://username:****@gitlab.com/phpmate/phpmate.git .",
+            "git clone https://username:password-password@gitlab.com/peon/peon.git .\ngit clone https://username:password-password@gitlab.com/peon/peon.git .",
+            "git clone https://username:****@gitlab.com/peon/peon.git .\ngit clone https://username:****@gitlab.com/peon/peon.git .",
         ];
 
         yield [
-            'git clone https://username@gitlab.com/phpmate/phpmate.git .',
-            'git clone https://username@gitlab.com/phpmate/phpmate.git .',
+            'git clone https://username@gitlab.com/peon/peon.git .',
+            'git clone https://username@gitlab.com/peon/peon.git .',
         ];
     }
 }

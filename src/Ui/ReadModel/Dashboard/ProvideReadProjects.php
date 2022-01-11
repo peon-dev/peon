@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\Dashboard;
+namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;

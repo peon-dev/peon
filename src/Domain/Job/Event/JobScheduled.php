@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job\Event;
+namespace Peon\Domain\Job\Event;
 
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Project\Value\ProjectId;
 
 final class JobScheduled
 {

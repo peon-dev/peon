@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Cookbook;
+namespace Peon\Infrastructure\Cookbook;
 
-use PHPMate\Domain\Cookbook\Recipe;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\Cookbook\Recipe;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Cookbook\RecipesCollection;
 use function Safe\file_get_contents;
 
 final class StaticRecipesCollection implements RecipesCollection

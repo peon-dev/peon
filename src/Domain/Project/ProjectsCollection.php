@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Project;
+namespace Peon\Domain\Project;
 
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\ProjectId;
 
 interface ProjectsCollection
 {

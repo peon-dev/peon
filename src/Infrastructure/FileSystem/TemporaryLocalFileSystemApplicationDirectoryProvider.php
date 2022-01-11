@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\FileSystem;
+namespace Peon\Infrastructure\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
-use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
+use Peon\Domain\PhpApplication\ApplicationDirectoryProvider;
 
 final class TemporaryLocalFileSystemApplicationDirectoryProvider implements ApplicationDirectoryProvider
 {

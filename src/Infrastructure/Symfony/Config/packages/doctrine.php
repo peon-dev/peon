@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipeType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNameType;
-use PHPMate\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipeType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNameType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -30,11 +30,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'naming_strategy' => 'doctrine.orm.naming_strategy.underscore_number_aware',
             'auto_mapping' => true,
             'mappings' => [
-                'PHPMate' => [
+                'Peon' => [
                     'is_bundle' => false,
                     'type' => 'xml',
                     'dir' => '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Mapping',
-                    'prefix' => 'PHPMate\Domain',
+                    'prefix' => 'Peon\Domain',
                 ],
             ],
         ],

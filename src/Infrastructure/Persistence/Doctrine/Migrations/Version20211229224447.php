@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\DoctrineMigrations;
+namespace Peon\DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;

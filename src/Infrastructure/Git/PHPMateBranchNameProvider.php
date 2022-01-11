@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Git;
+namespace Peon\Infrastructure\Git;
 
 use Nette\Utils\Strings;
-use PHPMate\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\BranchNameProvider;
 
-final class PHPMateBranchNameProvider implements BranchNameProvider
+final class PeonBranchNameProvider implements BranchNameProvider
 {
     public function provideForTask(string $taskName): string
     {
-        return 'phpmate/' . Strings::webalize($taskName);
+        return 'peon/' . Strings::webalize($taskName);
     }
 }

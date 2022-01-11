@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Project\Value;
+namespace Peon\Domain\Project\Value;
 
 use JetBrains\PhpStorm\Immutable;
 

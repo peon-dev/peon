@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Composer;
+namespace Peon\Domain\Tools\Composer;
 
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
-use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use Peon\Domain\Tools\Composer\Value\ComposerEnvironment;
 
 class Composer
 {

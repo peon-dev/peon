@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Process\Exception;
+namespace Peon\Domain\Process\Exception;
 
 final class ProcessFailed extends \RuntimeException
 {

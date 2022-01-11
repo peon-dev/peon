@@ -1,5 +1,5 @@
 services:
     -
-        class: PHPMate\Packages\PHPStan\MessageBusExceptionExtension
+        class: Peon\Packages\PHPStan\MessageBusExceptionExtension
         tags:
             - exceptionRules.dynamicMethodThrowTypeExtension

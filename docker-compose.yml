@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     dashboard:
-        image: phpmate
+        image: peon
         volumes:
             - .:/var/www
         working_dir: /var/www
@@ -27,16 +27,16 @@ services:
         # alpine is forbidden => https://stackoverflow.com/questions/58135353/postgres-seems-to-be-ignoring-my-default-collation
         image: postgres:13
         environment:
-            POSTGRES_USER: phpmate
-            POSTGRES_PASSWORD: phpmate
+            POSTGRES_USER: peon
+            POSTGRES_PASSWORD: peon
         volumes:
             - .docker-data/postgres:/var/lib/postgresql/data
         ports:
-            - "${PHPMATE_POSTGRES_PORT:-5432}:5432"
+            - "${peon_POSTGRES_PORT:-5432}:5432"
 
     # Helper service
     composer:
-        image: phpmate
+        image: peon
         build:
             context: .
             target: dev
@@ -47,7 +47,7 @@ services:
         command: [ "install", "--no-interaction" ]
 
     worker:
-        image: phpmate
+        image: peon
         volumes:
             - .:/var/www
         working_dir: /var/www
@@ -56,7 +56,7 @@ services:
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
     scheduler:
-        image: phpmate
+        image: peon
         volumes:
             - .:/var/www
         working_dir: /var/www

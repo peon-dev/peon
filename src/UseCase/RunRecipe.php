@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\ProjectId;
 
 final class RunRecipe
 {

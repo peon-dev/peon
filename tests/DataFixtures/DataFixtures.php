@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Tests\DataFixtures;
+namespace Peon\Tests\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Lcobucci\Clock\FrozenClock;
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\GitProvider\Value\MergeRequest;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\GitProvider\Value\MergeRequest;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Task;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 
 final class DataFixtures extends Fixture
 {
@@ -29,8 +29,8 @@ final class DataFixtures extends Fixture
     public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
     public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
     public const JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
-    public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/phpmate/phpmate.git';
-    public const PROJECT_NAME = 'phpmate/phpmate';
+    public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
+    public const PROJECT_NAME = 'peon/peon';
 
     public function __construct(
         private RecipesCollection $recipesCollection
@@ -63,7 +63,7 @@ final class DataFixtures extends Fixture
 
         $manager->persist($task);
 
-        $mergeRequest = new MergeRequest('https://phpmate.io');
+        $mergeRequest = new MergeRequest('https://peon.dev');
 
         $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
         $job1Id = new JobId(self::JOB_1_ID);

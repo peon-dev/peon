@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
-use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
-use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
+use Peon\Domain\Cookbook\Event\RecipeEnabled;
+use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class EnableRecipeWithBaselineForProjectHandler implements MessageHandlerInterface

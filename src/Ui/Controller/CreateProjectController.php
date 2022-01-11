@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Exception\InvalidRemoteUri;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\Ui\Form\CreateProjectFormData;
-use PHPMate\Ui\Form\CreateProjectFormType;
-use PHPMate\UseCase\CreateProject;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Exception\InvalidRemoteUri;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Ui\Form\CreateProjectFormData;
+use Peon\Ui\Form\CreateProjectFormType;
+use Peon\UseCase\CreateProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\GitProvider\Value;
+namespace Peon\Domain\GitProvider\Value;
 
 final class Commit
 {

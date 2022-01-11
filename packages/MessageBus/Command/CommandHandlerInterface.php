@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Packages\MessageBus\Command;
+namespace Peon\Packages\MessageBus\Command;
 
 interface CommandHandlerInterface
 {

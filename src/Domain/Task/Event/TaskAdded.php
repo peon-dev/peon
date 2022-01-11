@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Task\Event;
+namespace Peon\Domain\Task\Event;
 
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Value\TaskId;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Value\TaskId;
 
 final class TaskAdded
 {

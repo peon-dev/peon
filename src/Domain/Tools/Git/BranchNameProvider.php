@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Git;
+namespace Peon\Domain\Tools\Git;
 
 interface BranchNameProvider
 {

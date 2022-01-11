@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Tools\Git;
+namespace Peon\Tests\Unit\Domain\Tools\Git;
 
 use Generator;
 use Nyholm\Psr7\Uri;
-use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Git\GitBinary;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Git\Git;
+use Peon\Domain\Tools\Git\GitBinary;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase
@@ -32,8 +32,8 @@ class GitTest extends TestCase
         $gitBinary->expects(self::exactly(2))
             ->method('executeCommand')
             ->withConsecutive(
-                ['/', 'config user.name PHPMate'],
-                ['/', 'config user.email bot@phpmate.io'],
+                ['/', 'config user.name Peon'],
+                ['/', 'config user.email peon@peon.dev'],
             )
             ->willReturn($processResult);
 
@@ -98,13 +98,13 @@ class GitTest extends TestCase
 
     public function testClone(): void
     {
-        $remoteUri = new Uri('https://phpmate.io');
+        $remoteUri = new Uri('https://peon.dev');
         $processResult = new ProcessResult('', 0, '', 0);
 
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'clone https://phpmate.io .')
+            ->with('/', 'clone https://peon.dev .')
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
@@ -119,11 +119,11 @@ class GitTest extends TestCase
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'checkout -b phpmate')
+            ->with('/', 'checkout -b peon')
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
-        $git->checkoutNewBranch('/', 'phpmate');
+        $git->checkoutNewBranch('/', 'peon');
     }
 
 
@@ -137,11 +137,11 @@ class GitTest extends TestCase
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'ls-remote --heads origin phpmate')
+            ->with('/', 'ls-remote --heads origin peon')
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
-        $remoteBranchExists = $git->remoteBranchExists('/', 'phpmate');
+        $remoteBranchExists = $git->remoteBranchExists('/', 'peon');
 
         self::assertSame($expected, $remoteBranchExists);
     }
@@ -153,7 +153,7 @@ class GitTest extends TestCase
     public function provideTestRemoteBranchExistsData(): Generator
     {
         yield [
-            'a076d105a41bd46485eed50a5b5ffe2e20f43a4e	refs/heads/phpmate',
+            'a076d105a41bd46485eed50a5b5ffe2e20f43a4e	refs/heads/peon',
             true,
         ];
 
@@ -171,11 +171,11 @@ class GitTest extends TestCase
         $gitBinary = $this->createMock(GitBinary::class);
         $gitBinary->expects(self::once())
             ->method('executeCommand')
-            ->with('/', 'branch --set-upstream-to origin/phpmate')
+            ->with('/', 'branch --set-upstream-to origin/peon')
             ->willReturn($processResult);
 
         $git = new Git($gitBinary, $this->logger);
-        $git->trackRemoteBranch('/', 'phpmate');
+        $git->trackRemoteBranch('/', 'peon');
     }
 
 
@@ -248,7 +248,7 @@ class GitTest extends TestCase
             ->method('executeCommand')
             ->withConsecutive(
                 ['/', 'add .'],
-                ['/', 'commit --author="PHPMate <bot@phpmate.io>" -m "Message"'],
+                ['/', 'commit --author="Peon <peon@peon.dev>" -m "Message"'],
             )
             ->willReturn($processResult);
 

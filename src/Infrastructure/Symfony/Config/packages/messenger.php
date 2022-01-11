@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\Packages\MessageBus\Command\CommandHandlerInterface;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
-use PHPMate\UseCase\ExecuteJob;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\Packages\MessageBus\Event\EventHandlerInterface;
+use Peon\UseCase\ExecuteJob;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\FrameworkConfig;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;

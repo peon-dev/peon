@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Tools\Composer;
+namespace Peon\Tests\Unit\Domain\Tools\Composer;
 
-use PHPMate\Domain\Tools\Composer\Composer;
-use PHPMate\Domain\Tools\Composer\ComposerBinary;
-use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Composer\Composer;
+use Peon\Domain\Tools\Composer\ComposerBinary;
+use Peon\Domain\Tools\Composer\Value\ComposerEnvironment;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase

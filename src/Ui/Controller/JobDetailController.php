@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

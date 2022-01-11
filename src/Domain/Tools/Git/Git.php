@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Git;
+namespace Peon\Domain\Tools\Git;
 
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
-use PHPMate\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
 use Psr\Http\Message\UriInterface;
 use Symfony\Component\Process\Process;
 
 class Git
 {
-    private const USER_NAME = 'PHPMate';
-    private const USER_EMAIL = 'bot@phpmate.io';
+    private const USER_NAME = 'Peon';
+    private const USER_EMAIL = 'peon@peon.dev';
 
     public function __construct(
         private GitBinary $gitBinary,

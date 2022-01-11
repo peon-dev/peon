@@ -2,8 +2,8 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <embeddable name="PHPMate\Domain\GitProvider\Value\RemoteGitRepository">
+    <embeddable name="Peon\Domain\GitProvider\Value\RemoteGitRepository">
         <field name="repositoryUri" />
-        <embedded name="authentication" class="PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication" />
+        <embedded name="authentication" class="Peon\Domain\GitProvider\Value\GitRepositoryAuthentication" />
     </embeddable>
 </doctrine-mapping>

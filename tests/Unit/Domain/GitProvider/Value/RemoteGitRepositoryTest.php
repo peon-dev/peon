@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\GitProvider\Value;
+namespace Peon\Tests\Unit\Domain\GitProvider\Value;
 
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\GitProvider\Exception\InvalidRemoteUri;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\GitProvider\Exception\InvalidRemoteUri;
 use PHPUnit\Framework\TestCase;
 
 class RemoteGitRepositoryTest extends TestCase
@@ -14,7 +14,7 @@ class RemoteGitRepositoryTest extends TestCase
     {
         $repository = self::createRemoteGitRepository('https://gitlab.com/janmikes/repository.git');
 
-        self::assertSame('https://phpmate:phpmate@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedUri());
+        self::assertSame('https://peon:peon@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedUri());
     }
 
 
@@ -65,7 +65,7 @@ class RemoteGitRepositoryTest extends TestCase
 
     private static function createRemoteGitRepository(string $repositoryUri): RemoteGitRepository
     {
-        $authentication = new GitRepositoryAuthentication('phpmate', 'phpmate');
+        $authentication = new GitRepositoryAuthentication('peon', 'peon');
 
         return new RemoteGitRepository($repositoryUri, $authentication);
     }

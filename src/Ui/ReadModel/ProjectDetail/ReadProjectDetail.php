@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\ProjectDetail;
+namespace Peon\Ui\ReadModel\ProjectDetail;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\EnabledRecipe;
 
 final class ReadProjectDetail
 {

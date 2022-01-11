@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\Job;
+namespace Peon\Ui\ReadModel\Job;
 
 use Doctrine\DBAL\Connection;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Ui\ReadModel\Dashboard\ReadJob;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Ui\ReadModel\Dashboard\ReadJob;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideReadJobById // TODO: test

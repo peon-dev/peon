@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
+namespace Peon\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use PHPMate\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Value\TaskId;
 
 final class DoctrineTaskIdType extends Type
 {

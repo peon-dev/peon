@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\Event\JobScheduled;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Exception\JobExecutionFailed;
-use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
-use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\Packages\MessageBus\Event\EventBus;
+use Peon\Domain\Job\Event\JobScheduled;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Exception\JobExecutionFailed;
+use Peon\Domain\Job\Exception\JobHasFinishedAlready;
+use Peon\Domain\Job\Exception\JobHasNotStartedYet;
+use Peon\Domain\Job\Exception\JobHasStartedAlready;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class RunTaskHandler implements MessageHandlerInterface

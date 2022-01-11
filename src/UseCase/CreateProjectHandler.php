@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
-use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
-use PHPMate\Domain\Project\Event\ProjectAdded;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
+use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use Peon\Domain\GitProvider\GitProvider;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use Peon\Domain\Project\Event\ProjectAdded;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class CreateProjectHandler implements MessageHandlerInterface

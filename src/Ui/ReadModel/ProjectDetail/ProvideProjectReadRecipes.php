@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\ProjectDetail;
+namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Doctrine\DBAL\Connection;
-use PHPMate\Domain\Cookbook\Recipe;
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Cookbook\Recipe;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\Project\Value\ProjectId;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideProjectReadRecipes

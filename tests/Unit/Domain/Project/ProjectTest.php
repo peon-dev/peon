@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Project;
+namespace Peon\Tests\Unit\Domain\Project;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Tests\DataFixtures\DataFixtures;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\DataFixtures\DataFixtures;
 use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase

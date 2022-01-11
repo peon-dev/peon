@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Integration\Ui\ReadModel\ProjectDetail;
+namespace Peon\Tests\Integration\Ui\ReadModel\ProjectDetail;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProvideProjectReadRecipesTest extends KernelTestCase
@@ -26,7 +26,7 @@ class ProvideProjectReadRecipesTest extends KernelTestCase
     {
         /**
          * Data are populated from data fixtures
-         * @see \PHPMate\Tests\DataFixtures\DataFixtures
+         * @see \Peon\Tests\DataFixtures\DataFixtures
          */
         $projectId = DataFixtures::PROJECT_1_ID;
 

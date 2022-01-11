@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace Peon\Domain\Job;
 
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\GitProvider\Value\MergeRequest;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\PhpApplication\Value\LocalApplication;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
-use PHPMate\Domain\Tools\Git\Git;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\GitProvider;
+use Peon\Domain\GitProvider\Value\MergeRequest;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\PhpApplication\Value\LocalApplication;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Domain\Tools\Git\Git;
 
 class UpdateMergeRequest
 {
@@ -35,7 +35,7 @@ class UpdateMergeRequest
         $workingDirectory = $localApplication->workingDirectory;
 
         if ($this->git->hasUncommittedChanges($workingDirectory)) {
-            $this->git->commit($workingDirectory, '[PHP Mate] ' . $title);
+            $this->git->commit($workingDirectory, '[Peon] ' . $title);
             $this->git->forcePushWithLease($workingDirectory);
 
             return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
@@ -67,7 +67,7 @@ class UpdateMergeRequest
                 $remoteGitRepository,
                 $localApplication->mainBranch,
                 $localApplication->jobBranch,
-                '[PHP Mate] ' . $title
+                '[Peon] ' . $title
             );
         }
 

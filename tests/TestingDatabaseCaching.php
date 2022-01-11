@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Tests;
+namespace Peon\Tests;
 
 use Symfony\Component\Finder\Finder;
 

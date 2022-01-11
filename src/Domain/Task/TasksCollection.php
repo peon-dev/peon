@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Task;
+namespace Peon\Domain\Task;
 
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Domain\Task\Value\TaskId;
 
 interface TasksCollection
 {

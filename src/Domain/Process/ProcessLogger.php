@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Process;
+namespace Peon\Domain\Process;
 
 use Nette\Utils\Strings;
-use PHPMate\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Process\Value\ProcessResult;
 
 class ProcessLogger
 {

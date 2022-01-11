@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Subscribers;
+namespace Peon\Subscribers;
 
-use PHPMate\Domain\Task\Event\TaskChanged;
-use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
+use Peon\Domain\Task\Event\TaskChanged;
+use Peon\Packages\MessageBus\Event\EventHandlerInterface;
 
 final class PublishMercureUpdateWhenTaskChanged implements EventHandlerInterface
 {

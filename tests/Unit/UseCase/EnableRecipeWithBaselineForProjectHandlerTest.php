@@ -1,24 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
-use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
-use PHPMate\Domain\GitProvider\Value\Commit;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\UseCase\EnableRecipeWithBaselineForProject;
-use PHPMate\UseCase\EnableRecipeWithBaselineForProjectHandler;
+use Peon\Domain\Cookbook\Event\RecipeEnabled;
+use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\GitProvider\Value\Commit;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\UseCase\EnableRecipeWithBaselineForProject;
+use Peon\UseCase\EnableRecipeWithBaselineForProjectHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $project = $this->getMockBuilder(Project::class)
             ->setConstructorArgs([
                 new ProjectId(''),
-                new RemoteGitRepository('https://gitlab.com/phpmate/phpmate.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'))
+                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'))
             ])
             ->getMock();
         $project->expects(self::once())

@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPMate\Infrastructure\Symfony;
+namespace Peon\Infrastructure\Symfony;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-class PHPMateKernel extends BaseKernel
+class PeonKernel extends BaseKernel
 {
     use MicroKernelTrait;
 

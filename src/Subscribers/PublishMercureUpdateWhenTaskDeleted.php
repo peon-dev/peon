@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Subscribers;
+namespace Peon\Subscribers;
 
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Task\Event\TaskDeleted;
-use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
-use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Task\Event\TaskDeleted;
+use Peon\Packages\MessageBus\Event\EventHandlerInterface;
+use Peon\Ui\ReadModel\Dashboard\ProvideReadProjectById;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;

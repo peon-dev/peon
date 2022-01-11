@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\PhpApplication;
+namespace Peon\Tests\Unit\Domain\PhpApplication;
 
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\PhpApplication\ApplicationDirectoryProvider;
-use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
-use PHPMate\Domain\Tools\Git\BranchNameProvider;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
-use PHPMate\Domain\Tools\Git\Git;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\PhpApplication\ApplicationDirectoryProvider;
+use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Domain\Tools\Git\Git;
 use PHPUnit\Framework\TestCase;
 
 class PrepareApplicationGitRepositoryTest extends TestCase
@@ -168,7 +168,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
     private function getRemoteGitRepository(): RemoteGitRepository
     {
         return new RemoteGitRepository(
-            'https://gitlab.com/phpmate/phpmate.git',
+            'https://gitlab.com/peon/peon.git',
             GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
         );
     }

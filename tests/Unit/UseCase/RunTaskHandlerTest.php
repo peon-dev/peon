@@ -1,29 +1,29 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
-use PHPMate\Domain\Job\Event\JobScheduled;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\UseCase\ExecuteJob;
-use PHPMate\UseCase\RunTaskHandler;
-use PHPMate\UseCase\RunTask;
+use Peon\Domain\Job\Event\JobScheduled;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Task\Task;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\UseCase\ExecuteJob;
+use Peon\UseCase\RunTaskHandler;
+use Peon\UseCase\RunTask;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 

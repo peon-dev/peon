@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Git;
+namespace Peon\Domain\Tools\Git;
 
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 
 interface GitBinary
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
+namespace Peon\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Cookbook\Value\RecipeName;
 
 final class DoctrineRecipeNameType extends StringType
 {

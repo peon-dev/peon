@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Rector;
+namespace Peon\Domain\Tools\Rector;
 
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
-use PHPMate\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Tools\Rector\Exception\RectorCommandFailed;
+use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
 class Rector
 {
