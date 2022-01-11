@@ -40,7 +40,7 @@ final class DisableRecipeForProjectHandler implements MessageHandlerInterface
         // TODO: this event could be dispatched in entity
         $this->eventBus->dispatch(
             new RecipeDisabled(
-                $project->projectId,
+                $command->projectId,
                 $command->recipeName,
             )
         );
