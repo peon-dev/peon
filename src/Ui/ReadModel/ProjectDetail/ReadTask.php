@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\ProjectDetail;
+namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Cron\CronExpression;
 use DateTimeImmutable;
@@ -10,7 +10,7 @@ use JetBrains\PhpStorm\Immutable;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
-use PHPMate\Ui\ReadModel\JobStatus;
+use Peon\Ui\ReadModel\JobStatus;
 
 #[Immutable]
 final class ReadTask

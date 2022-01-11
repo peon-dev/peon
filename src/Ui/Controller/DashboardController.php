@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Ui\ReadModel\Dashboard\ProvideReadJobs;
-use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjects;
+use Peon\Ui\ReadModel\Dashboard\ProvideReadJobs;
+use Peon\Ui\ReadModel\Dashboard\ProvideReadProjects;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

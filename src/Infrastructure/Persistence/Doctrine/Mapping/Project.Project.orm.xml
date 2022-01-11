@@ -2,7 +2,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="PHPMate\Domain\Project\Project">
+    <entity name="Peon\Domain\Project\Project">
         <id name="projectId" type="project_id" />
         <field name="name" />
         <field name="enabledRecipes" type="enabled_recipes_array">
@@ -10,6 +10,6 @@
                 <option name="default">[]</option>
             </options>
         </field>
-        <embedded name="remoteGitRepository" class="PHPMate\Domain\GitProvider\Value\RemoteGitRepository" />
+        <embedded name="remoteGitRepository" class="Peon\Domain\GitProvider\Value\RemoteGitRepository" />
     </entity>
 </doctrine-mapping>

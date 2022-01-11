@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Packages\PHPStan;
+namespace Peon\Packages\PHPStan;
 
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;

@@ -1,20 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Cookbook\Event\RecipeDisabled;
-use PHPMate\Domain\Project\Event\ProjectDeleted;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\UseCase\DeleteProject;
-use PHPMate\UseCase\DeleteProjectHandler;
+use Peon\Domain\Cookbook\Event\RecipeDisabled;
+use Peon\Domain\Project\Event\ProjectDeleted;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\UseCase\DeleteProject;
+use Peon\UseCase\DeleteProjectHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Project\Event;
+namespace Peon\Domain\Project\Event;
 
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\ProjectId;
 
 final class ProjectDeleted
 {

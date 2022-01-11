@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Subscribers;
+namespace Peon\Subscribers;
 
-use PHPMate\Domain\Project\Event\ProjectAdded;
-use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
+use Peon\Domain\Project\Event\ProjectAdded;
+use Peon\Packages\MessageBus\Event\EventHandlerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
+namespace Peon\Infrastructure\Persistence\Doctrine\Type;
 
 use Cron\CronExpression;
 use Doctrine\DBAL\Platforms\AbstractPlatform;

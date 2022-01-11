@@ -1,4 +1,4 @@
-# PHP Mate
+# Peon
 
 ## Development
 
@@ -29,13 +29,13 @@ services:
     php:
         environment:
             XDEBUG_CONFIG: "client_host=192.168.64.1"
-            PHP_IDE_CONFIG: "serverName=phpmate"
+            PHP_IDE_CONFIG: "serverName=peon"
 ```
 
 
 ## Production use
 
-PHP Mate is available as Docker image: `ghcr.io/phpmate/phpmate`
+Peon is available as Docker image: `ghcr.io/peon-dev/peon`
 
 Inspiration for `docker-compose.yml`:
 
@@ -53,13 +53,13 @@ services:
             FORWARD_PORT: 8080
             # you can use https://hostingcanada.org/htpasswd-generator/ 
             # note $$ (it is escaped $ char)
-            # default credentials: phpmate:phpmate
-            HTPASSWD: phpmate:$$apr1$$crgzhdtf$$ZOr9u1GXhfUyT7pBcUuZ51
+            # default credentials: peon:peon
+            HTPASSWD: peon:$$apr1$$crgzhdtf$$ZOr9u1GXhfUyT7pBcUuZ51
 
     dashboard:
-        image: ghcr.io/phpmate/phpmate:master
+        image: ghcr.io/peon-dev/peon:master
         environment:
-            DATABASE_URL: "postgresql://phpmate:phpmate@postgres:5432/phpmate?serverVersion=13&charset=utf8"
+            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
         restart: unless-stopped
         depends_on:
             - postgres
@@ -70,28 +70,28 @@ services:
         #     - 8080:8080
 
     worker:
-        image: ghcr.io/phpmate/phpmate:master
+        image: ghcr.io/peon-dev/peon:master
         depends_on:
             - dashboard
         environment:
-            DATABASE_URL: "postgresql://phpmate:phpmate@postgres:5432/phpmate?serverVersion=13&charset=utf8"
+            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
         restart: unless-stopped
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
     scheduler:
-        image: ghcr.io/phpmate/phpmate:master
+        image: ghcr.io/peon-dev/peon:master
         depends_on:
             - dashboard
         environment:
-            DATABASE_URL: "postgresql://phpmate:phpmate@postgres:5432/phpmate?serverVersion=13&charset=utf8"
+            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
         restart: unless-stopped
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
 
     postgres:
         image: postgres:13
         environment:
-            POSTGRES_USER: phpmate
-            POSTGRES_PASSWORD: phpmate
+            POSTGRES_USER: peon
+            POSTGRES_PASSWORD: peon
         volumes:
             - ./db-data:/var/lib/postgresql/data
 ```

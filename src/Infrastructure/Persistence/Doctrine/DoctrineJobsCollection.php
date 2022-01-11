@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\Doctrine;
+namespace Peon\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\JobsCollection;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\JobsCollection;
 use Ramsey\Uuid\Uuid;
 
 final class DoctrineJobsCollection implements JobsCollection

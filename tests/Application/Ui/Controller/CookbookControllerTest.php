@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
-use PHPMate\Infrastructure\Cookbook\StaticRecipesCollection;
-use PHPMate\Tests\DataFixtures\DataFixtures;
+use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class CookbookControllerTest extends WebTestCase

@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Project\Event\ProjectDeleted;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Event\TaskAdded;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\UseCase\DefineTask;
-use PHPMate\UseCase\DefineTaskHandler;
+use Peon\Domain\Project\Event\ProjectDeleted;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Event\TaskAdded;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\UseCase\DefineTask;
+use Peon\UseCase\DefineTaskHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 

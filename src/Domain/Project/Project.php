@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Project;
+namespace Peon\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Project\Value\EnabledRecipe;
 
 class Project
 {

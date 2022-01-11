@@ -70,7 +70,7 @@
     {% endif %}
 
     {% for process in activeJob.processes %}
-        {# @var process \PHPMate\Domain\Job\JobProcess #}
+        {# @var process \Peon\Domain\Job\JobProcess #}
         <div style="margin: 1.5em 0;color: #fff;">
             {% if process.result.output %}
                 <a style="color: #fff;" data-bs-toggle="collapse" href="#process-{{ loop.index }}" role="button" aria-expanded="false" aria-controls="process-{{ loop.index }}">

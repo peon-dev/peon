@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
-use PHPMate\Domain\Project\ProjectsCollection;
+use Peon\Domain\Project\ProjectsCollection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateProjectControllerTest extends WebTestCase
@@ -22,7 +22,7 @@ class CreateProjectControllerTest extends WebTestCase
         $form = $crawler->selectButton('submit')->form();
 
         $client->submit($form, [
-            $form->getName() . '[remoteRepositoryUri]' => 'https://gitlab.com/phpmate/phpmate.git',
+            $form->getName() . '[remoteRepositoryUri]' => 'https://gitlab.com/peon/peon.git',
             $form->getName() . '[personalAccessToken]' => '...',
         ]);
 

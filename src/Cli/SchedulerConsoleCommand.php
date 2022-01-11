@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Cli;
+namespace Peon\Cli;
 
 use Cron\CronExpression;
 use Doctrine\ORM\EntityManagerInterface;
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\UseCase\RunRecipe;
-use PHPMate\UseCase\RunTask;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\UseCase\RunRecipe;
+use Peon\UseCase\RunTask;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ final class SchedulerConsoleCommand extends Command
         private CommandBus $commandBus,
         private LoggerInterface $logger
     ) {
-        parent::__construct('phpmate:scheduler:run');
+        parent::__construct('peon:scheduler:run');
     }
 
 

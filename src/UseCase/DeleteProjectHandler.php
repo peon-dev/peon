@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
-use PHPMate\Domain\Project\Event\ProjectDeleted;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
+use Peon\Domain\Project\Event\ProjectDeleted;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class DeleteProjectHandler implements MessageHandlerInterface

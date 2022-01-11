@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\ReadModel\Dashboard;
+namespace Peon\Ui\ReadModel\Dashboard;
 
 use DateTimeImmutable;
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Ui\ReadModel\JobStatus;
+use Peon\Ui\ReadModel\JobStatus;
 
 #[Immutable]
 final class ReadJob

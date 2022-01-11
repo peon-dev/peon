@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Event\TaskDeleted;
-use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\UseCase\RemoveTask;
-use PHPMate\UseCase\RemoveTaskHandler;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Event\TaskDeleted;
+use Peon\Domain\Task\Task;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\UseCase\RemoveTask;
+use Peon\UseCase\RemoveTaskHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 

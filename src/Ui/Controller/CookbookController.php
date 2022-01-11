@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

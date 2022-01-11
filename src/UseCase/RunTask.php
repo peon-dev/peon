@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Value\TaskId;
 
 #[Immutable]
 final class RunTask

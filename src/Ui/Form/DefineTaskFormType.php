@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Form;
+namespace Peon\Ui\Form;
 
 use Setono\CronExpressionBundle\Form\Type\CronExpressionType;
 use Symfony\Component\Form\AbstractType;

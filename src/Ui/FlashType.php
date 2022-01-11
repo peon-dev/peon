@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui;
+namespace Peon\Ui;
 
 final class FlashType
 {

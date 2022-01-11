@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Packages\MessageBus\Event;
+namespace Peon\Packages\MessageBus\Event;
 
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;

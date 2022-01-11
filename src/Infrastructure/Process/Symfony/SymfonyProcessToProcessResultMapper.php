@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Process\Symfony;
+namespace Peon\Infrastructure\Process\Symfony;
 
-use PHPMate\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Process\Value\ProcessResult;
 use Symfony\Component\Process\Process;
 
 final class SymfonyProcessToProcessResultMapper

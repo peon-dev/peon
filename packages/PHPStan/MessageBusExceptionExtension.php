@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Packages\PHPStan;
+namespace Peon\Packages\PHPStan;
 
 use Pepakriz\PHPStanExceptionRules\DynamicMethodThrowTypeExtension;
 use Pepakriz\PHPStanExceptionRules\UnsupportedClassException;
 use Pepakriz\PHPStanExceptionRules\UnsupportedFunctionException;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\ContextFactory;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Command\CommandBus;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;

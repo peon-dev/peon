@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Process\Symfony;
+namespace Peon\Infrastructure\Process\Symfony;
 
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Tools\Rector\RectorBinary;
-use PHPMate\Domain\Tools\Rector\Exception\RectorCommandFailed;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Rector\RectorBinary;
+use Peon\Domain\Tools\Rector\Exception\RectorCommandFailed;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 

@@ -2,38 +2,38 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\MergeRequest;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Domain\Job\Event\JobStatusChanged;
-use PHPMate\Domain\Job\Exception\JobExecutionFailed;
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Job\RunJobCommands;
-use PHPMate\Domain\Job\RunJobRecipe;
-use PHPMate\Domain\Job\UpdateMergeRequest;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\PhpApplication\BuildApplication;
-use PHPMate\Domain\PhpApplication\PrepareApplicationGitRepository;
-use PHPMate\Domain\PhpApplication\Value\LocalApplication;
-use PHPMate\Domain\Process\Exception\ProcessFailed;
-use PHPMate\Domain\Process\ProcessLogger;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\UseCase\ExecuteJob;
-use PHPMate\UseCase\ExecuteJobHandler;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\MergeRequest;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Job\Event\JobStatusChanged;
+use Peon\Domain\Job\Exception\JobExecutionFailed;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Job\RunJobCommands;
+use Peon\Domain\Job\RunJobRecipe;
+use Peon\Domain\Job\UpdateMergeRequest;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\PhpApplication\BuildApplication;
+use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\PhpApplication\Value\LocalApplication;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\UseCase\ExecuteJob;
+use Peon\UseCase\ExecuteJobHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -545,7 +545,7 @@ final class ExecuteJobHandlerTest extends TestCase
         return $this->getMockBuilder(Project::class)
             ->setConstructorArgs([
                 new ProjectId(''),
-                new RemoteGitRepository('https://gitlab.com/phpmate/phpmate.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
+                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
             ])
             ->getMock();
     }

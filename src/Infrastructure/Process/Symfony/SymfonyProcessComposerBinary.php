@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Process\Symfony;
+namespace Peon\Infrastructure\Process\Symfony;
 
-use PHPMate\Domain\Tools\Composer\ComposerBinary;
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use Peon\Domain\Tools\Composer\ComposerBinary;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 

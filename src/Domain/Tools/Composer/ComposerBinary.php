@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Tools\Composer;
+namespace Peon\Domain\Tools\Composer;
 
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 
 interface ComposerBinary
 {

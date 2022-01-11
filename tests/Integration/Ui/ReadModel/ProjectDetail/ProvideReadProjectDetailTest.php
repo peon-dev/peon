@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Integration\Ui\ReadModel\ProjectDetail;
+namespace Peon\Tests\Integration\Ui\ReadModel\ProjectDetail;
 
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ProvideReadProjectDetailTest extends KernelTestCase
@@ -25,7 +25,7 @@ final class ProvideReadProjectDetailTest extends KernelTestCase
     {
         /**
          * Data are populated from data fixtures
-         * @see \PHPMate\Tests\DataFixtures\DataFixtures
+         * @see \Peon\Tests\DataFixtures\DataFixtures
          */
         $projectId = DataFixtures::PROJECT_1_ID;
 

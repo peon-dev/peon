@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\GitProvider;
+namespace Peon\Domain\GitProvider;
 
 
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\Value\MergeRequest;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\Value\MergeRequest;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 
 interface GitProvider
 {

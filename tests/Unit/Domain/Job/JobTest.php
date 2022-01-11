@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Job;
+namespace Peon\Tests\Unit\Domain\Job;
 
 use Lcobucci\Clock\FrozenClock;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
-use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Project\Value\ProjectId;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Exception\JobHasFinishedAlready;
+use Peon\Domain\Job\Exception\JobHasNotStartedYet;
+use Peon\Domain\Job\Exception\JobHasStartedAlready;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Project\Value\ProjectId;
 use PHPUnit\Framework\TestCase;
 
 final class JobTest extends TestCase

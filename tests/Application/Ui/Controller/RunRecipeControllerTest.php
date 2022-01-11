@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Tests\DataFixtures\DataFixtures;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class RunRecipeControllerTest extends WebTestCase

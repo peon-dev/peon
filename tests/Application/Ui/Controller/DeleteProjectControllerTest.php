@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Tests\DataFixtures\DataFixtures;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DeleteProjectControllerTest extends WebTestCase

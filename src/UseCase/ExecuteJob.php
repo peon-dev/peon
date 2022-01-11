@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Job\Value\JobId;
+use Peon\Domain\Job\Value\JobId;
 
 #[Immutable]
 final class ExecuteJob

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 
 #[Immutable]
 final class CreateProject

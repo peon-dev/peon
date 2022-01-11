@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Cookbook;
+namespace Peon\Domain\Cookbook;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Cookbook\Value\RecipeName;
 
 interface RecipesCollection
 {

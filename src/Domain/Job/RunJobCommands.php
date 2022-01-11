@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace Peon\Domain\Job;
 
-use PHPMate\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\Exception\ProcessFailed;
 
 interface RunJobCommands
 {

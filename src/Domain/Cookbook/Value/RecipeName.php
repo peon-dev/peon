@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Cookbook\Value;
+namespace Peon\Domain\Cookbook\Value;
 
 enum RecipeName: string
 {

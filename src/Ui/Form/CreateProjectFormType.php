@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Form;
+namespace Peon\Ui\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +21,7 @@ final class CreateProjectFormType extends AbstractType
         $builder->add('remoteRepositoryUri', TextType::class, [
             'label' => 'Gitlab git repository',
             'attr' => [
-                'placeholder' => 'https://gitlab.com/phpmate/phpmate.git',
+                'placeholder' => 'https://gitlab.com/peon/peon.git',
             ],
         ]);
 

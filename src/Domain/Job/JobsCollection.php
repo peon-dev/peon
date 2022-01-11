@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace Peon\Domain\Job;
 
-use PHPMate\Domain\Job\Exception\JobNotFound;
-use PHPMate\Domain\Job\Value\JobId;
+use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\Value\JobId;
 
 interface JobsCollection
 {

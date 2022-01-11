@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Packages\MessageBus\Command\CommandBus;
-use PHPMate\UseCase\RemoveTask;
-use PHPMate\UseCase\RemoveTaskHandler;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\UseCase\RemoveTask;
+use Peon\UseCase\RemoveTaskHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

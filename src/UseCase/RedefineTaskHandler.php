@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\UseCase;
+namespace Peon\UseCase;
 
-use PHPMate\Domain\Task\Event\TaskChanged;
-use PHPMate\Domain\Task\Exception\TaskNotFound;
-use PHPMate\Domain\Task\TasksCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
+use Peon\Domain\Task\Event\TaskChanged;
+use Peon\Domain\Task\Exception\TaskNotFound;
+use Peon\Domain\Task\TasksCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class RedefineTaskHandler implements MessageHandlerInterface

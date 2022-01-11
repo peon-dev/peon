@@ -1,27 +1,27 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\End2End;
+namespace Peon\Tests\End2End;
 
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Job\Exception\JobExecutionFailed;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Job\JobsCollection;
-use PHPMate\Domain\Process\Exception\ProcessFailed;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Task\Value\TaskId;
-use PHPMate\Domain\Tools\Git\BranchNameProvider;
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
-use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
-use PHPMate\Infrastructure\GitLab\GitLab;
-use PHPMate\UseCase\ExecuteJob;
-use PHPMate\UseCase\ExecuteJobHandler;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Exception\JobExecutionFailed;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
+use Peon\Infrastructure\GitLab\GitLab;
+use Peon\UseCase\ExecuteJob;
+use Peon\UseCase\ExecuteJobHandler;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ExecuteTaskJobHandlerTest extends KernelTestCase
@@ -183,7 +183,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         self::assertCount(1, $mergeRequests, 'Merge request should be opened!');
         self::assertSame('master', $mergeRequests[0]['target_branch']);
-        self::assertSame('[PHP Mate] End2End Test', $mergeRequests[0]['title']);
+        self::assertSame('[Peon] End2End Test', $mergeRequests[0]['title']);
 
         $commits = $this->gitlabHttpClient->mergeRequests()->commits($project,$mergeRequests[0]['iid']);
 

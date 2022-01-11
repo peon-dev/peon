@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\Doctrine\Type;
+namespace Peon\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\EnabledRecipe;
 
 final class DoctrineEnabledRecipeType extends JsonType
 {

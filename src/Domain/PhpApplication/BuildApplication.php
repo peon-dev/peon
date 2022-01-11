@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\PhpApplication;
+namespace Peon\Domain\PhpApplication;
 
-use PHPMate\Domain\Tools\Composer\Composer;
-use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
-use PHPMate\Domain\Tools\Composer\Value\ComposerEnvironment;
+use Peon\Domain\Tools\Composer\Composer;
+use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
+use Peon\Domain\Tools\Composer\Value\ComposerEnvironment;
 
 class BuildApplication // TODO: better naming
 {

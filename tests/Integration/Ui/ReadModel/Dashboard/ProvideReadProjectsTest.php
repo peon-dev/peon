@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Integration\Ui\ReadModel\Dashboard;
+namespace Peon\Tests\Integration\Ui\ReadModel\Dashboard;
 
-use PHPMate\Tests\DataFixtures\DataFixtures;
-use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjects;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\Ui\ReadModel\Dashboard\ProvideReadProjects;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ProvideReadProjectsTest extends KernelTestCase
@@ -24,7 +24,7 @@ final class ProvideReadProjectsTest extends KernelTestCase
     {
         /**
          * Data are populated from data fixtures
-         * @see \PHPMate\Tests\DataFixtures\DataFixtures
+         * @see \Peon\Tests\DataFixtures\DataFixtures
          */
         $readProjects = $this->provideReadProjects->provide();
 

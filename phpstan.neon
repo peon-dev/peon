@@ -24,7 +24,7 @@ parameters:
     bootstrapFiles:
         - vendor-bin/rector/vendor/autoload.php
     symfony:
-        container_xml_path: var/cache/dev/PHPMate_Infrastructure_Symfony_PHPMateKernelDevDebugContainer.xml
+        container_xml_path: var/cache/dev/Peon_Infrastructure_Symfony_PeonKernelDevDebugContainer.xml
     doctrine:
         objectManagerLoader: tests/object-manager.php
 
@@ -33,7 +33,7 @@ parameters:
         - '#^Throwable is never thrown in the corresponding try block$#'
 
         # Workaround, before better validation forms is solved
-        - '#^PHPMate\\Domain\\Task\\Exception\\InvalidCronExpression is never thrown in the corresponding try block$#'
+        - '#^Peon\\Domain\\Task\\Exception\\InvalidCronExpression is never thrown in the corresponding try block$#'
 
         # Symfony configs can be tricky
         - '#^Parameter \#1 \$value of method Symfony\\Config\\Framework\\Messenger\\TransportConfig::options\(\) expects#'

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\GitProvider\Value;
+namespace Peon\Tests\Unit\Domain\GitProvider\Value;
 
-use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPUnit\Framework\TestCase;
 
 class GitRepositoryAuthenticationTest extends TestCase

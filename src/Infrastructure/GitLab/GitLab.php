@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\GitLab;
+namespace Peon\Infrastructure\GitLab;
 
 use Gitlab\Client;
-use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
-use PHPMate\Domain\GitProvider\GitProvider;
-use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use PHPMate\Domain\GitProvider\Value\Commit;
-use PHPMate\Domain\GitProvider\Value\MergeRequest;
-use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\GitProvider\GitProvider;
+use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
+use Peon\Domain\GitProvider\Value\Commit;
+use Peon\Domain\GitProvider\Value\MergeRequest;
+use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 
 final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, GetLastCommitOfDefaultBranch
 {

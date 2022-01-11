@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Form;
+namespace Peon\Ui\Form;
 
 use Cron\CronExpression;
-use PHPMate\Domain\Task\Exception\InvalidCronExpression;
-use PHPMate\Domain\Task\Task;
+use Peon\Domain\Task\Exception\InvalidCronExpression;
+use Peon\Domain\Task\Task;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class DefineTaskFormData

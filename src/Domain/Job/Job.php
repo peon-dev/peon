@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace Peon\Domain\Job;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
-use PHPMate\Domain\Cookbook\Recipe;
-use PHPMate\Domain\GitProvider\Value\MergeRequest;
-use PHPMate\Domain\Job\Exception\JobHasFinishedAlready;
-use PHPMate\Domain\Job\Exception\JobHasNotStartedYet;
-use PHPMate\Domain\Job\Exception\JobHasStartedAlready;
-use PHPMate\Domain\Job\Value\JobId;
-use PHPMate\Domain\Process\Value\ProcessResult;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Task\Task;
-use PHPMate\Domain\Task\Value\TaskId;
+use Peon\Domain\Cookbook\Recipe;
+use Peon\Domain\GitProvider\Value\MergeRequest;
+use Peon\Domain\Job\Exception\JobHasFinishedAlready;
+use Peon\Domain\Job\Exception\JobHasNotStartedYet;
+use Peon\Domain\Job\Exception\JobHasStartedAlready;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Task;
+use Peon\Domain\Task\Value\TaskId;
 
 #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
 class Job

@@ -1,20 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\UseCase;
+namespace Peon\Tests\Unit\UseCase;
 
-use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
-use PHPMate\Domain\Cookbook\RecipesCollection;
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
-use PHPMate\Packages\MessageBus\Event\EventBus;
-use PHPMate\UseCase\EnableRecipeForProject;
-use PHPMate\UseCase\EnableRecipeForProjectHandler;
+use Peon\Domain\Cookbook\Event\RecipeEnabled;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\RecipesCollection;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use Peon\Packages\MessageBus\Event\EventBus;
+use Peon\UseCase\EnableRecipeForProject;
+use Peon\UseCase\EnableRecipeForProjectHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 

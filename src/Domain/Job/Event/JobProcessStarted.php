@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job\Event;
+namespace Peon\Domain\Job\Event;
 
 final class JobProcessStarted
 {

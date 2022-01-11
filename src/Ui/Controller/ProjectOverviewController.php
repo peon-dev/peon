@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Ui\Controller;
+namespace Peon\Ui\Controller;
 
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Ui\ReadModel\Dashboard\ProvideProjectReadJobs;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
-use PHPMate\Ui\ReadModel\ProjectDetail\ProvideReadTasks;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Ui\ReadModel\Dashboard\ProvideProjectReadJobs;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideProjectReadRecipes;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
+use Peon\Ui\ReadModel\ProjectDetail\ProvideReadTasks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

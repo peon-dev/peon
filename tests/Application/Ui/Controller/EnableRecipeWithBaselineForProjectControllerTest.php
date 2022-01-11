@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Application\Ui\Controller;
+namespace Peon\Tests\Application\Ui\Controller;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Project\ProjectsCollection;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Tests\DataFixtures\DataFixtures;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase

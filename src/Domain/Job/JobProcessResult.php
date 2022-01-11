@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\Job;
+namespace Peon\Domain\Job;
 
 use JetBrains\PhpStorm\Immutable;
-use PHPMate\Domain\Job\Job;
-use PHPMate\Domain\Process\Value\ProcessResult;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Process\Value\ProcessResult;
 
 #[Immutable]
 class JobProcessResult

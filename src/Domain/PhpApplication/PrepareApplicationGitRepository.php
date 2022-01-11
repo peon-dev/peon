@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Domain\PhpApplication;
+namespace Peon\Domain\PhpApplication;
 
-use PHPMate\Domain\PhpApplication\Value\LocalApplication;
-use PHPMate\Domain\Tools\Git\BranchNameProvider;
-use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Domain\PhpApplication\Value\LocalApplication;
+use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\Git;
+use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 use Psr\Http\Message\UriInterface;
 
 class PrepareApplicationGitRepository // TODO: better naming

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use PHPMate\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
-use PHPMate\Domain\Tools\Git\BranchNameProvider;
-use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
-use PHPMate\Infrastructure\GitProvider\DummyCheckWriteAccessToRemoteRepository;
-use PHPMate\Infrastructure\GitProvider\DummyGetLastCommitOfDefaultBranch;
-use PHPMate\Infrastructure\Mercure\DummyHub;
+use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
+use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
+use Peon\Infrastructure\GitProvider\DummyCheckWriteAccessToRemoteRepository;
+use Peon\Infrastructure\GitProvider\DummyGetLastCommitOfDefaultBranch;
+use Peon\Infrastructure\Mercure\DummyHub;
 use Symfony\Component\Mercure\HubInterface;
 
 return static function(ContainerConfigurator $configurator): void
@@ -22,7 +22,7 @@ return static function(ContainerConfigurator $configurator): void
         ->autowire();
 
     // Data fixtures
-    $services->load('PHPMate\\Tests\\DataFixtures\\', __DIR__ . '/../../../../tests/DataFixtures/{*.php}');
+    $services->load('Peon\\Tests\\DataFixtures\\', __DIR__ . '/../../../../tests/DataFixtures/{*.php}');
 
     $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
 

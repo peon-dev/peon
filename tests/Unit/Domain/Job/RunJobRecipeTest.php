@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPMate\Tests\Unit\Domain\Job;
+namespace Peon\Tests\Unit\Domain\Job;
 
-use PHPMate\Domain\Cookbook\Value\RecipeName;
-use PHPMate\Domain\Job\RunJobRecipe;
-use PHPMate\Domain\Project\Value\EnabledRecipe;
-use PHPMate\Domain\Tools\Composer\Composer;
-use PHPMate\Domain\Tools\Git\Git;
-use PHPMate\Domain\Tools\Rector\Rector;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Job\RunJobRecipe;
+use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Tools\Composer\Composer;
+use Peon\Domain\Tools\Git\Git;
+use Peon\Domain\Tools\Rector\Rector;
 use PHPUnit\Framework\TestCase;
 
 class RunJobRecipeTest extends TestCase

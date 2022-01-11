@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PHPMate\Infrastructure\Persistence\InMemory;
+namespace Peon\Infrastructure\Persistence\InMemory;
 
-use PHPMate\Domain\Project\Project;
-use PHPMate\Domain\Project\Value\ProjectId;
-use PHPMate\Domain\Project\Exception\ProjectNotFound;
-use PHPMate\Domain\Project\ProjectsCollection;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\ProjectsCollection;
 
 final class InMemoryProjectsCollection implements ProjectsCollection
 {
