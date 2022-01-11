@@ -20,7 +20,6 @@ final class PublishMercureUpdateWhenProjectAdded implements EventHandlerInterfac
 
     public function __invoke(ProjectAdded $event): void
     {
-        // Dashboard - project stats
-
+        // TODO: Dashboard - project stats
     }
 }

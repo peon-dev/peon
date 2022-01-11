@@ -20,7 +20,7 @@ final class PublishMercureUpdateWhenTaskChanged implements EventHandlerInterface
 
     public function __invoke(TaskChanged $event): void
     {
-        // Project overview - task row
+        // TODO: Project overview - task row
 
     }
 }

@@ -20,8 +20,8 @@ final class PublishMercureUpdateWhenProjectDeleted implements EventHandlerInterf
 
     public function __invoke(ProjectDeleted $event): void
     {
-        // Dashboard - remove project
-        // Project overview - delete
+        // TODO: Dashboard - remove project
+        // TODO: Project overview - delete
 
     }
 }
