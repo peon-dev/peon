@@ -10,6 +10,8 @@ use PHPMate\Domain\Tools\Git\BranchNameProvider;
 use PHPMate\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
 use PHPMate\Infrastructure\GitProvider\DummyCheckWriteAccessToRemoteRepository;
 use PHPMate\Infrastructure\GitProvider\DummyGetLastCommitOfDefaultBranch;
+use PHPMate\Infrastructure\Mercure\DummyHub;
+use Symfony\Component\Mercure\HubInterface;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -26,4 +28,6 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->alias(CheckWriteAccessToRemoteRepository::class, DummyCheckWriteAccessToRemoteRepository::class);
     $services->alias(GetLastCommitOfDefaultBranch::class, DummyGetLastCommitOfDefaultBranch::class);
+
+    $services->set(HubInterface::class, DummyHub::class);
 };
