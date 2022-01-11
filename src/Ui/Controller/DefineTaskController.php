@@ -28,9 +28,6 @@ final class DefineTaskController extends AbstractController
     ) {}
 
 
-    /**
-     * @throws \Nette\Utils\JsonException
-     */
     #[Route(path: '/define-task/{projectId}', name: 'define_task')]
     public function __invoke(string $projectId, Request $request): Response
     {

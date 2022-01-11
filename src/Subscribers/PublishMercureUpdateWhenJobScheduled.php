@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Job\Event\JobScheduled;
+use PHPMate\Domain\Job\Exception\JobNotFound;
+use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use PHPMate\Ui\ReadModel\Dashboard\ProvideReadProjectById;
 use PHPMate\Ui\ReadModel\Job\ProvideReadJobById;
@@ -24,7 +26,9 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
 
 
     /**
-     * @throws Error
+     * @throws JobNotFound
+     * @throws ProjectNotFound
+     *
      */
     public function __invoke(JobScheduled $event): void
     {

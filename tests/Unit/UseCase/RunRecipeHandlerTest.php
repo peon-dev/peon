@@ -5,6 +5,7 @@ namespace PHPMate\Tests\Unit\UseCase;
 
 use Lcobucci\Clock\FrozenClock;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
+use PHPMate\Domain\Job\Event\JobScheduled;
 use PHPMate\Domain\Project\Project;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Task\Task;
@@ -14,6 +15,7 @@ use PHPMate\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use PHPMate\Packages\MessageBus\Command\CommandBus;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\Tests\DataFixtures\DataFixtures;
 use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\RunRecipe;
@@ -32,6 +34,10 @@ final class RunRecipeHandlerTest extends TestCase
         $commandBusSpy->expects(self::once())
             ->method('dispatch')
             ->with(new IsInstanceOf(ExecuteJob::class));
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobScheduled::class));
 
         $projectId = new ProjectId('0');
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
@@ -46,6 +52,7 @@ final class RunRecipeHandlerTest extends TestCase
             $jobsCollection,
             FrozenClock::fromUTC(),
             $commandBusSpy,
+            $eventBusSpy,
         );
 
         $handler->__invoke(

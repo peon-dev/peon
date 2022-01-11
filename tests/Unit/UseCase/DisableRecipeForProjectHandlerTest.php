@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
+use PHPMate\Domain\Cookbook\Event\RecipeDisabled;
+use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
 use PHPMate\Domain\Cookbook\Value\RecipeName;
 use PHPMate\Domain\Cookbook\Exception\RecipeNotFound;
 use PHPMate\Domain\Cookbook\RecipesCollection;
@@ -11,8 +13,10 @@ use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\UseCase\DisableRecipeForProject;
 use PHPMate\UseCase\DisableRecipeForProjectHandler;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
 final class DisableRecipeForProjectHandlerTest extends TestCase
@@ -43,7 +47,12 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
         $recipesCollection = $this->createMock(RecipesCollection::class);
         $recipesCollection->method('hasRecipeWithName')->willReturn(true);
 
-        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection);
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(RecipeDisabled::class));
+
+        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection, $eventBusSpy);
         $handler->__invoke($command);
     }
 
@@ -62,8 +71,10 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
         $recipesCollection = $this->createMock(RecipesCollection::class);
         $recipesCollection->method('hasRecipeWithName')->willReturn(true);
 
+        $dummyEventBus = $this->createMock(EventBus::class);
+
         $projectsCollection = new InMemoryProjectsCollection();
-        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection);
+        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection, $dummyEventBus);
 
         $handler->__invoke($command);
     }
@@ -86,8 +97,10 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
             ->with($recipeName)
             ->willReturn(false);
 
+        $dummyEventBus = $this->createMock(EventBus::class);
+
         $projectsCollection = new InMemoryProjectsCollection();
-        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection);
+        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection, $dummyEventBus);
 
         $handler->__invoke($command);
     }
@@ -113,7 +126,9 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
         $projectsCollection->method('get')
             ->willReturn($project);
 
-        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection);
+        $dummyEventBus = $this->createMock(EventBus::class);
+
+        $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection, $dummyEventBus);
 
         $handler->__invoke($command);
     }

@@ -17,8 +17,6 @@ use PHPMate\Packages\MessageBus\Command\CommandBus;
 use PHPMate\UseCase\RunTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RunTaskController extends AbstractController
@@ -26,7 +24,6 @@ final class RunTaskController extends AbstractController
     public function __construct(
         private CommandBus $commandBus,
         private TasksCollection $tasksCollection,
-        private HubInterface $hub,
     ) {}
 
 

@@ -29,9 +29,6 @@ final class RedefineTaskController extends AbstractController
     ) {}
 
 
-    /**
-     * @throws \Nette\Utils\JsonException
-     */
     #[Route(path: '/redefine-task/{taskId}', name: 'redefine_task')]
     public function __invoke(string $taskId, Request $request): Response
     {

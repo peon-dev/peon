@@ -61,6 +61,8 @@ parameters:
             - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
             - Doctrine\DBAL\Driver\Exception
             - Doctrine\DBAL\Exception
+            - Twig\Error\Error
+            - Nette\Utils\JsonException
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'
         methodThrowTypeDeclarations:

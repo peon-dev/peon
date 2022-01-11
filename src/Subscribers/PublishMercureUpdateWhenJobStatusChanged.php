@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPMate\Subscribers;
 
 use PHPMate\Domain\Job\Event\JobStatusChanged;
+use PHPMate\Domain\Job\Exception\JobNotFound;
 use PHPMate\Packages\MessageBus\Event\EventHandlerInterface;
 use PHPMate\Ui\ReadModel\Job\ProvideReadJobById;
 use Symfony\Component\Mercure\HubInterface;
@@ -20,6 +21,9 @@ final class PublishMercureUpdateWhenJobStatusChanged implements EventHandlerInte
     ) {}
 
 
+    /**
+     * @throws JobNotFound
+     */
     public function __invoke(JobStatusChanged $event): void
     {
         $job = $this->provideReadJobById->provide($event->jobId);

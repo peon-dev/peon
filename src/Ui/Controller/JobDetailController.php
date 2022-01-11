@@ -21,9 +21,6 @@ final class JobDetailController extends AbstractController
     ) {}
 
 
-    /**
-     * @throws \Nette\Utils\JsonException
-     */
     #[Route(path: '/job/{jobId}', name: 'job_detail')]
     public function __invoke(string $jobId): Response
     {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PHPMate\Tests\Unit\UseCase;
 
+use PHPMate\Domain\Cookbook\Event\RecipeEnabled;
 use PHPMate\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use PHPMate\Domain\GitProvider\Value\Commit;
 use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
@@ -15,8 +16,10 @@ use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Project\Exception\ProjectNotFound;
 use PHPMate\Domain\Project\ProjectsCollection;
 use PHPMate\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\UseCase\EnableRecipeWithBaselineForProject;
 use PHPMate\UseCase\EnableRecipeWithBaselineForProjectHandler;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
 class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
@@ -57,10 +60,16 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
             ->method('getLastCommitOfDefaultBranch')
             ->willReturn(new Commit('abcd'));
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(RecipeEnabled::class));
+
         $handler = new EnableRecipeWithBaselineForProjectHandler(
             $projectsCollection,
             $recipesCollection,
-            $getLastCommitOfDefaultBranch
+            $getLastCommitOfDefaultBranch,
+            $eventBusSpy,
         );
         $handler->__invoke($command);
     }
@@ -82,8 +91,15 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 
         $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
 
+        $dummyEventBus = $this->createMock(EventBus::class);
+
         $projectsCollection = new InMemoryProjectsCollection();
-        $handler = new EnableRecipeWithBaselineForProjectHandler($projectsCollection, $recipesCollection, $getLastCommitOfDefaultBranch);
+        $handler = new EnableRecipeWithBaselineForProjectHandler(
+            $projectsCollection,
+            $recipesCollection,
+            $getLastCommitOfDefaultBranch,
+            $dummyEventBus
+        );
 
         $handler->__invoke($command);
     }
@@ -108,8 +124,14 @@ class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 
         $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
 
+        $dummyEventBus = $this->createMock(EventBus::class);
+
         $projectsCollection = new InMemoryProjectsCollection();
-        $handler = new EnableRecipeWithBaselineForProjectHandler($projectsCollection, $recipesCollection, $getLastCommitOfDefaultBranch);
+        $handler = new EnableRecipeWithBaselineForProjectHandler($projectsCollection,
+            $recipesCollection,
+            $getLastCommitOfDefaultBranch,
+            $dummyEventBus,
+        );
 
         $handler->__invoke($command);
     }

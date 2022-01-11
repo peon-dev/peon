@@ -22,7 +22,6 @@ final class ProvideReadProjectDetail
 
     /**
      * @throws ProjectNotFound
-     * @throws JsonException
      */
     public function provide(ProjectId $projectId): ReadProjectDetail
     {

@@ -10,6 +10,7 @@ use PHPMate\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use PHPMate\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use PHPMate\Domain\GitProvider\Value\MergeRequest;
 use PHPMate\Domain\GitProvider\Value\RemoteGitRepository;
+use PHPMate\Domain\Job\Event\JobStatusChanged;
 use PHPMate\Domain\Job\Exception\JobExecutionFailed;
 use PHPMate\Domain\Job\Exception\JobNotFound;
 use PHPMate\Domain\Job\Job;
@@ -30,8 +31,10 @@ use PHPMate\Domain\Project\Value\EnabledRecipe;
 use PHPMate\Domain\Project\Value\ProjectId;
 use PHPMate\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use PHPMate\Domain\Tools\Git\Exception\GitCommandFailed;
+use PHPMate\Packages\MessageBus\Event\EventBus;
 use PHPMate\UseCase\ExecuteJob;
 use PHPMate\UseCase\ExecuteJobHandler;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -57,6 +60,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
+            $this->createMock(EventBus::class),
         );
 
         $this->expectException(JobNotFound::class);
@@ -85,6 +89,11 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('get')
             ->willThrowException(new ProjectNotFound());
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::once())
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -95,6 +104,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
+            $eventBusSpy,
         );
 
         $handler->__invoke($command);
@@ -125,6 +135,11 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('prepare')
             ->willThrowException(new GitCommandFailed());
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -135,6 +150,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
+            $eventBusSpy,
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -171,6 +187,11 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('build')
             ->willThrowException(new ComposerCommandFailed());
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -181,6 +202,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
+            $eventBusSpy,
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -219,6 +241,11 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('run')
             ->willThrowException(new ProcessFailed());
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -229,6 +256,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $runJobCommands,
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
+            $eventBusSpy,
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -267,6 +295,11 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('run')
             ->willThrowException(new ProcessFailed());
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -277,6 +310,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(RunJobCommands::class),
             $runJobRecipe,
             $this->createMock(UpdateMergeRequest::class),
+            $eventBusSpy,
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -316,6 +350,11 @@ final class ExecuteJobHandlerTest extends TestCase
             ->method('update')
             ->willThrowException(new GitProviderCommunicationFailed());
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -326,6 +365,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $runJobCommands,
             $this->createMock(RunJobRecipe::class),
             $updateMergeRequest,
+            $eventBusSpy,
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -376,6 +416,11 @@ final class ExecuteJobHandlerTest extends TestCase
         $runJobRecipe->expects(self::never())
             ->method('run');
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -386,6 +431,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $runJobCommands,
             $runJobRecipe,
             $updateMergeRequest,
+            $eventBusSpy,
         );
 
         $handler->__invoke($command);
@@ -434,6 +480,11 @@ final class ExecuteJobHandlerTest extends TestCase
         $runJobRecipe->expects(self::once())
             ->method('run');
 
+        $eventBusSpy = $this->createMock(EventBus::class);
+        $eventBusSpy->expects(self::exactly(2))
+            ->method('dispatch')
+            ->with(new IsInstanceOf(JobStatusChanged::class));
+
         $handler = new ExecuteJobHandler(
             $jobsCollection,
             $projectsCollection,
@@ -444,6 +495,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(RunJobCommands::class),
             $runJobRecipe,
             $updateMergeRequest,
+            $eventBusSpy,
         );
 
         $handler->__invoke($command);
