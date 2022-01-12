@@ -17,10 +17,10 @@ use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class RunRecipeHandler implements MessageHandlerInterface
+final class RunRecipeHandler implements CommandHandlerInterface
 {
     public function __construct(
         private ProjectsCollection $projectsCollection,

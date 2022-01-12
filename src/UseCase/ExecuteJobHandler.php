@@ -15,21 +15,15 @@ use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
-use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ProcessLogger;
 use Peon\Domain\Project\Exception\ProjectNotFound;
-use Peon\Domain\Tools\Git\Git;
-use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\ProjectsCollection;
-use Peon\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
-final class ExecuteJobHandler implements MessageHandlerInterface
+final class ExecuteJobHandler implements CommandHandlerInterface
 {
     public function __construct(
         private JobsCollection $jobsCollection,

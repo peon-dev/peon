@@ -9,10 +9,10 @@ use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class EnableRecipeForProjectHandler implements MessageHandlerInterface
+final class EnableRecipeForProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
         private ProjectsCollection $projectsCollection,

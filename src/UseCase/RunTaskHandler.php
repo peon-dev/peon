@@ -18,10 +18,10 @@ use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Task\Exception\TaskNotFound;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class RunTaskHandler implements MessageHandlerInterface
+final class RunTaskHandler implements CommandHandlerInterface
 {
     public function __construct(
         private TasksCollection $tasks,

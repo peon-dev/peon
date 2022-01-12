@@ -7,10 +7,10 @@ namespace Peon\UseCase;
 use Peon\Domain\Task\Event\TaskAdded;
 use Peon\Domain\Task\Task;
 use Peon\Domain\Task\TasksCollection;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class DefineTaskHandler implements MessageHandlerInterface
+final class DefineTaskHandler implements CommandHandlerInterface
 {
     public function __construct(
         private TasksCollection $tasks,
