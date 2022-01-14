@@ -4,52 +4,36 @@ declare(strict_types=1);
 
 namespace Peon\UseCase;
 
-use Cron\CronExpression;
-use Peon\Domain\Task\Value\TaskId;
+use Lcobucci\Clock\Clock;
+use Peon\Domain\Scheduler\GetTaskSchedules;
+use Peon\Packages\MessageBus\Command\CommandBus;
 
 final class ScheduleTasksHandler
 {
+    public function __construct(
+        private Clock $clock,
+        private CommandBus $commandBus,
+        private GetTaskSchedules $getTaskSchedules,
+    ) {}
+
+
     public function __invoke(ScheduleTasks $command): void
     {
-        $sql = <<<SQL
-SELECT task.task_id, task.schedule, MAX(scheduled_at) as last_schedule
-FROM job
-RIGHT JOIN task ON task.task_id = job.task_id
-WHERE task.schedule IS NOT NULL
-GROUP BY task.task_id;
-SQL;
+        $schedules = $this->getTaskSchedules->get();
+        $now = $this->clock->now();
 
-        /**
-         * @var array<array{task_id: string, schedule: string, last_schedule: ?string}> $data
-         */
-        $data = $this->entityManager->getConnection()->executeQuery($sql)->fetchAllAssociative();
+        foreach ($schedules as $schedule) {
+            if ($schedule->lastTimeScheduledAt !== null) {
+                $nextSchedule = $schedule->schedule->getNextRunDate($schedule->lastTimeScheduledAt);
 
-        foreach ($data as $row) {
-            try {
-                $cron = new CronExpression($row['schedule']);
-                $now = $this->clock->now();
-                $taskId = new TaskId($row['task_id']);
-
-                // First time - never scheduled before
-                if ($row['last_schedule'] === null) {
-                    $this->commandBus->dispatch(
-                        new RunTask($taskId)
-                    );
-
+                if ($nextSchedule > $now) {
                     continue;
                 }
-
-                $lastSchedule = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['last_schedule']);
-                assert($lastSchedule instanceof \DateTimeImmutable);
-
-                $nextSchedule = $cron->getNextRunDate($lastSchedule);
-
-                if ($nextSchedule->format('Y-m-d H:i') <= $now->format('Y-m-d H:i')) {
-                    $this->commandBus->dispatch(
-                        new RunTask($taskId)
-                    );
-                }
             }
+
+            $this->commandBus->dispatch(
+                new RunTask($schedule->taskId)
+            );
         }
     }
 }
