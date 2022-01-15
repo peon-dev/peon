@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\DataFixtures;
 
+use Cron\CronExpression;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Lcobucci\Clock\FrozenClock;
@@ -26,12 +27,14 @@ final class DataFixtures extends Fixture
     public const PROJECT_1_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
     public const PROJECT_2_ID = '4a05eef8-4127-472f-915a-c69eb59341b1';
     public const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
+    public const TASK_SCHEDULE = '8 * * * *';
     public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
     public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
+    public const JOB_2_DATETIME = '2021-01-01 13:00:00';
     public const JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
+    public const JOB_3_DATETIME = '2021-01-01 14:00:00';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
-    const JOB_3_DATETIME = '2021-01-01 14:00:00';
 
     public function __construct(
         private RecipesCollection $recipesCollection
@@ -61,6 +64,7 @@ final class DataFixtures extends Fixture
             'task',
             ['command1', 'command2']
         );
+        $task->changeSchedule(new CronExpression(self::TASK_SCHEDULE));
 
         $manager->persist($task);
 
@@ -91,7 +95,7 @@ final class DataFixtures extends Fixture
 
         $manager->persist($job1);
 
-        $job2Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 13:00:00'));
+        $job2Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_2_DATETIME));
         $job2Id = new JobId(self::JOB_2_ID);
         $job2 = Job::scheduleFromTask(
             $job2Id,
