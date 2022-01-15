@@ -18,6 +18,8 @@ use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Scheduler\GetRecipeSchedules;
+use Peon\Domain\Scheduler\GetTaskSchedules;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\Tools\Composer\ComposerBinary;
@@ -35,6 +37,8 @@ use Peon\Infrastructure\Job\LoggingSymfonyProcessRunJobCommands;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
+use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
+use Peon\Infrastructure\Scheduler\DoctrineGetTaskSchedules;
 use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use Peon\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
 use Peon\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
@@ -126,4 +130,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(RunJobCommands::class, LoggingSymfonyProcessRunJobCommands::class);
     $services->set(RunJobRecipe::class); // TODO: think how to do it automatically, it is not interface
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
+
+    $services->set(GetRecipeSchedules::class, DoctrineGetRecipeSchedules::class);
+    $services->set(GetTaskSchedules::class, DoctrineGetTaskSchedules::class);
 };

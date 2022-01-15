@@ -20,6 +20,9 @@ final class ScheduleRecipesHandler
     ) {}
 
 
+    /**
+     * @throws \Throwable
+     */
     public function __invoke(ScheduleRecipes $command): void
     {
         $schedules = $this->getRecipeSchedules->get();

@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace Peon\Infrastructure\Scheduler;
 
+use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
+use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
+use Peon\Domain\Scheduler\RecipeSchedule;
 
 final class DoctrineGetRecipeSchedules implements GetRecipeSchedules
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(
+        private Connection $connection
+    ) {}
 
 
-
+    /**
+     * @return array<RecipeSchedule>
+     */
     public function get(): array
     {
-        // TODO: find better way, how to make it in 1 SQL
-
         $sql = <<<SQL
 SELECT project.project_id, recipe_name, MAX(scheduled_at) AS last_schedule
 FROM project
@@ -27,15 +31,19 @@ LEFT JOIN job ON job.project_id = project.project_id AND job.enabled_recipe->>'r
 GROUP BY project.project_id, recipe_name;
 SQL;
 
-
-        $sql = <<<SQL
-SELECT project.project_id, unnest(project.enabled_recipes) AS enabled_recipe_name
-FROM project
-SQL;
-
-        /**
-         * @var array<array{project_id: string, enabled_recipe_name: string}> $data
-         */
         $data = $this->connection->executeQuery($sql)->fetchAllAssociative();
+
+        return array_map(static function(array $row) {
+            /** @var array{project_id: string, recipe_name: string, last_schedule: string} $row */
+
+            $lastTimeScheduledAt = $row['last_schedule'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['last_schedule']) : null;
+            assert($lastTimeScheduledAt instanceof DateTimeImmutable || $lastTimeScheduledAt === null);
+
+            return new RecipeSchedule(
+                new ProjectId($row['project_id']),
+                RecipeName::from($row['recipe_name']),
+                $lastTimeScheduledAt,
+            );
+        }, $data);
     }
 }
