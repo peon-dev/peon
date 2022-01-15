@@ -34,6 +34,7 @@ class DoctrineGetRecipeSchedulesTest extends KernelTestCase
 
         self::assertSame(DataFixtures::PROJECT_1_ID, $taskSchedules[0]->projectId->id);
         self::assertSame(RecipeName::UNUSED_PRIVATE_METHODS, $taskSchedules[0]->recipeName);
+        self::assertNotNull($taskSchedules[0]->lastTimeScheduledAt);
         self::assertSame(DataFixtures::JOB_3_DATETIME, $taskSchedules[0]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
 
         self::assertSame(DataFixtures::PROJECT_1_ID, $taskSchedules[1]->projectId->id);
