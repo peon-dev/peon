@@ -36,8 +36,6 @@ class Job
      */
     public Collection $processes;
 
-    public readonly ?TaskId $taskId;
-
     /**
      * @param array<string> $commands
      */
@@ -48,6 +46,7 @@ class Job
         public readonly array|null $commands,
         Clock $clock,
         public readonly EnabledRecipe|null $enabledRecipe = null,
+        public readonly TaskId|null $taskId = null,
     ) {
         $this->scheduledAt = $clock->now();
         $this->processes = new ArrayCollection();
@@ -83,17 +82,14 @@ class Job
         Clock $clock,
     ): self
     {
-        $job = new self(
+        return new self(
             $jobId,
             $projectId,
             $task->name,
             $task->commands,
             $clock,
+            taskId: $task->taskId,
         );
-
-        $job->taskId = $task->taskId;
-
-        return $job;
     }
 
 

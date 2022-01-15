@@ -25,21 +25,22 @@ final class SchedulerConsoleCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->runSafely(new ScheduleRecipes());
-        $this->runSafely(new ScheduleTasks());
-
-        return self::SUCCESS;
-    }
-
-
-    private function runSafely(object $command): void
-    {
         try {
-            $this->commandBus->dispatch($command);
+            $this->commandBus->dispatch(new ScheduleRecipes());
         } catch (Throwable $throwable) {
             $this->logger->critical($throwable->getMessage(), [
                 'exception' => $throwable
             ]);
         }
+
+        try {
+            $this->commandBus->dispatch(new ScheduleTasks());
+        } catch (Throwable $throwable) {
+            $this->logger->critical($throwable->getMessage(), [
+                'exception' => $throwable
+            ]);
+        }
+
+        return self::SUCCESS;
     }
 }
