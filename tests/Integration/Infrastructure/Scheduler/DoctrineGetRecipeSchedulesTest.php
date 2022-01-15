@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Integration\Infrastructure\Scheduler;
 
+use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
 use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DoctrineGetRecipeSchedulesTest extends KernelTestCase
@@ -28,6 +30,14 @@ class DoctrineGetRecipeSchedulesTest extends KernelTestCase
          */
         $taskSchedules = $this->doctrineGetRecipeSchedules->get();
 
-        self::assertCount(3, $taskSchedules);
+        self::assertCount(2, $taskSchedules);
+
+        self::assertSame(DataFixtures::PROJECT_1_ID, $taskSchedules[0]->projectId->id);
+        self::assertSame(RecipeName::UNUSED_PRIVATE_METHODS, $taskSchedules[0]->recipeName);
+        self::assertSame(DataFixtures::JOB_3_DATETIME, $taskSchedules[0]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
+
+        self::assertSame(DataFixtures::PROJECT_1_ID, $taskSchedules[1]->projectId->id);
+        self::assertSame(RecipeName::TYPED_PROPERTIES, $taskSchedules[1]->recipeName);
+        self::assertNull($taskSchedules[1]->lastTimeScheduledAt);
     }
 }
