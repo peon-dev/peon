@@ -18,7 +18,7 @@ use Peon\UseCase\EnableRecipeForProjectHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
-class EnableRecipeForProjectHandlerTest extends TestCase
+final class EnableRecipeForProjectHandlerTest extends TestCase
 {
     public function testRecipeCanBeEnabled(): void
     {

@@ -22,7 +22,7 @@ use Peon\UseCase\EnableRecipeWithBaselineForProjectHandler;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
-class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
+final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 {
     public function testRecipeCanBeEnabled(): void
     {
