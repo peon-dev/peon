@@ -28,7 +28,7 @@ class DoctrineGetRecipeSchedulesTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $taskSchedules = $this->doctrineGetRecipeSchedules->get();
+        $taskSchedules = $this->doctrineGetRecipeSchedules->all();
 
         self::assertCount(2, $taskSchedules);
 

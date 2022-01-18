@@ -7,7 +7,7 @@ namespace Peon\Domain\Scheduler;
 interface GetRecipeSchedules
 {
     /**
-     * @return array<RecipeSchedule>
+     * @return array<RecipeJobSchedule>
      */
-    public function get(): array;
+    public function all(): array;
 }

@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
-use Peon\Domain\Scheduler\RecipeSchedule;
+use Peon\Domain\Scheduler\RecipeJobSchedule;
 
 final class DoctrineGetRecipeSchedules implements GetRecipeSchedules
 {
@@ -19,9 +19,9 @@ final class DoctrineGetRecipeSchedules implements GetRecipeSchedules
 
 
     /**
-     * @return array<RecipeSchedule>
+     * @return array<RecipeJobSchedule>
      */
-    public function get(): array
+    public function all(): array
     {
         $sql = <<<SQL
 SELECT project.project_id, recipe_name, MAX(scheduled_at) AS last_schedule
@@ -39,7 +39,7 @@ SQL;
             $lastTimeScheduledAt = $row['last_schedule'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['last_schedule']) : null;
             assert($lastTimeScheduledAt instanceof DateTimeImmutable || $lastTimeScheduledAt === null);
 
-            return new RecipeSchedule(
+            return new RecipeJobSchedule(
                 new ProjectId($row['project_id']),
                 RecipeName::from($row['recipe_name']),
                 $lastTimeScheduledAt,
