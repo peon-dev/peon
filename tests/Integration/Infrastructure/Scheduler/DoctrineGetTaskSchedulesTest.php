@@ -27,12 +27,12 @@ class DoctrineGetTaskSchedulesTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $taskSchedules = $this->doctrineGetTaskSchedules->get();
+        $taskSchedules = $this->doctrineGetTaskSchedules->all();
 
         self::assertCount(1, $taskSchedules);
 
         self::assertSame(DataFixtures::TASK_ID, $taskSchedules[0]->taskId->id);
-        self::assertSame(DataFixtures::TASK_SCHEDULE, $taskSchedules[0]->schedule->getExpression());
+        self::assertSame(DataFixtures::TASK_SCHEDULE, $taskSchedules[0]->cronExpression->getExpression());
         self::assertNotNull($taskSchedules[0]->lastTimeScheduledAt);
         self::assertSame(DataFixtures::JOB_2_DATETIME, $taskSchedules[0]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
     }

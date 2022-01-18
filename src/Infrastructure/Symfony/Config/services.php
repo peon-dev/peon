@@ -20,6 +20,7 @@ use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
 use Peon\Domain\Scheduler\GetTaskSchedules;
+use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\Tools\Composer\ComposerBinary;
@@ -131,6 +132,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(RunJobRecipe::class); // TODO: think how to do it automatically, it is not interface
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
 
+    $services->set(ShouldSchedule::class); // TODO: think how to do it automatically, it is not interface
     $services->set(GetRecipeSchedules::class, DoctrineGetRecipeSchedules::class);
     $services->set(GetTaskSchedules::class, DoctrineGetTaskSchedules::class);
 };

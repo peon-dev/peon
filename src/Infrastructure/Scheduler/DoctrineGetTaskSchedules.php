@@ -8,7 +8,7 @@ use Cron\CronExpression;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Peon\Domain\Scheduler\GetTaskSchedules;
-use Peon\Domain\Scheduler\TaskSchedule;
+use Peon\Domain\Scheduler\TaskJobSchedule;
 use Peon\Domain\Task\Value\TaskId;
 
 final class DoctrineGetTaskSchedules implements GetTaskSchedules
@@ -19,9 +19,9 @@ final class DoctrineGetTaskSchedules implements GetTaskSchedules
 
 
     /**
-     * @return array<TaskSchedule>
+     * @return array<TaskJobSchedule>
      */
-    public function get(): array
+    public function all(): array
     {
         $sql = <<<SQL
 SELECT task.task_id, task.schedule, MAX(scheduled_at) as last_schedule
@@ -39,7 +39,7 @@ SQL;
             $lastTimeScheduledAt = $row['last_schedule'] ? DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['last_schedule']) : null;
             assert($lastTimeScheduledAt instanceof DateTimeImmutable || $lastTimeScheduledAt === null);
 
-            return new TaskSchedule(
+            return new TaskJobSchedule(
                 new TaskId($row['task_id']),
                 new CronExpression($row['schedule']),
                 $lastTimeScheduledAt,

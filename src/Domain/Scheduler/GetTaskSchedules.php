@@ -7,7 +7,7 @@ namespace Peon\Domain\Scheduler;
 interface GetTaskSchedules
 {
     /**
-     * @return array<TaskSchedule>
+     * @return array<TaskJobSchedule>
      */
-    public function get(): array;
+    public function all(): array;
 }
