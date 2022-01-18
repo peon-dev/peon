@@ -9,7 +9,7 @@ use DateTimeImmutable;
 use Exception;
 use Lcobucci\Clock\Clock;
 
-final class ShouldSchedule
+class ShouldSchedule
 {
     public function __construct(
         private Clock $clock,
