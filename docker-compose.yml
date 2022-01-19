@@ -10,7 +10,7 @@ services:
             - postgres
             - mercure
         ports:
-            - 8080:8080
+            - "${PEON_DASHBOARD_PORT:-8080}:8080"
         entrypoint: [ "bash", "/docker-entrypoint.sh" ]
         command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
 
@@ -32,7 +32,7 @@ services:
         volumes:
             - .docker-data/postgres:/var/lib/postgresql/data
         ports:
-            - "${peon_POSTGRES_PORT:-5432}:5432"
+            - "${PEON_POSTGRES_PORT:-5432}:5432"
 
     # Helper service
     composer:
@@ -67,7 +67,7 @@ services:
     adminer:
         image: adminer:4.8.0
         ports:
-            - 8000:8080
+            - "${PEON_ADMINER_PORT:-8000}:8080"
         depends_on:
             - postgres
 
@@ -87,4 +87,4 @@ services:
             - .docker-data/mercure_data:/data
             - .docker-data/mercure_config:/config
         ports:
-          - 8081:80
+          - "${PEON_MERCURE_PORT:-8180}:80"
