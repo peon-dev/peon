@@ -47,7 +47,7 @@ services:
         environment:
             DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
             # Change to match your host:
-            MERCURE_PUBLIC_URL: "http://localhost:8081/.well-known/mercure"
+            MERCURE_PUBLIC_URL: "http://localhost:8180/.well-known/mercure"
             MERCURE_JWT_SECRET: '!ChangeMe!'
         restart: unless-stopped
         depends_on:
@@ -102,7 +102,7 @@ services:
             - ./mercure-data/data:/data
             - ./mercure-data/config:/config
         ports:
-            - 8081:80
+            - 8180:80
 ```
 
 Then run `docker-compose up`
