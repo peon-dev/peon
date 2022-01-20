@@ -120,6 +120,13 @@
             </tbody>
         </table>
     </div>
+{% elseif recipes %}
+    <p class="text-end">
+        <a class="btn btn-sm btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
+            <i class="fas fa-plus-circle"></i>
+            New task
+        </a>
+    </p>
 {% endif %}
 
 <div id="project-{{ activeProject.projectId }}-recipes-list">
