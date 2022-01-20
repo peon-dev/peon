@@ -6,8 +6,9 @@ namespace Peon\UseCase;
 
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 
-final class ConfigureProjectHandler
+final class ConfigureProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
         private ProjectsCollection $projectsCollection

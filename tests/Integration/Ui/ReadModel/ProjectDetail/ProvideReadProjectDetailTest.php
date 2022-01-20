@@ -34,5 +34,6 @@ final class ProvideReadProjectDetailTest extends KernelTestCase
         self::assertSame(DataFixtures::PROJECT_NAME, $readProject->name);
         self::assertSame(DataFixtures::PROJECT_1_ID, $readProject->projectId);
         self::assertCount(2, $readProject->enabledRecipes);
+        self::assertFalse($readProject->skipComposerInstall);
     }
 }

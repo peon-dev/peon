@@ -48,7 +48,7 @@ final class DoctrineBuildConfigurationType extends JsonType
 
         // TODO: what about some hydrator instead of doing it manually?
         return new BuildConfiguration(
-            $jsonData['skip_composer_install'] ?? false,
+            $jsonData['skip_composer_install'] ?? BuildConfiguration::DEFAULT_SKIP_COMPOSER_INSTALL_VALUE,
         );
     }
 
