@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineBuildConfigurationType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipeType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
@@ -23,6 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 DoctrineEnabledRecipesArrayType::NAME => DoctrineEnabledRecipesArrayType::class,
                 DoctrineRecipeNameType::NAME => DoctrineRecipeNameType::class,
                 DoctrineEnabledRecipeType::NAME => DoctrineEnabledRecipeType::class,
+                DoctrineBuildConfigurationType::NAME => DoctrineBuildConfigurationType::class,
             ],
         ],
         'orm' => [
