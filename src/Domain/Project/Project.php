@@ -7,6 +7,7 @@ namespace Peon\Domain\Project;
 use JetBrains\PhpStorm\Immutable;
 use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\PhpApplication\Value\BuildConfiguration;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Project\Value\EnabledRecipe;
@@ -21,11 +22,15 @@ class Project
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     public array $enabledRecipes = [];
 
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    public BuildConfiguration $buildConfiguration;
+
     public function __construct(
         public readonly ProjectId $projectId,
         public readonly RemoteGitRepository $remoteGitRepository
     ) {
         $this->name = $this->remoteGitRepository->getProject();
+        $this->buildConfiguration = BuildConfiguration::createDefault();
     }
 
 

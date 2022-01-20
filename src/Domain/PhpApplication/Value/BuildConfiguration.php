@@ -7,6 +7,12 @@ namespace Peon\Domain\PhpApplication\Value;
 final class BuildConfiguration
 {
     public function __construct(
-        public readonly bool $skipComposerInstall
+        public readonly bool $skipComposerInstall,
     ) {}
+
+
+    public static function createDefault(): self
+    {
+        return new self(false);
+    }
 }
