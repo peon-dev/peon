@@ -20,6 +20,7 @@ final class ReadProjectDetail
          */
         public readonly array $enabledRecipes,
         public readonly string $remoteGitRepositoryUri,
+        public readonly bool $skipComposerInstall,
     ) {}
 
 

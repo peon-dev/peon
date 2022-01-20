@@ -6,6 +6,9 @@ namespace Peon\Domain\PhpApplication\Value;
 
 final class BuildConfiguration
 {
+    public const DEFAULT_SKIP_COMPOSER_INSTALL_VALUE = false;
+
+
     public function __construct(
         public readonly bool $skipComposerInstall,
     ) {}
@@ -13,6 +16,6 @@ final class BuildConfiguration
 
     public static function createDefault(): self
     {
-        return new self(false);
+        return new self(self::DEFAULT_SKIP_COMPOSER_INSTALL_VALUE);
     }
 }

@@ -14,6 +14,18 @@
         </table>
     </div>
 
+    <hr>
+
+    <h2>Build configuration</h2>
+
+    {{ form_start(configure_build_form) }}
+        {{ form_widget(configure_build_form) }}
+
+        <input type="submit" name="submit" value="Save" class="btn btn-primary" />
+    {{ form_end(configure_build_form) }}
+
+    <hr>
+
     <h2>Danger zone</h2>
 
     <div class="card border-danger">

@@ -35,6 +35,7 @@ final class RedefineTaskController extends AbstractController
         try {
             $task = $this->tasks->get(new TaskId($taskId));
             $project = $this->provideReadProjectDetail->provide($task->projectId);
+            // TODO: domain task should not be available in controller
             $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
 
             try {
