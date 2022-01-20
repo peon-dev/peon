@@ -5,7 +5,11 @@
     <entity name="Peon\Domain\Project\Project">
         <id name="projectId" type="project_id" />
         <field name="name" />
-        <field name="buildConfiguration" type="build_configuration" />
+        <field name="buildConfiguration" type="build_configuration">
+            <options>
+                <option name="default">{}</option>
+            </options>
+        </field>
         <field name="enabledRecipes" type="enabled_recipes_array">
             <options>
                 <option name="default">[]</option>
