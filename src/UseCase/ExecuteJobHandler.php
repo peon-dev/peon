@@ -76,7 +76,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
             $projectDirectory = $localApplication->workingDirectory;
 
             // 2. build application
-            $this->buildApplication->build($projectDirectory);
+            $this->buildApplication->build($projectDirectory, $project->buildConfiguration);
 
             // 3. run commands
             if ($job->commands !== null) {
