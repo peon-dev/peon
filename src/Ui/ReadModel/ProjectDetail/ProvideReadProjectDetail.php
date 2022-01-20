@@ -53,7 +53,7 @@ SQL;
         $enabledRecipesJson = Json::decode($row['enabled_recipes'], Json::FORCE_ARRAY);
 
         /**
-         * @var array{skip_composer_install: bool|null} $buildConfiguration
+         * @var array{skip_composer_install?: bool} $buildConfiguration
          */
         $buildConfiguration = Json::decode($row['build_configuration'], Json::FORCE_ARRAY);
 
