@@ -70,4 +70,10 @@ class Project
             }
         }
     }
+
+
+    public function configureBuild(BuildConfiguration $buildConfiguration): void
+    {
+       $this->buildConfiguration = $buildConfiguration;
+    }
 }
