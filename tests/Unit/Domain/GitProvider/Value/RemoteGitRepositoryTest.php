@@ -12,9 +12,9 @@ class RemoteGitRepositoryTest extends TestCase
 {
     public function testGetAuthenticatedRepositoryUri(): void
     {
-        $repository = self::createRemoteGitRepository('https://gitlab.com/janmikes/repository.git');
+        $repository = self::createRemoteGitRepository('https://gitlab.com/peon/repository.git');
 
-        self::assertSame('https://peon:peon@gitlab.com/janmikes/repository.git', (string) $repository->getAuthenticatedUri());
+        self::assertSame('https://peon:peon@gitlab.com/peon/repository.git', (string) $repository->getAuthenticatedUri());
     }
 
 
@@ -22,23 +22,23 @@ class RemoteGitRepositoryTest extends TestCase
     {
         $this->expectException(InvalidRemoteUri::class);
 
-        self::createRemoteGitRepository('git@gitlab.com:janmikes/repository.git');
+        self::createRemoteGitRepository('git@gitlab.com:peon/repository.git');
     }
 
 
-    public function testGetAuthenticatedRepositoryMustEndWithGitSuffix(): void
+    public function testGetAuthenticatedRepositoryMayEndWithoutGitSuffix(): void
     {
-        $this->expectException(InvalidRemoteUri::class);
+        $repository = self::createRemoteGitRepository('https://gitlab.com/peon/repository');
 
-        self::createRemoteGitRepository('https://gitlab.com/janmikes/repository');
+        self::assertSame('https://gitlab.com/peon/repository.git', $repository->repositoryUri);
     }
 
 
     public function testGetProject(): void
     {
-        $repository = self::createRemoteGitRepository('https://gitlab.com/janmikes/repository.git');
+        $repository = self::createRemoteGitRepository('https://gitlab.com/peon/repository.git');
 
-        self::assertSame('janmikes/repository', $repository->getProject());
+        self::assertSame('peon/repository', $repository->getProject());
     }
 
 
@@ -58,8 +58,8 @@ class RemoteGitRepositoryTest extends TestCase
      */
     public function provideTestGetInstanceUrlData(): \Generator
     {
-        yield ['https://gitlab.com', 'https://gitlab.com/janmikes/repository.git'];
-        yield ['https://gitlab.server.com', 'https://gitlab.server.com/janmikes/repository.git'];
+        yield ['https://gitlab.com', 'https://gitlab.com/peon/repository.git'];
+        yield ['https://gitlab.server.com', 'https://gitlab.server.com/peon/repository.git'];
     }
 
 
