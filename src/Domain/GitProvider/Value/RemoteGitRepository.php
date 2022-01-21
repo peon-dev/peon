@@ -33,7 +33,7 @@ class RemoteGitRepository
         }
 
         if (Strings::contains($repositoryUri, '/-/')) {
-            $this->repositoryUri = Strings::before($this->repositoryUri, '/-/');
+            $this->repositoryUri = (string) Strings::before($this->repositoryUri, '/-/');
         }
 
         if (Strings::endsWith($repositoryUri, '.git') === false) {
