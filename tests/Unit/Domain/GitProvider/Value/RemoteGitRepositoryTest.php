@@ -34,6 +34,14 @@ class RemoteGitRepositoryTest extends TestCase
     }
 
 
+    public function testGetAuthenticatedRepositoryMayEndWithBranchSpecific(): void
+    {
+        $repository = self::createRemoteGitRepository('https://gitlab.com/peon/repository/-/tree/master');
+
+        self::assertSame('https://gitlab.com/peon/repository.git', $repository->repositoryUri);
+    }
+
+
     public function testGetProject(): void
     {
         $repository = self::createRemoteGitRepository('https://gitlab.com/peon/repository.git');
