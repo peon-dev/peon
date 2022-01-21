@@ -32,6 +32,10 @@ class RemoteGitRepository
             throw new InvalidRemoteUri('Only https:// protocol is supported - URI should start with https://');
         }
 
+        if (Strings::contains($repositoryUri, '/-/')) {
+            $this->repositoryUri = Strings::before($this->repositoryUri, '/-/');
+        }
+
         if (Strings::endsWith($repositoryUri, '.git') === false) {
             $this->repositoryUri .= '.git';
         }
