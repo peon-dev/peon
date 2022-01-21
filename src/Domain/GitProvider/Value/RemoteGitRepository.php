@@ -33,7 +33,7 @@ class RemoteGitRepository
         }
 
         if (Strings::endsWith($repositoryUri, '.git') === false) {
-            throw new InvalidRemoteUri('URI should end with .git');
+            $this->repositoryUri .= '.git';
         }
     }
 
