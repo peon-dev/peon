@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Domain\Tools\Git;
 
 use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Process\RunCommand;
 use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 use Peon\Infrastructure\Process\Symfony\SymfonyProcessToProcessResultMapper;
@@ -17,8 +18,9 @@ class Git
     private const USER_EMAIL = 'peon@peon.dev';
 
     public function __construct(
-        private GitBinary $gitBinary,
-        private ProcessLogger $processLogger
+        private GitBinary     $gitBinary,
+        private ProcessLogger $processLogger,
+        private RunCommand    $runProcess,
     ) {}
 
 
@@ -31,7 +33,7 @@ class Git
 
         $result = $this->gitBinary->executeCommand($directory, $command);
 
-        $this->processLogger->logResult($result);
+        $this->runProcess->inDirectory($directory, $command);
     }
 
 
