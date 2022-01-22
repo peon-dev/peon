@@ -15,7 +15,6 @@ use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
-use Peon\Domain\Process\ProcessLogger;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\JobsCollection;
@@ -30,7 +29,6 @@ final class ExecuteJobHandler implements CommandHandlerInterface
         private ProjectsCollection $projects,
         private PrepareApplicationGitRepository $prepareApplicationGitRepository,
         private BuildApplication $buildApplication,
-        private ProcessLogger $processLogger, // TODO: drop this dependency
         private Clock $clock,
         private RunJobCommands $runJobCommands,
         private RunJobRecipe $runJobRecipe,
@@ -104,11 +102,6 @@ final class ExecuteJobHandler implements CommandHandlerInterface
 
             throw new JobExecutionFailed($throwable->getMessage(), previous: $throwable);
         } finally {
-            // TODO: Consider dropping collector pattern for something more clean?
-            foreach ($this->processLogger->popLogs() as $processResult) {
-                $job->addProcessResult($processResult);
-            }
-
             $this->jobsCollection->save($job);
 
             // TODO: this event could be dispatched in entity
