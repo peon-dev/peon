@@ -31,10 +31,6 @@ class Job
     public DateTimeImmutable|null $succeededAt = null;
     public DateTimeImmutable|null $failedAt = null;
 
-    /**
-     * @var Collection<int, JobProcessResult>
-     */
-    public Collection $processes;
 
     /**
      * @param array<string> $commands
@@ -49,7 +45,6 @@ class Job
         public readonly TaskId|null $taskId = null,
     ) {
         $this->scheduledAt = $clock->now();
-        $this->processes = new ArrayCollection();
     }
 
 
@@ -137,16 +132,6 @@ class Job
         $this->checkJobHasNotFinished();
 
         $this->failedAt = $clock->now();
-    }
-
-
-    public function addProcessResult(ProcessResult $processResult): void
-    {
-        $this->processes[] = new JobProcessResult(
-            $this,
-            1 + count($this->processes),
-            $processResult
-        );
     }
 
     /**
