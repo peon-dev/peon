@@ -4,31 +4,42 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Process;
 
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Process\Exception\ProcessFailed;
-use Symfony\Component\Process\Process;
+use Peon\Domain\Process\Value\SanitizedCommand;
 
 final class RunCommand
 {
+    public function __construct(
+        private ProcessesCollection $processesCollection,
+        private ExecuteProcess $executeProcess,
+        private AppendProcessOutput $appendProcessOutput,
+        private SanitizeProcessCommand $sanitizeProcessCommand,
+        private JobsCollection $jobsCollection,
+    ) {}
+
+
     /**
      * @throws ProcessFailed
      */
-    public function inDirectory(string $workingDirectory, string $command, int $timeoutSeconds = 60): void
+    public function inDirectory(Job $job, string $workingDirectory, string $command, int $timeoutSeconds = 60): void
     {
-        // Save process to database
-        // Sanitize command
-        // Run process
-        // Stream output
-        // Sanitize output
-        // When exit, save exit code to database
+        $processId = $this->processesCollection->nextIdentity();
 
-        // TODO: hide :-)
-        try {
-            $process = Process::fromShellCommandline($command, $workingDirectory, ['SHELL_VERBOSITY' => 0], timeout: $timeoutSeconds);
-            $process->mustRun(); // TODO callback to log
+        $process = new Process(
+            $processId,
+            new SanitizedCommand($command, $this->sanitizeProcessCommand),
+            $timeoutSeconds,
+        );
+        $this->processesCollection->save($process);
 
-            return SymfonyProcessToProcessResultMapper::map($process);
-        } catch (ProcessFailedException $processFailedException) {
-            throw new ProcessFailed($processFailedException->getMessage(), previous: $processFailedException);
-        }
+        $job->addProcessId($processId);
+        $this->jobsCollection->save($job);
+
+        $result = $this->executeProcess->inDirectory($workingDirectory, $process, $this->appendProcessOutput);
+
+        $process->finish($result->exitCode, $result->executionTime);
+        $this->processesCollection->save($process);
     }
 }
