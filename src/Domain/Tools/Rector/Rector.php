@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Tools\Rector;
 
-use Peon\Domain\Process\ProcessLogger;
-use Peon\Domain\Tools\Rector\Exception\RectorCommandFailed;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
 class Rector
 {
+    private const BINARY_EXECUTABLE = __DIR__ . '/../../../../vendor-bin/rector/vendor/rector/rector/bin/rector'; // TODO must be dynamic, for non-standard installations
+
+
     public function __construct(
-        private RectorBinary $rectorBinary,
-        private ProcessLogger $processLogger
+        private ExecuteCommand $executeCommand,
     ) {}
 
     /**
-     * @throws RectorCommandFailed
+     * @throws ProcessFailed
      */
-    public function process(string $directory, RectorProcessCommandConfiguration $configuration): void
+    public function process(Job $job, string $directory, RectorProcessCommandConfiguration $configuration): void
     {
         $command = 'process';
 
@@ -38,8 +41,6 @@ class Rector
             $command .= ' ' . implode(' ', $configuration->paths);
         }
 
-        $result = $this->rectorBinary->executeCommand($directory, $command);
-
-        $this->processLogger->logResult($result);
+        $this->executeCommand->inDirectory($job, $directory, $command);
     }
 }

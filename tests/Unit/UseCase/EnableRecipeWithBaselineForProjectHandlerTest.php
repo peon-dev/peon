@@ -57,7 +57,7 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 
         $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
         $getLastCommitOfDefaultBranch->expects(self::once())
-            ->method('getLastCommitOfDefaultBranch')
+            ->method('forRemoteGitRepository')
             ->willReturn(new Commit('abcd'));
 
         $eventBusSpy = $this->createMock(EventBus::class);

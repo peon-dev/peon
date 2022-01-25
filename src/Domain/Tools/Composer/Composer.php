@@ -6,6 +6,9 @@ namespace Peon\Domain\Tools\Composer;
 
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Process\ProcessLogger;
 use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
 use Peon\Domain\Tools\Composer\Value\ComposerEnvironment;
@@ -13,31 +16,22 @@ use Peon\Domain\Tools\Composer\Value\ComposerEnvironment;
 class Composer
 {
     public function __construct(
-        private ComposerBinary $composerBinary,
-        private ProcessLogger $processLogger
+        private ExecuteCommand $executeCommand,
     ) {}
 
 
     /**
-     * @throws ComposerCommandFailed
+     * @throws ProcessFailed
      */
-    public function install(string $directory, ComposerEnvironment $environment): void
+    public function install(Job $job, string $directory): void
     {
-        $environmentVariables = [];
-
-        if ($environment->auth) {
-            $environmentVariables[ComposerEnvironment::AUTH] = $environment->auth;
-        }
-
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $result = $this->composerBinary->executeCommand($directory,'install --ignore-platform-reqs --no-interaction', $environmentVariables);
-
-        $this->processLogger->logResult($result);
+        $this->executeCommand->inDirectory($job, $directory,'install --ignore-platform-reqs --no-interaction', $environmentVariables);
     }
 
 
     /**
-     * @return array<string>
+     * @return array<string>|null
      * @throws JsonException
      */
     public function getPsr4Roots(string $directory): array|null

@@ -111,7 +111,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
      * @throws GitProviderCommunicationFailed
      *
      */
-    public function getLastCommitOfDefaultBranch(RemoteGitRepository $gitRepository): Commit
+    public function forRemoteGitRepository(RemoteGitRepository $gitRepository): Commit
     {
         $client = $this->createHttpClient($gitRepository);
 

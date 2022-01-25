@@ -21,7 +21,7 @@ use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
-use Peon\Domain\PhpApplication\Value\LocalApplication;
+use Peon\Domain\PhpApplication\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ProcessLogger;
 use Peon\Domain\Project\Exception\ProjectNotFound;
@@ -177,7 +177,7 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new LocalApplication('', '', ''));
+            ->willReturn(new TemporaryApplication('', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())
@@ -228,7 +228,7 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new LocalApplication('', '', ''));
+            ->willReturn(new TemporaryApplication('', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
 
@@ -281,7 +281,7 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new LocalApplication('', '', ''));
+            ->willReturn(new TemporaryApplication('', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
 
@@ -334,7 +334,7 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new LocalApplication('', '', ''));
+            ->willReturn(new TemporaryApplication('', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $runJobCommands = $this->createMock(RunJobCommands::class);
@@ -390,7 +390,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
             ->method('prepare')
-            ->willReturn(new LocalApplication('', '', ''));
+            ->willReturn(new TemporaryApplication('', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())
@@ -453,7 +453,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
             ->method('prepare')
-            ->willReturn(new LocalApplication('', '', ''));
+            ->willReturn(new TemporaryApplication('', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())

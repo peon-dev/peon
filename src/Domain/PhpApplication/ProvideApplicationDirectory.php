@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Domain\PhpApplication;
 
-interface ApplicationDirectoryProvider
+interface ProvideApplicationDirectory
 {
     public function provide(): string;
 }

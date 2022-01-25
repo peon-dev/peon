@@ -10,7 +10,7 @@ use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 
 final class DummyGetLastCommitOfDefaultBranch implements GetLastCommitOfDefaultBranch
 {
-    public function getLastCommitOfDefaultBranch(RemoteGitRepository $gitRepository): Commit
+    public function forRemoteGitRepository(RemoteGitRepository $gitRepository): Commit
     {
         return new Commit('12345');
     }
