@@ -5,9 +5,9 @@ namespace Peon\Tests\Unit\Domain\PhpApplication;
 
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
-use Peon\Domain\PhpApplication\ApplicationDirectoryProvider;
+use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
-use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 use Peon\Domain\Tools\Git\Git;
 use PHPUnit\Framework\TestCase;
@@ -32,14 +32,14 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->with('/', 'task')
             ->willReturn(false);
 
-        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
 
-        $branchNameProvider = $this->createMock(BranchNameProvider::class);
+        $branchNameProvider = $this->createMock(ProvideBranchName::class);
         $branchNameProvider->expects(self::once())
-            ->method('provideForTask')
+            ->method('forTask')
             ->with('Task')
             ->willReturn('task');
 
@@ -77,12 +77,12 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         $git->expects(self::once())
             ->method('forcePushWithLease');
 
-        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
 
-        $branchNameProvider = $this->createMock(BranchNameProvider::class);
+        $branchNameProvider = $this->createMock(ProvideBranchName::class);
 
         $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
             $git,
@@ -113,12 +113,12 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->method('resetCurrentBranch')
             ->with('/', 'main');
 
-        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
 
-        $branchNameProvider = $this->createMock(BranchNameProvider::class);
+        $branchNameProvider = $this->createMock(ProvideBranchName::class);
 
         $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
             $git,
@@ -145,7 +145,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->method('trackRemoteBranch')
             ->with('/', 'task');
 
-        $projectDirectoryProvider = $this->createMock(ApplicationDirectoryProvider::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
@@ -174,10 +174,10 @@ class PrepareApplicationGitRepositoryTest extends TestCase
     }
 
 
-    private function createBranchNameProvider(): BranchNameProvider
+    private function createBranchNameProvider(): ProvideBranchName
     {
-        $branchNameProvider = $this->createMock(BranchNameProvider::class);
-        $branchNameProvider->method('provideForTask')
+        $branchNameProvider = $this->createMock(ProvideBranchName::class);
+        $branchNameProvider->method('forTask')
             ->with('Task')
             ->willReturn('task');
 

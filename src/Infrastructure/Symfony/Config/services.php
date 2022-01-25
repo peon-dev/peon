@@ -24,15 +24,15 @@ use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\Tools\Composer\ComposerBinary;
-use Peon\Domain\PhpApplication\ApplicationDirectoryProvider;
-use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
+use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
 use Peon\Domain\Tools\Git\GitBinary;
 use Peon\Domain\Process\ProcessLogger;
 use Peon\Domain\Tools\Rector\RectorBinary;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
-use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemApplicationDirectoryProvider;
-use Peon\Infrastructure\Git\PeonBranchNameProvider;
+use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
+use Peon\Infrastructure\Git\PeonProvideBranchName;
 use Peon\Infrastructure\GitLab\GitLab;
 use Peon\Infrastructure\Job\LoggingSymfonyProcessRunJobCommands;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
@@ -90,12 +90,12 @@ return static function(ContainerConfigurator $configurator): void
             __DIR__ . '/../../../Domain/Tools/**/{Exception,Value,Event}/*'
         ]);
 
-    $services->set(TemporaryLocalFileSystemApplicationDirectoryProvider::class)
+    $services->set(TemporaryLocalFileSystemProvideApplicationDirectory::class)
         ->args([
             param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
         ]);
 
-    $services->alias(ApplicationDirectoryProvider::class, TemporaryLocalFileSystemApplicationDirectoryProvider::class);
+    $services->alias(ProvideApplicationDirectory::class, TemporaryLocalFileSystemProvideApplicationDirectory::class);
 
     $services->set(Git::class);
     $services->set(Composer::class);
@@ -105,7 +105,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->alias(GitBinary::class, SymfonyProcessGitBinary::class);
 
-    $services->alias(BranchNameProvider::class, PeonBranchNameProvider::class);
+    $services->alias(ProvideBranchName::class, PeonProvideBranchName::class);
 
     $services->alias(RectorBinary::class, SymfonyProcessRectorBinary::class);
 

@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace Peon\Infrastructure\Git;
 
 use Nette\Utils\Random;
-use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\ProvideBranchName;
 
-final class StatefulRandomPostfixBranchNameProvider implements BranchNameProvider
+final class StatefulRandomPostfixProvideBranchName implements ProvideBranchName
 {
     private string $branchName = '';
 
 
     public function __construct(
-        private PeonBranchNameProvider $originalBranchNameProvider
+        private PeonProvideBranchName $originalBranchNameProvider
     ) {}
 
 
-    public function provideForTask(string $taskName): string
+    public function forTask(string $taskName): string
     {
         if ($this->branchName === '') {
             $this->branchName = sprintf(
                 '%s-%s',
-                $this->originalBranchNameProvider->provideForTask($taskName),
+                $this->originalBranchNameProvider->forTask($taskName),
                 Random::generate()
             );
         }

@@ -6,8 +6,8 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
-use Peon\Domain\Tools\Git\BranchNameProvider;
-use Peon\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
+use Peon\Domain\Tools\Git\ProvideBranchName;
+use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
 use Peon\Infrastructure\GitProvider\DummyCheckWriteAccessToRemoteRepository;
 use Peon\Infrastructure\GitProvider\DummyGetLastCommitOfDefaultBranch;
 use Peon\Infrastructure\Mercure\DummyHub;
@@ -24,7 +24,7 @@ return static function(ContainerConfigurator $configurator): void
     // Data fixtures
     $services->load('Peon\\Tests\\DataFixtures\\', __DIR__ . '/../../../../tests/DataFixtures/{*.php}');
 
-    $services->alias(BranchNameProvider::class, StatefulRandomPostfixBranchNameProvider::class);
+    $services->alias(ProvideBranchName::class, StatefulRandomPostfixProvideBranchName::class);
 
     $services->alias(CheckWriteAccessToRemoteRepository::class, DummyCheckWriteAccessToRemoteRepository::class);
     $services->alias(GetLastCommitOfDefaultBranch::class, DummyGetLastCommitOfDefaultBranch::class);

@@ -13,5 +13,5 @@ interface GetLastCommitOfDefaultBranch
     /**
      * @throws GitProviderCommunicationFailed
      */
-    public function getLastCommitOfDefaultBranch(RemoteGitRepository $gitRepository): Commit;
+    public function forRemoteGitRepository(RemoteGitRepository $gitRepository): Commit;
 }

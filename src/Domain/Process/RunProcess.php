@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Process;
 
+use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\Value\ProcessResult;
 
-interface ExecuteProcess
+// ['SHELL_VERBOSITY' => 0]
+interface RunProcess
 {
+    /**
+     * @throws ProcessFailed
+     */
     public function inDirectory(
         string $workingDirectory,
-        Process $process,
-        AppendProcessOutput $appendProcessOutput,
+        string $command,
+        int $timeoutSeconds,
     ): ProcessResult;
 }

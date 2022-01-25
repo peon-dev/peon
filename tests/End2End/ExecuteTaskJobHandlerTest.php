@@ -15,10 +15,10 @@ use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Task\Value\TaskId;
-use Peon\Domain\Tools\Git\BranchNameProvider;
+use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
-use Peon\Infrastructure\Git\StatefulRandomPostfixBranchNameProvider;
+use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
 use Peon\Infrastructure\GitLab\GitLab;
 use Peon\UseCase\ExecuteJob;
 use Peon\UseCase\ExecuteJobHandler;
@@ -37,7 +37,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
     private JobsCollection $jobsCollection;
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
-    private StatefulRandomPostfixBranchNameProvider $branchNameProvider;
+    private StatefulRandomPostfixProvideBranchName $branchNameProvider;
 
 
     protected function setUp(): void
@@ -50,8 +50,8 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
         $container = self::getContainer();
 
         $this->useCase = $container->get(ExecuteJobHandler::class);
-        $this->branchNameProvider = $container->get(StatefulRandomPostfixBranchNameProvider::class);
-        $this->branchName = $this->branchNameProvider->provideForTask('test');
+        $this->branchNameProvider = $container->get(StatefulRandomPostfixProvideBranchName::class);
+        $this->branchName = $this->branchNameProvider->forTask('test');
         $this->jobsCollection = $container->get(JobsCollection::class);
         $this->projectsCollection = $container->get(ProjectsCollection::class);
         $this->clock = $container->get(Clock::class);

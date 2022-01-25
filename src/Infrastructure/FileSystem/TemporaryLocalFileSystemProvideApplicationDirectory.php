@@ -6,9 +6,9 @@ namespace Peon\Infrastructure\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
-use Peon\Domain\PhpApplication\ApplicationDirectoryProvider;
+use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 
-final class TemporaryLocalFileSystemApplicationDirectoryProvider implements ApplicationDirectoryProvider
+final class TemporaryLocalFileSystemProvideApplicationDirectory implements ProvideApplicationDirectory
 {
     public function __construct(
         private string $baseDir

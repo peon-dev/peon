@@ -15,6 +15,7 @@ use Peon\Domain\Job\Exception\JobHasFinishedAlready;
 use Peon\Domain\Job\Exception\JobHasNotStartedYet;
 use Peon\Domain\Job\Exception\JobHasStartedAlready;
 use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Process\Value\ProcessId;
 use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
@@ -44,6 +45,8 @@ class Job
         public readonly EnabledRecipe|null $enabledRecipe = null,
         public readonly TaskId|null $taskId = null,
     ) {
+        // TODO: make sure commands and recipe are not both null at the same time
+
         $this->scheduledAt = $clock->now();
     }
 
@@ -133,6 +136,7 @@ class Job
 
         $this->failedAt = $clock->now();
     }
+
 
     /**
      * @TODO: delete

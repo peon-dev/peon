@@ -38,7 +38,7 @@ final class EnableRecipeWithBaselineForProjectHandler implements CommandHandlerI
         }
 
         $project = $this->projectsCollection->get($command->projectId);
-        $lastCommit = $this->getLastCommitOfDefaultBranch->getLastCommitOfDefaultBranch($project->remoteGitRepository);
+        $lastCommit = $this->getLastCommitOfDefaultBranch->forRemoteGitRepository($project->remoteGitRepository);
 
         $project->enableRecipe($command->recipeName, $lastCommit->hash);
 

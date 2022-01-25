@@ -8,8 +8,8 @@ use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
-use Peon\Domain\PhpApplication\Value\LocalApplication;
-use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
+use Peon\Domain\PhpApplication\Value\TemporaryApplication;
+use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Tools\Git\Git;
 
 class UpdateMergeRequest
@@ -17,33 +17,32 @@ class UpdateMergeRequest
     public function __construct(
         private GitProvider $gitProvider,
         private Git $git,
-    )
-    {
-    }
+    ) {}
 
 
     /**
      * @throws GitProviderCommunicationFailed
-     * @throws GitCommandFailed
+     * @throws ProcessFailed
      */
     public function update(
-        LocalApplication    $localApplication,
-        RemoteGitRepository $remoteGitRepository,
-        string              $title,
+        Job                  $job,
+        TemporaryApplication $localApplication,
+        RemoteGitRepository  $remoteGitRepository,
+        string               $title,
     ): MergeRequest|null
     {
         $workingDirectory = $localApplication->workingDirectory;
 
-        if ($this->git->hasUncommittedChanges($workingDirectory)) {
-            $this->git->commit($workingDirectory, '[Peon] ' . $title);
-            $this->git->forcePushWithLease($workingDirectory);
+        if ($this->git->hasUncommittedChanges($job, $workingDirectory)) {
+            $this->git->commit($job, $workingDirectory, '[Peon] ' . $title);
+            $this->git->forcePushWithLease($job, $workingDirectory);
 
             return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 
         // Branch exists, it should have MR no matter what
         // When this can happen? MR manually closed? Should it exclude files?
-        if ($this->git->remoteBranchExists($workingDirectory, $localApplication->jobBranch)) {
+        if ($this->git->remoteBranchExists($job, $workingDirectory, $localApplication->jobBranch)) {
             return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 
@@ -55,9 +54,9 @@ class UpdateMergeRequest
      * @throws GitProviderCommunicationFailed
      */
     private function getOpenedMergeRequestOrOpenNewOne(
-        RemoteGitRepository $remoteGitRepository,
-        LocalApplication $localApplication,
-        string $title
+        RemoteGitRepository  $remoteGitRepository,
+        TemporaryApplication $localApplication,
+        string               $title
     ): MergeRequest
     {
         $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $localApplication->jobBranch);

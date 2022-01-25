@@ -19,9 +19,7 @@ class RunJobRecipe
         private Rector $rector,
         private Composer $composer,
         private Git $git,
-    )
-    {
-    }
+    ) {}
 
 
     /**
