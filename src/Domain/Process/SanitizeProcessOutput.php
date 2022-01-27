@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Process;
 
-interface SanitizeProcessOutput
+final class SanitizeProcessOutput
 {
-    public function hideDetailedPaths(string $output): string;
+    public function hideDetailedPaths(string $output): string
+    {
+        return $output;
+    }
 }

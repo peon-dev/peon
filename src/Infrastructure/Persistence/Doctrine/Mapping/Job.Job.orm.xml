@@ -15,10 +15,5 @@
         <field name="failedAt" type="datetime_immutable" nullable="true" />
         <field name="commands" type="json" nullable="true" />
         <embedded name="mergeRequest" class="Peon\Domain\GitProvider\Value\MergeRequest" />
-        <one-to-many field="processes" target-entity="Peon\Domain\Job\JobProcessResult" mapped-by="job">
-            <cascade>
-                <cascade-persist />
-            </cascade>
-        </one-to-many>
     </entity>
 </doctrine-mapping>

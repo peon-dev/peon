@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Tools\Git;
 
-use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
 use Psr\Http\Message\UriInterface;
@@ -22,57 +22,57 @@ class Git
     /**
      * @throws ProcessFailed
      */
-    public function clone(Job $job, string $directory, UriInterface $remoteUri): void
+    public function clone(JobId $jobId, string $directory, UriInterface $remoteUri): void
     {
         $command = sprintf('clone %s .', (string) $remoteUri);
 
-        $this->executeCommand->inDirectory($job, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function hasUncommittedChanges(Job $job, string $directory): bool
+    public function hasUncommittedChanges(JobId $jobId, string $directory): bool
     {
-        $output = $this->executeCommand->inDirectory($job, $directory, 'status --porcelain');
+        $output = $this->executeCommand->inDirectory($jobId, $directory, 'status --porcelain');
 
-        return trim($output) !== '';
+        return trim($output->toString()) !== '';
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function getCurrentBranch(Job $job, string $directory): string
+    public function getCurrentBranch(JobId $jobId, string $directory): string
     {
-        $output = $this->executeCommand->inDirectory($job, $directory, 'rev-parse --abbrev-ref HEAD');
+        $output = $this->executeCommand->inDirectory($jobId, $directory, 'rev-parse --abbrev-ref HEAD');
 
-        return trim($output);
+        return trim($output->toString());
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function checkoutNewBranch(Job $job, string $directory, string $branch): void
+    public function checkoutNewBranch(JobId $jobId, string $directory, string $branch): void
     {
         $command = sprintf('checkout -b %s', $branch);
 
-        $this->executeCommand->inDirectory($job, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function configureUser(Job $job, string $directory): void
+    public function configureUser(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($job, $directory, sprintf(
+        $this->executeCommand->inDirectory($jobId, $directory, sprintf(
             'config user.name %s', self::USER_NAME
         ));
 
-        $this->executeCommand->inDirectory($job, $directory, sprintf(
+        $this->executeCommand->inDirectory($jobId, $directory, sprintf(
             'config user.email %s', self::USER_EMAIL
         ));
     }
@@ -81,68 +81,68 @@ class Git
     /**
      * @throws ProcessFailed
      */
-    public function remoteBranchExists(Job $job, string $directory, string $branch): bool
+    public function remoteBranchExists(JobId $jobId, string $directory, string $branch): bool
     {
         $command = sprintf(
             'ls-remote --heads origin %s',
             $branch
         );
 
-        $output = $this->executeCommand->inDirectory($job, $directory, $command);
+        $output = $this->executeCommand->inDirectory($jobId, $directory, $command);
 
-        return trim($output) !== '';
+        return trim($output->toString()) !== '';
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function rebaseBranchAgainstUpstream(Job $job, string $directory, string $mainBranch): void
+    public function rebaseBranchAgainstUpstream(JobId $jobId, string $directory, string $mainBranch): void
     {
         $command = sprintf('rebase origin/%s', $mainBranch);
 
-        $this->executeCommand->inDirectory($job, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function forcePushWithLease(Job $job, string $directory): void
+    public function forcePushWithLease(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($job, $directory, 'push -u origin --all --force-with-lease');
+        $this->executeCommand->inDirectory($jobId, $directory, 'push -u origin --all --force-with-lease');
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function abortRebase(Job $job, string $directory): void
+    public function abortRebase(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($job, $directory, 'rebase --abort');
+        $this->executeCommand->inDirectory($jobId, $directory, 'rebase --abort');
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function resetCurrentBranch(Job $job, string $directory, string $mainBranch): void
+    public function resetCurrentBranch(JobId $jobId, string $directory, string $mainBranch): void
     {
         $command = sprintf(
             'reset --hard %s',
             $mainBranch
         );
 
-        $this->executeCommand->inDirectory($job, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function commit(Job $job, string $directory, string $commitMessage): void
+    public function commit(JobId $jobId, string $directory, string $commitMessage): void
     {
-        $this->executeCommand->inDirectory($job, $directory, 'add .');
+        $this->executeCommand->inDirectory($jobId, $directory, 'add .');
 
         $commitCommand = sprintf(
             'commit --author="%s <%s>" -m "%s"',
@@ -151,7 +151,7 @@ class Git
             $commitMessage,
         );
 
-        $this->executeCommand->inDirectory($job, $directory, $commitCommand);
+        $this->executeCommand->inDirectory($jobId, $directory, $commitCommand);
     }
 
 
@@ -159,13 +159,13 @@ class Git
      * @return array<string>
      * @throws ProcessFailed
      */
-    public function getChangedFilesSinceCommit(Job $job, string $directory, string $commitHash): array
+    public function getChangedFilesSinceCommit(JobId $jobId, string $directory, string $commitHash): array
     {
         $command = sprintf('diff --name-only --diff-filter=d %s origin/HEAD', $commitHash);
 
-        $output = $this->executeCommand->inDirectory($job, $directory, $command);
+        $output = $this->executeCommand->inDirectory($jobId, $directory, $command);
 
-        $files = preg_split("/\r\n|\n|\r/", trim($output), flags: PREG_SPLIT_NO_EMPTY);
+        $files = preg_split("/\r\n|\n|\r/", trim($output->toString()), flags: PREG_SPLIT_NO_EMPTY);
 
         if (!is_array($files)) {
             throw new ProcessFailed();
@@ -178,19 +178,19 @@ class Git
     /**
      * @throws ProcessFailed
      */
-    public function trackRemoteBranch(Job $job, string $directory, string $branch): void
+    public function trackRemoteBranch(JobId $jobId, string $directory, string $branch): void
     {
         $command = sprintf('branch --set-upstream-to origin/%s', $branch);
 
-        $this->executeCommand->inDirectory($job, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
 
 
     /**
      * @throws ProcessFailed
      */
-    public function pull(Job $job, string $directory): void
+    public function pull(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($job, $directory, 'pull --rebase');
+        $this->executeCommand->inDirectory($jobId, $directory, 'pull --rebase');
     }
 }

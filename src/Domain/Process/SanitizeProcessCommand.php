@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Process;
 
-interface SanitizeProcessCommand
+final class SanitizeProcessCommand
 {
-    public function maskCredentials(string $command): string;
+    public function maskCredentials(string $command): string
+    {
+        return $command;
+    }
 }

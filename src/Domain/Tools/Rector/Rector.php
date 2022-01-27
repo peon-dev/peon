@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Domain\Tools\Rector;
 
 use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
@@ -21,7 +22,7 @@ class Rector
     /**
      * @throws ProcessFailed
      */
-    public function process(Job $job, string $directory, RectorProcessCommandConfiguration $configuration): void
+    public function process(JobId $jobId, string $directory, RectorProcessCommandConfiguration $configuration): void
     {
         $command = 'process';
 
@@ -41,6 +42,6 @@ class Rector
             $command .= ' ' . implode(' ', $configuration->paths);
         }
 
-        $this->executeCommand->inDirectory($job, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
 }

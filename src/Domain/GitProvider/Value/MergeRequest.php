@@ -7,6 +7,6 @@ namespace Peon\Domain\GitProvider\Value;
 final class MergeRequest
 {
     public function __construct(
-        public readonly string $url
+        public readonly string|null $url = null, // TODO! SHOULD NOT BE NULL
     ){}
 }

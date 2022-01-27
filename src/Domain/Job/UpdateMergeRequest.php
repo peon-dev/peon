@@ -8,6 +8,7 @@ use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Tools\Git\Git;
@@ -25,7 +26,7 @@ class UpdateMergeRequest
      * @throws ProcessFailed
      */
     public function update(
-        Job                  $job,
+        JobId                  $jobId,
         TemporaryApplication $localApplication,
         RemoteGitRepository  $remoteGitRepository,
         string               $title,
@@ -33,16 +34,16 @@ class UpdateMergeRequest
     {
         $workingDirectory = $localApplication->workingDirectory;
 
-        if ($this->git->hasUncommittedChanges($job, $workingDirectory)) {
-            $this->git->commit($job, $workingDirectory, '[Peon] ' . $title);
-            $this->git->forcePushWithLease($job, $workingDirectory);
+        if ($this->git->hasUncommittedChanges($jobId, $workingDirectory)) {
+            $this->git->commit($jobId, $workingDirectory, '[Peon] ' . $title);
+            $this->git->forcePushWithLease($jobId, $workingDirectory);
 
             return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 
         // Branch exists, it should have MR no matter what
         // When this can happen? MR manually closed? Should it exclude files?
-        if ($this->git->remoteBranchExists($job, $workingDirectory, $localApplication->jobBranch)) {
+        if ($this->git->remoteBranchExists($jobId, $workingDirectory, $localApplication->jobBranch)) {
             return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 

@@ -10,7 +10,6 @@ use Peon\Domain\Job\Exception\JobExecutionFailed;
 use Peon\Domain\Job\Exception\JobHasFinishedAlready;
 use Peon\Domain\Job\Exception\JobHasNotStartedYet;
 use Peon\Domain\Job\Exception\JobHasStartedAlready;
-use Peon\Domain\Job\RunJobCommands;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildApplication;
@@ -31,7 +30,6 @@ final class ExecuteJobHandler implements CommandHandlerInterface
         private PrepareApplicationGitRepository $prepareApplicationGitRepository,
         private BuildApplication $buildApplication,
         private Clock $clock,
-        private RunJobCommands $runJobCommands,
         private RunJobRecipe $runJobRecipe,
         private UpdateMergeRequest $updateMergeRequest,
         private EventBus $eventBus,
@@ -69,7 +67,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
 
             // 1. Prepare git (clone) repository to local application
             $localApplication = $this->prepareApplicationGitRepository->prepare(
-                $job,
+                $job->jobId,
                 $remoteGitRepository->getAuthenticatedUri(),
                 $jobTitle
             );
@@ -82,17 +80,17 @@ final class ExecuteJobHandler implements CommandHandlerInterface
             // 3a. run commands
             if ($job->commands !== null) {
                 foreach ($job->commands as $jobCommand) {
-                    $this->executeCommand->inDirectory($job, $projectDirectory, $jobCommand);
+                    $this->executeCommand->inDirectory($job->jobId, $projectDirectory, $jobCommand);
                 }
             }
 
             // 3b. or run recipe
             if ($job->enabledRecipe !== null) {
-                $this->runJobRecipe->run($job->enabledRecipe, $projectDirectory);
+                $this->runJobRecipe->run($job->jobId, $job->enabledRecipe, $projectDirectory);
             }
 
             // 4. merge request
-            $mergeRequest = $this->updateMergeRequest->update($job, $localApplication, $remoteGitRepository, $jobTitle);
+            $mergeRequest = $this->updateMergeRequest->update($job->jobId, $localApplication, $remoteGitRepository, $jobTitle);
             $job->succeeds($this->clock, $mergeRequest);
         } catch (JobHasStartedAlready $exception) {
             // TODO, im not sure what should happen

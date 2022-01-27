@@ -6,6 +6,7 @@ namespace Peon\Domain\Job;
 
 use Nette\Utils\JsonException;
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Tools\Composer\Composer;
@@ -25,13 +26,13 @@ class RunJobRecipe
     /**
      * @throws ProcessFailed
      */
-    public function run(EnabledRecipe $enabledRecipe, string $workingDirectory): void
+    public function run(JobId $jobId, EnabledRecipe $enabledRecipe, string $workingDirectory): void
     {
 
         try {
-            $paths = $this->getPathsToProcess($enabledRecipe, $workingDirectory);
+            $paths = $this->getPathsToProcess($jobId, $enabledRecipe, $workingDirectory);
 
-            $this->runSimpleRectorProcessCommandWithConfiguration($workingDirectory, $enabledRecipe->recipeName, $paths);
+            $this->runSimpleRectorProcessCommandWithConfiguration($jobId, $workingDirectory, $enabledRecipe->recipeName, $paths);
         } catch (\Throwable $throwable) {
             throw new ProcessFailed($throwable->getMessage(), previous: $throwable);
         }
@@ -44,6 +45,7 @@ class RunJobRecipe
      * @throws \RuntimeException
      */
     private function runSimpleRectorProcessCommandWithConfiguration(
+        JobId $jobId,
         string $workingDirectory,
         RecipeName $recipeName,
         array $paths,
@@ -55,7 +57,7 @@ class RunJobRecipe
             paths: $paths,
         );
 
-        $this->rector->process($workingDirectory, $configuration);
+        $this->rector->process($jobId, $workingDirectory, $configuration);
     }
 
 
@@ -65,7 +67,7 @@ class RunJobRecipe
      * @throws JsonException
      * @throws \RuntimeException
      */
-    private function getPathsToProcess(EnabledRecipe $enabledRecipe, string $workingDirectory): array
+    private function getPathsToProcess(JobId $jobId, EnabledRecipe $enabledRecipe, string $workingDirectory): array
     {
         $paths = $this->composer->getPsr4Roots($workingDirectory);
 
@@ -75,7 +77,7 @@ class RunJobRecipe
 
         if ($enabledRecipe->baselineHash !== null) {
             // TODO: maybe files should be in PSR-4 roots?
-            return $this->git->getChangedFilesSinceCommit($workingDirectory, $enabledRecipe->baselineHash);
+            return $this->git->getChangedFilesSinceCommit($jobId, $workingDirectory, $enabledRecipe->baselineHash);
         }
 
         return $paths;
