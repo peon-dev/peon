@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 final class JobDetailController extends AbstractController
 {
     public function __construct(
-        private JobsCollection $jobsCollection,
         private ProvideReadProjectDetail $provideReadProjectDetail,
     ) {}
 
@@ -25,7 +24,7 @@ final class JobDetailController extends AbstractController
     public function __invoke(string $jobId): Response
     {
         try {
-            $job = $this->jobsCollection->get(new JobId($jobId));
+            $job = ''; // TODO: DO NOT USE DOMAIN HERE $this->jobsCollection->get(new JobId($jobId));
             $project = $this->provideReadProjectDetail->provide($job->projectId);
 
         } catch (JobNotFound | ProjectNotFound) {

@@ -6,12 +6,9 @@ namespace Peon\Domain\Tools\Composer;
 
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
-use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
-use Peon\Domain\Process\ProcessLogger;
-use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
-use Peon\Domain\Tools\Composer\Value\ComposerEnvironment;
 
 class Composer
 {
@@ -23,10 +20,10 @@ class Composer
     /**
      * @throws ProcessFailed
      */
-    public function install(Job $job, string $directory): void
+    public function install(JobId $jobId, string $directory): void
     {
         // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $this->executeCommand->inDirectory($job, $directory,'install --ignore-platform-reqs --no-interaction', $environmentVariables);
+        $this->executeCommand->inDirectory($jobId, $directory,'install --ignore-platform-reqs --no-interaction', $environmentVariables);
     }
 
 

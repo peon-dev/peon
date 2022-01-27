@@ -9,6 +9,7 @@ use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\Value\ProcessId;
 use Peon\Domain\Process\Value\Command;
+use Peon\Domain\Process\Value\ProcessOutput;
 use Peon\Domain\Process\Value\ProcessResult;
 
 class Process
@@ -19,9 +20,14 @@ class Process
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     public int|null $exitCode = null;
 
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    public ProcessOutput|null $output = null;
+
+
     public function __construct(
         public readonly ProcessId $processId,
         public readonly JobId $jobId,
+        public readonly int $sequence,
         public readonly Command $command,
         public readonly int $timeoutSeconds,
     ) {}
@@ -36,6 +42,7 @@ class Process
             $result = $runProcess->inDirectory($directory, $this);
             $this->exitCode = $result->exitCode;
             $this->executionTime = $result->executionTime;
+            $this->output = $result->output;
 
             return $result;
         } catch (ProcessFailed $processFailed) {

@@ -12,39 +12,37 @@ use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Job\JobsCollection;
-use Peon\Domain\Job\RunJobCommands;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\Process\ExecuteCommand;
+use Peon\Domain\Process\ProcessesCollection;
+use Peon\Domain\Process\RunProcess;
+use Peon\Domain\Process\SanitizeProcessCommand;
+use Peon\Domain\Process\SanitizeProcessOutput;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
 use Peon\Domain\Scheduler\GetTaskSchedules;
 use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Tools\Composer\Composer;
-use Peon\Domain\Tools\Composer\ComposerBinary;
 use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
-use Peon\Domain\Tools\Git\GitBinary;
 use Peon\Domain\Process\ProcessLogger;
-use Peon\Domain\Tools\Rector\RectorBinary;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
 use Peon\Infrastructure\GitLab\GitLab;
-use Peon\Infrastructure\Job\LoggingSymfonyProcessRunJobCommands;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineProcessesCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
+use Peon\Infrastructure\Process\Symfony\SymfonyProcessRunProcess;
 use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
 use Peon\Infrastructure\Scheduler\DoctrineGetTaskSchedules;
 use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
-use Peon\Infrastructure\Process\Symfony\SymfonyProcessComposerBinary;
-use Peon\Infrastructure\Process\Symfony\SymfonyProcessGitBinary;
-use Peon\Infrastructure\Process\Symfony\SymfonyProcessRectorBinary;
-use Peon\UseCase\ExecuteJobHandler;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -101,13 +99,8 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(Composer::class);
     $services->set(ProcessLogger::class);
 
-    $services->alias(ComposerBinary::class, SymfonyProcessComposerBinary::class);
-
-    $services->alias(GitBinary::class, SymfonyProcessGitBinary::class);
-
     $services->alias(ProvideBranchName::class, PeonProvideBranchName::class);
 
-    $services->alias(RectorBinary::class, SymfonyProcessRectorBinary::class);
 
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);
@@ -128,11 +121,17 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->alias(RecipesCollection::class, StaticRecipesCollection::class);
 
-    $services->alias(RunJobCommands::class, LoggingSymfonyProcessRunJobCommands::class);
+    $services->alias(ProcessesCollection::class, DoctrineProcessesCollection::class);
+
+    $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
+    $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(RunJobRecipe::class); // TODO: think how to do it automatically, it is not interface
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
+    $services->set(SanitizeProcessCommand::class); // TODO: think how to do it automatically, it is not interface
+    $services->set(SanitizeProcessOutput::class); // TODO: think how to do it automatically, it is not interface
 
     $services->set(ShouldSchedule::class); // TODO: think how to do it automatically, it is not interface
     $services->set(GetRecipeSchedules::class, DoctrineGetRecipeSchedules::class);
     $services->set(GetTaskSchedules::class, DoctrineGetTaskSchedules::class);
+    $services->set(RunProcess::class, SymfonyProcessRunProcess::class);
 };

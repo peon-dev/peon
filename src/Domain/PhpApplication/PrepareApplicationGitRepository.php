@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Peon\Domain\PhpApplication;
 
-use Peon\Domain\Job\Job;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
@@ -28,18 +27,18 @@ class PrepareApplicationGitRepository // TODO: better naming
     {
         $applicationDirectory = $this->projectDirectoryProvider->provide();
 
-        $this->git->clone($job, $applicationDirectory, $repositoryUri);
-        $this->git->configureUser($job, $applicationDirectory);
+        $this->git->clone($jobId, $applicationDirectory, $repositoryUri);
+        $this->git->configureUser($jobId, $applicationDirectory);
 
-        $mainBranch = $this->git->getCurrentBranch($job, $applicationDirectory);
+        $mainBranch = $this->git->getCurrentBranch($jobId, $applicationDirectory);
         $taskBranch = $this->provideBranchName->forTask($taskName);
 
-        $this->git->checkoutNewBranch($job, $applicationDirectory, $taskBranch);
+        $this->git->checkoutNewBranch($jobId, $applicationDirectory, $taskBranch);
 
-        if ($this->git->remoteBranchExists($job, $applicationDirectory, $taskBranch)) {
-            $this->git->trackRemoteBranch($job, $applicationDirectory, $taskBranch);
-            $this->git->pull($job, $applicationDirectory);
-            $this->syncWithHead($job, $applicationDirectory, $mainBranch);
+        if ($this->git->remoteBranchExists($jobId, $applicationDirectory, $taskBranch)) {
+            $this->git->trackRemoteBranch($jobId, $applicationDirectory, $taskBranch);
+            $this->git->pull($jobId, $applicationDirectory);
+            $this->syncWithHead($jobId, $applicationDirectory, $mainBranch);
         }
 
         return new TemporaryApplication($jobId, $applicationDirectory, $mainBranch, $taskBranch);
@@ -49,14 +48,14 @@ class PrepareApplicationGitRepository // TODO: better naming
     /**
      * @throws ProcessFailed
      */
-    private function syncWithHead(Job $job, string $applicationDirectory, string $mainBranch): void
+    private function syncWithHead(JobId $jobId, string $applicationDirectory, string $mainBranch): void
     {
         try {
-            $this->git->rebaseBranchAgainstUpstream($job, $applicationDirectory, $mainBranch);
-            $this->git->forcePushWithLease($job, $applicationDirectory);
+            $this->git->rebaseBranchAgainstUpstream($jobId, $applicationDirectory, $mainBranch);
+            $this->git->forcePushWithLease($jobId, $applicationDirectory);
         } catch (ProcessFailed) {
-            $this->git->abortRebase($job, $applicationDirectory);
-            $this->git->resetCurrentBranch($job, $applicationDirectory, $mainBranch);
+            $this->git->abortRebase($jobId, $applicationDirectory);
+            $this->git->resetCurrentBranch($jobId, $applicationDirectory, $mainBranch);
         }
     }
 }
