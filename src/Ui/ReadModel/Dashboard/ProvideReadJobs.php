@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
-use UXF\Hydrator\ObjectHydrator;
+use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideReadJobs
 {
     public function __construct(
         private Connection $connection,
-        private ObjectHydrator $hydrator,
+        private ArrayToValueObjectHydrator $hydrator,
     ) {}
 
 

@@ -6,13 +6,13 @@ namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Doctrine\DBAL\Connection;
 use Peon\Domain\Project\Value\ProjectId;
-use UXF\Hydrator\ObjectHydrator;
+use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideReadTasks
 {
     public function __construct(
         private Connection $connection,
-        private ObjectHydrator $hydrator,
+        private ArrayToValueObjectHydrator $hydrator,
     ) {}
 
 

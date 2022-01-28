@@ -12,13 +12,13 @@ use Peon\Domain\PhpApplication\Value\BuildConfiguration;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
-use UXF\Hydrator\ObjectHydrator;
+use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 
 final class ProvideReadProjectDetail
 {
     public function __construct(
         private Connection $connection,
-        private ObjectHydrator $hydrator,
+        private ArrayToValueObjectHydrator $hydrator,
     ) {}
 
     /**
