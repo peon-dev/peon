@@ -5,6 +5,7 @@ namespace Peon\Tests\Unit\Domain\Job;
 
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Job\RunJobRecipe;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\Tools\Git\Git;
@@ -18,6 +19,8 @@ class RunJobRecipeTest extends TestCase
      */
     public function testAllConfigurationFilesExists(EnabledRecipe $enabledRecipe): void
     {
+        $jobId = new JobId('');
+
         $rector = $this->createMock(Rector::class);
         $rector->expects(self::once())
             ->method('process');
@@ -35,7 +38,7 @@ class RunJobRecipeTest extends TestCase
             $git,
         );
 
-        $runJobRecipe->run($enabledRecipe, '/');
+        $runJobRecipe->run($jobId, $enabledRecipe, '/');
     }
 
 

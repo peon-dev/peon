@@ -10,4 +10,15 @@ final class SanitizeProcessCommand
     {
         return $command;
     }
+
+    /**
+     *
+     * @see https://regex101.com/r/2EhyJG/2
+    private function sanitizeProcessResult(ProcessResult $processResult): ProcessResult
+    {
+        $regex = '/([\w-]*:)(?<password>[\w-]*)(@[\w-]*\.\w*)/m';
+
+        $sanitizedCommand = Strings::replace($processResult->command, $regex, '${1}****${3}');
+        $sanitizedOutput = Strings::replace($processResult->output, $regex, '${1}****${3}');
+     */
 }

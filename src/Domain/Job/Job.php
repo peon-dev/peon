@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Peon\Domain\Job;
 
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Immutable;
 use Lcobucci\Clock\Clock;
 use Peon\Domain\Cookbook\Recipe;
@@ -15,8 +13,6 @@ use Peon\Domain\Job\Exception\JobHasFinishedAlready;
 use Peon\Domain\Job\Exception\JobHasNotStartedYet;
 use Peon\Domain\Job\Exception\JobHasStartedAlready;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\Process\Value\ProcessId;
-use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Task\Task;
@@ -42,11 +38,10 @@ class Job
         public readonly string $title,
         public readonly array|null $commands,
         Clock $clock,
+        // TODO: make sure commands and recipe are not both null at the same time
         public readonly EnabledRecipe|null $enabledRecipe = null,
         public readonly TaskId|null $taskId = null,
     ) {
-        // TODO: make sure commands and recipe are not both null at the same time
-
         $this->scheduledAt = $clock->now();
     }
 
@@ -135,51 +130,6 @@ class Job
         $this->checkJobHasNotFinished();
 
         $this->failedAt = $clock->now();
-    }
-
-
-    /**
-     * @TODO: delete
-     */
-    public function getMergeRequestUrl(): null|string
-    {
-        return $this->mergeRequest?->url;
-    }
-
-
-    /**
-     * @TODO: delete
-     */
-    public function isPending(): bool
-    {
-        return $this->startedAt === null;
-    }
-
-
-    /**
-     * @TODO: delete
-     */
-    public function isInProgress(): bool
-    {
-        return $this->startedAt !== null && $this->succeededAt === null && $this->failedAt === null;
-    }
-
-
-    /**
-     * @TODO: delete
-     */
-    public function hasSucceeded(): bool
-    {
-        return $this->succeededAt !== null;
-    }
-
-
-    /**
-     * @TODO: delete
-     */
-    public function hasFailed(): bool
-    {
-        return $this->failedAt !== null;
     }
 
 

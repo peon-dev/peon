@@ -7,27 +7,8 @@ use Peon\Domain\Process\ProcessLogger;
 use Peon\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
-final class ProcessLoggerTest extends TestCase
+final class SanitizeProcessCommandTest extends TestCase
 {
-    /**
-     * @dataProvider provideTestProcessOutputWillBeSanitizedData
-     */
-    public function testProcessOutputWillBeSanitized(string $sensitiveInfo, string $expectedSanitization): void
-    {
-        $processResult = new ProcessResult($sensitiveInfo, 0, $sensitiveInfo, 0);
-
-        $logger = new ProcessLogger();
-        $logger->logResult($processResult);
-
-        $logs = $logger->popLogs();
-
-        $loggedResult = $logs[array_key_first($logs)];
-
-        self::assertSame($expectedSanitization, $loggedResult->command);
-        self::assertSame($expectedSanitization, $loggedResult->output);
-    }
-
-
     /**
      * @return \Generator<array{string, string}>
      */

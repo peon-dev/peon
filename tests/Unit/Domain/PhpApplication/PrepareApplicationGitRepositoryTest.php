@@ -5,15 +5,25 @@ namespace Peon\Tests\Unit\Domain\PhpApplication;
 
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Tools\Git\ProvideBranchName;
-use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 use Peon\Domain\Tools\Git\Git;
 use PHPUnit\Framework\TestCase;
 
 class PrepareApplicationGitRepositoryTest extends TestCase
 {
+    private JobId $jobId;
+
+
+    protected function setUp(): void
+    {
+        $this->jobId = new JobId('');
+    }
+
+
     public function testLocalApplicationWillBePrepared(): void
     {
         $git = $this->createMock(Git::class);
@@ -26,10 +36,10 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->willReturn('main');
         $git->expects(self::once())
             ->method('checkoutNewBranch')
-            ->with('/', 'task');
+            ->with($this->jobId, '/', 'task');
         $git->expects(self::once())
             ->method('remoteBranchExists')
-            ->with('/', 'task')
+            ->with($this->jobId, '/', 'task')
             ->willReturn(false);
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
@@ -50,6 +60,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         );
 
         $localApplication = $prepareApplicationGitRepository->prepare(
+            $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
         );
@@ -70,10 +81,10 @@ class PrepareApplicationGitRepositoryTest extends TestCase
 
         $git->expects(self::once())
             ->method('pull')
-            ->with('/');
+            ->with($this->jobId, '/');
         $git->expects(self::once())
             ->method('rebaseBranchAgainstUpstream')
-            ->with('/', 'main');
+            ->with($this->jobId, '/', 'main');
         $git->expects(self::once())
             ->method('forcePushWithLease');
 
@@ -91,6 +102,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         );
 
         $prepareApplicationGitRepository->prepare(
+            $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
         );
@@ -105,13 +117,13 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         $git->method('getCurrentBranch')
             ->willReturn('main');
         $git->method('rebaseBranchAgainstUpstream')
-            ->willThrowException(new GitCommandFailed());
+            ->willThrowException(new ProcessFailed());
 
         $git->expects(self::once())
             ->method('abortRebase');
         $git->expects(self::once())
             ->method('resetCurrentBranch')
-            ->with('/', 'main');
+            ->with($this->jobId, '/', 'main');
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
@@ -127,6 +139,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         );
 
         $prepareApplicationGitRepository->prepare(
+            $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
         );
@@ -143,7 +156,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
 
         $git->expects(self::once())
             ->method('trackRemoteBranch')
-            ->with('/', 'task');
+            ->with($this->jobId, '/', 'task');
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
@@ -159,6 +172,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         );
 
         $prepareApplicationGitRepository->prepare(
+            $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
         );

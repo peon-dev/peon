@@ -28,6 +28,6 @@ final class SymfonyProcessRunProcess implements RunProcess
         );
          */
 
-        return new ProcessResult(1, 20, new ProcessOutput());
+        return new ProcessResult(1, 20, '');
     }
 }
