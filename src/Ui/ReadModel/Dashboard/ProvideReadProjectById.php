@@ -7,13 +7,13 @@ namespace Peon\Ui\ReadModel\Dashboard;
 use Doctrine\DBAL\Connection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadProjectById // TODO: test
 {
     public function __construct(
         private Connection $connection,
-        private ArrayToValueObjectHydrator $hydrator,
+        private ObjectHydrator $hydrator,
     ) {}
 
 
