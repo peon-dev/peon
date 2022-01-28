@@ -26,6 +26,7 @@ final class ReadJob
         public DateTimeImmutable|null $succeededAt,
         public DateTimeImmutable|null $failedAt,
         public string|null $mergeRequestUrl,
+        public string|null $output = null,
     ){
         if ($failedAt !== null) {
             $this->status = JobStatus::FAILED;

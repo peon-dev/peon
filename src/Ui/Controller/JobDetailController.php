@@ -8,6 +8,8 @@ use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Ui\ReadModel\Job\ProvideReadJobById;
 use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,7 @@ final class JobDetailController extends AbstractController
 {
     public function __construct(
         private ProvideReadProjectDetail $provideReadProjectDetail,
+        private ProvideReadJobById $provideReadJobById,
     ) {}
 
 
@@ -24,8 +27,8 @@ final class JobDetailController extends AbstractController
     public function __invoke(string $jobId): Response
     {
         try {
-            $job = ''; // TODO: DO NOT USE DOMAIN HERE $this->jobsCollection->get(new JobId($jobId));
-            $project = $this->provideReadProjectDetail->provide($job->projectId);
+            $job = $this->provideReadJobById->provide(new JobId($jobId));
+            $project = $this->provideReadProjectDetail->provide(new ProjectId($job->projectId));
 
         } catch (JobNotFound | ProjectNotFound) {
             throw $this->createNotFoundException();
