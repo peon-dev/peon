@@ -8,13 +8,13 @@ use Doctrine\DBAL\Connection;
 use Peon\Domain\Cookbook\Recipe;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Project\Value\ProjectId;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideProjectReadRecipes
 {
     public function __construct(
         private Connection $connection,
-        private ArrayToValueObjectHydrator $hydrator,
+        private ObjectHydrator $hydrator,
         private RecipesCollection $recipesCollection,
     ) {}
 

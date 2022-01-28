@@ -8,13 +8,13 @@ use Doctrine\DBAL\Connection;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Ui\ReadModel\Dashboard\ReadJob;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadJobById // TODO: test
 {
     public function __construct(
         private Connection $connection,
-        private ArrayToValueObjectHydrator $hydrator,
+        private ObjectHydrator $hydrator,
     ) {}
 
 
