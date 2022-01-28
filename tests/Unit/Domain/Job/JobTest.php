@@ -148,20 +148,6 @@ final class JobTest extends TestCase
     }
 
 
-    public function testIndexingProcessesStartsFromOne(): void
-    {
-        $clock = FrozenClock::fromUTC();
-        $job = $this->createJob($clock);
-        $processResult = new ProcessResult('', 0, '', 0);
-
-        $job->addProcessResult($processResult);
-        $job->addProcessResult($processResult);
-
-        self::assertSame(1, $job->processes[0]?->order);
-        self::assertSame(2, $job->processes[1]?->order);
-    }
-
-
     private function createJob(FrozenClock $clock): Job
     {
         return new Job(

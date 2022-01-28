@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Domain\PhpApplication;
 
-use Peon\Domain\Job\Job;
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\Value\BuildConfiguration;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Tools\Composer\Composer;
@@ -19,11 +19,11 @@ class BuildApplication // TODO: better naming
     /**
      * @throws ProcessFailed
      */
-    public function build(Job $job, string $applicationDirectory, BuildConfiguration $configuration): void
+    public function build(JobId $jobId, string $applicationDirectory, BuildConfiguration $configuration): void
     {
         // TODO: build application using buildpacks instead
         if ($configuration->skipComposerInstall === false) {
-            $this->composer->install($job, $applicationDirectory);
+            $this->composer->install($jobId, $applicationDirectory);
         }
     }
 }

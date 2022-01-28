@@ -30,7 +30,6 @@ use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
-use Peon\Domain\Process\ProcessLogger;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
@@ -97,7 +96,6 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(Git::class);
     $services->set(Composer::class);
-    $services->set(ProcessLogger::class);
 
     $services->alias(ProvideBranchName::class, PeonProvideBranchName::class);
 

@@ -9,6 +9,6 @@ class ProcessResult
     public function __construct(
         public readonly int $exitCode,
         public readonly float $executionTime,
-        public readonly ProcessOutput $output,
+        public readonly string $output,
     ) {}
 }

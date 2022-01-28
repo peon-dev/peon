@@ -8,6 +8,5 @@ final class Commit
 {
     public function __construct(
         public readonly string $hash,
-    ) {
-    }
+    ) {}
 }

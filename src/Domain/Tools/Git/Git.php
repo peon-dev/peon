@@ -24,7 +24,7 @@ class Git
      */
     public function clone(JobId $jobId, string $directory, UriInterface $remoteUri): void
     {
-        $command = sprintf('clone %s .', (string) $remoteUri);
+        $command = sprintf('git clone %s .', (string) $remoteUri);
 
         $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
@@ -35,9 +35,9 @@ class Git
      */
     public function hasUncommittedChanges(JobId $jobId, string $directory): bool
     {
-        $output = $this->executeCommand->inDirectory($jobId, $directory, 'status --porcelain');
+        $output = $this->executeCommand->inDirectory($jobId, $directory, 'git status --porcelain');
 
-        return trim($output->toString()) !== '';
+        return trim($output) !== '';
     }
 
 
@@ -46,9 +46,9 @@ class Git
      */
     public function getCurrentBranch(JobId $jobId, string $directory): string
     {
-        $output = $this->executeCommand->inDirectory($jobId, $directory, 'rev-parse --abbrev-ref HEAD');
+        $output = $this->executeCommand->inDirectory($jobId, $directory, 'git rev-parse --abbrev-ref HEAD');
 
-        return trim($output->toString());
+        return trim($output);
     }
 
 
@@ -57,7 +57,7 @@ class Git
      */
     public function checkoutNewBranch(JobId $jobId, string $directory, string $branch): void
     {
-        $command = sprintf('checkout -b %s', $branch);
+        $command = sprintf('git checkout -b %s', $branch);
 
         $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
@@ -69,11 +69,11 @@ class Git
     public function configureUser(JobId $jobId, string $directory): void
     {
         $this->executeCommand->inDirectory($jobId, $directory, sprintf(
-            'config user.name %s', self::USER_NAME
+            'git config user.name %s', self::USER_NAME
         ));
 
         $this->executeCommand->inDirectory($jobId, $directory, sprintf(
-            'config user.email %s', self::USER_EMAIL
+            'git config user.email %s', self::USER_EMAIL
         ));
     }
 
@@ -84,13 +84,13 @@ class Git
     public function remoteBranchExists(JobId $jobId, string $directory, string $branch): bool
     {
         $command = sprintf(
-            'ls-remote --heads origin %s',
+            'git ls-remote --heads origin %s',
             $branch
         );
 
         $output = $this->executeCommand->inDirectory($jobId, $directory, $command);
 
-        return trim($output->toString()) !== '';
+        return trim($output) !== '';
     }
 
 
@@ -99,7 +99,7 @@ class Git
      */
     public function rebaseBranchAgainstUpstream(JobId $jobId, string $directory, string $mainBranch): void
     {
-        $command = sprintf('rebase origin/%s', $mainBranch);
+        $command = sprintf('git rebase origin/%s', $mainBranch);
 
         $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
@@ -110,7 +110,7 @@ class Git
      */
     public function forcePushWithLease(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($jobId, $directory, 'push -u origin --all --force-with-lease');
+        $this->executeCommand->inDirectory($jobId, $directory, 'git push -u origin --all --force-with-lease');
     }
 
 
@@ -119,7 +119,7 @@ class Git
      */
     public function abortRebase(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($jobId, $directory, 'rebase --abort');
+        $this->executeCommand->inDirectory($jobId, $directory, 'git rebase --abort');
     }
 
 
@@ -129,7 +129,7 @@ class Git
     public function resetCurrentBranch(JobId $jobId, string $directory, string $mainBranch): void
     {
         $command = sprintf(
-            'reset --hard %s',
+            'git reset --hard %s',
             $mainBranch
         );
 
@@ -142,10 +142,10 @@ class Git
      */
     public function commit(JobId $jobId, string $directory, string $commitMessage): void
     {
-        $this->executeCommand->inDirectory($jobId, $directory, 'add .');
+        $this->executeCommand->inDirectory($jobId, $directory, 'git add .');
 
         $commitCommand = sprintf(
-            'commit --author="%s <%s>" -m "%s"',
+            'git commit --author="%s <%s>" -m "%s"',
             self::USER_NAME,
             self::USER_EMAIL,
             $commitMessage,
@@ -161,11 +161,11 @@ class Git
      */
     public function getChangedFilesSinceCommit(JobId $jobId, string $directory, string $commitHash): array
     {
-        $command = sprintf('diff --name-only --diff-filter=d %s origin/HEAD', $commitHash);
+        $command = sprintf('git diff --name-only --diff-filter=d %s origin/HEAD', $commitHash);
 
         $output = $this->executeCommand->inDirectory($jobId, $directory, $command);
 
-        $files = preg_split("/\r\n|\n|\r/", trim($output->toString()), flags: PREG_SPLIT_NO_EMPTY);
+        $files = preg_split("/\r\n|\n|\r/", trim($output), flags: PREG_SPLIT_NO_EMPTY);
 
         if (!is_array($files)) {
             throw new ProcessFailed();
@@ -180,7 +180,7 @@ class Git
      */
     public function trackRemoteBranch(JobId $jobId, string $directory, string $branch): void
     {
-        $command = sprintf('branch --set-upstream-to origin/%s', $branch);
+        $command = sprintf('git branch --set-upstream-to origin/%s', $branch);
 
         $this->executeCommand->inDirectory($jobId, $directory, $command);
     }
@@ -191,6 +191,6 @@ class Git
      */
     public function pull(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($jobId, $directory, 'pull --rebase');
+        $this->executeCommand->inDirectory($jobId, $directory, 'git pull --rebase');
     }
 }

@@ -15,7 +15,6 @@ use Peon\Domain\Job\Exception\JobExecutionFailed;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\Job;
 use Peon\Domain\Job\JobsCollection;
-use Peon\Domain\Job\RunJobCommands;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\Job\Value\JobId;
@@ -23,14 +22,12 @@ use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
 use Peon\Domain\PhpApplication\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
-use Peon\Domain\Process\ProcessLogger;
+use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
-use Peon\Domain\Tools\Composer\Exception\ComposerCommandFailed;
-use Peon\Domain\Tools\Git\Exception\GitCommandFailed;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\UseCase\ExecuteJob;
 use Peon\UseCase\ExecuteJobHandler;
@@ -56,10 +53,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(PrepareApplicationGitRepository::class),
             $this->createMock(BuildApplication::class),
             $this->createMock(Clock::class),
-            $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
             $this->createMock(EventBus::class),
+            $this->createMock(ExecuteCommand::class),
         );
 
         $this->expectException(JobNotFound::class);
@@ -99,10 +96,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $this->createMock(PrepareApplicationGitRepository::class),
             $this->createMock(BuildApplication::class),
             $this->createMock(Clock::class),
-            $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $handler->__invoke($command);
@@ -131,7 +128,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
             ->method('prepare')
-            ->willThrowException(new GitCommandFailed());
+            ->willThrowException(new ProcessFailed());
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
@@ -144,10 +141,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $this->createMock(BuildApplication::class),
             $this->createMock(Clock::class),
-            $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -177,12 +174,12 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new TemporaryApplication('', '', ''));
+            ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())
             ->method('build')
-            ->willThrowException(new ComposerCommandFailed());
+            ->willThrowException(new ProcessFailed());
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
@@ -195,10 +192,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $buildApplication,
             $this->createMock(Clock::class),
-            $this->createMock(RunJobCommands::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -228,13 +225,13 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new TemporaryApplication('', '', ''));
+            ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
 
-        $runJobCommands = $this->createMock(RunJobCommands::class);
-        $runJobCommands->expects(self::once())
-            ->method('run')
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
             ->willThrowException(new ProcessFailed());
 
         $eventBusSpy = $this->createMock(EventBus::class);
@@ -248,10 +245,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $buildApplication,
             $this->createMock(Clock::class),
-            $runJobCommands,
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
             $eventBusSpy,
+            $executeCommand,
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -281,7 +278,7 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new TemporaryApplication('', '', ''));
+            ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
 
@@ -301,10 +298,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $buildApplication,
             $this->createMock(Clock::class),
-            $this->createMock(RunJobCommands::class),
             $runJobRecipe,
             $this->createMock(UpdateMergeRequest::class),
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -334,10 +331,9 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->method('prepare')
-            ->willReturn(new TemporaryApplication('', '', ''));
+            ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
-        $runJobCommands = $this->createMock(RunJobCommands::class);
 
         $updateMergeRequest = $this->createMock(UpdateMergeRequest::class);
         $updateMergeRequest->expects(self::once())
@@ -355,10 +351,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $buildApplication,
             $this->createMock(Clock::class),
-            $runJobCommands,
             $this->createMock(RunJobRecipe::class),
             $updateMergeRequest,
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $this->expectException(JobExecutionFailed::class);
@@ -390,15 +386,11 @@ final class ExecuteJobHandlerTest extends TestCase
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
             ->method('prepare')
-            ->willReturn(new TemporaryApplication('', '', ''));
+            ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())
             ->method('build');
-
-        $runJobCommands = $this->createMock(RunJobCommands::class);
-        $runJobCommands->expects(self::once())
-            ->method('run');
 
         $updateMergeRequest = $this->createMock(UpdateMergeRequest::class);
         $updateMergeRequest->expects(self::once())
@@ -420,10 +412,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $buildApplication,
             $this->createMock(Clock::class),
-            $runJobCommands,
             $runJobRecipe,
             $updateMergeRequest,
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $handler->__invoke($command);
@@ -453,15 +445,11 @@ final class ExecuteJobHandlerTest extends TestCase
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
             ->method('prepare')
-            ->willReturn(new TemporaryApplication('', '', ''));
+            ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())
             ->method('build');
-
-        $runJobCommands = $this->createMock(RunJobCommands::class);
-        $runJobCommands->expects(self::never())
-            ->method('run');
 
         $updateMergeRequest = $this->createMock(UpdateMergeRequest::class);
         $updateMergeRequest->expects(self::once())
@@ -483,10 +471,10 @@ final class ExecuteJobHandlerTest extends TestCase
             $prepareApplicationGitRepository,
             $buildApplication,
             $this->createMock(Clock::class),
-            $this->createMock(RunJobCommands::class),
             $runJobRecipe,
             $updateMergeRequest,
             $eventBusSpy,
+            $this->createMock(ExecuteCommand::class),
         );
 
         $handler->__invoke($command);

@@ -21,14 +21,14 @@ class Process
     public int|null $exitCode = null;
 
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
-    public ProcessOutput|null $output = null;
+    public string|null $output = null;
 
 
     public function __construct(
         public readonly ProcessId $processId,
         public readonly JobId $jobId,
         public readonly int $sequence,
-        public readonly Command $command,
+        public readonly string $command,
         public readonly int $timeoutSeconds,
     ) {}
 
@@ -39,7 +39,7 @@ class Process
     public function runInDirectory(string $directory, RunProcess $runProcess): ProcessResult
     {
         try {
-            $result = $runProcess->inDirectory($directory, $this);
+            $result = $runProcess->inDirectory($directory, $this->command, $this->timeoutSeconds);
             $this->exitCode = $result->exitCode;
             $this->executionTime = $result->executionTime;
             $this->output = $result->output;

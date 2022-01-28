@@ -88,7 +88,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
-        self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        // TODO: assert processes for job exists
         self::assertNotNull($job->mergeRequest);
     }
 
@@ -113,7 +113,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
-        self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        // TODO: assert processes for job exists
         self::assertNotNull($job->mergeRequest);
     }
 
@@ -168,7 +168,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasFailed($job);
-        self::assertNotEmpty($job->processes, 'Job should contain processes!');
+        // TODO: assert processes for job exists
         // TODO there should be exact count of processes
         self::assertInstanceOf(JobExecutionFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);

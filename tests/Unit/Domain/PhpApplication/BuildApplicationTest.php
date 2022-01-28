@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Unit\Domain\PhpApplication;
 
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\BuildApplication;
 use Peon\Domain\PhpApplication\Value\BuildConfiguration;
 use Peon\Domain\Tools\Composer\Composer;
@@ -12,22 +13,25 @@ class BuildApplicationTest extends TestCase
 {
     public function testComposerWillBeInstalled(): void
     {
+        $jobId = new JobId('');
         $workingDirectory = '/';
+        $configuration = BuildConfiguration::createDefault();
+
         $composer = $this->createMock(Composer::class);
         $composer->expects(self::once())
             ->method('install')
-            ->with($workingDirectory);
-
-        $configuration = new BuildConfiguration(false);
+            ->with($jobId, $workingDirectory);
 
         $buildApplication = new BuildApplication($composer);
-        $buildApplication->build($workingDirectory, $configuration);
+        $buildApplication->build($jobId, $workingDirectory, $configuration);
     }
 
 
     public function testShouldSkipComposerInstallWhenConfiguredSo(): void
     {
+        $jobId = new JobId('');
         $workingDirectory = '/';
+
         $composer = $this->createMock(Composer::class);
         $composer->expects(self::never())
             ->method('install');
@@ -35,6 +39,6 @@ class BuildApplicationTest extends TestCase
         $configuration = new BuildConfiguration(true);
 
         $buildApplication = new BuildApplication($composer);
-        $buildApplication->build($workingDirectory, $configuration);
+        $buildApplication->build($jobId, $workingDirectory, $configuration);
     }
 }

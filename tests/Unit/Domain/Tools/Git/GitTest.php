@@ -5,55 +5,49 @@ namespace Peon\Tests\Unit\Domain\Tools\Git;
 
 use Generator;
 use Nyholm\Psr7\Uri;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Tools\Git\Git;
-use Peon\Domain\Tools\Git\GitBinary;
-use Peon\Domain\Process\ProcessLogger;
-use Peon\Domain\Process\Value\ProcessResult;
 use PHPUnit\Framework\TestCase;
 
 class GitTest extends TestCase
 {
-    private ProcessLogger $logger;
+    private JobId $jobId;
 
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->logger = new ProcessLogger();
+        $this->jobId = new JobId('');
     }
 
 
     public function testConfigureUser(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
-
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::exactly(2))
-            ->method('executeCommand')
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::exactly(2))
+            ->method('inDirectory')
             ->withConsecutive(
-                ['/', 'config user.name Peon'],
-                ['/', 'config user.email peon@peon.dev'],
-            )
-            ->willReturn($processResult);
+                [$this->jobId, '/', 'git config user.name Peon'],
+                [$this->jobId, '/', 'git config user.email peon@peon.dev'],
+            );
 
-        $git = new Git($gitBinary, $this->logger);
-        $git->configureUser('/');
+        $git = new Git($executeCommand);
+        $git->configureUser($this->jobId, '/');
     }
 
 
     public function testGetCurrentBranch(): void
     {
-        $processResult = new ProcessResult('', 0, 'main', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git rev-parse --abbrev-ref HEAD')
+            ->willReturn('main');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'rev-parse --abbrev-ref HEAD')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $currentBranch = $git->getCurrentBranch('/');
+        $git = new Git($executeCommand);
+        $currentBranch = $git->getCurrentBranch($this->jobId, '/');
 
         self::assertSame('main', $currentBranch);
     }
@@ -62,18 +56,16 @@ class GitTest extends TestCase
     /**
      * @dataProvider provideTestHasUncommittedChangesData
      */
-    public function testHasUncommittedChanges(string $commandOutput, bool $expected): void
+    public function testHasUncommittedChanges(string $processOutput, bool $expected): void
     {
-        $processResult = new ProcessResult('', 0, $commandOutput, 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git status --porcelain')
+            ->willReturn($processOutput);
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'status --porcelain')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $hasUncommittedChanges = $git->hasUncommittedChanges('/');
+        $git = new Git($executeCommand);
+        $hasUncommittedChanges = $git->hasUncommittedChanges($this->jobId, '/');
 
         self::assertSame($expected, $hasUncommittedChanges);
     }
@@ -99,49 +91,42 @@ class GitTest extends TestCase
     public function testClone(): void
     {
         $remoteUri = new Uri('https://peon.dev');
-        $processResult = new ProcessResult('', 0, '', 0);
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'clone https://peon.dev .')
-            ->willReturn($processResult);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git clone https://peon.dev .');
 
-        $git = new Git($gitBinary, $this->logger);
-        $git->clone('/', $remoteUri);
+        $git = new Git($executeCommand);
+        $git->clone($this->jobId, '/', $remoteUri);
     }
 
 
     public function testCheckoutNewBranch(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git checkout -b peon');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'checkout -b peon')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->checkoutNewBranch('/', 'peon');
+        $git = new Git($executeCommand);
+        $git->checkoutNewBranch($this->jobId, '/', 'peon');
     }
 
 
     /**
      * @dataProvider provideTestRemoteBranchExistsData
      */
-    public function testRemoteBranchExists(string $commandOutput, bool $expected): void
+    public function testRemoteBranchExists(string $processOutput, bool $expected): void
     {
-        $processResult = new ProcessResult('', 0, $commandOutput, 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git ls-remote --heads origin peon')
+            ->willReturn($processOutput);
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'ls-remote --heads origin peon')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $remoteBranchExists = $git->remoteBranchExists('/', 'peon');
+        $git = new Git($executeCommand);
+        $remoteBranchExists = $git->remoteBranchExists($this->jobId, '/', 'peon');
 
         self::assertSame($expected, $remoteBranchExists);
     }
@@ -166,109 +151,88 @@ class GitTest extends TestCase
 
     public function testTrackRemoteBranch(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git branch --set-upstream-to origin/peon');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'branch --set-upstream-to origin/peon')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->trackRemoteBranch('/', 'peon');
+        $git = new Git($executeCommand);
+        $git->trackRemoteBranch($this->jobId, '/', 'peon');
     }
 
 
     public function testRebaseBranchAgainstUpstream(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git rebase origin/main');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'rebase origin/main')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->rebaseBranchAgainstUpstream('/', 'main');
+        $git = new Git($executeCommand);
+        $git->rebaseBranchAgainstUpstream($this->jobId, '/', 'main');
     }
 
 
     public function testAbortRebase(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git rebase --abort');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'rebase --abort')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->abortRebase('/');
+        $git = new Git($executeCommand);
+        $git->abortRebase($this->jobId, '/');
     }
 
 
     public function testForcePushWithLease(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git push -u origin --all --force-with-lease');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'push -u origin --all --force-with-lease')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->forcePushWithLease('/');
+        $git = new Git($executeCommand);
+        $git->forcePushWithLease($this->jobId, '/');
     }
 
 
     public function testResetCurrentBranch(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git reset --hard main');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'reset --hard main')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->resetCurrentBranch('/', 'main');
+        $git = new Git($executeCommand);
+        $git->resetCurrentBranch($this->jobId, '/', 'main');
     }
 
 
     public function testCommit(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
-
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::exactly(2))
-            ->method('executeCommand')
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::exactly(2))
+            ->method('inDirectory')
             ->withConsecutive(
-                ['/', 'add .'],
-                ['/', 'commit --author="Peon <peon@peon.dev>" -m "Message"'],
-            )
-            ->willReturn($processResult);
+                [$this->jobId, '/', 'git add .'],
+                [$this->jobId, '/', 'git commit --author="Peon <peon@peon.dev>" -m "Message"'],
+            );
 
-        $git = new Git($gitBinary, $this->logger);
-        $git->commit('/', 'Message');
+        $git = new Git($executeCommand);
+        $git->commit($this->jobId, '/', 'Message');
     }
 
 
     public function testPull(): void
     {
-        $processResult = new ProcessResult('', 0, '', 0);
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git pull --rebase');
 
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
-            ->with('/', 'pull --rebase')
-            ->willReturn($processResult);
-
-        $git = new Git($gitBinary, $this->logger);
-        $git->pull('/');
+        $git = new Git($executeCommand);
+        $git->pull($this->jobId, '/');
     }
 
 
@@ -276,20 +240,18 @@ class GitTest extends TestCase
      * @dataProvider provideTestGetChangedFilesSinceCommitData
      * @param array<string> $expectedChangedFiles
      */
-    public function testGetChangedFilesSinceCommit(string $commandOutput, array $expectedChangedFiles): void
+    public function testGetChangedFilesSinceCommit(string $processOutput, array $expectedChangedFiles): void
     {
-        $processResult = new ProcessResult('', 0, $commandOutput, 0);
-
-        $gitBinary = $this->createMock(GitBinary::class);
-        $gitBinary->expects(self::once())
-            ->method('executeCommand')
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
             ->with(
-                '/', 'diff --name-only --diff-filter=d hash origin/HEAD'
+                $this->jobId, '/', 'git diff --name-only --diff-filter=d hash origin/HEAD'
             )
-            ->willReturn($processResult);
+            ->willReturn($processOutput);
 
-        $git = new Git($gitBinary, $this->logger);
-        $changedFiles = $git->getChangedFilesSinceCommit('/', 'hash');
+        $git = new Git($executeCommand);
+        $changedFiles = $git->getChangedFilesSinceCommit($this->jobId, '/', 'hash');
 
         self::assertSame($expectedChangedFiles, $changedFiles);
     }
@@ -316,6 +278,4 @@ file2.txt',
             ['file1.txt', 'file2.txt']
         ];
     }
-
-    // TODO: add tests covering situations - logger logs
 }

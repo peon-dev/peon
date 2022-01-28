@@ -83,14 +83,6 @@ final class DataFixtures extends Fixture
         $job1->succeeds($job1Clock, $mergeRequest);
 
         foreach ($task->commands as $command) {
-            $job1->addProcessResult(
-                new ProcessResult(
-                    $command,
-                    0,
-                    'output',
-                    1
-                )
-            );
         }
 
         $manager->persist($job1);
@@ -108,14 +100,6 @@ final class DataFixtures extends Fixture
         $job2->fails($job2Clock, $mergeRequest);
 
         foreach ($task->commands as $command) {
-            $job2->addProcessResult(
-                new ProcessResult(
-                    $command,
-                    1,
-                    'output',
-                    1
-                )
-            );
         }
 
         $manager->persist($job2);

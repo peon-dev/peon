@@ -14,6 +14,6 @@
         <field name="succeededAt" type="datetime_immutable" nullable="true" />
         <field name="failedAt" type="datetime_immutable" nullable="true" />
         <field name="commands" type="json" nullable="true" />
-        <embedded name="mergeRequest" class="Peon\Domain\GitProvider\Value\MergeRequest" />
+        <field name="mergeRequest" type="merge_request" nullable="true" />
     </entity>
 </doctrine-mapping>
