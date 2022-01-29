@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadJobs
 {
     public function __construct(
         private Connection $connection,
-        private ArrayToValueObjectHydrator $hydrator,
+        private ObjectHydrator $hydrator,
     ) {}
 
 
@@ -22,10 +22,18 @@ final class ProvideReadJobs
     {
         $sql = <<<SQL
 SELECT 
-    job.job_id, job.project_id, job.task_id, job.enabled_recipe->>'recipe_name' AS recipe_name, job.title, job.scheduled_at, job.started_at, job.succeeded_at, job.failed_at,
-    job.merge_request_url,
-    project.name as project_name,
-    SUM(job_process_result.execution_time) as execution_time
+    job.job_id AS "jobId",
+    job.project_id AS "projectId",
+    job.task_id AS "taskId",
+    job.enabled_recipe->>'recipe_name' AS "recipeName",
+    job.title,
+    job.scheduled_at AS "scheduledAt",
+    job.started_at AS "startedAt",
+    job.succeeded_at AS "succeededAt",
+    job.failed_at AS "failedAt",
+    job.merge_request_url AS "mergeRequestUrl",
+    project.name AS "projectName",
+    SUM(job_process_result.execution_time) AS "executionTime"
 FROM job
 JOIN project ON project.project_id = job.project_id
 LEFT JOIN task ON task.task_id = job.task_id
