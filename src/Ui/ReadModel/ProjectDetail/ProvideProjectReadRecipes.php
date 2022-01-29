@@ -8,13 +8,13 @@ use Doctrine\DBAL\Connection;
 use Peon\Domain\Cookbook\Recipe;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Project\Value\ProjectId;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideProjectReadRecipes
 {
     public function __construct(
         private Connection $connection,
-        private ArrayToValueObjectHydrator $hydrator,
+        private ObjectHydrator $hydrator,
         private RecipesCollection $recipesCollection,
     ) {}
 
@@ -26,25 +26,25 @@ final class ProvideProjectReadRecipes
     {
         $sql = <<<SQL
 SELECT
-	project.recipe_name,
-	job.job_id as last_job_id,
-	job.started_at as last_job_started_at,
-	job.failed_at as last_job_failed_at,
-	job.succeeded_at as last_job_succeeded_at,
-	job.scheduled_at as last_job_scheduled_at,
-	job.merge_request_url as last_job_merge_request_url
+    project.recipe_name AS "recipeName",
+    job.job_id AS "lastJobId",
+    job.started_at AS "lastJobStartedAt",
+    job.failed_at AS "lastJobFailedAt",
+    job.succeeded_at AS "lastJobSucceededAt",
+    job.scheduled_at AS "lastJobScheduledAt",
+    job.merge_request_url AS "lastJobMergeRequestUrl"
 FROM (
     SELECT project_id, json_array_elements(enabled_recipes)->>'recipe_name' as recipe_name
     FROM project
     WHERE project_id = :projectId
     ) project
 LEFT JOIN job ON job.enabled_recipe->>'recipe_name' = project.recipe_name AND job.scheduled_at = (
-	SELECT MAX(latest_job.scheduled_at)
-	FROM job latest_job
-	WHERE
-	    latest_job.enabled_recipe->>'recipe_name' = project.recipe_name
-	    AND latest_job.project_id = :projectId
-	GROUP BY latest_job.enabled_recipe->>'recipe_name'
+    SELECT MAX(latest_job.scheduled_at)
+    FROM job latest_job
+    WHERE
+        latest_job.enabled_recipe->>'recipe_name' = project.recipe_name
+        AND latest_job.project_id = :projectId
+    GROUP BY latest_job.enabled_recipe->>'recipe_name'
 )
 ORDER BY project.recipe_name
 SQL;
@@ -62,7 +62,7 @@ SQL;
 
         // Add recipe title to every row
         array_walk($rows, static function(mixed &$row) use ($recipes) {
-            $row['title'] = $recipes[$row['recipe_name']]->title;
+            $row['title'] = $recipes[$row['recipeName']]->title;
         });
 
         return $this->hydrator->hydrateArrays($rows, ReadRecipe::class);

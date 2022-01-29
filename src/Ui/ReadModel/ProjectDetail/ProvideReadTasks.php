@@ -6,13 +6,13 @@ namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Doctrine\DBAL\Connection;
 use Peon\Domain\Project\Value\ProjectId;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadTasks
 {
     public function __construct(
         private Connection $connection,
-        private ArrayToValueObjectHydrator $hydrator,
+        private ObjectHydrator $hydrator,
     ) {}
 
 
@@ -23,19 +23,22 @@ final class ProvideReadTasks
     {
         $sql = <<<SQL
 SELECT 
-	task.task_id, task.name, task.schedule, task.commands,
-	job.job_id as last_job_id, 
-	job.started_at as last_job_started_at, 
-	job.failed_at as last_job_failed_at, 
-	job.succeeded_at as last_job_succeeded_at,
-	job.scheduled_at as last_job_scheduled_at,
-	job.merge_request_url as last_job_merge_request_url
+    task.task_id AS "taskId",
+    task.name,
+    task.schedule,
+    task.commands,
+    job.job_id AS "lastJobId", 
+    job.started_at AS "lastJobStartedAt", 
+    job.failed_at AS "lastJobFailedAt", 
+    job.succeeded_at AS "lastJobSucceededAt",
+    job.scheduled_at AS "lastJobScheduledAt",
+    job.merge_request_url AS "lastJobMergeRequestUrl"
 FROM task
 LEFT JOIN job ON job.task_id = task.task_id AND job.scheduled_at = (
-	SELECT MAX(latest_job.scheduled_at)
-	FROM job latest_job
-	WHERE latest_job.task_id = task.task_id
-	GROUP BY latest_job.task_id
+    SELECT MAX(latest_job.scheduled_at)
+    FROM job latest_job
+    WHERE latest_job.task_id = task.task_id
+    GROUP BY latest_job.task_id
 )
 WHERE task.project_id = :projectId
 ORDER BY task.name
