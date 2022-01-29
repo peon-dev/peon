@@ -28,14 +28,15 @@
             </a>
         {% endif %}
 
-        <br>
+        {% if jobActionTime %}
+            <br>
+            <small class="text-muted">
+                <i class="far fa-clock"></i>
 
-        <small class="text-muted">
-            <i class="far fa-clock"></i>
-
-            <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ jobActionTime|date('j.n.Y H:i') }}">
-                {{ jobActionTime|ago }}
-            </span>
-        </small>
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ jobActionTime|date('j.n.Y H:i') }}">
+                        {{ jobActionTime|ago }}
+                    </span>
+            </small>
+        {% endif %}
     </span>
 {% endif %}
