@@ -22,7 +22,7 @@ final class ReadRecipe
         public string $title,
         private string $recipeName,
         public string|null $lastJobId,
-        public DateTimeImmutable $lastJobScheduledAt,
+        public DateTimeImmutable|null $lastJobScheduledAt,
         public DateTimeImmutable|null $lastJobStartedAt,
         public DateTimeImmutable|null $lastJobSucceededAt,
         public DateTimeImmutable|null $lastJobFailedAt,
@@ -44,7 +44,7 @@ final class ReadRecipe
     }
 
 
-    public function getLastJobActionTime(): DateTimeImmutable
+    public function getLastJobActionTime(): DateTimeImmutable|null
     {
         return $this->lastJobFailedAt
             ?? $this->lastJobSucceededAt

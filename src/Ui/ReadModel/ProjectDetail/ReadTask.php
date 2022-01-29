@@ -24,7 +24,7 @@ final class ReadTask
         public string|null $schedule,
         public string $commands,
         public string|null $lastJobId,
-        public DateTimeImmutable $lastJobScheduledAt,
+        public DateTimeImmutable|null $lastJobScheduledAt,
         public DateTimeImmutable|null $lastJobStartedAt,
         public DateTimeImmutable|null $lastJobSucceededAt,
         public DateTimeImmutable|null $lastJobFailedAt,
@@ -52,7 +52,7 @@ final class ReadTask
     }
 
 
-    public function getLastJobActionTime(): \DateTimeImmutable
+    public function getLastJobActionTime(): \DateTimeImmutable|null
     {
         return $this->lastJobFailedAt
             ?? $this->lastJobSucceededAt
