@@ -18,7 +18,7 @@ final class ReadJob
         public string $title,
         public string $projectId,
         public string $projectName,
-        public float|null $executionTime,
+        private float|null $executionTime,
         public string|null $taskId,
         public string|null $recipeName,
         public DateTimeImmutable $scheduledAt,
@@ -74,5 +74,11 @@ final class ReadJob
             ?? $this->succeededAt
             ?? $this->startedAt
             ?? $this->scheduledAt;
+    }
+
+
+    public function getExecutionTime()
+    {
+        return (int) $this->executionTime;
     }
 }
