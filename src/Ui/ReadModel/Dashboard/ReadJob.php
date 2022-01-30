@@ -5,36 +5,41 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use DateTimeImmutable;
-use JetBrains\PhpStorm\Immutable;
 use Peon\Ui\ReadModel\JobStatus;
 
-#[Immutable]
 final class ReadJob
 {
-    public string $status = JobStatus::SCHEDULED;
+    public readonly string $status;
+
+    public readonly int|null $executionTime;
 
     public function __construct(
-        public string $jobId,
-        public string $title,
-        public string $projectId,
-        public string $projectName,
-        private float|null $executionTime,
-        public string|null $taskId,
-        public string|null $recipeName,
-        public DateTimeImmutable $scheduledAt,
-        public DateTimeImmutable|null $startedAt,
-        public DateTimeImmutable|null $succeededAt,
-        public DateTimeImmutable|null $failedAt,
-        public string|null $mergeRequestUrl,
-        public string|null $output = null,
+        public readonly string $jobId,
+        public readonly string $title,
+        public readonly string $projectId,
+        public readonly string $projectName,
+        public readonly string|null $taskId,
+        public readonly string|null $recipeName,
+        public readonly DateTimeImmutable $scheduledAt,
+        public readonly DateTimeImmutable|null $startedAt,
+        public readonly DateTimeImmutable|null $succeededAt,
+        public readonly DateTimeImmutable|null $failedAt,
+        public readonly string|null $mergeRequestUrl,
+        float|null $executionTime,
+        public readonly string|null $output = null,
     ){
         if ($failedAt !== null) {
-            $this->status = JobStatus::FAILED;
-        } elseif ($this->succeededAt !== null) {
-            $this->status = JobStatus::SUCCEEDED;
-        } elseif ($this->startedAt !== null) {
-            $this->status = JobStatus::IN_PROGRESS;
+            $status = JobStatus::FAILED;
+        } elseif ($succeededAt !== null) {
+            $status = JobStatus::SUCCEEDED;
+        } elseif ($startedAt !== null) {
+            $status = JobStatus::IN_PROGRESS;
+        } else {
+            $status = JobStatus::SCHEDULED;
         }
+
+        $this->status = $status;
+        $this->executionTime = $executionTime ? (int) $executionTime : null;
     }
 
 
@@ -74,11 +79,5 @@ final class ReadJob
             ?? $this->succeededAt
             ?? $this->startedAt
             ?? $this->scheduledAt;
-    }
-
-
-    public function getExecutionTime()
-    {
-        return (int) $this->executionTime;
     }
 }
