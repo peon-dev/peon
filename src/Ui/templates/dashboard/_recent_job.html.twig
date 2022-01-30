@@ -55,7 +55,7 @@
                 {% if job.executionTime >= 60 %}
                     {{ (job.executionTime / 60)|round(0, 'floor') }}m
                 {% endif %}
-                {{ job.executionTime % 60|round }}s
+                {{ job.executionTime % 60 }}s
             </small>
             <br>
         {% endif %}
