@@ -10,6 +10,7 @@ use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Ui\ReadModel\Job\ProvideReadJobById;
+use Peon\Ui\ReadModel\Process\ProvideReadProcessesByJobId;
 use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,7 @@ final class JobDetailController extends AbstractController
     public function __construct(
         private ProvideReadProjectDetail $provideReadProjectDetail,
         private ProvideReadJobById $provideReadJobById,
+        private ProvideReadProcessesByJobId $provideReadProcessesByJobId,
     ) {}
 
 
@@ -28,6 +30,7 @@ final class JobDetailController extends AbstractController
     {
         try {
             $job = $this->provideReadJobById->provide(new JobId($jobId));
+            $processes = $this->provideReadProcessesByJobId->provide(new JobId($jobId));
             $project = $this->provideReadProjectDetail->provide(new ProjectId($job->projectId));
 
         } catch (JobNotFound | ProjectNotFound) {
@@ -36,6 +39,7 @@ final class JobDetailController extends AbstractController
 
         return $this->render('job_detail.html.twig', [
             'activeJob' => $job,
+            'processes' => $processes,
             'activeProject' => $project,
         ]);
     }
