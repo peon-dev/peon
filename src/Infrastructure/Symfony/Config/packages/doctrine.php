@@ -7,6 +7,7 @@ use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineCronExpressionType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipeType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineJobIdType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineMergeRequestType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineProcessIdType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineProjectIdType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNameType;
@@ -27,6 +28,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 DoctrineEnabledRecipeType::NAME => DoctrineEnabledRecipeType::class,
                 DoctrineBuildConfigurationType::NAME => DoctrineBuildConfigurationType::class,
                 DoctrineMergeRequestType::NAME => DoctrineMergeRequestType::class,
+                DoctrineProcessIdType::NAME => DoctrineProcessIdType::class,
             ],
         ],
         'orm' => [
