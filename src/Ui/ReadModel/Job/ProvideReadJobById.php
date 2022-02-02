@@ -36,13 +36,13 @@ SELECT
     job.failed_at AS "failedAt",
     job.merge_request->>'url' AS "mergeRequestUrl",
     project.name AS "projectName",
-    SUM(job.execution_time) AS "executionTime"
+    SUM(process.execution_time) AS "executionTime"
 FROM job
 JOIN project ON project.project_id = job.project_id
 LEFT JOIN task ON task.task_id = job.task_id
-LEFT JOIN job ON job.job_id = job.job_id
+LEFT JOIN process ON job.job_id = process.job_id
 WHERE job.job_id = ?
-GROUP BY job.job_id, job.job_id, project.name, job.scheduled_at
+GROUP BY job.job_id, process.job_id, project.name, job.scheduled_at
 SQL;
 
         $resultSet = $this->connection->executeQuery($sql, [$jobId]);

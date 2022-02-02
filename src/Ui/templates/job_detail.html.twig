@@ -69,23 +69,23 @@
         </div>
     {% endif %}
 
-    {% for process in activeJob.processes %}
+    {% for process in processes %}
         {# @var process \Peon\Domain\Process\JobProcess #}
         <div style="margin: 1.5em 0;color: #fff;">
-            {% if process.result.output %}
+            {% if process.output %}
                 <a style="color: #fff;" data-bs-toggle="collapse" href="#process-{{ loop.index }}" role="button" aria-expanded="false" aria-controls="process-{{ loop.index }}">
             {% endif %}
                 <code style="color: #fff;">
-                    <b>{{ process.result.command }}</b>
+                    <b>{{ process.command }}</b>
                 </code>
-                <span>({{ process.result.executionTime }}s)</span>
-            {% if process.result.output %}
+                <span>({{ process.executionTime }}s)</span>
+            {% if process.output %}
                 </a>
             {% endif %}
 
-            {% if process.result.output %}
+            {% if process.output %}
             <div class="collapse show" id="process-{{ loop.index }}">
-                <pre style="margin: 0;">{{ process.result.output }}</pre>
+                <pre style="margin: 0;">{{ process.output }}</pre>
             </div>
             {% endif %}
         </div>

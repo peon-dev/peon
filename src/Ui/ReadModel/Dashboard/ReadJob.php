@@ -26,7 +26,6 @@ final class ReadJob
         public readonly DateTimeImmutable|null $failedAt,
         public readonly string|null $mergeRequestUrl,
         float|null $executionTime,
-        public readonly string|null $output = null,
     ){
         if ($failedAt !== null) {
             $status = JobStatus::FAILED;
