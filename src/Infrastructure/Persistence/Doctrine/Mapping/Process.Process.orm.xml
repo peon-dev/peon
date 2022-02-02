@@ -1,0 +1,15 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Peon\Domain\Process\Process">
+        <id name="processId" type="process_id" />
+        <field name="jobId" type="job_id" />
+        <field name="sequence" type="integer" />
+        <field name="command" type="text" />
+        <field name="timeoutSeconds" type="integer" />
+        <field name="executionTime" type="float" nullable="true" />
+        <field name="exitCode" type="integer" nullable="true" />
+        <field name="output" nullable="true" />
+    </entity>
+</doctrine-mapping>
