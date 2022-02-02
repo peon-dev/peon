@@ -32,7 +32,7 @@ SELECT
     job.failed_at AS "lastJobFailedAt", 
     job.succeeded_at AS "lastJobSucceededAt",
     job.scheduled_at AS "lastJobScheduledAt",
-    job.merge_request_url AS "lastJobMergeRequestUrl"
+    job.merge_request->>'url' AS "lastJobMergeRequestUrl"
 FROM task
 LEFT JOIN job ON job.task_id = task.task_id AND job.scheduled_at = (
     SELECT MAX(latest_job.scheduled_at)

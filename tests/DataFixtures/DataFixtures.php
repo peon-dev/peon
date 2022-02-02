@@ -13,6 +13,10 @@ use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\Job\Job;
 use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\Process;
+use Peon\Domain\Process\RunProcess;
+use Peon\Domain\Process\Value\ProcessId;
 use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\ProjectId;
@@ -21,6 +25,7 @@ use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
+use Ramsey\Uuid\Uuid;
 
 final class DataFixtures extends Fixture
 {
@@ -82,7 +87,9 @@ final class DataFixtures extends Fixture
         $job1->start($job1Clock);
         $job1->succeeds($job1Clock, $mergeRequest);
 
-        foreach ($task->commands as $command) {
+        foreach ($task->commands as $sequence => $command) {
+            $process = $this->getProcess($job1Id, $sequence, $command);
+            $manager->persist($process);
         }
 
         $manager->persist($job1);
@@ -99,7 +106,9 @@ final class DataFixtures extends Fixture
         $job2->start($job2Clock);
         $job2->fails($job2Clock, $mergeRequest);
 
-        foreach ($task->commands as $command) {
+        foreach ($task->commands as $sequence => $command) {
+            $process = $this->getProcess($job2Id, $sequence, $command);
+            $manager->persist($process);
         }
 
         $manager->persist($job2);
@@ -116,7 +125,7 @@ final class DataFixtures extends Fixture
         );
 
         $job3->start($job3Clock);
-        $job3->succeeds($job3Clock, $mergeRequest);
+        $job3->succeeds($job3Clock);
 
         $manager->persist($job3);
 
@@ -130,5 +139,29 @@ final class DataFixtures extends Fixture
             self::REMOTE_REPOSITORY_URI,
             GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
         );
+    }
+
+    private function getProcess(JobId $job, int $sequence, string $command): Process
+    {
+        $process = new Process(
+            new ProcessId(Uuid::uuid4()->toString()),
+            $job,
+            $sequence,
+            $command,
+            60
+        );
+
+        $process->runInDirectory('/', new class implements RunProcess {
+            public function inDirectory(string $workingDirectory, string $command, int $timeoutSeconds): ProcessResult
+            {
+                return new ProcessResult(
+                    0,
+                    1.5,
+                    'output',
+                );
+            }
+        });
+
+        return $process;
     }
 }
