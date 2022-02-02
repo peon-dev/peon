@@ -31,14 +31,14 @@ SELECT
     job.started_at AS "startedAt",
     job.succeeded_at AS "succeededAt",
     job.failed_at AS "failedAt",
-    job.merge_request_url AS "mergeRequestUrl",
+    job.merge_request->>'url' AS "mergeRequestUrl",
     project.name AS "projectName",
-    SUM(job_process_result.execution_time) AS "executionTime"
+    SUM(process.execution_time) AS "executionTime"
 FROM job
 JOIN project ON project.project_id = job.project_id
 LEFT JOIN task ON task.task_id = job.task_id
-LEFT JOIN job_process_result ON job.job_id = job_process_result.job_id
-GROUP BY job.job_id, job_process_result.job_id, project.name, job.scheduled_at
+LEFT JOIN process ON job.job_id = process.job_id
+GROUP BY job.job_id, process.job_id, project.name, job.scheduled_at
 ORDER BY job.scheduled_at DESC
 LIMIT ?
 SQL;

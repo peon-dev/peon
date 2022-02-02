@@ -42,6 +42,6 @@ class ProvideProjectReadRecipesTest extends KernelTestCase
         $recipe = $readRecipes[1];
         self::assertSame(RecipeName::UNUSED_PRIVATE_METHODS, $recipe->getRecipeName());
         self::assertNotNull($recipe->lastJobId);
-        self::assertNotNull($recipe->lastJobMergeRequestUrl);
+        self::assertNull($recipe->lastJobMergeRequestUrl);
     }
 }
