@@ -22,7 +22,7 @@ final class SymfonyProcessRunProcess implements RunProcess
     ): ProcessResult
     {
         try {
-            $process = Process::fromShellCommandline($command, $workingDirectory, timeout: $timeoutSeconds);
+            $process = Process::fromShellCommandline($command, $workingDirectory, ['SHELL_VERBOSITY' => 0], timeout: $timeoutSeconds);
             $process->mustRun();
         } catch (ProcessFailedException $processFailedException) {
             $processResult = $this->createProcessResultFromProcess($processFailedException->getProcess());
