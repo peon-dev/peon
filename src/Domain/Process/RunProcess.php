@@ -7,7 +7,6 @@ namespace Peon\Domain\Process;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\Value\ProcessResult;
 
-// ['SHELL_VERBOSITY' => 0]
 interface RunProcess
 {
     /**
