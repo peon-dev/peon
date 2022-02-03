@@ -6,6 +6,7 @@ namespace Peon\Tests\Unit\Domain\Tools\Rector;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
+use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Tools\Rector\Rector;
 use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 use PHPUnit\Framework\TestCase;
@@ -45,7 +46,7 @@ class RectorTest extends TestCase
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
             ->method('inDirectory')
-            ->willThrowException(new ProcessFailed());
+            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $rector = new Rector($executeCommand);
         $rector->process($jobId, $projectDirectory, new RectorProcessCommandConfiguration());

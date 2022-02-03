@@ -23,6 +23,7 @@ use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
 use Peon\Domain\PhpApplication\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
+use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
@@ -128,7 +129,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
             ->method('prepare')
-            ->willThrowException(new ProcessFailed());
+            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
@@ -179,7 +180,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $buildApplication = $this->createMock(BuildApplication::class);
         $buildApplication->expects(self::once())
             ->method('build')
-            ->willThrowException(new ProcessFailed());
+            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
@@ -232,7 +233,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
             ->method('inDirectory')
-            ->willThrowException(new ProcessFailed());
+            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
@@ -285,7 +286,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $runJobRecipe = $this->createMock(RunJobRecipe::class);
         $runJobRecipe->expects(self::once())
             ->method('run')
-            ->willThrowException(new ProcessFailed());
+            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
