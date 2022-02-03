@@ -28,7 +28,7 @@ class RunJobRecipeTest extends TestCase
         $composer = $this->createMock(Composer::class);
         $composer->expects(self::once())
             ->method('getPsr4Roots')
-            ->willReturn([]);
+            ->willReturn(['/some-path']);
 
         $git = $this->createMock(Git::class);
 

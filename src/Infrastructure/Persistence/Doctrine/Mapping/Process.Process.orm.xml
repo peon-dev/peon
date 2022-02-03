@@ -10,6 +10,6 @@
         <field name="timeoutSeconds" type="integer" />
         <field name="executionTime" type="float" nullable="true" />
         <field name="exitCode" type="integer" nullable="true" />
-        <field name="output" nullable="true" />
+        <field name="output" type="text" nullable="true" />
     </entity>
 </doctrine-mapping>
