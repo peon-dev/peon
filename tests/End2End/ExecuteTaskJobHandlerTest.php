@@ -20,6 +20,7 @@ use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
 use Peon\Infrastructure\GitLab\GitLab;
+use Peon\Ui\ReadModel\Process\ProvideReadProcessesByJobId;
 use Peon\UseCase\ExecuteJob;
 use Peon\UseCase\ExecuteJobHandler;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -38,6 +39,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
     private StatefulRandomPostfixProvideBranchName $branchNameProvider;
+    private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
 
 
     protected function setUp(): void
@@ -55,6 +57,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
         $this->jobsCollection = $container->get(JobsCollection::class);
         $this->projectsCollection = $container->get(ProjectsCollection::class);
         $this->clock = $container->get(Clock::class);
+        $this->provideReadProcessesByJobId = $container->get(ProvideReadProcessesByJobId::class);
 
         $gitLab = $container->get(GitLab::class);
         $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
@@ -88,7 +91,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
-        // TODO: assert processes for job exists
+        $this->assertJobProcessesExists($jobId);
         self::assertNotNull($job->mergeRequest);
     }
 
@@ -113,7 +116,7 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
-        // TODO: assert processes for job exists
+        $this->assertJobProcessesExists($jobId);
         self::assertNotNull($job->mergeRequest);
     }
 
@@ -164,16 +167,12 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
             // Just to capture
         }
 
-        // TODO: Find way how to assert that notification was dispatched
-
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasFailed($job);
-        // TODO: assert processes for job exists
-        // TODO there should be exact count of processes
+        $this->assertJobProcessesExists($jobId);
         self::assertInstanceOf(JobExecutionFailed::class, $exception);
         $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
         self::assertNull($job->mergeRequest);
-
     }
 
 
@@ -270,5 +269,13 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
     private function assertJobHasFailed(Job $job): void
     {
         self::assertNotNull($job->failedAt, 'Job should be failed!');
+    }
+
+
+    private function assertJobProcessesExists(JobId $jobId): void
+    {
+        $processes = $this->provideReadProcessesByJobId->provide($jobId);
+
+        self::assertNotEmpty($processes, 'No processes for job found!');
     }
 }

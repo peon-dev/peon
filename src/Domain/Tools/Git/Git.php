@@ -168,7 +168,7 @@ class Git
         $files = preg_split("/\r\n|\n|\r/", trim($output), flags: PREG_SPLIT_NO_EMPTY);
 
         if (!is_array($files)) {
-            throw new ProcessFailed();
+            return [];
         }
 
         return $files;

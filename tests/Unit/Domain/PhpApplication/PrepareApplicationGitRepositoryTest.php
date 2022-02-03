@@ -9,6 +9,7 @@ use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
 use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
 use PHPUnit\Framework\TestCase;
@@ -117,7 +118,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         $git->method('getCurrentBranch')
             ->willReturn('main');
         $git->method('rebaseBranchAgainstUpstream')
-            ->willThrowException(new ProcessFailed());
+            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $git->expects(self::once())
             ->method('abortRebase');

@@ -24,17 +24,14 @@ class RunJobRecipe
 
 
     /**
-     * @throws ProcessFailed
+     * @throws \RuntimeException
      */
     public function run(JobId $jobId, EnabledRecipe $enabledRecipe, string $workingDirectory): void
     {
+        $paths = $this->getPathsToProcess($jobId, $enabledRecipe, $workingDirectory);
 
-        try {
-            $paths = $this->getPathsToProcess($jobId, $enabledRecipe, $workingDirectory);
-
+        if (count($paths) > 0) {
             $this->runSimpleRectorProcessCommandWithConfiguration($jobId, $workingDirectory, $enabledRecipe->recipeName, $paths);
-        } catch (\Throwable $throwable) {
-            throw new ProcessFailed($throwable->getMessage(), previous: $throwable);
         }
     }
 
@@ -42,7 +39,7 @@ class RunJobRecipe
     /**
      * @param array<string> $paths
      *
-     * @throws \RuntimeException
+     * @throws ProcessFailed
      */
     private function runSimpleRectorProcessCommandWithConfiguration(
         JobId $jobId,
@@ -69,15 +66,16 @@ class RunJobRecipe
      */
     private function getPathsToProcess(JobId $jobId, EnabledRecipe $enabledRecipe, string $workingDirectory): array
     {
-        $paths = $this->composer->getPsr4Roots($workingDirectory);
-
-        if ($paths === null) {
-            throw new \RuntimeException('PSR-4 roots must be defined to run this recipe!');
-        }
-
         if ($enabledRecipe->baselineHash !== null) {
             // TODO: maybe files should be in PSR-4 roots?
             return $this->git->getChangedFilesSinceCommit($jobId, $workingDirectory, $enabledRecipe->baselineHash);
+        }
+
+        $paths = $this->composer->getPsr4Roots($workingDirectory);
+
+        if ($paths === null) {
+            // TODO: change runtime exception to something else
+            throw new \RuntimeException('PSR-4 roots must be defined to run this recipe!');
         }
 
         return $paths;
