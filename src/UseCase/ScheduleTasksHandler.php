@@ -8,8 +8,9 @@ use Exception;
 use Peon\Domain\Scheduler\GetTaskSchedules;
 use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 
-final class ScheduleTasksHandler
+final class ScheduleTasksHandler implements CommandHandlerInterface
 {
     public function __construct(
         private CommandBus $commandBus,
