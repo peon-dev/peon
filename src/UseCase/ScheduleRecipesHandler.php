@@ -7,8 +7,9 @@ namespace Peon\UseCase;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
 use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 
-final class ScheduleRecipesHandler
+final class ScheduleRecipesHandler implements CommandHandlerInterface
 {
     public function __construct(
         private CommandBus         $commandBus,
