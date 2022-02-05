@@ -49,6 +49,7 @@ class Process
             $result = $processFailed->result;
             $this->exitCode = $result->exitCode;
             $this->executionTime = $result->executionTime;
+            $this->output = $result->output;
 
             throw $processFailed;
         }
