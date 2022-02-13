@@ -27,7 +27,7 @@ class ExecuteCommand
     /**
      * @throws ProcessFailed
      */
-    public function inDirectory(JobId $jobId, string $workingDirectory, string $command, int $timeoutSeconds = 60): string
+    public function inDirectory(JobId $jobId, string $workingDirectory, string $command, int $timeoutSeconds = 300): string
     {
         // TODO: we will need env variables of project here
         // TODO: if job is canceled, should exit
