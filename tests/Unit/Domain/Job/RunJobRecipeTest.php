@@ -4,11 +4,10 @@ declare(strict_types=1);
 namespace Peon\Tests\Unit\Domain\Job;
 
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Job\GetPathsToProcess;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Project\Value\EnabledRecipe;
-use Peon\Domain\Tools\Composer\Composer;
-use Peon\Domain\Tools\Git\Git;
 use Peon\Domain\Tools\Rector\Rector;
 use PHPUnit\Framework\TestCase;
 
@@ -25,17 +24,14 @@ class RunJobRecipeTest extends TestCase
         $rector->expects(self::once())
             ->method('process');
 
-        $composer = $this->createMock(Composer::class);
-        $composer->expects(self::once())
-            ->method('getPsr4Roots')
+        $getPathsToProcess = $this->createMock(GetPathsToProcess::class);
+        $getPathsToProcess->expects(self::once())
+            ->method('forJob')
             ->willReturn(['/some-path']);
-
-        $git = $this->createMock(Git::class);
 
         $runJobRecipe = new RunJobRecipe(
             $rector,
-            $composer,
-            $git,
+            $getPathsToProcess,
         );
 
         $runJobRecipe->run($jobId, $enabledRecipe, '/');

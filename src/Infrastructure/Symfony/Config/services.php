@@ -11,6 +11,7 @@ use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\GitProvider\GitProvider;
+use Peon\Domain\Job\GetPathsToProcess;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
@@ -127,6 +128,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
     $services->set(SanitizeProcessCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(SanitizeProcessOutput::class); // TODO: think how to do it automatically, it is not interface
+    $services->set(GetPathsToProcess::class); // TODO: think how to do it automatically, it is not interface
 
     $services->set(ShouldSchedule::class); // TODO: think how to do it automatically, it is not interface
     $services->set(GetRecipeSchedules::class, DoctrineGetRecipeSchedules::class);
