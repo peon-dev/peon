@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Peon\Tests;
 
+use Nette\InvalidStateException;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
 use Nyholm\Psr7\Uri;
 use Psr\Http\Message\UriInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 final class TestingRemoteGitRepository
@@ -27,6 +29,10 @@ final class TestingRemoteGitRepository
     }
 
 
+    /**
+     * @throws ProcessFailedException
+     * @throws InvalidStateException
+     */
     public static function init(): self
     {
         $repository = new self();
@@ -45,6 +51,9 @@ final class TestingRemoteGitRepository
     }
 
 
+    /**
+     * @throws ProcessFailedException
+     */
     public function makeBranchBehindMain(string $branch): void
     {
         Process::fromShellCommandline(sprintf('git checkout %s', self::MAIN_BRANCH), $this->directory)->mustRun();
@@ -59,6 +68,9 @@ final class TestingRemoteGitRepository
     }
 
 
+    /**
+     * @throws ProcessFailedException
+     */
     public function makeBranchConflictAgainstMain(string $branch): void
     {
         Process::fromShellCommandline(sprintf('git checkout %s', self::MAIN_BRANCH), $this->directory)->mustRun();
