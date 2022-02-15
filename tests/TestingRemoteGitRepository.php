@@ -44,6 +44,9 @@ final class TestingRemoteGitRepository
         FileSystem::copy(__DIR__ . '/GitRepository', $repository->directory);
 
         Process::fromShellCommandline(sprintf('git init --initial-branch "%s"', self::MAIN_BRANCH), $repository->directory)->mustRun();
+        Process::fromShellCommandline(sprintf('git config user.name %s', 'Peon tester'), $repository->directory)->mustRun();
+        Process::fromShellCommandline(sprintf('git config user.email %s', 'tester@peon.dev'), $repository->directory)->mustRun();
+
         Process::fromShellCommandline('git add .',  $repository->directory)->mustRun();
         Process::fromShellCommandline('git commit --all --message "Init"', $repository->directory)->mustRun();
 

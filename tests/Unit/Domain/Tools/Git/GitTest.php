@@ -107,7 +107,7 @@ class GitTest extends TestCase
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
             ->method('inDirectory')
-            ->with($this->jobId, '/', 'git checkout -b peon');
+            ->with($this->jobId, '/', 'git switch --force-create peon');
 
         $git = new Git($executeCommand);
         $git->switchToBranch($this->jobId, '/', 'peon');
