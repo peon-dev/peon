@@ -20,7 +20,7 @@ final class TestingRemoteGitRepository
 
     public function __construct()
     {
-        $targetDirectory = __DIR__ . '/../var/git_repositories/Clone_' . Random::generate();
+        $targetDirectory = __DIR__ . '/../var/git_repositories/integration_test_fork_' . Random::generate();
 
         $this->directory = $targetDirectory;
         $this->uri = new Uri($this->directory);
@@ -38,7 +38,8 @@ final class TestingRemoteGitRepository
         FileSystem::copy(__DIR__ . '/GitRepository', $repository->directory);
 
         Process::fromShellCommandline(sprintf('git init --initial-branch "%s"', self::MAIN_BRANCH), $repository->directory)->mustRun();
-        Process::fromShellCommandline('git commit --all --allow-empty --message "Init"', $repository->directory)->mustRun();
+        Process::fromShellCommandline('git add .',  $repository->directory)->mustRun();
+        Process::fromShellCommandline('git commit --all --message "Init"', $repository->directory)->mustRun();
 
         return $repository;
     }
@@ -63,7 +64,7 @@ final class TestingRemoteGitRepository
         Process::fromShellCommandline(sprintf('git checkout %s', self::MAIN_BRANCH), $this->directory)->mustRun();
 
         $fileName = $this->directory . '/' . 'random_file_' . Random::generate();
-        FileSystem::write($fileName, 'Hi, im testing Peon!');
+        FileSystem::write($fileName, 'Hi, im testing Peon! With random seed: ' . Random::generate());
 
         Process::fromShellCommandline('git add .', $this->directory)->mustRun();
         Process::fromShellCommandline('git commit --all --message "Random file"', $this->directory)->mustRun();
@@ -71,7 +72,7 @@ final class TestingRemoteGitRepository
         Process::fromShellCommandline(sprintf('git branch --force %s HEAD~1', $branch), $this->directory)->mustRun();
         Process::fromShellCommandline(sprintf('git checkout %s', $branch), $this->directory)->mustRun();
 
-        FileSystem::write($fileName, 'Hi, im testing Peon!');
+        FileSystem::write($fileName, 'Hi, im testing Peon! With random seed: ' . Random::generate());
 
         Process::fromShellCommandline('git add .', $this->directory)->mustRun();
         Process::fromShellCommandline('git commit --all --message "Random file the other change"', $this->directory)->mustRun();
