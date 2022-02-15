@@ -33,7 +33,7 @@ class PrepareApplicationGitRepository // TODO: better naming
         $mainBranch = $this->git->getCurrentBranch($jobId, $applicationDirectory);
         $taskBranch = $this->provideBranchName->forTask($taskName);
 
-        $this->git->checkoutNewBranch($jobId, $applicationDirectory, $taskBranch);
+        $this->git->switchToBranch($jobId, $applicationDirectory, $taskBranch);
 
         if ($this->git->remoteBranchExists($jobId, $applicationDirectory, $taskBranch)) {
             $this->git->trackRemoteBranch($jobId, $applicationDirectory, $taskBranch);

@@ -36,7 +36,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->method('getCurrentBranch')
             ->willReturn('main');
         $git->expects(self::once())
-            ->method('checkoutNewBranch')
+            ->method('switchToBranch')
             ->with($this->jobId, '/', 'task');
         $git->expects(self::once())
             ->method('remoteBranchExists')

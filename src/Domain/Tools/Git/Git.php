@@ -55,9 +55,9 @@ class Git
     /**
      * @throws ProcessFailed
      */
-    public function checkoutNewBranch(JobId $jobId, string $directory, string $branch): void
+    public function switchToBranch(JobId $jobId, string $directory, string $branch): void
     {
-        $command = sprintf('git checkout -b %s', $branch);
+        $command = sprintf('git switch --force-create %s', $branch);
 
         $this->executeCommand->inDirectory($jobId, $directory, $command);
     }

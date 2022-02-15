@@ -102,7 +102,7 @@ class GitTest extends TestCase
     }
 
 
-    public function testCheckoutNewBranch(): void
+    public function testSwitchToBranch(): void
     {
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
@@ -110,7 +110,7 @@ class GitTest extends TestCase
             ->with($this->jobId, '/', 'git checkout -b peon');
 
         $git = new Git($executeCommand);
-        $git->checkoutNewBranch($this->jobId, '/', 'peon');
+        $git->switchToBranch($this->jobId, '/', 'peon');
     }
 
 
