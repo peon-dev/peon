@@ -190,7 +190,7 @@ class GitTest extends TestCase
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
             ->method('inDirectory')
-            ->with($this->jobId, '/', 'git push -u origin --force-with-lease');
+            ->with($this->jobId, '/', 'git push -u origin --force-with-lease HEAD');
 
         $git = new Git($executeCommand);
         $git->forcePushWithLease($this->jobId, '/');

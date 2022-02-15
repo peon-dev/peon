@@ -110,7 +110,7 @@ class Git
      */
     public function forcePushWithLease(JobId $jobId, string $directory): void
     {
-        $this->executeCommand->inDirectory($jobId, $directory, 'git push -u origin --force-with-lease');
+        $this->executeCommand->inDirectory($jobId, $directory, 'git push -u origin --force-with-lease HEAD');
     }
 
 
