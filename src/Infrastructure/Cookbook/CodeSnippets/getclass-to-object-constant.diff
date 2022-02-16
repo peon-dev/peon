@@ -1,0 +1,8 @@
+ class SomeClass
+ {
+     public function run($object)
+     {
+-        return get_class($object);
++        return $object::class;
+     }
+ }
