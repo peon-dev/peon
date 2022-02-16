@@ -36,6 +36,12 @@ final class StaticRecipesCollection implements RecipesCollection
             'Switch to match',
             file_get_contents(__DIR__ . '/CodeSnippets/switch-to-match.diff'), // TODO: delete, we do not really need this in domain
         );
+
+        $this->recipes[] = new Recipe(
+            RecipeName::OBJECT_MAGIC_CLASS_CONSTANT,
+            'Magic ::class constant for objects',
+            file_get_contents(__DIR__ . '/CodeSnippets/getclass-to-object-constant.diff'), // TODO: delete, we do not really need this in domain
+        );
     }
 
 
