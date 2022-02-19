@@ -67,10 +67,17 @@ class UpdateMergeRequest
                 $remoteGitRepository,
                 $localApplication->mainBranch,
                 $localApplication->jobBranch,
-                '[Peon] ' . $title
+                '[Peon] ' . $title,
+                $this->getDefaultMergeRequestDescription(),
             );
         }
 
         return $mergeRequest;
+    }
+
+
+    private function getDefaultMergeRequestDescription(): string
+    {
+        return 'This MR was created by [Peon](https://github.com/peon-dev/peon).<br>If you have any questions or problems, please [open an issue](https://github.com/peon-dev/peon/issues/new), we will be happy to help!';
     }
 }
