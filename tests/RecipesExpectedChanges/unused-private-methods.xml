@@ -1,0 +1,17 @@
+<expectations>
+    <expectation>
+        <command>git status --short</command>
+        <output> M src/UnusedPrivateMethodsRecipeTestDummy.php</output>
+    </expectation>
+
+    <expectation>
+        <command>git diff  --unified=0 | grep -v 'index '</command>
+        <output>diff --git a/src/UnusedPrivateMethodsRecipeTestDummy.php b/src/UnusedPrivateMethodsRecipeTestDummy.php
+--- a/src/UnusedPrivateMethodsRecipeTestDummy.php
++++ b/src/UnusedPrivateMethodsRecipeTestDummy.php
+@@ -16,3 +15,0 @@ final class UnusedPrivateMethodsRecipeTestDummy
+-
+-    private function weDoNotNeedThisMethod(): void
+-    {}</output>
+    </expectation>
+</expectations>

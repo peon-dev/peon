@@ -1,0 +1,16 @@
+<expectations>
+    <expectation>
+        <command>git status --short</command>
+        <output> M src/ObjectMagicClassConstantRecipeTestDummy.php</output>
+    </expectation>
+
+    <expectation>
+        <command>git diff  --unified=0 | grep -v 'index '</command>
+        <output>diff --git a/src/ObjectMagicClassConstantRecipeTestDummy.php b/src/ObjectMagicClassConstantRecipeTestDummy.php
+--- a/src/ObjectMagicClassConstantRecipeTestDummy.php
++++ b/src/ObjectMagicClassConstantRecipeTestDummy.php
+@@ -11 +11 @@ final class ObjectMagicClassConstantRecipeTestDummy
+-        $getClass = get_class($this);
++        $getClass = $this::class;</output>
+    </expectation>
+</expectations>
