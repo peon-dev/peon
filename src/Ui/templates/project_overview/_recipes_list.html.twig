@@ -4,21 +4,21 @@
             <thead>
                 <tr>
                     <th>Recipe</th>
-                    <th>Schedule</th>
-                    <th></th>
-                    <th class="text-center">Last job</th>
-                    <th></th>
+                    <th style="width: 200px;">Schedule</th>
+                    <th style="width: 110px;"></th>
+                    <th style="width: 150px;" class="text-center">Last job</th>
+                    <th style="width: 110px;"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for recipe in recipes %}
                     <tr id="recipe-{{ recipe.recipeName.value }}-row">
                         <td>
-                            {{ recipe.title }}
+                            {{ recipe.title }}<br>
                             {% if project.recipeBaseline(recipe.recipeName) %}
-                                <span class="badge rounded-pill bg-light text-dark">Changed files only</span>
+                                <span class="badge rounded-pill bg-light text-dark">Files within PSR-4 roots changed since commit: {{ project.recipeBaselineHash(recipe.recipeName) }}</span>
                             {% else %}
-                                <span class="badge rounded-pill bg-light text-dark">Full codebase</span>
+                                <span class="badge rounded-pill bg-light text-dark">Files within PSR-4 roots</span>
                             {% endif %}
                         </td>
                         <td>
@@ -28,7 +28,7 @@
                                 <i class="far fa-clock"></i> next {{ recipe.nextRunTime|ago }}
                             </small>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <turbo-frame id="recipe-{{ recipe.recipeName.value }}-run">
                                 <a href="{{ path('run_recipe', {recipeName: recipe.recipeName.value, projectId: project.projectId}) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="far fa-play-circle"></i>

@@ -42,6 +42,12 @@ final class ReadProjectDetail
     }
 
 
+    public function getRecipeBaselineHash(RecipeName $recipeName): null|string
+    {
+        return $this->getEnabledRecipe($recipeName)?->baselineHash;
+    }
+
+
     private function getEnabledRecipe(RecipeName $recipeName): EnabledRecipe|null
     {
         foreach ($this->enabledRecipes as $enabledRecipe) {
