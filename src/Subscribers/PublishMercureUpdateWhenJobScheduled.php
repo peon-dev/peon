@@ -13,7 +13,6 @@ use Peon\Ui\ReadModel\Job\ProvideReadJobById;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
-use Twig\Error\Error;
 
 final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterface
 {
@@ -40,6 +39,7 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
                 'project-' . $event->projectId->id . '-overview',
                 $this->twig->render('project_overview.stream.html.twig', [
                     'job' => $job,
+                    'isFirstJob' => false, // TODO: really count jobs
                 ])
             )
         );
