@@ -17,7 +17,7 @@ final class TestingRemoteGitRepository
     public const MAIN_BRANCH = 'main';
 
     public readonly UriInterface $uri;
-    private readonly string $directory;
+    public readonly string $directory;
 
 
     public function __construct()
@@ -51,6 +51,15 @@ final class TestingRemoteGitRepository
         Process::fromShellCommandline('git commit --all --message "Init"', $repository->directory)->mustRun();
 
         return $repository;
+    }
+
+
+    /**
+     * @throws ProcessFailedException
+     */
+    public function dumpComposerAutoload(): void
+    {
+        Process::fromShellCommandline('composer dump-autoload', $this->directory)->mustRun();
     }
 
 

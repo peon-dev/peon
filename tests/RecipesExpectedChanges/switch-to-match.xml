@@ -1,0 +1,27 @@
+<expectations>
+    <expectation>
+        <command>git status --short</command>
+        <output> M src/SwitchToMatchRecipeTestDummy.php</output>
+    </expectation>
+
+    <expectation>
+        <command>git diff  --unified=0 | grep -v 'index '</command>
+        <output>diff --git a/src/SwitchToMatchRecipeTestDummy.php b/src/SwitchToMatchRecipeTestDummy.php
+--- a/src/SwitchToMatchRecipeTestDummy.php
++++ b/src/SwitchToMatchRecipeTestDummy.php
+@@ -11,8 +11,5 @@ final class SwitchToMatchRecipeTestDummy
+-        switch($food) {
+-            case 'vegetable':
+-                return 'This food is healthy';
+-            case 'fruit':
+-                return 'This food is juicy';
+-            default:
+-                return 'This food is yummy';
+-        }
++        return match ($food) {
++            'vegetable' => 'This food is healthy',
++            'fruit' => 'This food is juicy',
++            default => 'This food is yummy',
++        };</output>
+    </expectation>
+</expectations>

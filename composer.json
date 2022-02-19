@@ -86,6 +86,7 @@
         "uxf/hydrator": "^3.0"
     },
     "require-dev": {
+        "ext-simplexml": "*",
         "dama/doctrine-test-bundle": "^6.7",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "mangoweb/monolog-tracy-handler": "^1.0",

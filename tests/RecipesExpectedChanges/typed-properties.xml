@@ -1,0 +1,19 @@
+<expectations>
+    <expectation>
+        <command>git status --short</command>
+        <output> M src/TypedPropertiesRecipeTestDummy.php</output>
+    </expectation>
+
+    <expectation>
+        <command>git diff  --unified=0 | grep -v 'index '</command>
+        <output>diff --git a/src/TypedPropertiesRecipeTestDummy.php b/src/TypedPropertiesRecipeTestDummy.php
+--- a/src/TypedPropertiesRecipeTestDummy.php
++++ b/src/TypedPropertiesRecipeTestDummy.php
+@@ -9,4 +9 @@ final class TypedPropertiesRecipeTestDummy
+-    /**
+-     * @var int
+-     */
+-    private $yearsSincePeonCreated = 1;
++    private int $yearsSincePeonCreated = 1;</output>
+    </expectation>
+</expectations>
