@@ -45,14 +45,13 @@
             <thead>
             <tr>
                 <th>Task</th>
-                <th>Schedule</th>
-                <th></th>
-                <th>Commands</th>
-                <th class="text-center">Last job</th>
-                <th class="text-end">
+                <th style="width: 200px;">Schedule</th>
+                <th style="width: 110px;"></th>
+                <th style="width: 150px;" class="text-center">Last job</th>
+                <th style="width: 110px;" class="text-end">
                     <a class="btn btn-sm btn-primary" href="{{ path('define_task', {projectId: activeProject.projectId}) }}">
                         <i class="fas fa-plus-circle"></i>
-                        New task
+                        Add task
                     </a>
                 </th>
             </tr>
@@ -77,19 +76,13 @@
                         {% endif %}
                     </td>
 
-                    <td>
+                    <td class="text-center">
                         <turbo-frame id="task-{{ task.taskId }}">
                             <a href="{{ path('run_task', {taskId: task.taskId}) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="far fa-play-circle"></i>
                                 Run
                             </a>
                         </turbo-frame>
-                    </td>
-
-                    <td>
-                        <code>
-                            {{ task.commandsWithNewLines|nl2br }}
-                        </code>
                     </td>
 
                     <td class="text-center" id="task-{{ task.taskId }}-last-job">
