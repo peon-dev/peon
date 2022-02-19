@@ -9,6 +9,7 @@ use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Packages\MessageBus\Event\EventHandlerInterface;
 use Peon\Ui\ReadModel\Dashboard\ProvideReadProjectById;
+use Peon\Ui\ReadModel\Job\CountJobsOfProject;
 use Peon\Ui\ReadModel\Job\ProvideReadJobById;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -21,6 +22,7 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
         private HubInterface $hub,
         private ProvideReadJobById $provideReadJobById,
         private ProvideReadProjectById $provideReadProjectById,
+        private CountJobsOfProject $countJobsOfProject,
     ) {}
 
 
@@ -33,13 +35,14 @@ final class PublishMercureUpdateWhenJobScheduled implements EventHandlerInterfac
     {
         $job = $this->provideReadJobById->provide($event->jobId);
         $project = $this->provideReadProjectById->provide($event->projectId);
+        $jobsCount = $this->countJobsOfProject->count($event->projectId);
 
         $this->hub->publish(
             new Update(
                 'project-' . $event->projectId->id . '-overview',
                 $this->twig->render('project_overview.stream.html.twig', [
                     'job' => $job,
-                    'isFirstJob' => false, // TODO: really count jobs
+                    'isFirstJob' => $jobsCount === 1,
                 ])
             )
         );
