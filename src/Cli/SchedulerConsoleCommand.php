@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Cli;
 
 use Peon\Packages\MessageBus\Command\CommandBus;
+use Peon\UseCase\CancelLongRunningJobs;
 use Peon\UseCase\ScheduleRecipes;
 use Peon\UseCase\ScheduleTasks;
 use Psr\Log\LoggerInterface;
@@ -35,6 +36,14 @@ final class SchedulerConsoleCommand extends Command
 
         try {
             $this->commandBus->dispatch(new ScheduleTasks());
+        } catch (Throwable $throwable) {
+            $this->logger->critical($throwable->getMessage(), [
+                'exception' => $throwable
+            ]);
+        }
+
+        try {
+            $this->commandBus->dispatch(new CancelLongRunningJobs());
         } catch (Throwable $throwable) {
             $this->logger->critical($throwable->getMessage(), [
                 'exception' => $throwable
