@@ -73,7 +73,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->load('Peon\\Cli\\', __DIR__ . '/../../../Cli/**/{*ConsoleCommand.php}');
 
     // Read model providers
-    $services->load('Peon\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*.php}');
+    $services->load('Peon\\Ui\\ReadModel\\', __DIR__ . '/../../../Ui/ReadModel/**/{Provide*,Count*}.php');
 
     // Infrastructure - load all implementations
     $services->load('Peon\\Infrastructure\\', __DIR__ . '/../../../Infrastructure/**/{*.php}')
