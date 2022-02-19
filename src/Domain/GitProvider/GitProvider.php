@@ -19,6 +19,7 @@ interface GitProvider
         string $targetBranch,
         string $branchWithChanges,
         string $title,
+        string $description,
     ): MergeRequest;
 
     /**

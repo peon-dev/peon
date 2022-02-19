@@ -23,6 +23,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
         string $targetBranch,
         string $branchWithChanges,
         string $title,
+        string $description,
     ): MergeRequest
     {
         try {
@@ -35,6 +36,11 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
                 $branchWithChanges,
                 $targetBranch,
                 $title,
+                [
+                    'description' => $description,
+                    'labels' => 'Peon',
+                    'remove_source_branch' => true,
+                ]
             );
 
             return new MergeRequest($mergeRequest['web_url']);
