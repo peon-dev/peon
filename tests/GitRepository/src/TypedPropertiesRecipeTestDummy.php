@@ -6,5 +6,8 @@ namespace PeonDogFood;
 
 final class TypedPropertiesRecipeTestDummy
 {
-
+    /**
+     * @var int
+     */
+    private $yearsSincePeonCreated = 1;
 }
