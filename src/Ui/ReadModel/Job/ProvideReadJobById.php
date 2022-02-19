@@ -10,7 +10,7 @@ use Peon\Domain\Job\Value\JobId;
 use Peon\Ui\ReadModel\Dashboard\ReadJob;
 use UXF\Hydrator\ObjectHydrator;
 
-final class ProvideReadJobById // TODO: test
+final class ProvideReadJobById
 {
     public function __construct(
         private Connection $connection,
