@@ -19,6 +19,7 @@ parameters:
     excludePaths:
         - tests/bootstrap.php
         - tests/object-manager.php
+        - tests/GitRepository/
     scanDirectories:
         - var/cache/dev/Symfony/Config
     bootstrapFiles:
