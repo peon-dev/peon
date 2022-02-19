@@ -128,27 +128,8 @@
     }) }}
 </div>
 
-{% if jobs %}
-    <h2>Recent jobs</h2>
-
-    <div class="table-responsive jobs-list-table">
-            <table class="table table-hover align-middle">
-                <thead>
-                <tr>
-                    <th>Status</th>
-                    <th>Job</th>
-                    <th>Duration</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody id="recent-jobs">
-                    {% for job in jobs %}
-                        {{ include('project_overview/_recent_job.html.twig') }}
-                    {% endfor %}
-                </tbody>
-            </table>
-    </div>
-
-{% endif %}
+<div id="recent-jobs-wrapper">
+    {{ include('project_overview/_recent_jobs_table.html.twig') }}
+</div>
 
 {% endblock %}
