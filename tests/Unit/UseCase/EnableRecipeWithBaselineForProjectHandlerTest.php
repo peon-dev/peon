@@ -33,12 +33,10 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
             $projectId,
         );
 
-        $project = $this->getMockBuilder(Project::class)
-            ->setConstructorArgs([
+        $project = $this->createTestProxy(Project::class, [
                 new ProjectId(''),
                 new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'))
-            ])
-            ->getMock();
+            ]);
         $project->expects(self::once())
             ->method('enableRecipe')
             ->with($recipeName, 'abcd');

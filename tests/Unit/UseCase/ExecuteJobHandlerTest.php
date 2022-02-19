@@ -487,15 +487,13 @@ final class ExecuteJobHandlerTest extends TestCase
      */
     private function createTaskJobMock(JobId $jobId): MockObject
     {
-        return $this->getMockBuilder(Job::class)
-            ->setConstructorArgs([
+        return $this->createTestProxy(Job::class, [
                 $jobId,
                 new ProjectId(''),
                 'Title',
                 ['command'],
                 $this->createMock(Clock::class),
-            ])
-            ->getMock();
+            ]);
     }
 
 
@@ -504,16 +502,14 @@ final class ExecuteJobHandlerTest extends TestCase
      */
     private function createRecipeJobMock(JobId $jobId): MockObject
     {
-        return $this->getMockBuilder(Job::class)
-            ->setConstructorArgs([
+        return $this->createTestProxy(Job::class, [
                 $jobId,
                 new ProjectId(''),
                 'Title',
                 null,
                 $this->createMock(Clock::class),
                 new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'abc'),
-            ])
-            ->getMock();
+            ]);
     }
 
 
@@ -522,11 +518,9 @@ final class ExecuteJobHandlerTest extends TestCase
      */
     private function createProjectMock(): MockObject
     {
-        return $this->getMockBuilder(Project::class)
-            ->setConstructorArgs([
+        return $this->createTestProxy(Project::class, [
                 new ProjectId(''),
                 new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
-            ])
-            ->getMock();
+            ]);
     }
 }
