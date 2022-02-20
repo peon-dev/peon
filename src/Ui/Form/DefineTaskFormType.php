@@ -40,6 +40,9 @@ final class DefineTaskFormType extends AbstractType
 
         $builder->add('save', SubmitType::class, [
             'label' => 'Save',
+            'attr' => [
+                'value' => '',
+            ],
             'row_attr' => [
                 'class' => 'multiple-form-buttons',
             ],
@@ -48,7 +51,8 @@ final class DefineTaskFormType extends AbstractType
         $builder->add('saveAndRun', SubmitType::class, [
             'label' => 'Save & Run',
             'attr' => [
-                'class' => 'btn-outline-primary'
+                'class' => 'btn-outline-primary',
+                'value' => '',
             ],
             'row_attr' => [
                 'class' => 'multiple-form-buttons',
