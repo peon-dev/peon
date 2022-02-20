@@ -57,14 +57,14 @@ final class RunTaskHandler implements CommandHandlerInterface
 
         $this->jobs->save($job);
 
-        // TODO: this event could be dispatched in entity
-        $this->eventBus->dispatch(
-            new JobScheduled($jobId, $project->projectId)
-        );
-
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
             new ExecuteJob($jobId)
+        );
+
+        // TODO: this event could be dispatched in entity
+        $this->eventBus->dispatch(
+            new JobScheduled($jobId, $project->projectId)
         );
     }
 }
