@@ -70,7 +70,15 @@
         {% endif %}
     </div>
 
-    <h2>{{ activeJob.title }}</h2>
+    <h2>
+        {{ activeJob.title }}
+
+        {% if not activeJob.recipe %}
+            <a style="margin-left: 15px;" href="{{ path('redefine_task', {taskId: activeJob.taskId}) }}" class="btn btn-sm btn-light btn-outline-secondary">
+                <i class="fa fa-cog"></i>
+            </a>
+        {% endif %}
+    </h2>
 </div>
 
 <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
