@@ -28,10 +28,13 @@ final class ReadTask
         public DateTimeImmutable|null $lastJobStartedAt,
         public DateTimeImmutable|null $lastJobSucceededAt,
         public DateTimeImmutable|null $lastJobFailedAt,
+        public DateTimeImmutable|null $lastJobCanceledAt,
         public string|null $lastJobMergeRequestUrl,
     ) {
         if ($lastJobFailedAt !== null) {
             $this->lastJobStatus = JobStatus::FAILED;
+        } elseif ($this->lastJobCanceledAt !== null) {
+            $this->lastJobStatus = JobStatus::CANCELED;
         } elseif ($lastJobSucceededAt !== null) {
             $this->lastJobStatus = JobStatus::SUCCEEDED;
         } elseif ($lastJobStartedAt !== null) {
@@ -54,7 +57,8 @@ final class ReadTask
 
     public function getLastJobActionTime(): \DateTimeImmutable|null
     {
-        return $this->lastJobFailedAt
+        return $this->lastJobCanceledAt
+            ?? $this->lastJobFailedAt
             ?? $this->lastJobSucceededAt
             ?? $this->lastJobStartedAt
             ?? $this->lastJobScheduledAt;
@@ -82,6 +86,12 @@ final class ReadTask
     public function hasJobFailed(): bool
     {
         return $this->lastJobStatus === JobStatus::FAILED;
+    }
+
+
+    public function isJobCanceled(): bool
+    {
+        return $this->lastJobStatus === JobStatus::CANCELED;
     }
 
 

@@ -24,6 +24,7 @@ final class ReadJob
         public readonly DateTimeImmutable|null $startedAt,
         public readonly DateTimeImmutable|null $succeededAt,
         public readonly DateTimeImmutable|null $failedAt,
+        public readonly DateTimeImmutable|null $canceledAt,
         public readonly string|null $mergeRequestUrl,
         float|null $executionTime,
     ){
@@ -31,6 +32,8 @@ final class ReadJob
             $status = JobStatus::FAILED;
         } elseif ($succeededAt !== null) {
             $status = JobStatus::SUCCEEDED;
+        }  elseif ($this->canceledAt !== null) {
+            $status = JobStatus::CANCELED;
         } elseif ($startedAt !== null) {
             $status = JobStatus::IN_PROGRESS;
         } else {
@@ -54,6 +57,12 @@ final class ReadJob
     }
 
 
+    public function isCanceled(): bool
+    {
+        return $this->status === JobStatus::CANCELED;
+    }
+
+
     public function hasSucceeded(): bool
     {
         return $this->status === JobStatus::SUCCEEDED;
@@ -74,7 +83,8 @@ final class ReadJob
 
     public function getActionTime(): \DateTimeImmutable
     {
-        return $this->failedAt
+        return $this->canceledAt
+            ?? $this->failedAt
             ?? $this->succeededAt
             ?? $this->startedAt
             ?? $this->scheduledAt;

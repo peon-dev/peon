@@ -26,11 +26,14 @@ final class ReadRecipe
         public DateTimeImmutable|null $lastJobStartedAt,
         public DateTimeImmutable|null $lastJobSucceededAt,
         public DateTimeImmutable|null $lastJobFailedAt,
+        public DateTimeImmutable|null $lastJobCanceledAt,
         public string|null $lastJobMergeRequestUrl,
     ) {
         if ($lastJobFailedAt !== null) {
             $this->lastJobStatus = JobStatus::FAILED;
-        } elseif ($lastJobSucceededAt !== null) {
+        } elseif ($this->lastJobCanceledAt !== null) {
+            $this->lastJobStatus = JobStatus::CANCELED;
+         }elseif ($lastJobSucceededAt !== null) {
             $this->lastJobStatus = JobStatus::SUCCEEDED;
         } elseif ($lastJobStartedAt !== null) {
             $this->lastJobStatus = JobStatus::IN_PROGRESS;
@@ -46,7 +49,8 @@ final class ReadRecipe
 
     public function getLastJobActionTime(): DateTimeImmutable|null
     {
-        return $this->lastJobFailedAt
+        return $this->lastJobCanceledAt
+            ?? $this->lastJobFailedAt
             ?? $this->lastJobSucceededAt
             ?? $this->lastJobStartedAt
             ?? $this->lastJobScheduledAt;
@@ -62,6 +66,12 @@ final class ReadRecipe
     public function isJobInProgress(): bool
     {
         return $this->lastJobStatus === JobStatus::IN_PROGRESS;
+    }
+
+
+    public function isJobCanceled(): bool
+    {
+        return $this->lastJobStatus === JobStatus::CANCELED;
     }
 
 

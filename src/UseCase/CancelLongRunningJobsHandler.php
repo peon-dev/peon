@@ -8,9 +8,10 @@ use Lcobucci\Clock\Clock;
 use Peon\Domain\Job\Event\JobStatusChanged;
 use Peon\Domain\Job\GetLongRunningJobs;
 use Peon\Domain\Job\JobsCollection;
+use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
 
-final class CancelLongRunningJobsHandler
+final class CancelLongRunningJobsHandler implements CommandHandlerInterface
 {
     public function __construct(
         private GetLongRunningJobs $getLongRunningJobs,

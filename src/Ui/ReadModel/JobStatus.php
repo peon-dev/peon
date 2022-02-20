@@ -10,5 +10,5 @@ final class JobStatus
     public const IN_PROGRESS = 'in progress';
     public const SUCCEEDED = 'succeeded';
     public const FAILED = 'failed';
-    public const CANCELLED = 'cancelled';
+    public const CANCELED = 'canceled';
 }

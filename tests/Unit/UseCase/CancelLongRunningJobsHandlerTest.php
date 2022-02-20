@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 class CancelLongRunningJobsHandlerTest extends TestCase
 {
-    public function testJobsWillBeCancelled(): void
+    public function testJobsWillBeCanceled(): void
     {
         $eventBus = $this->createMock(EventBus::class);
         $eventBus->expects(self::exactly(2))

@@ -32,6 +32,7 @@ SELECT
     job.started_at AS "startedAt",
     job.succeeded_at AS "succeededAt",
     job.failed_at AS "failedAt",
+    job.canceled_at AS "canceledAt",
     job.merge_request->>'url' AS "mergeRequestUrl",
     project.name AS "projectName",
     SUM(process.execution_time) AS "executionTime"
