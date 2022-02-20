@@ -11,6 +11,7 @@ use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\GitProvider\GitProvider;
+use Peon\Domain\Job\GetLongRunningJobs;
 use Peon\Domain\Job\GetPathsToProcess;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Job\RunJobRecipe;
@@ -35,6 +36,7 @@ use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
 use Peon\Infrastructure\GitLab\GitLab;
+use Peon\Infrastructure\Job\DoctrineGetLongRunningJobs;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProcessesCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
@@ -134,4 +136,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(GetRecipeSchedules::class, DoctrineGetRecipeSchedules::class);
     $services->set(GetTaskSchedules::class, DoctrineGetTaskSchedules::class);
     $services->set(RunProcess::class, SymfonyProcessRunProcess::class);
+
+    $services->set(DoctrineGetLongRunningJobs::class);
+    $services->alias(GetLongRunningJobs::class, DoctrineGetLongRunningJobs::class);
 };

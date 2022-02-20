@@ -38,6 +38,8 @@ final class DataFixtures extends Fixture
     public const JOB_2_DATETIME = '2021-01-01 13:00:00';
     public const JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
     public const JOB_3_DATETIME = '2021-01-01 14:00:00';
+    public const JOB_4_ID = 'a92e7e2d-6073-474f-9d4b-75dda88b352c';
+    public const JOB_4_DATETIME = '2021-01-01 14:00:00';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
 
@@ -128,6 +130,21 @@ final class DataFixtures extends Fixture
         $job3->succeeds($job3Clock);
 
         $manager->persist($job3);
+
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
+        $job4Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_4_DATETIME));
+        $job4Id = new JobId(self::JOB_4_ID);
+        $job4 = Job::scheduleFromRecipe(
+            $job4Id,
+            $projectId,
+            $recipe,
+            $job4Clock,
+            null,
+        );
+
+        $job4->start($job4Clock);
+
+        $manager->persist($job4);
 
         $manager->flush();
     }

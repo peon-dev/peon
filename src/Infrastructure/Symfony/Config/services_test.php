@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Lcobucci\Clock\Clock;
+use Lcobucci\Clock\FrozenClock;
+use Lcobucci\Clock\SystemClock;
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\Tools\Git\ProvideBranchName;
@@ -30,4 +33,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(GetLastCommitOfDefaultBranch::class, DummyGetLastCommitOfDefaultBranch::class);
 
     $services->set(HubInterface::class, DummyHub::class);
+
+    $services->set(FrozenClock::class)->factory([FrozenClock::class, 'fromUTC']);
+    $services->alias(Clock::class, FrozenClock::class);
 };
