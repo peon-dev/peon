@@ -33,7 +33,7 @@ final class RedefineTaskControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', "/redefine-task/$taskId");
 
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         $commands = <<<STRING
 New command 1
@@ -67,7 +67,7 @@ STRING;
 
         $crawler = $client->request('GET', "/redefine-task/$taskId");
 
-        $form = $crawler->selectButton('save-and-run')->form();
+        $form = $crawler->selectButton('Save & Run')->form();
 
         $commands = <<<STRING
 New command 1

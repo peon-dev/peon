@@ -34,7 +34,7 @@ final class DefineTaskControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
 
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         $client->submit($form, [
             $form->getName() . '[name]' => 'Test',
@@ -62,7 +62,7 @@ final class DefineTaskControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
 
-        $form = $crawler->selectButton('save-and-run')->form();
+        $form = $crawler->selectButton('Save & Run')->form();
 
         $client->submit($form, [
             $form->getName() . '[name]' => 'Test',

@@ -49,6 +49,17 @@ parameters:
             message: '#^Missing \@throws #'
             path: src/Infrastructure/Cookbook/StaticRecipesCollection.php
 
+        # These are actually never thrown
+        -
+            message: '#^Missing \@throws \\Peon\\Domain\\Job\\Exception\\Job#'
+            path: src/Ui/Controller/DefineTaskController.php
+        -
+            message: '#^Missing \@throws \\Peon\\Domain\\Task\\Exception\\TaskNotFound#'
+            path: src/Ui/Controller/DefineTaskController.php
+        -
+            message: '#^Missing \@throws \\Peon\\Domain\\Job\\Exception\\Job#'
+            path: src/Ui/Controller/RedefineTaskController.php
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false

@@ -45,6 +45,7 @@ final class RunTaskHandlerTest extends TestCase
 
         $projectId = new ProjectId('0');
         $taskId = new TaskId('0');
+        $jobId = new JobId('0');
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
         $projectsCollection->save(
@@ -67,7 +68,7 @@ final class RunTaskHandlerTest extends TestCase
         );
 
         $useCase->__invoke(
-            new RunTask($taskId)
+            new RunTask($taskId, $jobId)
         );
 
         self::assertCount(1, $jobsCollection->all());
@@ -94,7 +95,7 @@ final class RunTaskHandlerTest extends TestCase
         );
 
         $useCase->__invoke(
-            new RunTask(new TaskId('0'))
+            new RunTask(new TaskId('0'), new JobId('0'))
         );
     }
 
@@ -111,6 +112,7 @@ final class RunTaskHandlerTest extends TestCase
 
         $taskId = new TaskId('0');
         $projectId = new ProjectId('0');
+        $jobId = new JobId('0');
 
         $tasksCollection->save(
             new Task($taskId, $projectId, 'Task', ['command'])
@@ -126,7 +128,7 @@ final class RunTaskHandlerTest extends TestCase
         );
 
         $useCase->__invoke(
-            new RunTask($taskId)
+            new RunTask($taskId, $jobId)
         );
     }
 }

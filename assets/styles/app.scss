@@ -303,3 +303,12 @@ textarea.code {
 .job-in-progress-animation-wrap {
     margin: 25px;
 }
+
+.multiple-form-buttons {
+    display: inline-block;
+    margin-bottom: 15px;
+
+    + .multiple-form-buttons {
+        margin-left: 10px;
+    }
+}
