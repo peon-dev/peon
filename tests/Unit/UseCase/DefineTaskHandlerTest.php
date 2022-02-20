@@ -6,6 +6,7 @@ namespace Peon\Tests\Unit\UseCase;
 use Peon\Domain\Project\Event\ProjectDeleted;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Task\Event\TaskAdded;
+use Peon\Domain\Task\Value\TaskId;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\UseCase\DefineTask;
@@ -29,6 +30,7 @@ final class DefineTaskHandlerTest extends TestCase
         $handler = new DefineTaskHandler($tasksCollection, $eventBusSpy);
         $handler->__invoke(
             new DefineTask(
+                new TaskId(''),
                 new ProjectId(''),
                 'Name',
                 [''],

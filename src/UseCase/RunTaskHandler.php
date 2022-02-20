@@ -47,9 +47,8 @@ final class RunTaskHandler implements CommandHandlerInterface
         $task = $this->tasks->get($command->taskId);
         $project = $this->projects->get($task->projectId);
 
-        $jobId = $this->jobs->nextIdentity();
         $job = Job::scheduleFromTask(
-            $jobId,
+            $command->jobId,
             $project->projectId,
             $task,
             $this->clock,
@@ -59,12 +58,12 @@ final class RunTaskHandler implements CommandHandlerInterface
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
-            new ExecuteJob($jobId)
+            new ExecuteJob($command->jobId)
         );
 
         // TODO: this event could be dispatched in entity
         $this->eventBus->dispatch(
-            new JobScheduled($jobId, $project->projectId)
+            new JobScheduled($command->jobId, $project->projectId)
         );
     }
 }

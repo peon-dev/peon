@@ -6,6 +6,8 @@ namespace Peon\Ui\Form;
 
 use Setono\CronExpressionBundle\Form\Type\CronExpressionType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,6 +36,23 @@ final class DefineTaskFormType extends AbstractType
             'help_html' => true,
             'help' => 'For example <code>vendor/bin/rector process src</code><br>One command per line',
             'attr' => ['class' => 'code'],
+        ]);
+
+        $builder->add('save', SubmitType::class, [
+            'label' => 'Save',
+            'row_attr' => [
+                'class' => 'multiple-form-buttons',
+            ],
+        ]);
+
+        $builder->add('saveAndRun', SubmitType::class, [
+            'label' => 'Save & Run',
+            'attr' => [
+                'class' => 'btn-outline-primary'
+            ],
+            'row_attr' => [
+                'class' => 'multiple-form-buttons',
+            ],
         ]);
     }
 

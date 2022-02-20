@@ -22,10 +22,8 @@ final class DefineTaskHandler implements CommandHandlerInterface
     {
         // TODO: check project with id $command->projectId exists
 
-        $taskId = $this->tasks->nextIdentity();
-
         $task = new Task(
-            $taskId,
+            $command->taskId,
             $command->projectId,
             $command->name,
             $command->commands
@@ -37,7 +35,7 @@ final class DefineTaskHandler implements CommandHandlerInterface
 
         // TODO: this event could be dispatched in entity
         $this->eventBus->dispatch(
-            new TaskAdded($taskId, $task->projectId)
+            new TaskAdded($command->taskId, $task->projectId)
         );
     }
 }

@@ -8,6 +8,7 @@ use Peon\Domain\Scheduler\GetTaskSchedules;
 use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Domain\Scheduler\TaskJobSchedule;
 use Peon\Domain\Task\Value\TaskId;
+use Peon\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\UseCase\RunTask;
 use Peon\UseCase\ScheduleTasks;
@@ -41,10 +42,13 @@ final class ScheduleTasksHandlerTest extends TestCase
             ->method('cronExpressionNow')
             ->willReturnOnConsecutiveCalls(true, false);
 
+        $jobsCollection = new InMemoryJobsCollection();
+
         $handler = new ScheduleTasksHandler(
             $commandBus,
             $getTaskSchedules,
             $shouldSchedule,
+            $jobsCollection,
         );
 
         $command = new ScheduleTasks();

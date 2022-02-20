@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Ui\Controller;
 
+use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Task\Exception\InvalidCronExpression;
 use Peon\Domain\Task\Value\TaskId;
@@ -14,7 +15,9 @@ use Peon\Ui\Form\DefineTaskFormData;
 use Peon\Ui\Form\DefineTaskFormType;
 use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Peon\UseCase\RedefineTask;
+use Peon\UseCase\RunTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +29,7 @@ final class RedefineTaskController extends AbstractController
         private TasksCollection $tasks,
         private CommandBus $commandBus,
         private ProvideReadProjectDetail $provideReadProjectDetail,
+        private JobsCollection $jobsCollection,
     ) {}
 
 
@@ -37,6 +41,7 @@ final class RedefineTaskController extends AbstractController
             $project = $this->provideReadProjectDetail->provide($task->projectId);
             // TODO: domain task should not be available in controller
             $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
+            assert($form instanceof Form);
 
             try {
                 $form->handleRequest($request);
@@ -53,6 +58,16 @@ final class RedefineTaskController extends AbstractController
                             $data->getSchedule()
                         )
                     );
+
+                    if ($form->get('saveAndRun') === $form->getClickedButton()) {
+                        $jobId = $this->jobsCollection->nextIdentity();
+
+                        $this->commandBus->dispatch(
+                            new RunTask($task->taskId, $jobId),
+                        );
+
+                        return $this->redirectToRoute('job_detail', ['jobId' => $jobId]);
+                    }
 
                     return $this->redirectToRoute('project_overview', ['projectId' => $task->projectId]);
                 }

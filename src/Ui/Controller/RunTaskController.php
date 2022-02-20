@@ -9,6 +9,7 @@ use Peon\Domain\Job\Exception\JobHasFinishedAlready;
 use Peon\Domain\Job\Exception\JobHasNotStartedYet;
 use Peon\Domain\Job\Exception\JobHasStartedAlready;
 use Peon\Domain\Job\Exception\JobNotFound;
+use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\Task\Exception\TaskNotFound;
@@ -24,6 +25,7 @@ final class RunTaskController extends AbstractController
     public function __construct(
         private CommandBus $commandBus,
         private TasksCollection $tasksCollection,
+        private JobsCollection $jobsCollection,
     ) {}
 
 
@@ -39,10 +41,12 @@ final class RunTaskController extends AbstractController
     {
         try {
             $task = $this->tasksCollection->get(new TaskId($taskId));
+            $jobId = $this->jobsCollection->nextIdentity();
 
             $this->commandBus->dispatch(
                 new RunTask(
-                    new TaskId($taskId)
+                    new TaskId($taskId),
+                    $jobId,
                 )
             );
 
