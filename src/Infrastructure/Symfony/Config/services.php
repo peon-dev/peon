@@ -6,6 +6,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use DateTimeZone;
 use Lcobucci\Clock\Clock;
+use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
@@ -105,6 +106,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(DateTimeZone::class, DateTimeZone::class)->args(['UTC']);
     $services->set(SystemClock::class);
+    $services->set(FrozenClock::class)->factory([FrozenClock::class, 'fromUTC']);
     $services->alias(Clock::class, SystemClock::class);
 
     $services->set(BuildApplication::class);

@@ -34,6 +34,5 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(HubInterface::class, DummyHub::class);
 
-    $services->set(FrozenClock::class)->factory([FrozenClock::class, 'fromUTC']);
     $services->alias(Clock::class, FrozenClock::class);
 };
