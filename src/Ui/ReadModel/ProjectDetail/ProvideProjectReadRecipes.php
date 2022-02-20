@@ -32,6 +32,7 @@ SELECT
     job.failed_at AS "lastJobFailedAt",
     job.succeeded_at AS "lastJobSucceededAt",
     job.scheduled_at AS "lastJobScheduledAt",
+    job.canceled_at AS "lastJobCanceledAt",
     job.merge_request->>'url' AS "lastJobMergeRequestUrl"
 FROM (
     SELECT project_id, json_array_elements(enabled_recipes)->>'recipe_name' as recipe_name

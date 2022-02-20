@@ -6,8 +6,8 @@
 <div class="clearfix">
     <div class="float-end">
         {% if activeJob.pending %}
-            <span class="btn btn-outline-warning btn-sm">
-                <span class="spinner-border text-outline-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+            <span class="btn btn-outline-secondary btn-sm">
+                <span class="spinner-border spinner-border-sm" style="border-width: .1em" role="status"></span>
                 Pending
             </span>
         {% endif %}
@@ -33,12 +33,23 @@
             </span>
         {% endif %}
 
+        {% if activeJob.canceled %}
+            <span class="btn btn-outline-warning btn-sm">
+                <i class="fas fa-exclamation-triangle"></i>
+                Canceled
+            </span>
+        {% endif %}
+
         <span style="padding: 0 15px;">
             {% if activeJob.startedAt %}
                 <i class="far fa-calendar-alt"></i>
                 {% if activeJob.succeeded %}
                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.succeededAt|date('j.n.Y H:i') }}">
                         {{ activeJob.succeededAt|ago }}
+                    </span>
+                {% elseif activeJob.canceled %}
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.canceledAt|date('j.n.Y H:i') }}">
+                        {{ activeJob.canceledAt|ago }}
                     </span>
                 {% elseif activeJob.failed %}
                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.failedAt|date('j.n.Y H:i') }}">

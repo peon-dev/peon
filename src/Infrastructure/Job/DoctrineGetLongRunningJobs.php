@@ -27,7 +27,7 @@ final class DoctrineGetLongRunningJobs implements GetLongRunningJobs
 
         assert($olderThan instanceof \DateTimeInterface);
 
-        return $this->entityManager->createQueryBuilder()
+        $query = $this->entityManager->createQueryBuilder()
             ->select('job')
             ->from(Job::class, 'job')
             ->where('job.startedAt IS NOT NULL')
@@ -36,7 +36,8 @@ final class DoctrineGetLongRunningJobs implements GetLongRunningJobs
             ->andWhere('job.failedAt IS NULL')
             ->andWhere('job.startedAt <= :olderThan')
             ->setParameter('olderThan', $olderThan->format('Y-m-d H:i:s'))
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+
+        return $query->getResult();
     }
 }

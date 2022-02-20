@@ -29,6 +29,6 @@ class CountJobsOfProjectTest extends KernelTestCase
          */
         $jobsCount = $this->countJobsOfProject->count(new ProjectId(DataFixtures::PROJECT_1_ID));
 
-        self::assertSame(3, $jobsCount);
+        self::assertSame(4, $jobsCount);
     }
 }

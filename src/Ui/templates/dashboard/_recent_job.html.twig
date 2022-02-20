@@ -1,8 +1,8 @@
 <tr class="{{ isNew|default(false) ? ' new-item' }}" id="recent-job-{{ job.jobId }}">
     <td>
         {% if job.pending %}
-            <span class="btn btn-outline-warning btn-sm">
-                <span class="spinner-border text-warning spinner-border-sm" style="border-width: .1em" role="status"></span>
+            <span class="btn btn-outline-secondary btn-sm">
+                <span class="spinner-border spinner-border-sm" style="border-width: .1em" role="status"></span>
                 Pending
             </span>
         {% endif %}
@@ -25,6 +25,13 @@
             <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-danger btn-sm">
                 <i class="far fa-times-circle"></i>
                 Failed
+            </a>
+        {% endif %}
+
+        {% if job.canceled %}
+            <a href="{{ path('job_detail', {jobId: job.jobId}) }}" class="btn btn-outline-warning btn-sm">
+                <i class="fas fa-exclamation-triangle"></i>
+                Canceled
             </a>
         {% endif %}
     </td>
@@ -65,6 +72,10 @@
             {% if job.succeeded %}
                 <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.succeededAt|date('j.n.Y H:i') }}">
                     {{ job.succeededAt|ago }}
+                </span>
+            {% elseif job.canceled %}
+                <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.canceledAt|date('j.n.Y H:i') }}">
+                    {{ job.canceledAt|ago }}
                 </span>
             {% elseif job.failed %}
                 <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.failedAt|date('j.n.Y H:i') }}">
