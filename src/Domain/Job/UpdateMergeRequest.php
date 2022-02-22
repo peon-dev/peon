@@ -30,13 +30,20 @@ class UpdateMergeRequest
         TemporaryApplication $localApplication,
         RemoteGitRepository  $remoteGitRepository,
         string               $title,
+        bool $mergeAutomatically,
     ): MergeRequest|null
     {
         $workingDirectory = $localApplication->workingDirectory;
 
         if ($this->git->hasUncommittedChanges($jobId, $workingDirectory)) {
             $this->git->commit($jobId, $workingDirectory, '[Peon] ' . $title);
-            $this->git->forcePushWithLease($jobId, $workingDirectory);
+
+            $options = [];
+            if ($mergeAutomatically === true) {
+                $options[] = Git::GITLAB_AUTOMATIC_MERGE_PUSH_OPTION;
+            }
+
+            $this->git->forcePushWithLease($jobId, $workingDirectory, $options);
 
             return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
