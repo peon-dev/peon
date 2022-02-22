@@ -90,7 +90,13 @@ final class ExecuteJobHandler implements CommandHandlerInterface
             }
 
             // 4. merge request
-            $mergeRequest = $this->updateMergeRequest->update($job->jobId, $localApplication, $remoteGitRepository, $jobTitle);
+            $mergeRequest = $this->updateMergeRequest->update(
+                $job->jobId,
+                $localApplication,
+                $remoteGitRepository,
+                $jobTitle,
+                $job->enabledRecipe->configuration->mergeAutomatically
+            );
             $job->succeeds($this->clock, $mergeRequest);
         } catch (JobHasStartedAlready $exception) {
             // TODO, im not sure what should happen

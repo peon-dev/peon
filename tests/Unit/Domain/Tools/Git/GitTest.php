@@ -197,6 +197,18 @@ class GitTest extends TestCase
     }
 
 
+    public function testForcePushWithLeaseWithOptions(): void
+    {
+        $executeCommand = $this->createMock(ExecuteCommand::class);
+        $executeCommand->expects(self::once())
+            ->method('inDirectory')
+            ->with($this->jobId, '/', 'git push --push-option=a --push-option=b -u origin --force-with-lease HEAD');
+
+        $git = new Git($executeCommand);
+        $git->forcePushWithLease($this->jobId, '/', ['a', 'b']);
+    }
+
+
     public function testResetCurrentBranch(): void
     {
         $executeCommand = $this->createMock(ExecuteCommand::class);
