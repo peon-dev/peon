@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Ui\Controller;
 
 use Peon\Domain\Cookbook\Exception\RecipeNotFound;
+use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Exception\CouldNotConfigureDisabledRecipe;
 use Peon\Domain\Project\Exception\ProjectNotFound;
@@ -24,6 +25,7 @@ final class ConfigureRecipeController extends AbstractController
     public function __construct(
         private CommandBus $commandBus,
         private ProvideReadProjectDetail $provideReadProjectDetail,
+        private RecipesCollection $recipesCollection,
     ) {
     }
 
@@ -62,6 +64,7 @@ final class ConfigureRecipeController extends AbstractController
             return $this->renderForm('configure_recipe.html.twig', [
                 'activeProject' => $project,
                 'configureRecipeForm' => $configureRecipeForm,
+                'recipe' => $this->recipesCollection->get(RecipeName::from($recipeName)),
             ]);
         } catch (RecipeNotFound | CouldNotConfigureDisabledRecipe) {
             return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
