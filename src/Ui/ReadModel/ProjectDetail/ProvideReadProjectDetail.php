@@ -12,6 +12,7 @@ use Peon\Domain\PhpApplication\Value\BuildConfiguration;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadProjectDetail
@@ -53,7 +54,7 @@ SQL;
         $enabledRecipes = [];
 
         /**
-         * @var array<array{recipe_name: string, baseline_hash: string|null}> $enabledRecipesJson
+         * @var array<array{recipe_name: string, baseline_hash: string|null, configuration?: array{merge_automatically: bool}}> $enabledRecipesJson
          */
         $enabledRecipesJson = Json::decode($row['enabledRecipes'], Json::FORCE_ARRAY);
 
@@ -67,9 +68,12 @@ SQL;
 
         // TODO: Temporary fix until we have proper hydrator
         foreach ($enabledRecipesJson as $enabledRecipe) {
-            $enabledRecipes[] = EnabledRecipe::withoutConfiguration(
+            $enabledRecipes[] = new EnabledRecipe(
                 RecipeName::from($enabledRecipe['recipe_name']),
                 $enabledRecipe['baseline_hash'],
+                new RecipeJobConfiguration(
+                    $enabledRecipe['configuration']['merge_automatically'] ?? RecipeJobConfiguration::DEFAULT_MERGE_AUTOMATICALLY_VALUE,
+                ),
             );
         }
 
