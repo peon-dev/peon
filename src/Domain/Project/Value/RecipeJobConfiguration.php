@@ -6,7 +6,7 @@ namespace Peon\Domain\Project\Value;
 
 final class RecipeJobConfiguration
 {
-    public const DEFAULT_MERGE_AUTOMATICALLY_VALUE = true;
+    public const DEFAULT_MERGE_AUTOMATICALLY_VALUE = false;
 
 
     public function __construct(

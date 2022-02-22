@@ -6,6 +6,7 @@ namespace Peon\Tests\Unit\Infrastructure\Persistence\Doctrine\Type;
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipeType;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +34,11 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
 
         yield [
             EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
-            '{"recipe_name":"typed-properties","baseline_hash":"a"}',
+            '{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false}}',
+        ];
+        yield [
+            new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a', new RecipeJobConfiguration(true)),
+            '{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":true}}',
         ];
     }
 
@@ -64,6 +69,11 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
         yield [
             '{"recipe_name":"typed-properties","baseline_hash":"a"}',
             EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
+        ];
+
+        yield [
+            '{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":true}}',
+            new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a', new RecipeJobConfiguration(true)),
         ];
     }
 }

@@ -35,8 +35,8 @@ final class ProjectSettingsController extends AbstractController
             $configureBuildForm->handleRequest($request);
 
             if ($configureBuildForm->isSubmitted() && $configureBuildForm->isValid()) {
-                /** @var ConfigureBuildFormData $data */
                 $data = $configureBuildForm->getData();
+                assert($data instanceof ConfigureBuildFormData);
 
                 $this->commandBus->dispatch(
                     new ConfigureProject(

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Integration\UseCase;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
@@ -16,6 +17,7 @@ class ConfigureRecipeForProjectHandlerIntegrationTest extends KernelTestCase
     public function test(): void
     {
         $container = self::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
         $bus = $container->get(CommandBus::class);
         $projectId = new ProjectId(DataFixtures::PROJECT_1_ID);
 
@@ -28,6 +30,8 @@ class ConfigureRecipeForProjectHandlerIntegrationTest extends KernelTestCase
         );
 
         $projectsCollection = $container->get(ProjectsCollection::class);
+
+        $entityManager->clear(); // To make sure entity is not in identity map anymore
         $project = $projectsCollection->get($projectId);
         $enabledRecipe = $project->getEnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
 
