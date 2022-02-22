@@ -47,7 +47,7 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
 
         foreach ($jsonData as $baselineData) {
             // TODO: what about some hydrator instead of doing it manually?
-            $enabledRecipes[] = new EnabledRecipe(
+            $enabledRecipes[] = EnabledRecipe::withoutConfiguration(
                 RecipeName::from($baselineData['recipe_name']),
                 $baselineData['baseline_hash'],
             );

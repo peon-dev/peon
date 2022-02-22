@@ -32,7 +32,7 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
         yield [null, null];
 
         yield [
-            new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a'),
+            EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
             '{"recipe_name":"typed-properties","baseline_hash":"a"}',
         ];
     }
@@ -63,7 +63,7 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
 
         yield [
             '{"recipe_name":"typed-properties","baseline_hash":"a"}',
-            new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'a'),
+            EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
         ];
     }
 }

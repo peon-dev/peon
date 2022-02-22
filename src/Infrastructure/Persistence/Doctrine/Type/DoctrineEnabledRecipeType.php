@@ -46,7 +46,7 @@ final class DoctrineEnabledRecipeType extends JsonType
         }
 
         // TODO: what about some hydrator instead of doing it manually?
-        return new EnabledRecipe(
+        return EnabledRecipe::withoutConfiguration(
             RecipeName::from($jsonData['recipe_name']),
             $jsonData['baseline_hash'],
         );

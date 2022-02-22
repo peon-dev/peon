@@ -44,7 +44,7 @@ class RunJobRecipeTest extends TestCase
     public function provideTestAllConfigurationFilesExistsData(): \Generator
     {
         foreach (RecipeName::cases() as $recipeName) {
-            yield [new EnabledRecipe($recipeName, null)];
+            yield [EnabledRecipe::withoutConfiguration($recipeName, null)];
         }
     }
 }

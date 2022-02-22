@@ -60,7 +60,7 @@ class Job
             $recipe->title,
             null,
             $clock,
-            new EnabledRecipe(
+            EnabledRecipe::withoutConfiguration(
                 $recipe->name,
                 $baselineHash,
             ),
