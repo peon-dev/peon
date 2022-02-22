@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>{% block title %}Configure recipe{% endblock %}</h1>
+    <h1>{% block title %}Configure recipe: {{ recipe.title }}{% endblock %}</h1>
 
     {{ form_start(configureRecipeForm) }}
         {{ form_widget(configureRecipeForm) }}
