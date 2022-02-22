@@ -6,6 +6,7 @@ namespace Peon\Tests\Unit\Infrastructure\Persistence\Doctrine\Type;
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayType;
 use PHPUnit\Framework\TestCase;
 
@@ -38,15 +39,15 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
                 [
                     EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a')
                 ],
-                '[{"recipe_name":"typed-properties","baseline_hash":"a"}]',
+                '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false}}]',
             ];
 
         yield [
             [
                 EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
-                EnabledRecipe::withoutConfiguration(RecipeName::UNUSED_PRIVATE_METHODS, 'b'),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, 'b', new RecipeJobConfiguration(true)),
             ],
-            '[{"recipe_name":"typed-properties","baseline_hash":"a"},{"recipe_name":"unused-private-methods","baseline_hash":"b"}]',
+            '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false}},{"recipe_name":"unused-private-methods","baseline_hash":"b","configuration":{"merge_automatically":true}}]',
         ];
     }
 
@@ -79,6 +80,17 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
             '[{"recipe_name":"typed-properties","baseline_hash":"a"}]',
             [
                 EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
+            ],
+        ];
+
+        yield [
+            '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":true}}]',
+            [
+                new EnabledRecipe(
+                    RecipeName::TYPED_PROPERTIES,
+                    'a',
+                    new RecipeJobConfiguration(true)
+                ),
             ],
         ];
 

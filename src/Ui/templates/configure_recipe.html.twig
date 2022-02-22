@@ -3,4 +3,9 @@
 {% block content %}
     <h1>{% block title %}Configure recipe{% endblock %}</h1>
 
+    {{ form_start(configureRecipeForm) }}
+        {{ form_widget(configureRecipeForm) }}
+
+        <input type="submit" name="submit" value="Save" class="btn btn-primary" />
+    {{ form_end(configureRecipeForm) }}
 {% endblock %}

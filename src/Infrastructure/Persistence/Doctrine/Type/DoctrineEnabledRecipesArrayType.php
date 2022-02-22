@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 
 final class DoctrineEnabledRecipesArrayType extends JsonType
 {
@@ -45,11 +46,16 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
 
         $enabledRecipes = [];
 
-        foreach ($jsonData as $baselineData) {
+        foreach ($jsonData as $enabledRecipeData) {
             // TODO: what about some hydrator instead of doing it manually?
-            $enabledRecipes[] = EnabledRecipe::withoutConfiguration(
-                RecipeName::from($baselineData['recipe_name']),
-                $baselineData['baseline_hash'],
+            $configuration = new RecipeJobConfiguration(
+                $enabledRecipeData['configuration']['merge_automatically'] ?? RecipeJobConfiguration::DEFAULT_MERGE_AUTOMATICALLY_VALUE,
+            );
+
+            $enabledRecipes[] = new EnabledRecipe(
+                RecipeName::from($enabledRecipeData['recipe_name']),
+                $enabledRecipeData['baseline_hash'],
+                $configuration,
             );
         }
 
@@ -68,14 +74,17 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
 
         $data = [];
 
-        foreach ($value as $baseline) {
-            if (!is_a($baseline, EnabledRecipe::class)) {
+        foreach ($value as $enabledRecipe) {
+            if (!is_a($enabledRecipe, EnabledRecipe::class)) {
                 throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [EnabledRecipe::class]);
             }
 
             $data[] = [
-                'recipe_name' => $baseline->recipeName->value,
-                'baseline_hash' => $baseline->baselineHash,
+                'recipe_name' => $enabledRecipe->recipeName->value,
+                'baseline_hash' => $enabledRecipe->baselineHash,
+                'configuration' => [
+                    'merge_automatically' => $enabledRecipe->configuration->mergeAutomatically,
+                ],
             ];
         }
 

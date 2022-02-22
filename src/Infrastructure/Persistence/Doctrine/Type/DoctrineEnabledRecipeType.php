@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 
 final class DoctrineEnabledRecipeType extends JsonType
 {
@@ -46,9 +47,14 @@ final class DoctrineEnabledRecipeType extends JsonType
         }
 
         // TODO: what about some hydrator instead of doing it manually?
-        return EnabledRecipe::withoutConfiguration(
+        $configuration = new RecipeJobConfiguration(
+            $jsonData['configuration']['merge_automatically'] ?? RecipeJobConfiguration::DEFAULT_MERGE_AUTOMATICALLY_VALUE,
+        );
+
+        return new EnabledRecipe(
             RecipeName::from($jsonData['recipe_name']),
             $jsonData['baseline_hash'],
+            $configuration
         );
     }
 
@@ -70,6 +76,9 @@ final class DoctrineEnabledRecipeType extends JsonType
         $data = [
             'recipe_name' => $value->recipeName->value,
             'baseline_hash' => $value->baselineHash,
+            'configuration' => [
+                'merge_automatically' => $value->configuration->mergeAutomatically,
+            ],
         ];
 
         $converted = parent::convertToDatabaseValue($data, $platform);
