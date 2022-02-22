@@ -6,6 +6,7 @@ namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 
 final class ReadProjectDetail
 {
@@ -45,6 +46,12 @@ final class ReadProjectDetail
     public function getRecipeBaselineHash(RecipeName $recipeName): null|string
     {
         return $this->getEnabledRecipe($recipeName)?->baselineHash;
+    }
+
+
+    public function getRecipeConfiguration(RecipeName $recipeName): null|RecipeJobConfiguration
+    {
+        return $this->getEnabledRecipe($recipeName)?->configuration;
     }
 
 

@@ -37,7 +37,10 @@ final class ConfigureRecipeController extends AbstractController
             }
 
             $project = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
-            $configureRecipeForm = $this->createForm(ConfigureRecipeFormType::class);
+            $configureRecipeForm = $this->createForm(ConfigureRecipeFormType::class, ConfigureRecipeFormData::fromReadProjectDetail(
+                $project,
+                RecipeName::from($recipeName),
+            ));
 
             $configureRecipeForm->handleRequest($request);
 

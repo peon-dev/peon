@@ -81,14 +81,8 @@ class ConfigureRecipeControllerTest extends WebTestCase
     public function testRecipeCanBeConfigured(): void
     {
         $client = static::createClient();
-        $container = self::getContainer();
-        $projectsCollection = $container->get(ProjectsCollection::class);
         $projectId = DataFixtures::PROJECT_1_ID;
-        $project = $projectsCollection->get(new ProjectId($projectId));
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
-
-        $enabledRecipe = $project->getEnabledRecipe(RecipeName::TYPED_PROPERTIES);
-        self::assertFalse($enabledRecipe?->configuration->mergeAutomatically);
 
         $crawler = $client->request('GET', "/projects/$projectId/configure-recipe/$recipeName");
 
@@ -96,14 +90,16 @@ class ConfigureRecipeControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('submit')->form();
 
+        self::assertCheckboxNotChecked($form->getName() . '[mergeAutomatically]');
+
         $client->submit($form, [
             $form->getName() . '[mergeAutomatically]' => true,
         ]);
 
         self::assertResponseRedirects("/projects/$projectId");
 
-        $project = $projectsCollection->get(new ProjectId($projectId));
-        $enabledRecipe = $project->getEnabledRecipe(RecipeName::TYPED_PROPERTIES);
-        self::assertTrue($enabledRecipe?->configuration->mergeAutomatically);
+        $client->request('GET', "/projects/$projectId/configure-recipe/$recipeName");
+
+        self::assertCheckboxChecked($form->getName() . '[mergeAutomatically]');
     }
 }
