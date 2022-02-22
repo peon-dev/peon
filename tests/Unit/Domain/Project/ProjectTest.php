@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Peon\Tests\Unit\Domain\Project;
 
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\Project\Exception\CouldNotConfigureDisabledRecipe;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use Peon\Tests\DataFixtures\DataFixtures;
 use PHPUnit\Framework\TestCase;
 
@@ -56,6 +58,35 @@ class ProjectTest extends TestCase
 
         $project->disableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
         self::assertCount(0, $project->enabledRecipes);
+    }
+
+
+    public function testConfigureRecipe(): void
+    {
+        $project = $this->createProject();
+
+        // Lets enable some recipes first
+        $project->enableRecipe(RecipeName::SWITCH_TO_MATCH, null);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES, null);
+
+        // Fresh enabled recipe should contain default configuration
+        self::assertEquals(RecipeJobConfiguration::createDefault(), $project->getEnabledRecipe(RecipeName::SWITCH_TO_MATCH)?->configuration);
+
+        $newConfiguration = new RecipeJobConfiguration(true);
+        $project->configureRecipe(RecipeName::SWITCH_TO_MATCH, $newConfiguration);
+
+        self::assertSame($newConfiguration, $project->getEnabledRecipe(RecipeName::SWITCH_TO_MATCH)?->configuration);
+    }
+
+
+    public function testConfigureNotEnabledRecipeShouldThrowException(): void
+    {
+        $project = $this->createProject();
+
+        $this->expectException(CouldNotConfigureDisabledRecipe::class);
+
+        $project->configureRecipe(RecipeName::SWITCH_TO_MATCH, RecipeJobConfiguration::createDefault());
+
     }
 
 

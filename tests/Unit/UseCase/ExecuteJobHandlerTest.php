@@ -508,7 +508,7 @@ final class ExecuteJobHandlerTest extends TestCase
                 'Title',
                 null,
                 $this->createMock(Clock::class),
-                new EnabledRecipe(RecipeName::TYPED_PROPERTIES, 'abc'),
+                EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'abc'),
             ]);
     }
 

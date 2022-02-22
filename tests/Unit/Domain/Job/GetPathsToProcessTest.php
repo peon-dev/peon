@@ -26,7 +26,7 @@ class GetPathsToProcessTest extends TestCase
 
         $paths = $getPathsToProcess->forJob(
             new JobId(''),
-            new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, null),
+            EnabledRecipe::withoutConfiguration(RecipeName::UNUSED_PRIVATE_METHODS, null),
             '/'
         );
 
@@ -54,7 +54,7 @@ class GetPathsToProcessTest extends TestCase
 
         $paths = $getPathsToProcess->forJob(
             $jobId,
-            new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, '12345'),
+            EnabledRecipe::withoutConfiguration(RecipeName::UNUSED_PRIVATE_METHODS, '12345'),
             $workingDirectory
         );
 

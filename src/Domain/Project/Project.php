@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Peon\Domain\Project;
 
 use JetBrains\PhpStorm\Immutable;
-use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\PhpApplication\Value\BuildConfiguration;
+use Peon\Domain\Project\Exception\CouldNotConfigureDisabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Project\Value\EnabledRecipe;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 
 class Project
 {
@@ -46,9 +47,29 @@ class Project
     }
 
 
+    /**
+     * @throws CouldNotConfigureDisabledRecipe
+     */
+    public function configureRecipe(RecipeName $recipeName, RecipeJobConfiguration $configuration): void
+    {
+        $recipe = $this->getEnabledRecipe($recipeName);
+
+        if ($recipe === null) {
+            throw new CouldNotConfigureDisabledRecipe();
+        }
+
+        foreach ($this->enabledRecipes as $key => $enabledRecipe) {
+            if ($enabledRecipe->recipeName === $recipeName) {
+                $this->enabledRecipes[$key] = $recipe->configure($configuration);
+                return;
+            }
+        }
+    }
+
+
     public function enableRecipe(RecipeName $recipeName, string|null $baseline = null): void
     {
-        $recipeToBeEnabled = new EnabledRecipe($recipeName, $baseline);
+        $recipeToBeEnabled = EnabledRecipe::withoutConfiguration($recipeName, $baseline);
 
         foreach ($this->enabledRecipes as $key => $enabledRecipe) {
             if ($enabledRecipe->recipeName === $recipeName) {

@@ -67,7 +67,7 @@ SQL;
 
         // TODO: Temporary fix until we have proper hydrator
         foreach ($enabledRecipesJson as $enabledRecipe) {
-            $enabledRecipes[] = new EnabledRecipe(
+            $enabledRecipes[] = EnabledRecipe::withoutConfiguration(
                 RecipeName::from($enabledRecipe['recipe_name']),
                 $enabledRecipe['baseline_hash'],
             );

@@ -26,7 +26,7 @@ class RunJobRecipeIntegrationTest extends KernelTestCase
         $testingGitRepository = TestingRemoteGitRepository::init();
         $testingGitRepository->dumpComposerAutoload();
 
-        $runJobRecipe->run($jobId, new EnabledRecipe($recipeName, null), $testingGitRepository->directory);
+        $runJobRecipe->run($jobId, EnabledRecipe::withoutConfiguration($recipeName, null), $testingGitRepository->directory);
 
         $expectationFileContent = FileSystem::read(__DIR__ . '/../../../RecipesExpectedChanges/' . $recipeName->value . '.xml');
         $xml = new \SimpleXMLElement($expectationFileContent);
