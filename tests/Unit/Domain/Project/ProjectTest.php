@@ -66,8 +66,8 @@ class ProjectTest extends TestCase
         $project = $this->createProject();
 
         // Lets enable some recipes first
-        $project->enableRecipe(RecipeName::SWITCH_TO_MATCH, null);
-        $project->enableRecipe(RecipeName::TYPED_PROPERTIES, null);
+        $project->enableRecipe(RecipeName::SWITCH_TO_MATCH);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES);
 
         // Fresh enabled recipe should contain default configuration
         self::assertEquals(RecipeJobConfiguration::createDefault(), $project->getEnabledRecipe(RecipeName::SWITCH_TO_MATCH)?->configuration);
