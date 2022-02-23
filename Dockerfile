@@ -46,10 +46,10 @@ USER root
 # Unload xdebug extension by deleting config
 RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN mkdir -p /www/var/cache && chown -R 1000:1000 /www
+RUN mkdir -p /peon/var/cache && chown -R 1000:1000 /peon
 
 USER 1000:1000
-WORKDIR /www
+WORKDIR /peon
 
 # Intentionally split into multiple steps to leverage docker layer caching
 COPY --chown=1000:1000 composer.json composer.lock symfony.lock ./
@@ -63,7 +63,7 @@ FROM node:14 as js-builder
 WORKDIR /build
 
 # We need /vendor here
-COPY --from=prod-composer /www .
+COPY --from=prod-composer /peon .
 
 # Install npm packages
 COPY package.json yarn.lock webpack.config.js ./
