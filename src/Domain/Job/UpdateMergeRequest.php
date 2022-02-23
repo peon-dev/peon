@@ -46,15 +46,16 @@ class UpdateMergeRequest
 
         // Branch exists, it should have MR no matter what
         // When this can happen? MR manually closed? Should it exclude files?
-        if ($this->git->remoteBranchExists($jobId, $workingDirectory, $localApplication->jobBranch)) {
+        if ($mergeRequest === null && $this->git->remoteBranchExists($jobId, $workingDirectory, $localApplication->jobBranch)) {
             $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 
         if ($mergeAutomatically === true && $mergeRequest !== null) {
+            // TODO: throwin exception here should not fail the job, maybe? mr exists, that is success, right?
             $this->gitProvider->mergeAutomatically($remoteGitRepository, $mergeRequest);
         }
 
-        return null;
+        return $mergeRequest;
     }
 
 
