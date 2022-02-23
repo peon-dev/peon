@@ -60,32 +60,32 @@ class RectorTest extends TestCase
     {
         yield [
             new RectorProcessCommandConfiguration(),
-            Rector::BINARY_EXECUTABLE . ' process',
+            realpath(Rector::BINARY_EXECUTABLE) . ' process',
         ];
 
         yield [
             new RectorProcessCommandConfiguration(autoloadFile: 'autoload.php'),
-            Rector::BINARY_EXECUTABLE . ' process --autoload-file=autoload.php',
+            realpath(Rector::BINARY_EXECUTABLE) . ' process --autoload-file=autoload.php',
         ];
 
         yield [
             new RectorProcessCommandConfiguration(workingDirectory: 'directory'),
-            Rector::BINARY_EXECUTABLE . ' process --working-dir=directory',
+            realpath(Rector::BINARY_EXECUTABLE) . ' process --working-dir=directory',
         ];
 
         yield [
             new RectorProcessCommandConfiguration(config: 'config.php'),
-            Rector::BINARY_EXECUTABLE . ' process --config=config.php',
+            realpath(Rector::BINARY_EXECUTABLE) . ' process --config=config.php',
         ];
 
         yield [
             new RectorProcessCommandConfiguration(paths: ['src', 'app']),
-            Rector::BINARY_EXECUTABLE . ' process src app',
+            realpath(Rector::BINARY_EXECUTABLE) . ' process src app',
         ];
 
         yield [
             new RectorProcessCommandConfiguration('autoload.php', 'directory', 'project/config.php', ['src', 'app']),
-            Rector::BINARY_EXECUTABLE . ' process --autoload-file=autoload.php --working-dir=directory --config=project/config.php src app',
+            realpath(Rector::BINARY_EXECUTABLE) . ' process --autoload-file=autoload.php --working-dir=directory --config=project/config.php src app',
         ];
     }
 }
