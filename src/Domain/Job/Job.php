@@ -49,21 +49,18 @@ class Job
     public static function scheduleFromRecipe(
         JobId $jobId,
         ProjectId $projectId,
-        Recipe $recipe,
         Clock $clock,
-        string|null $baselineHash,
+        string $title,
+        EnabledRecipe|null $enabledRecipe,
     ): self
     {
         return new self(
             $jobId,
             $projectId,
-            $recipe->title,
+            $title,
             null,
             $clock,
-            EnabledRecipe::withoutConfiguration(
-                $recipe->name,
-                $baselineHash,
-            ),
+            $enabledRecipe
         );
     }
 

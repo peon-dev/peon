@@ -19,6 +19,7 @@ use Peon\Domain\Process\RunProcess;
 use Peon\Domain\Process\Value\ProcessId;
 use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Project\Project;
+use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Task\Task;
 use Peon\Domain\Task\Value\TaskId;
@@ -75,8 +76,6 @@ final class DataFixtures extends Fixture
 
         $manager->persist($task);
 
-        $mergeRequest = new MergeRequest('https://peon.dev');
-
         $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
         $job1Id = new JobId(self::JOB_1_ID);
         $job1 = Job::scheduleFromTask(
@@ -87,7 +86,7 @@ final class DataFixtures extends Fixture
         );
 
         $job1->start($job1Clock);
-        $job1->succeeds($job1Clock, $mergeRequest);
+        $job1->succeeds($job1Clock, new MergeRequest('1', 'https://peon.dev'));
 
         foreach ($task->commands as $sequence => $command) {
             $process = $this->getProcess($job1Id, $sequence, $command);
@@ -106,7 +105,7 @@ final class DataFixtures extends Fixture
         );
 
         $job2->start($job2Clock);
-        $job2->fails($job2Clock, $mergeRequest);
+        $job2->fails($job2Clock, new MergeRequest('2', 'https://peon.dev'));
 
         foreach ($task->commands as $sequence => $command) {
             $process = $this->getProcess($job2Id, $sequence, $command);
@@ -121,9 +120,9 @@ final class DataFixtures extends Fixture
         $job3 = Job::scheduleFromRecipe(
             $job3Id,
             $projectId,
-            $recipe,
             $job3Clock,
-            null,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
         );
 
         $job3->start($job3Clock);
@@ -137,9 +136,9 @@ final class DataFixtures extends Fixture
         $job4 = Job::scheduleFromRecipe(
             $job4Id,
             $projectId,
-            $recipe,
             $job4Clock,
-            null,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
         );
 
         $job4->start($job4Clock);

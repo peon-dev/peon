@@ -51,9 +51,9 @@ final class RunRecipeHandler implements CommandHandlerInterface
         $job = Job::scheduleFromRecipe(
             $jobId,
             $project->projectId,
-            $recipe,
             $this->clock,
-            $project->getEnabledRecipe($command->recipeName)?->baselineHash
+            $recipe->title,
+            $project->getEnabledRecipe($command->recipeName)
         );
 
         $this->jobsCollection->save($job);

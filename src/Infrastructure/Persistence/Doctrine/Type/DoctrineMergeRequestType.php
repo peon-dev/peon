@@ -48,6 +48,7 @@ final class DoctrineMergeRequestType extends JsonType
 
         // TODO: what about some hydrator instead of doing it manually?
         return new MergeRequest(
+            $jsonData['id'] ?? '',
             $jsonData['url'],
         );
     }

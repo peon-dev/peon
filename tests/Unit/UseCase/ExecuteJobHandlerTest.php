@@ -396,7 +396,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $updateMergeRequest = $this->createMock(UpdateMergeRequest::class);
         $updateMergeRequest->expects(self::once())
             ->method('update')
-            ->willReturn(new MergeRequest('url'));
+            ->willReturn(new MergeRequest('id', 'url'));
 
         $runJobRecipe = $this->createMock(RunJobRecipe::class);
         $runJobRecipe->expects(self::never())
@@ -455,7 +455,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $updateMergeRequest = $this->createMock(UpdateMergeRequest::class);
         $updateMergeRequest->expects(self::once())
             ->method('update')
-            ->willReturn(new MergeRequest('url'));
+            ->willReturn(new MergeRequest('id', 'url'));
 
         $runJobRecipe = $this->createMock(RunJobRecipe::class);
         $runJobRecipe->expects(self::once())

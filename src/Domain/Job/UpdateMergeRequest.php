@@ -34,24 +34,24 @@ class UpdateMergeRequest
     ): MergeRequest|null
     {
         $workingDirectory = $localApplication->workingDirectory;
+        $mergeRequest = null;
 
         if ($this->git->hasUncommittedChanges($jobId, $workingDirectory)) {
             $this->git->commit($jobId, $workingDirectory, '[Peon] ' . $title);
 
-            $options = [];
-            if ($mergeAutomatically === true) {
-                $options[] = Git::GITLAB_AUTOMATIC_MERGE_PUSH_OPTION;
-            }
+            $this->git->forcePushWithLease($jobId, $workingDirectory);
 
-            $this->git->forcePushWithLease($jobId, $workingDirectory, $options);
-
-            return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+            $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 
         // Branch exists, it should have MR no matter what
         // When this can happen? MR manually closed? Should it exclude files?
         if ($this->git->remoteBranchExists($jobId, $workingDirectory, $localApplication->jobBranch)) {
-            return $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+            $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+        }
+
+        if ($mergeAutomatically === true && $mergeRequest !== null) {
+            $this->gitProvider->mergeAutomatically($remoteGitRepository, $mergeRequest);
         }
 
         return null;
