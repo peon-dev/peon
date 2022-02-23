@@ -30,7 +30,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
             $client = $this->createHttpClient($gitRepository);
             $project = $gitRepository->getProject();
 
-            /** @var array{web_url: string, iid: string} $mergeRequest */
+            /** @var array{web_url: string, iid: int|string} $mergeRequest */
             $mergeRequest = $client->mergeRequests()->create(
                 $project,
                 $branchWithChanges,
@@ -43,7 +43,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
                 ]
             );
 
-            return new MergeRequest($mergeRequest['iid'], $mergeRequest['web_url']);
+            return new MergeRequest((string) $mergeRequest['iid'], $mergeRequest['web_url']);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
@@ -85,10 +85,10 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
                 throw new GitProviderCommunicationFailed('Should not exist more than 1 merge request for branch');
             }
 
-            /** @var array{web_url: string, iid: string} $mergeRequest */
+            /** @var array{web_url: string, iid: int|string} $mergeRequest */
             $mergeRequest = array_shift($mergeRequests);
 
-            return new MergeRequest($mergeRequest['iid'], $mergeRequest['web_url']);
+            return new MergeRequest((string) $mergeRequest['iid'], $mergeRequest['web_url']);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
