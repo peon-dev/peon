@@ -24,18 +24,18 @@ class Rector
      */
     public function process(JobId $jobId, string $directory, RectorProcessCommandConfiguration $configuration): void
     {
-        $command = sprintf('%s process', self::BINARY_EXECUTABLE);
+        $command = sprintf('%s process', realpath(self::BINARY_EXECUTABLE));
 
         if ($configuration->autoloadFile !== null) {
-            $command .= ' --autoload-file=' . $configuration->autoloadFile;
+            $command .= ' --autoload-file=' . (file_exists($configuration->autoloadFile) ? realpath($configuration->autoloadFile) : $configuration->autoloadFile);
         }
 
         if ($configuration->workingDirectory) {
-            $command .= ' --working-dir=' . $configuration->workingDirectory;
+            $command .= ' --working-dir=' . (file_exists($configuration->workingDirectory) ? realpath($configuration->workingDirectory) : $configuration->workingDirectory);
         }
 
         if ($configuration->config !== null) {
-            $command .= ' --config=' . $configuration->config;
+            $command .= ' --config=' . (file_exists($configuration->config) ? realpath($configuration->config) : $configuration->config);
         }
 
         if ($configuration->paths) {
