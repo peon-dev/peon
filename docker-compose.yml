@@ -3,8 +3,8 @@ services:
     dashboard:
         image: peon
         volumes:
-            - .:/var/www
-        working_dir: /var/www
+            - .:/peon
+        working_dir: /peon
         depends_on:
             - composer
             - postgres
@@ -17,8 +17,8 @@ services:
     js-watch:
         image: node:14
         volumes:
-            - .:/var/www
-        working_dir: /var/www
+            - .:/peon
+        working_dir: /peon
         restart: unless-stopped
         entrypoint: [""]
         command: "bash -c 'yarn install && yarn run watch'"
@@ -41,16 +41,16 @@ services:
             context: .
             target: dev
         volumes:
-            - .:/var/www
-        working_dir: /var/www
+            - .:/peon
+        working_dir: /peon
         entrypoint: "composer"
         command: [ "install", "--no-interaction" ]
 
     worker:
         image: peon
         volumes:
-            - .:/var/www
-        working_dir: /var/www
+            - .:/peon
+        working_dir: /peon
         depends_on:
             - dashboard
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
@@ -58,8 +58,8 @@ services:
     scheduler:
         image: peon
         volumes:
-            - .:/var/www
-        working_dir: /var/www
+            - .:/peon
+        working_dir: /peon
         depends_on:
             - dashboard
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
