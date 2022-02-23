@@ -54,7 +54,7 @@ final class ConfigureRecipeController extends AbstractController
                     new ConfigureRecipeForProject(
                         new ProjectId($projectId),
                         RecipeName::from($recipeName),
-                        true,
+                        $data->mergeAutomatically,
                     )
                 );
 
