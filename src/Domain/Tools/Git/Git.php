@@ -11,8 +11,6 @@ use Psr\Http\Message\UriInterface;
 
 class Git
 {
-    public const GITLAB_AUTOMATIC_MERGE_PUSH_OPTION = 'merge_request.merge_when_pipeline_succeeds';
-
     private const USER_NAME = 'Peon';
     private const USER_EMAIL = 'peon@peon.dev';
 
@@ -108,22 +106,11 @@ class Git
 
 
     /**
-     * @param array<string> $pushOptions
      * @throws ProcessFailed
      */
-    public function forcePushWithLease(JobId $jobId, string $directory, array $pushOptions = []): void
+    public function forcePushWithLease(JobId $jobId, string $directory): void
     {
-        $pushOptionsString = '';
-        foreach ($pushOptions as $option) {
-            $pushOptionsString .= ' --push-option=' . $option;
-        }
-
-        $command = sprintf(
-            'git push%s -u origin --force-with-lease HEAD',
-            $pushOptionsString,
-        );
-
-        $this->executeCommand->inDirectory($jobId, $directory, $command);
+        $this->executeCommand->inDirectory($jobId, $directory, 'git push -u origin --force-with-lease HEAD');
     }
 
 

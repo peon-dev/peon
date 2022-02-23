@@ -30,7 +30,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
             $client = $this->createHttpClient($gitRepository);
             $project = $gitRepository->getProject();
 
-            /** @var array{web_url: string} $mergeRequest */
+            /** @var array{web_url: string, iid: string} $mergeRequest */
             $mergeRequest = $client->mergeRequests()->create(
                 $project,
                 $branchWithChanges,
@@ -43,7 +43,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
                 ]
             );
 
-            return new MergeRequest($mergeRequest['web_url']);
+            return new MergeRequest($mergeRequest['iid'], $mergeRequest['web_url']);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
@@ -85,10 +85,10 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
                 throw new GitProviderCommunicationFailed('Should not exist more than 1 merge request for branch');
             }
 
-            /** @var array{web_url: string} $mergeRequest */
+            /** @var array{web_url: string, iid: string} $mergeRequest */
             $mergeRequest = array_shift($mergeRequests);
 
-            return new MergeRequest($mergeRequest['web_url']);
+            return new MergeRequest($mergeRequest['iid'], $mergeRequest['web_url']);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
@@ -131,6 +131,23 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
             return new Commit(
               $branch['commit']['short_id']
             );
+        } catch (\Throwable $throwable) {
+            throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
+        }
+    }
+
+
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
+    public function mergeAutomatically(RemoteGitRepository $gitRepository, MergeRequest $mergeRequest): void
+    {
+        $client = $this->createHttpClient($gitRepository);
+
+        try {
+            $client->mergeRequests()->merge($gitRepository->getProject(), (int) $mergeRequest->id, [
+                'merge_when_pipeline_succeeds'
+            ]);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }

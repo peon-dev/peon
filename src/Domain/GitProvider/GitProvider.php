@@ -26,4 +26,9 @@ interface GitProvider
      * @throws GitProviderCommunicationFailed
      */
     public function getMergeRequestForBranch(RemoteGitRepository $gitRepository, string $branch): MergeRequest|null;
+
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
+    public function mergeAutomatically(RemoteGitRepository $gitRepository, MergeRequest $mergeRequest): void;
 }
