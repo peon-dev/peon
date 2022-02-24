@@ -20,6 +20,7 @@ final class DefineTask
         public ProjectId $projectId,
         public string $name,
         public array $commands,
-        public ?CronExpression $schedule
+        public ?CronExpression $schedule,
+        public bool $mergeAutomatically,
     ) {}
 }

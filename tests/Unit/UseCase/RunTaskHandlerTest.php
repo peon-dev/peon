@@ -53,7 +53,7 @@ final class RunTaskHandlerTest extends TestCase
         );
 
         $tasksCollection->save(
-            new Task($taskId, $projectId, 'Task', ['command'])
+            new Task($taskId, $projectId, 'Task', ['command'], false)
         );
 
         self::assertCount(0, $jobsCollection->all());
@@ -115,7 +115,7 @@ final class RunTaskHandlerTest extends TestCase
         $jobId = new JobId('0');
 
         $tasksCollection->save(
-            new Task($taskId, $projectId, 'Task', ['command'])
+            new Task($taskId, $projectId, 'Task', ['command'], false)
         );
 
         $useCase = new RunTaskHandler(

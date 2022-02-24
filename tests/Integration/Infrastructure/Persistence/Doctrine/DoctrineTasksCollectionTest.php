@@ -36,7 +36,8 @@ final class DoctrineTasksCollectionTest extends KernelTestCase
             $taskId,
             new ProjectId(Uuid::uuid4()->toString()),
             'Task name',
-            ['command']
+            ['command'],
+            false,
         );
 
         $this->doctrineTasksCollection->save($task);

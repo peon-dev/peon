@@ -17,6 +17,8 @@ final class DefineTaskFormData
     #[NotBlank]
     public string $commands;
 
+    public bool $mergeAutomatically;
+
     private ?CronExpression $schedule = null;
 
     /**
@@ -64,6 +66,7 @@ final class DefineTaskFormData
         $data->name = $task->name;
         $data->commands = implode("\n", $task->commands);
         $data->schedule = $task->schedule;
+        $data->mergeAutomatically = $task->mergeAutomatically;
 
         return $data;
     }

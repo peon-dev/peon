@@ -34,7 +34,8 @@ final class DefineTaskHandlerTest extends TestCase
                 new ProjectId(''),
                 'Name',
                 [''],
-                null
+                null,
+                false
             )
         );
 

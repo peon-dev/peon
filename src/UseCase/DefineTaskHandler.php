@@ -26,7 +26,8 @@ final class DefineTaskHandler implements CommandHandlerInterface
             $command->taskId,
             $command->projectId,
             $command->name,
-            $command->commands
+            $command->commands,
+            $command->mergeAutomatically,
         );
 
         $task->changeSchedule($command->schedule);
