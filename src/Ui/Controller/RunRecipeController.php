@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Ui\Controller;
 
+use Peon\Domain\Cookbook\Exception\RecipeNotEnabled;
 use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Job\Exception\JobExecutionFailed;
@@ -45,7 +46,7 @@ final class RunRecipeController extends AbstractController
             );
 
             return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
-        } catch (ProjectNotFound | RecipeNotFound) {
+        } catch (ProjectNotFound | RecipeNotFound | RecipeNotEnabled) {
             throw $this->createNotFoundException();
         }
     }
