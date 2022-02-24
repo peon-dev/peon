@@ -95,7 +95,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
                 $localApplication,
                 $remoteGitRepository,
                 $jobTitle,
-                $job->enabledRecipe?->configuration->mergeAutomatically ?? false
+                $command->mergeAutomatically,
             );
             $job->succeeds($this->clock, $mergeRequest);
         } catch (JobHasStartedAlready $exception) {

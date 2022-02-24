@@ -35,6 +35,6 @@ class ConfigureRecipeForProjectHandlerIntegrationTest extends KernelTestCase
         $project = $projectsCollection->get($projectId);
         $enabledRecipe = $project->getEnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
 
-        self::assertTrue($enabledRecipe?->configuration->mergeAutomatically);
+        self::assertTrue($enabledRecipe->configuration->mergeAutomatically);
     }
 }

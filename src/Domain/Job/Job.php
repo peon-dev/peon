@@ -51,7 +51,7 @@ class Job
         ProjectId $projectId,
         Clock $clock,
         string $title,
-        EnabledRecipe|null $enabledRecipe,
+        EnabledRecipe $enabledRecipe,
     ): self
     {
         return new self(

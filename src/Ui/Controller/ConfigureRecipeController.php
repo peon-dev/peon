@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Peon\Ui\Controller;
 
+use Peon\Domain\Cookbook\Exception\RecipeNotEnabled;
 use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Cookbook\Value\RecipeName;
-use Peon\Domain\Project\Exception\CouldNotConfigureDisabledRecipe;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Packages\MessageBus\Command\CommandBus;
@@ -66,7 +66,7 @@ final class ConfigureRecipeController extends AbstractController
                 'configureRecipeForm' => $configureRecipeForm,
                 'recipe' => $this->recipesCollection->get(RecipeName::from($recipeName)),
             ]);
-        } catch (RecipeNotFound | CouldNotConfigureDisabledRecipe) {
+        } catch (RecipeNotFound | RecipeNotEnabled) {
             return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
         } catch (ProjectNotFound) {
             throw $this->createNotFoundException();

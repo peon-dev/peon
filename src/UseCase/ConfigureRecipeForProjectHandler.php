@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\UseCase;
 
-use Peon\Domain\Project\Exception\CouldNotConfigureDisabledRecipe;
+use Peon\Domain\Cookbook\Exception\RecipeNotEnabled;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\RecipeJobConfiguration;
@@ -19,7 +19,7 @@ final class ConfigureRecipeForProjectHandler implements CommandHandlerInterface
 
     /**
      * @throws ProjectNotFound
-     * @throws CouldNotConfigureDisabledRecipe
+     * @throws RecipeNotEnabled
      */
     public function __invoke(ConfigureRecipeForProject $command): void
     {

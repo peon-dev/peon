@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Application\Ui\Controller;
 
+use Peon\Domain\Cookbook\Exception\RecipeNotEnabled;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
@@ -44,7 +45,13 @@ class ConfigureRecipeControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $recipeName = RecipeName::OBJECT_MAGIC_CLASS_CONSTANT->value;
 
-        $enabledRecipe = $project->getEnabledRecipe(RecipeName::OBJECT_MAGIC_CLASS_CONSTANT);
+        $exception = null;
+        $enabledRecipe = null;
+        try {
+            $enabledRecipe = $project->getEnabledRecipe(RecipeName::OBJECT_MAGIC_CLASS_CONSTANT);
+        } catch (RecipeNotEnabled $exception) {
+        }
+        self::assertNotNull($exception);
         self::assertNull($enabledRecipe);
 
         $crawler = $client->request('GET', "/projects/$projectId/configure-recipe/$recipeName");
@@ -60,7 +67,14 @@ class ConfigureRecipeControllerTest extends WebTestCase
         self::assertResponseRedirects("/projects/$projectId");
 
         $project = $projectsCollection->get(new ProjectId($projectId));
-        $enabledRecipe = $project->getEnabledRecipe(RecipeName::OBJECT_MAGIC_CLASS_CONSTANT);
+
+        $exception = null;
+        $enabledRecipe = null;
+        try {
+            $enabledRecipe = $project->getEnabledRecipe(RecipeName::OBJECT_MAGIC_CLASS_CONSTANT);
+        } catch (RecipeNotEnabled $exception) {
+        }
+        self::assertNotNull($exception);
         self::assertNull($enabledRecipe);
     }
 

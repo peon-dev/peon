@@ -41,7 +41,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testNotFoundJobWillThrowException(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $jobsCollection = $this->createMock(JobsCollection::class);
         $jobsCollection->expects(self::once())
@@ -69,7 +69,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testMissingProjectWillCancelJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createTaskJobMock($jobId);
         $job->expects(self::once())
@@ -110,7 +110,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedPreparingGitRepositoryWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createTaskJobMock($jobId);
         $job->expects(self::once())
@@ -157,7 +157,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedBuildingApplicationWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createTaskJobMock($jobId);
         $job->expects(self::once())
@@ -208,7 +208,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedRunningCommandWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createTaskJobMock($jobId);
         $job->expects(self::once())
@@ -261,7 +261,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedRunningRecipeWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createRecipeJobMock($jobId);
         $job->expects(self::once())
@@ -314,7 +314,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testFailedOpeningMergeRequestWillFailJob(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createTaskJobMock($jobId);
         $job->expects(self::once())
@@ -367,7 +367,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testTaskJobWillSucceed(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createTaskJobMock($jobId);
         $job->expects(self::once())
@@ -426,7 +426,7 @@ final class ExecuteJobHandlerTest extends TestCase
     public function testRecipeJobWillSucceed(): void
     {
         $jobId = new JobId('');
-        $command = new ExecuteJob($jobId);
+        $command = new ExecuteJob($jobId, false);
 
         $job = $this->createRecipeJobMock($jobId);
         $job->expects(self::once())

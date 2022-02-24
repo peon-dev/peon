@@ -11,6 +11,7 @@ use Peon\Domain\Job\Value\JobId;
 final class ExecuteJob
 {
     public function __construct(
-        public JobId $jobId
+        public JobId $jobId,
+        public bool $mergeAutomatically,
     ) {}
 }
