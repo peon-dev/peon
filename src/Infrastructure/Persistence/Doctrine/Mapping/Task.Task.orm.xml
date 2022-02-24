@@ -6,6 +6,7 @@
         <id name="taskId" type="task_id" />
         <field name="projectId" type="project_id" />
         <field name="name" />
+        <field name="mergeAutomatically" type="boolean" />
         <field name="commands" type="json" />
         <field name="schedule" type="cron_expression" nullable="true" />
     </entity>

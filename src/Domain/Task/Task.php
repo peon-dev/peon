@@ -21,17 +21,23 @@ class Task
         public TaskId $taskId,
         public ProjectId $projectId,
         public string $name,
-        public array $commands
+        public array $commands,
+        public bool $mergeAutomatically,
     ) {}
 
 
     /**
      * @param array<string> $commands
      */
-    public function changeDefinition(string $name, array $commands): void
+    public function changeDefinition(
+        string $name, array
+        $commands,
+        bool $mergeAutomatically,
+    ): void
     {
         $this->name = $name;
         $this->commands = $commands;
+        $this->mergeAutomatically = $mergeAutomatically;
     }
 
 

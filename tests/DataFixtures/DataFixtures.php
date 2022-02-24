@@ -70,7 +70,8 @@ final class DataFixtures extends Fixture
             $taskId,
             $projectId,
             'task',
-            ['command1', 'command2']
+            ['command1', 'command2'],
+            false,
         );
         $task->changeSchedule(new CronExpression(self::TASK_SCHEDULE));
 

@@ -18,6 +18,7 @@ final class RedefineTask
         public TaskId $taskId,
         public string $name,
         public array $commands,
-        public ?CronExpression $schedule
+        public ?CronExpression $schedule,
+        public bool $mergeAutomatically,
     ) {}
 }

@@ -27,7 +27,7 @@ final class RedefineTaskHandlerTest extends TestCase
             ->with(new IsInstanceOf(TaskChanged::class));
         $taskId = new TaskId('1');
         $tasksCollection->save(
-            new Task($taskId, new ProjectId(''), 'Task', [])
+            new Task($taskId, new ProjectId(''), 'Task', [], true)
         );
 
         $handler = new RedefineTaskHandler($tasksCollection, $eventBusSpy);
@@ -36,13 +36,15 @@ final class RedefineTaskHandlerTest extends TestCase
                 $taskId,
                 'New name',
                 [],
-                null
+                null,
+                true
             )
         );
 
         $task = $tasksCollection->get($taskId);
 
         self::assertSame('New name', $task->name);
+        self::assertTrue($task->mergeAutomatically);
     }
 
 
@@ -59,7 +61,8 @@ final class RedefineTaskHandlerTest extends TestCase
                 new TaskId(''),
                 'Name',
                 [],
-                null
+                null,
+                false
             )
         );
     }

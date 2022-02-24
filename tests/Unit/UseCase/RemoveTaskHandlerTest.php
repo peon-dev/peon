@@ -26,7 +26,7 @@ final class RemoveTaskHandlerTest extends TestCase
             ->with(new IsInstanceOf(TaskDeleted::class));
         $taskId = new TaskId('1');
         $tasksCollection->save(
-            new Task($taskId, new ProjectId(''), 'Task', [])
+            new Task($taskId, new ProjectId(''), 'Task', [], false)
         );
 
         self::assertCount(1, $tasksCollection->all());

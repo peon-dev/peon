@@ -27,7 +27,7 @@ final class RedefineTaskHandler implements CommandHandlerInterface
 
         // TODO: check project with id $task->projectId exists
 
-        $task->changeDefinition($command->name, $command->commands);
+        $task->changeDefinition($command->name, $command->commands, $command->mergeAutomatically);
         $task->changeSchedule($command->schedule);
 
         $this->tasks->save($task);
