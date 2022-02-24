@@ -42,8 +42,10 @@ final class RunRecipeHandlerTest extends TestCase
         $projectId = new ProjectId('0');
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
+        $project = new Project($projectId, $remoteGitRepository);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES);
         $projectsCollection->save(
-            new Project($projectId, $remoteGitRepository)
+            $project
         );
 
         $handler = new RunRecipeHandler(
