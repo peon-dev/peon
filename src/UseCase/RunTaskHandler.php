@@ -58,7 +58,7 @@ final class RunTaskHandler implements CommandHandlerInterface
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
-            new ExecuteJob($command->jobId)
+            new ExecuteJob($command->jobId, $task->mergeAutomatically)
         );
 
         // TODO: this event could be dispatched in entity

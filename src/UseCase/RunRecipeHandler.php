@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\UseCase;
 
 use Lcobucci\Clock\Clock;
+use Peon\Domain\Cookbook\Exception\RecipeNotEnabled;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Job\Event\JobScheduled;
 use Peon\Domain\Job\Exception\JobExecutionFailed;
@@ -40,6 +41,7 @@ final class RunRecipeHandler implements CommandHandlerInterface
      * @throws JobHasStartedAlready
      * @throws JobHasNotStartedYet
      * @throws JobExecutionFailed
+     * @throws RecipeNotEnabled
      */
     public function __invoke(RunRecipe $command): void
     {
@@ -47,13 +49,14 @@ final class RunRecipeHandler implements CommandHandlerInterface
         $recipe = $this->recipesCollection->get($command->recipeName);
 
         $jobId = $this->jobsCollection->nextIdentity();
+        $enabledRecipe = $project->getEnabledRecipe($command->recipeName);
 
         $job = Job::scheduleFromRecipe(
             $jobId,
             $project->projectId,
             $this->clock,
             $recipe->title,
-            $project->getEnabledRecipe($command->recipeName)
+            $enabledRecipe
         );
 
         $this->jobsCollection->save($job);
@@ -65,7 +68,7 @@ final class RunRecipeHandler implements CommandHandlerInterface
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
-            new ExecuteJob($jobId)
+            new ExecuteJob($jobId, $enabledRecipe->configuration->mergeAutomatically)
         );
     }
 }
