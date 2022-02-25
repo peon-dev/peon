@@ -145,6 +145,9 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
         $client = $this->createHttpClient($gitRepository);
 
         try {
+            // TODO: change to polling, right now this is stupid sleep, because gitlab os slow and peon is too fast :/
+            sleep(5);
+
             $client->mergeRequests()->merge($gitRepository->getProject(), (int) $mergeRequest->id, [
                 'merge_when_pipeline_succeeds'
             ]);
