@@ -149,7 +149,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
             sleep(5);
 
             $client->mergeRequests()->merge($gitRepository->getProject(), (int) $mergeRequest->id, [
-                'merge_when_pipeline_succeeds'
+                'merge_when_pipeline_succeeds' => true,
             ]);
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
