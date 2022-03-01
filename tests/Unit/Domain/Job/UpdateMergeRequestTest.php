@@ -5,6 +5,7 @@ namespace Peon\Tests\Unit\Domain\Job;
 
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
+use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\Job\Value\JobId;
@@ -16,44 +17,193 @@ final class UpdateMergeRequestTest extends TestCase
 {
     public function testLocalChangesNewMergeRequestShouldBeOpened(): void
     {
+        $fakeMergeRequest = new MergeRequest('', '');
+
         $gitProvider = $this->createMock(GitProvider::class);
+        $gitProvider->expects(self::once())
+            ->method('getMergeRequestForBranch')
+            ->willReturn(null);
+        $gitProvider->expects(self::once())
+            ->method('openMergeRequest')
+            ->willReturn($fakeMergeRequest);
+
         $git = $this->createMock(Git::class);
+        $git->expects(self::once())
+            ->method('hasUncommittedChanges')
+            ->willReturn(true);
+        $git->expects(self::once())
+            ->method('commit');
+        $git->expects(self::once())
+            ->method('forcePushWithLease');
+        $git->expects(self::never())
+            ->method('remoteBranchExists');
 
         $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
+        $jobId = new JobId('');
 
         $mergeRequest = $updateMergeRequest->update(
-            new JobId(''),
-            new TemporaryApplication(
-                new JobId(''),
-                '/',
-                'main',
-                'job',
-            ),
-            new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
+            $jobId,
+            $this->getTemporaryApplication($jobId),
+            $this->getRemoteGitRepository(),
             'Title',
             false
         );
 
-        self::assertNotNull($mergeRequest);
+        self::assertSame($fakeMergeRequest, $mergeRequest);
     }
 
 
     public function testLocalChangesMergeRequestAlreadyOpened(): void
     {
+        $fakeMergeRequest = new MergeRequest('', '');
+
+        $gitProvider = $this->createMock(GitProvider::class);
+        $gitProvider->expects(self::once())
+            ->method('getMergeRequestForBranch')
+            ->willReturn($fakeMergeRequest);
+        $gitProvider->expects(self::never())
+            ->method('openMergeRequest');
+
+        $git = $this->createMock(Git::class);
+        $git->expects(self::once())
+            ->method('hasUncommittedChanges')
+            ->willReturn(true);
+        $git->expects(self::once())
+            ->method('commit');
+        $git->expects(self::once())
+            ->method('forcePushWithLease');
+        $git->expects(self::never())
+            ->method('remoteBranchExists');
+
+        $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
+        $jobId = new JobId('');
+
+        $mergeRequest = $updateMergeRequest->update(
+            $jobId,
+            $this->getTemporaryApplication($jobId),
+            $this->getRemoteGitRepository(),
+            'Title',
+            false
+        );
+
+        self::assertSame($fakeMergeRequest, $mergeRequest);
     }
 
 
     public function testNoChangesRemoteBranchExistsNewMergeRequestShouldBeOpened(): void
     {
+        $fakeMergeRequest = new MergeRequest('', '');
+
+        $gitProvider = $this->createMock(GitProvider::class);
+        $gitProvider->expects(self::once())
+            ->method('getMergeRequestForBranch')
+            ->willReturn($fakeMergeRequest);
+        $gitProvider->expects(self::never())
+            ->method('openMergeRequest');
+
+        $git = $this->createMock(Git::class);
+        $git->expects(self::once())
+            ->method('hasUncommittedChanges')
+            ->willReturn(false);
+        $git->expects(self::once())
+            ->method('remoteBranchExists')
+            ->willReturn(true);
+
+        $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
+        $jobId = new JobId('');
+
+        $mergeRequest = $updateMergeRequest->update(
+            $jobId,
+            $this->getTemporaryApplication($jobId),
+            $this->getRemoteGitRepository(),
+            'Title',
+            false
+        );
+
+        self::assertSame($fakeMergeRequest, $mergeRequest);
     }
 
 
-    public function testNoChangesRemoteBranchExistsMergeRequestAlreadyOpened(): void
+    public function testNoLocalChangesRemoteBranchExistsMergeRequestAlreadyOpened(): void
     {
+        $fakeMergeRequest = new MergeRequest('', '');
+
+        $gitProvider = $this->createMock(GitProvider::class);
+        $gitProvider->expects(self::once())
+            ->method('getMergeRequestForBranch')
+            ->willReturn(null);
+        $gitProvider->expects(self::once())
+            ->method('openMergeRequest')
+            ->willReturn($fakeMergeRequest);
+
+        $git = $this->createMock(Git::class);
+        $git->expects(self::once())
+            ->method('hasUncommittedChanges')
+            ->willReturn(false);
+        $git->expects(self::once())
+            ->method('remoteBranchExists')
+            ->willReturn(true);
+
+        $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
+        $jobId = new JobId('');
+
+        $mergeRequest = $updateMergeRequest->update(
+            $jobId,
+            $this->getTemporaryApplication($jobId),
+            $this->getRemoteGitRepository(),
+            'Title',
+            false
+        );
+
+        self::assertSame($fakeMergeRequest, $mergeRequest);
     }
 
 
     public function testNoLocalChangesNoRemoteBranchNothingHappens(): void
     {
+        $gitProvider = $this->createMock(GitProvider::class);
+        $gitProvider->expects(self::never())
+            ->method('getMergeRequestForBranch');
+
+        $git = $this->createMock(Git::class);
+        $git->expects(self::once())
+            ->method('hasUncommittedChanges')
+            ->willReturn(false);
+        $git->expects(self::once())
+            ->method('remoteBranchExists')
+            ->willReturn(false);
+
+        $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
+        $jobId = new JobId('');
+
+        $mergeRequest = $updateMergeRequest->update(
+            $jobId,
+            $this->getTemporaryApplication($jobId),
+            $this->getRemoteGitRepository(),
+            'Title',
+            false
+        );
+
+        self::assertNull($mergeRequest);
+    }
+
+
+    private function getTemporaryApplication(JobId $jobId): TemporaryApplication
+    {
+        return new TemporaryApplication(
+            $jobId,
+            '/',
+            'main',
+            'job',
+        );
+    }
+
+
+    private function getRemoteGitRepository(): RemoteGitRepository
+    {
+        return new RemoteGitRepository(
+            'https://gitlab.com/peon/peon.git',
+            GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
+        );
     }
 }
