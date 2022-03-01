@@ -80,12 +80,16 @@ final class ExecuteJobHandler implements CommandHandlerInterface
             // 3a. run commands
             if ($job->commands !== null) {
                 foreach ($job->commands as $jobCommand) {
-                    $this->executeCommand->inDirectory($job->jobId, $projectDirectory, $jobCommand);
+                    // This should run isolated in Container:
+                    // TODO: image?
+                    $this->executeCommand->inDocker($job->jobId, $projectDirectory, $jobCommand);
                 }
             }
 
             // 3b. or run recipe
             if ($job->enabledRecipe !== null) {
+                // This should run isolated in Container
+                // TODO: image?
                 $this->runJobRecipe->run($job->jobId, $job->enabledRecipe, $projectDirectory);
             }
 

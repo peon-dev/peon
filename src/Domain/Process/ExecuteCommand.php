@@ -24,6 +24,36 @@ class ExecuteCommand
     }
 
 
+    public function inDocker(JobId $jobId, string $workingDirectory, string $command, int $timeoutSeconds = 300): string
+    {
+        // TODO: we will need env variables of project here
+        // TODO: if job is canceled, should exit
+
+        $processId = $this->processesCollection->nextIdentity();
+
+        $dockerCommand = 'wrap this with docker';
+
+        $process = new Process(
+            $processId,
+            $jobId,
+            $this->getNextSequenceForProcessOfJob($jobId),
+            $dockerCommand,
+            $timeoutSeconds,
+        );
+        $this->processesCollection->save($process);
+
+        // TODO, will we here output?
+
+        try {
+            $result = $process->runInDirectory($workingDirectory, $this->runProcess);
+        } finally {
+            $this->processesCollection->save($process);
+        }
+
+        return $result->output;
+    }
+
+
     /**
      * @throws ProcessFailed
      */
