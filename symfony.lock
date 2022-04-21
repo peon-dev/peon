@@ -2,6 +2,9 @@
     "bamarni/composer-bin-plugin": {
         "version": "1.4.1"
     },
+    "brick/math": {
+        "version": "0.9.3"
+    },
     "clue/stream-filter": {
         "version": "v1.5.0"
     },
@@ -300,6 +303,12 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "ramsey/collection": {
+        "version": "1.2.2"
+    },
+    "ramsey/uuid": {
+        "version": "4.3.1"
+    },
     "roave/security-advisories": {
         "version": "dev-latest"
     },
@@ -380,6 +389,9 @@
         "files": [
             "src/Infrastructure/Symfony/Config/packages/sentry.yaml"
         ]
+    },
+    "stella-maris/clock": {
+        "version": "0.1.4"
     },
     "symfony/asset": {
         "version": "v5.3.4"
@@ -519,15 +531,6 @@
         "files": [
             "config/packages/mailer.yaml"
         ]
-    },
-    "symfony/maker-bundle": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
-        }
     },
     "symfony/mercure": {
         "version": "v0.6.1"
