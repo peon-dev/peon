@@ -82,7 +82,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
                 foreach ($job->commands as $jobCommand) {
                     // This should run isolated in Container:
                     // TODO: image?
-                    $this->executeCommand->inDocker($job->jobId, $projectDirectory, $jobCommand);
+                    $this->executeCommand->inContainer($job->jobId, $projectDirectory, $jobCommand);
                 }
             }
 
