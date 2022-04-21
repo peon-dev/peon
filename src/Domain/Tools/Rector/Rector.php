@@ -42,6 +42,6 @@ class Rector
             $command .= ' ' . implode(' ', $configuration->paths);
         }
 
-        $this->executeCommand->inDocker($jobId, $directory, $command, 60 * 60);
+        $this->executeCommand->inContainer($jobId, $directory, $command, 60 * 60);
     }
 }
