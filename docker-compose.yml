@@ -50,6 +50,7 @@ services:
         image: peon
         volumes:
             - .:/peon
+            - /var/run/docker.sock:/var/run/docker.sock
         working_dir: /peon
         depends_on:
             - dashboard
