@@ -8,8 +8,6 @@ use JetBrains\PhpStorm\Immutable;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\Value\ProcessId;
-use Peon\Domain\Process\Value\Command;
-use Peon\Domain\Process\Value\ProcessOutput;
 use Peon\Domain\Process\Value\ProcessResult;
 
 class Process
