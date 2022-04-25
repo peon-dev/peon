@@ -6,24 +6,29 @@ namespace Peon\Infrastructure\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
+use Peon\Domain\Application\Value\WorkingDirectory;
 use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
 
 final class TemporaryLocalFileSystemProvideApplicationDirectory implements ProvideApplicationDirectory
 {
     public function __construct(
-        private string $baseDir
+        private string $peonWorkingDirectoriesPath,
+        private string $hostWorkingDirectoriesPath,
     ) {}
 
 
-    public function provide(): string
+    public function provide(): WorkingDirectory
     {
-        $directory = $this->baseDir . '/' . Random::generate();
+        $randomDirectoryName = Random::generate();
 
-        FileSystem::createDir($directory);
+        $localDirectory = $this->peonWorkingDirectoriesPath . '/' . $randomDirectoryName;
+        $hostDirectory = $this->hostWorkingDirectoriesPath . '/' . $randomDirectoryName;
 
-        $this->registerShutdown($directory);
+        FileSystem::createDir($localDirectory);
 
-        return $directory;
+        $this->registerShutdown($localDirectory);
+
+        return new WorkingDirectory($localDirectory, $hostDirectory);
     }
 
 

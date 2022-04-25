@@ -25,22 +25,22 @@ class PrepareApplicationGitRepository // TODO: better naming
      */
     public function prepare(JobId $jobId, UriInterface $repositoryUri, string $taskName): TemporaryApplication
     {
-        $applicationDirectory = $this->projectDirectoryProvider->provide();
+        $workingDirectory = $this->projectDirectoryProvider->provide();
 
-        $this->git->clone($jobId, $applicationDirectory, $repositoryUri);
-        $this->git->configureUser($jobId, $applicationDirectory);
+        $this->git->clone($jobId, $workingDirectory->localPath, $repositoryUri);
+        $this->git->configureUser($jobId, $workingDirectory->localPath);
 
-        $mainBranch = $this->git->getCurrentBranch($jobId, $applicationDirectory);
+        $mainBranch = $this->git->getCurrentBranch($jobId, $workingDirectory->localPath);
         $taskBranch = $this->provideBranchName->forTask($taskName);
 
-        $this->git->switchToBranch($jobId, $applicationDirectory, $taskBranch);
+        $this->git->switchToBranch($jobId, $workingDirectory->localPath, $taskBranch);
 
-        if ($this->git->remoteBranchExists($jobId, $applicationDirectory, $taskBranch)) {
-            $this->git->trackRemoteBranch($jobId, $applicationDirectory, $taskBranch);
-            $this->syncWithHead($jobId, $applicationDirectory, $mainBranch);
+        if ($this->git->remoteBranchExists($jobId, $workingDirectory->localPath, $taskBranch)) {
+            $this->git->trackRemoteBranch($jobId, $workingDirectory->localPath, $taskBranch);
+            $this->syncWithHead($jobId, $workingDirectory->localPath, $mainBranch);
         }
 
-        return new TemporaryApplication($jobId, $applicationDirectory, $mainBranch, $taskBranch);
+        return new TemporaryApplication($jobId, $workingDirectory, $mainBranch, $taskBranch);
     }
 
 

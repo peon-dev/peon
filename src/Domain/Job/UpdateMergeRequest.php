@@ -36,17 +36,17 @@ class UpdateMergeRequest
         $workingDirectory = $localApplication->workingDirectory;
         $mergeRequest = null;
 
-        if ($this->git->hasUncommittedChanges($jobId, $workingDirectory)) {
-            $this->git->commit($jobId, $workingDirectory, '[Peon] ' . $title);
+        if ($this->git->hasUncommittedChanges($jobId, $workingDirectory->localPath)) {
+            $this->git->commit($jobId, $workingDirectory->localPath, '[Peon] ' . $title);
 
-            $this->git->forcePushWithLease($jobId, $workingDirectory);
+            $this->git->forcePushWithLease($jobId, $workingDirectory->localPath);
 
             $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 
         // Branch exists, it should have MR no matter what
         // When this can happen? MR manually closed? Should it exclude files?
-        if ($mergeRequest === null && $this->git->remoteBranchExists($jobId, $workingDirectory, $localApplication->jobBranch)) {
+        if ($mergeRequest === null && $this->git->remoteBranchExists($jobId, $workingDirectory->localPath, $localApplication->jobBranch)) {
             $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
         }
 

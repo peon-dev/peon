@@ -12,7 +12,7 @@ use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
 class Rector
 {
-    public const BINARY_EXECUTABLE = __DIR__ . '/../../../../vendor-bin/rector/vendor/rector/rector/bin/rector'; // TODO must be dynamic, for non-standard installations
+    public const BINARY_EXECUTABLE = '/peon/vendor-bin/rector/vendor/rector/rector/bin/rector'; // TODO must be dynamic, for non-standard installations
 
 
     public function __construct(

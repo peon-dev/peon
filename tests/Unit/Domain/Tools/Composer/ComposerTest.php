@@ -21,7 +21,7 @@ class ComposerTest extends TestCase
             ->with(
                 $jobId,
                 $projectDirectory,
-                'composer install --ignore-platform-reqs --no-interaction',
+                'composer install --no-interaction',
                 2 * 60
             );
 

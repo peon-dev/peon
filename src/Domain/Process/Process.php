@@ -34,7 +34,7 @@ class Process
     /**
      * @throws ProcessFailed
      */
-    public function runInDirectory(string $directory, RunProcess $runProcess): ProcessResult
+    public function runInDirectory(string|null $directory, RunProcess $runProcess): ProcessResult
     {
         try {
             $result = $runProcess->inDirectory($directory, $this->command, $this->timeoutSeconds);
