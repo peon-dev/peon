@@ -22,8 +22,7 @@ class Composer
      */
     public function install(JobId $jobId, string $directory): void
     {
-        // TODO: remove --ignore-platform-reqs once we have supported environment for the project
-        $this->executeCommand->inDirectory($jobId, $directory,'composer install --ignore-platform-reqs --no-interaction', 2 * 60);
+        $this->executeCommand->inContainer($jobId, $directory,'composer install --no-interaction', 2 * 60);
     }
 
 

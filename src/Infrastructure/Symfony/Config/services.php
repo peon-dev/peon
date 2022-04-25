@@ -52,8 +52,13 @@ return static function(ContainerConfigurator $configurator): void
     $parameters = $configurator->parameters();
 
     $parameters->set(
-        ConfigParameters::WORKING_DIRECTORY_BASE_DIR,
-        __DIR__ . '/../../../../var/working_directories',
+        ConfigParameters::PEON_WORKING_DIRECTORIES_PATH,
+        env('PEON_WORKING_DIRECTORIES_PATH'),
+    );
+
+    $parameters->set(
+        ConfigParameters::HOST_WORKING_DIRECTORIES_PATH,
+        env('HOST_WORKING_DIRECTORIES_PATH'),
     );
 
     $services = $configurator->services();
@@ -93,7 +98,8 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(TemporaryLocalFileSystemProvideApplicationDirectory::class)
         ->args([
-            param(ConfigParameters::WORKING_DIRECTORY_BASE_DIR)
+            '$peonWorkingDirectoriesPath' => param(ConfigParameters::PEON_WORKING_DIRECTORIES_PATH),
+            '$hostWorkingDirectoriesPath' => param(ConfigParameters::HOST_WORKING_DIRECTORIES_PATH),
         ]);
 
     $services->alias(ProvideApplicationDirectory::class, TemporaryLocalFileSystemProvideApplicationDirectory::class);

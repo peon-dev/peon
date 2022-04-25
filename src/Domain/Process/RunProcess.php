@@ -13,7 +13,7 @@ interface RunProcess
      * @throws ProcessFailed
      */
     public function inDirectory(
-        string $workingDirectory,
+        string|null $workingDirectory,
         string $command,
         int $timeoutSeconds,
     ): ProcessResult;

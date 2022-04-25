@@ -72,17 +72,24 @@ final class ExecuteJobHandler implements CommandHandlerInterface
                 $jobTitle
             );
 
-            $projectDirectory = $localApplication->workingDirectory;
+            /*
+            $language = $this->detectLanguageVersion->inDirectory(
+                $localApplication->workingDirectory
+            );
+            */
+
+            $workingDirectory = $localApplication->workingDirectory;
 
             // 2. build application
-            $this->buildApplication->build($job->jobId, $projectDirectory, $project->buildConfiguration);
+            // Build must happen in container
+            $this->buildApplication->build($job->jobId, $workingDirectory, $project->buildConfiguration);
 
             // 3a. run commands
             if ($job->commands !== null) {
                 foreach ($job->commands as $jobCommand) {
                     // This should run isolated in Container:
                     // TODO: image?
-                    $this->executeCommand->inContainer($job->jobId, $projectDirectory, $jobCommand);
+                    $this->executeCommand->inContainer($job->jobId, $workingDirectory->hostPath, $jobCommand);
                 }
             }
 
@@ -90,7 +97,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
             if ($job->enabledRecipe !== null) {
                 // This should run isolated in Container
                 // TODO: image?
-                $this->runJobRecipe->run($job->jobId, $job->enabledRecipe, $projectDirectory);
+                $this->runJobRecipe->run($job->jobId, $job->enabledRecipe, $workingDirectory->hostPath);
             }
 
             // 4. merge request

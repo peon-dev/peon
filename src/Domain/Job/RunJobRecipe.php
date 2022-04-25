@@ -46,7 +46,7 @@ class RunJobRecipe
     {
         $configuration = new RectorProcessCommandConfiguration(
             autoloadFile: $workingDirectory . '/vendor/autoload.php', // TODO: this is weirdo
-            config: __DIR__ . '/../../../vendor-bin/rector/config/' . $recipeName->value . '.php', // TODO: this is weirdo, think about better
+            config: '/peon/vendor-bin/rector/config/' . $recipeName->value . '.php', // TODO: this is weirdo, think about better
             paths: $paths,
         );
 

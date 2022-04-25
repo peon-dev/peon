@@ -29,9 +29,15 @@ class ExecuteCommand
         // TODO: we will need env variables of project here
         // TODO: if job is canceled, should exit
 
-        $processId = $this->processesCollection->nextIdentity();
+        $image = 'peon';
 
-        $dockerCommand = 'podman run hello-world';
+        $dockerCommand = sprintf('docker run --workdir=/app --rm --volume=%s:/app %s bash -c "%s"',
+            $workingDirectory,
+            $image,
+            $command,
+        );
+
+        $processId = $this->processesCollection->nextIdentity();
 
         $process = new Process(
             $processId,
@@ -42,10 +48,8 @@ class ExecuteCommand
         );
         $this->processesCollection->save($process);
 
-        // TODO, will we here output?
-
         try {
-            $result = $process->runInDirectory($workingDirectory, $this->runProcess);
+            $result = $process->runInDirectory(null, $this->runProcess);
         } finally {
             $this->processesCollection->save($process);
         }
