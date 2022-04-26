@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Job;
 
+use Peon\Domain\Application\Value\ApplicationGitRepositoryClone;
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\PhpApplication\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Tools\Git\Git;
 
@@ -27,13 +27,13 @@ class UpdateMergeRequest
      */
     public function update(
         JobId                  $jobId,
-        TemporaryApplication $localApplication,
+        ApplicationGitRepositoryClone $gitRepositoryClone,
         RemoteGitRepository  $remoteGitRepository,
         string               $title,
         bool $mergeAutomatically,
     ): MergeRequest|null
     {
-        $workingDirectory = $localApplication->workingDirectory;
+        $workingDirectory = $gitRepositoryClone->workingDirectory;
         $mergeRequest = null;
 
         if ($this->git->hasUncommittedChanges($jobId, $workingDirectory->localPath)) {
@@ -41,13 +41,13 @@ class UpdateMergeRequest
 
             $this->git->forcePushWithLease($jobId, $workingDirectory->localPath);
 
-            $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+            $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $gitRepositoryClone, $title);
         }
 
         // Branch exists, it should have MR no matter what
         // When this can happen? MR manually closed? Should it exclude files?
-        if ($mergeRequest === null && $this->git->remoteBranchExists($jobId, $workingDirectory->localPath, $localApplication->jobBranch)) {
-            $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $localApplication, $title);
+        if ($mergeRequest === null && $this->git->remoteBranchExists($jobId, $workingDirectory->localPath, $gitRepositoryClone->jobBranch)) {
+            $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $gitRepositoryClone, $title);
         }
 
         if ($mergeAutomatically === true && $mergeRequest !== null) {
@@ -63,18 +63,18 @@ class UpdateMergeRequest
      * @throws GitProviderCommunicationFailed
      */
     private function getOpenedMergeRequestOrOpenNewOne(
-        RemoteGitRepository  $remoteGitRepository,
-        TemporaryApplication $localApplication,
-        string               $title
+        RemoteGitRepository           $remoteGitRepository,
+        ApplicationGitRepositoryClone $gitRepositoryClone,
+        string                        $title
     ): MergeRequest
     {
-        $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $localApplication->jobBranch);
+        $mergeRequest = $this->gitProvider->getMergeRequestForBranch($remoteGitRepository, $gitRepositoryClone->jobBranch);
 
         if ($mergeRequest === null) {
-            return $this->gitProvider->openMergeRequest(
+            $mergeRequest = $this->gitProvider->openMergeRequest(
                 $remoteGitRepository,
-                $localApplication->mainBranch,
-                $localApplication->jobBranch,
+                $gitRepositoryClone->mainBranch,
+                $gitRepositoryClone->jobBranch,
                 '[Peon] ' . $title,
                 $this->getDefaultMergeRequestDescription(),
             );

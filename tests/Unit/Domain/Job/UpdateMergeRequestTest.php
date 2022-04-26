@@ -9,7 +9,7 @@ use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\PhpApplication\Value\TemporaryApplication;
+use Peon\Domain\Application\Value\TemporaryApplication;
 use Peon\Domain\Tools\Git\Git;
 use PHPUnit\Framework\TestCase;
 

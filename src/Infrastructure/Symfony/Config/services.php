@@ -17,8 +17,8 @@ use Peon\Domain\Job\GetPathsToProcess;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
-use Peon\Domain\PhpApplication\BuildApplication;
-use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\PhpApplication\BuildPhpApplication;
+use Peon\Domain\Application\PrepareApplicationGitRepository;
 use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Process\ProcessesCollection;
 use Peon\Domain\Process\RunProcess;
@@ -30,7 +30,7 @@ use Peon\Domain\Scheduler\GetTaskSchedules;
 use Peon\Domain\Scheduler\ShouldSchedule;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Tools\Composer\Composer;
-use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
+use Peon\Domain\Application\ProvideApplicationDirectory;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
@@ -115,7 +115,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(FrozenClock::class)->factory([FrozenClock::class, 'fromUTC']);
     $services->alias(Clock::class, SystemClock::class);
 
-    $services->set(BuildApplication::class);
+    $services->set(BuildPhpApplication::class);
     $services->set(PrepareApplicationGitRepository::class);
 
     $services->alias(GitProvider::class, GitLab::class);

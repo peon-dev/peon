@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Peon\Tests\Integration\Domain\PhpApplication;
 
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
-use Peon\Domain\PhpApplication\Value\TemporaryApplication;
+use Peon\Domain\Application\PrepareApplicationGitRepository;
+use Peon\Domain\Application\Value\TemporaryApplication;
 use Peon\Domain\Tools\Git\Git;
 use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
 use Peon\Tests\TestingRemoteGitRepository;
@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PrepareApplicationGitRepositoryIntegrationTest extends KernelTestCase
 {
-    private PrepareApplicationGitRepository $prepareApplicationGitRepository;
+    private \Peon\Domain\Application\PrepareApplicationGitRepository $prepareApplicationGitRepository;
     private Git $git;
     private string $taskName = 'integration-test';
     private StatefulRandomPostfixProvideBranchName $branchNameProvider;
@@ -42,7 +42,7 @@ class PrepareApplicationGitRepositoryIntegrationTest extends KernelTestCase
         $targetBranchName = $this->branchNameProvider->forTask($this->taskName);
         $jobId = new JobId(Uuid::uuid4()->toString());
 
-        $temporaryApplication = $this->prepareApplicationGitRepository->prepare(
+        $temporaryApplication = $this->prepareApplicationGitRepository->forRemoteRepository(
             $jobId,
             $testingGitRepository->uri,
             $this->taskName
@@ -60,7 +60,7 @@ class PrepareApplicationGitRepositoryIntegrationTest extends KernelTestCase
 
         $jobId = new JobId(Uuid::uuid4()->toString());
 
-        $temporaryApplication = $this->prepareApplicationGitRepository->prepare(
+        $temporaryApplication = $this->prepareApplicationGitRepository->forRemoteRepository(
             $jobId,
             $testingGitRepository->uri,
             $this->taskName
@@ -78,7 +78,7 @@ class PrepareApplicationGitRepositoryIntegrationTest extends KernelTestCase
 
         $jobId = new JobId(Uuid::uuid4()->toString());
 
-        $temporaryApplication = $this->prepareApplicationGitRepository->prepare(
+        $temporaryApplication = $this->prepareApplicationGitRepository->forRemoteRepository(
             $jobId,
             $testingGitRepository->uri,
             $this->taskName

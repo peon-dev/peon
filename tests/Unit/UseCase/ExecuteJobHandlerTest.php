@@ -18,9 +18,9 @@ use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\PhpApplication\BuildApplication;
-use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
-use Peon\Domain\PhpApplication\Value\TemporaryApplication;
+use Peon\Domain\PhpApplication\BuildPhpApplication;
+use Peon\Domain\Application\PrepareApplicationGitRepository;
+use Peon\Domain\Application\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Process\Value\ProcessResult;
@@ -52,7 +52,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $jobsCollection,
             $this->createMock(ProjectsCollection::class),
             $this->createMock(PrepareApplicationGitRepository::class),
-            $this->createMock(BuildApplication::class),
+            $this->createMock(BuildPhpApplication::class),
             $this->createMock(Clock::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
@@ -95,7 +95,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $jobsCollection,
             $projectsCollection,
             $this->createMock(PrepareApplicationGitRepository::class),
-            $this->createMock(BuildApplication::class),
+            $this->createMock(BuildPhpApplication::class),
             $this->createMock(Clock::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
@@ -128,7 +128,7 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
-            ->method('prepare')
+            ->method('forRemoteRepository')
             ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
         $eventBusSpy = $this->createMock(EventBus::class);
@@ -140,7 +140,7 @@ final class ExecuteJobHandlerTest extends TestCase
             $jobsCollection,
             $projectsCollection,
             $prepareApplicationGitRepository,
-            $this->createMock(BuildApplication::class),
+            $this->createMock(BuildPhpApplication::class),
             $this->createMock(Clock::class),
             $this->createMock(RunJobRecipe::class),
             $this->createMock(UpdateMergeRequest::class),
@@ -174,10 +174,10 @@ final class ExecuteJobHandlerTest extends TestCase
             ->willReturn($this->createProjectMock());
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
-        $prepareApplicationGitRepository->method('prepare')
+        $prepareApplicationGitRepository->method('forRemoteRepository')
             ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
-        $buildApplication = $this->createMock(BuildApplication::class);
+        $buildApplication = $this->createMock(BuildPhpApplication::class);
         $buildApplication->expects(self::once())
             ->method('build')
             ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
@@ -225,10 +225,10 @@ final class ExecuteJobHandlerTest extends TestCase
             ->willReturn($this->createProjectMock());
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
-        $prepareApplicationGitRepository->method('prepare')
+        $prepareApplicationGitRepository->method('forRemoteRepository')
             ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
-        $buildApplication = $this->createMock(BuildApplication::class);
+        $buildApplication = $this->createMock(BuildPhpApplication::class);
 
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
@@ -278,10 +278,10 @@ final class ExecuteJobHandlerTest extends TestCase
             ->willReturn($this->createProjectMock());
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
-        $prepareApplicationGitRepository->method('prepare')
+        $prepareApplicationGitRepository->method('forRemoteRepository')
             ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
-        $buildApplication = $this->createMock(BuildApplication::class);
+        $buildApplication = $this->createMock(BuildPhpApplication::class);
 
         $runJobRecipe = $this->createMock(RunJobRecipe::class);
         $runJobRecipe->expects(self::once())
@@ -331,10 +331,10 @@ final class ExecuteJobHandlerTest extends TestCase
             ->willReturn($this->createProjectMock());
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
-        $prepareApplicationGitRepository->method('prepare')
+        $prepareApplicationGitRepository->method('forRemoteRepository')
             ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
-        $buildApplication = $this->createMock(BuildApplication::class);
+        $buildApplication = $this->createMock(BuildPhpApplication::class);
 
         $updateMergeRequest = $this->createMock(UpdateMergeRequest::class);
         $updateMergeRequest->expects(self::once())
@@ -386,10 +386,10 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
-            ->method('prepare')
+            ->method('forRemoteRepository')
             ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
-        $buildApplication = $this->createMock(BuildApplication::class);
+        $buildApplication = $this->createMock(BuildPhpApplication::class);
         $buildApplication->expects(self::once())
             ->method('build');
 
@@ -445,10 +445,10 @@ final class ExecuteJobHandlerTest extends TestCase
 
         $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
         $prepareApplicationGitRepository->expects(self::once())
-            ->method('prepare')
+            ->method('forRemoteRepository')
             ->willReturn(new TemporaryApplication(new JobId(''), '', '', ''));
 
-        $buildApplication = $this->createMock(BuildApplication::class);
+        $buildApplication = $this->createMock(BuildPhpApplication::class);
         $buildApplication->expects(self::once())
             ->method('build');
 

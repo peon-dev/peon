@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Unit\UseCase;
 
-use Peon\Domain\PhpApplication\Value\BuildConfiguration;
+use Peon\Domain\PhpApplication\Value\PhpApplicationBuildConfiguration;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
@@ -25,7 +25,7 @@ class ConfigureProjectHandlerTest extends TestCase
         $handler->__invoke(
             new ConfigureProject(
                 new ProjectId(''),
-                BuildConfiguration::createDefault(),
+                PhpApplicationBuildConfiguration::createDefault(),
             )
         );
     }
@@ -33,7 +33,7 @@ class ConfigureProjectHandlerTest extends TestCase
 
     public function testProjectCanBeDeleted(): void
     {
-        $configuration = BuildConfiguration::createDefault();
+        $configuration = PhpApplicationBuildConfiguration::createDefault();
 
         $project = $this->createMock(Project::class);
         $project->expects(self::once())

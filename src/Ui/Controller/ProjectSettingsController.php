@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Ui\Controller;
 
-use Peon\Domain\PhpApplication\Value\BuildConfiguration;
+use Peon\Domain\PhpApplication\Value\PhpApplicationBuildConfiguration;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Packages\MessageBus\Command\CommandBus;
@@ -41,7 +41,7 @@ final class ProjectSettingsController extends AbstractController
                 $this->commandBus->dispatch(
                     new ConfigureProject(
                         new ProjectId($project->projectId),
-                        new BuildConfiguration($data->skipComposerInstall)
+                        new PhpApplicationBuildConfiguration($data->skipComposerInstall)
                     )
                 );
 

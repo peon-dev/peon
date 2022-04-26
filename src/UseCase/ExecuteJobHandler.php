@@ -5,19 +5,25 @@ declare(strict_types=1);
 namespace Peon\UseCase;
 
 use Lcobucci\Clock\Clock;
+use Peon\Domain\Application\DetectApplicationLanguage;
+use Peon\Domain\Application\Value\ApplicationLanguage;
+use Peon\Domain\Application\Value\TemporaryApplication;
+use Peon\Domain\Application\Value\WorkingDirectory;
 use Peon\Domain\Job\Event\JobStatusChanged;
 use Peon\Domain\Job\Exception\JobExecutionFailed;
 use Peon\Domain\Job\Exception\JobHasFinishedAlready;
 use Peon\Domain\Job\Exception\JobHasNotStartedYet;
 use Peon\Domain\Job\Exception\JobHasStartedAlready;
-use Peon\Domain\Job\RunJobRecipe;
+use Peon\Domain\Job\GetRecipeCommands;
+use Peon\Domain\Job\Job;
 use Peon\Domain\Job\UpdateMergeRequest;
-use Peon\Domain\PhpApplication\BuildApplication;
-use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\PhpApplication\BuildPhpApplication;
+use Peon\Domain\Application\PrepareApplicationGitRepository;
 use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
@@ -25,15 +31,16 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class ExecuteJobHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private JobsCollection $jobsCollection,
-        private ProjectsCollection $projects,
+        private JobsCollection                  $jobsCollection,
+        private ProjectsCollection              $projects,
         private PrepareApplicationGitRepository $prepareApplicationGitRepository,
-        private BuildApplication $buildApplication,
-        private Clock $clock,
-        private RunJobRecipe $runJobRecipe,
-        private UpdateMergeRequest $updateMergeRequest,
-        private EventBus $eventBus,
-        private ExecuteCommand $executeCommand,
+        private BuildPhpApplication             $buildApplication,
+        private Clock                           $clock,
+        private UpdateMergeRequest              $updateMergeRequest,
+        private EventBus                        $eventBus,
+        private ExecuteCommand                  $executeCommand,
+        private DetectApplicationLanguage       $detectApplicationLanguage,
+        private GetRecipeCommands               $getRecipeCommands,
     ) {}
 
 
@@ -65,49 +72,40 @@ final class ExecuteJobHandler implements CommandHandlerInterface
                 )
             );
 
-            // 1. Prepare git (clone) repository to local application
-            $localApplication = $this->prepareApplicationGitRepository->prepare(
+            // 1. Prepare (clone + config) git repository
+            $localGitRepository = $this->prepareApplicationGitRepository->forRemoteRepository(
                 $job->jobId,
                 $remoteGitRepository->getAuthenticatedUri(),
                 $jobTitle
             );
 
-            /*
-            $language = $this->detectLanguageVersion->inDirectory(
-                $localApplication->workingDirectory
+            // 2. Detect language
+            $language = $this->detectLanguageAndUpdateProjectIfLanguageDiffers(
+                $localGitRepository->workingDirectory,
+                $project,
             );
-            */
 
-            $workingDirectory = $localApplication->workingDirectory;
+            $application = new TemporaryApplication(
+                $job->jobId,
+                $language,
+                $localGitRepository,
+            );
 
-            // 2. build application
-            // Build must happen in container
-            $this->buildApplication->build($job->jobId, $workingDirectory, $project->buildConfiguration);
+            // 3. Build application
+            $this->buildApplication->build($application, $project->buildConfiguration);
 
-            // 3a. run commands
-            if ($job->commands !== null) {
-                foreach ($job->commands as $jobCommand) {
-                    // This should run isolated in Container:
-                    // TODO: image?
-                    $this->executeCommand->inContainer($job->jobId, $workingDirectory->hostPath, $jobCommand);
-                }
-            }
+            // 4. Execute commands
+            $this->executeJobCommandsInIsolation($job, $application);
 
-            // 3b. or run recipe
-            if ($job->enabledRecipe !== null) {
-                // This should run isolated in Container
-                // TODO: image?
-                $this->runJobRecipe->run($job->jobId, $job->enabledRecipe, $workingDirectory->hostPath);
-            }
-
-            // 4. merge request
+            // 5. Merge request
             $mergeRequest = $this->updateMergeRequest->update(
                 $job->jobId,
-                $localApplication,
+                $localGitRepository,
                 $remoteGitRepository,
                 $jobTitle,
                 $command->mergeAutomatically,
             );
+
             $job->succeeds($this->clock, $mergeRequest);
         } catch (JobHasStartedAlready $exception) {
             // TODO, im not sure what should happen
@@ -131,6 +129,47 @@ final class ExecuteJobHandler implements CommandHandlerInterface
                     $job->jobId,
                     $job->projectId,
                 )
+            );
+        }
+    }
+
+
+    private function detectLanguageAndUpdateProjectIfLanguageDiffers(
+        WorkingDirectory $workingDirectory,
+        Project $project,
+    ): ApplicationLanguage
+    {
+        $language = $this->detectApplicationLanguage->inDirectory($workingDirectory);
+
+        if ($project->language->isSameAs($language) === false) {
+            $project->updateLanguage($language);
+
+            $this->projects->save($project);
+        }
+
+        return $language;
+    }
+
+
+    private function executeJobCommandsInIsolation(Job $job, TemporaryApplication $application): void
+    {
+        $image = 'peon';
+        $commands = [];
+
+        if ($job->commands !== null) {
+            $commands = $job->commands;
+        }
+
+        if ($job->enabledRecipe !== null) {
+            $commands = $this->getRecipeCommands->forApplication($job->enabledRecipe, $application);
+        }
+
+        foreach ($commands as $command) {
+            $this->executeCommand->inContainer(
+                $job->jobId,
+                $image,
+                $application->gitRepository->workingDirectory->hostPath,
+                $command,
             );
         }
     }
