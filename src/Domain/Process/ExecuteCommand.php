@@ -6,6 +6,7 @@ namespace Peon\Domain\Process;
 
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
+use Peon\Domain\Process\Value\ProcessResult;
 use SplObjectStorage;
 
 class ExecuteCommand
@@ -24,35 +25,24 @@ class ExecuteCommand
     }
 
 
-    public function inContainer(JobId $jobId, string $workingDirectory, string $command, int $timeoutSeconds = 300): string
+    /**
+     * @throws ProcessFailed
+     */
+    public function inContainer(
+        JobId $jobId,
+        string $image,
+        string $applicationHostPath,
+        string $command,
+        int $timeoutSeconds = 300,
+    ): string
     {
-        // TODO: we will need env variables of project here
-        // TODO: if job is canceled, should exit
-
-        $image = 'peon';
-
         $dockerCommand = sprintf('docker run --workdir=/app --rm --volume=%s:/app %s bash -c "%s"',
-            $workingDirectory,
+            $applicationHostPath,
             $image,
             $command,
         );
 
-        $processId = $this->processesCollection->nextIdentity();
-
-        $process = new Process(
-            $processId,
-            $jobId,
-            $this->getNextSequenceForProcessOfJob($jobId),
-            $dockerCommand,
-            $timeoutSeconds,
-        );
-        $this->processesCollection->save($process);
-
-        try {
-            $result = $process->runInDirectory(null, $this->runProcess);
-        } finally {
-            $this->processesCollection->save($process);
-        }
+        $result = $this->doExecuteCommand($jobId, $dockerCommand, $timeoutSeconds);
 
         return $result->output;
     }
@@ -62,6 +52,28 @@ class ExecuteCommand
      * @throws ProcessFailed
      */
     public function inDirectory(JobId $jobId, string $workingDirectory, string $command, int $timeoutSeconds = 300): string
+    {
+        $result = $this->doExecuteCommand($jobId, $command, $timeoutSeconds, $workingDirectory);
+
+        return $result->output;
+    }
+
+
+    private function getNextSequenceForProcessOfJob(JobId $jobId): int
+    {
+        $current = $this->sequences[$jobId] ?? 0;
+        $next = $current + 1;
+
+        $this->sequences[$jobId] = $next;
+
+        return $next;
+    }
+
+
+    /**
+     * @throws ProcessFailed
+     */
+    private function doExecuteCommand(JobId $jobId, string $command, int $timeoutSeconds, string|null $workingDirectory = null): ProcessResult
     {
         // TODO: we will need env variables of project here
         // TODO: if job is canceled, should exit
@@ -83,17 +95,6 @@ class ExecuteCommand
             $this->processesCollection->save($process);
         }
 
-        return $result->output;
-    }
-
-
-    private function getNextSequenceForProcessOfJob(JobId $jobId): int
-    {
-        $current = $this->sequences[$jobId] ?? 0;
-        $next = $current + 1;
-
-        $this->sequences[$jobId] = $next;
-
-        return $next;
+        return $result;
     }
 }

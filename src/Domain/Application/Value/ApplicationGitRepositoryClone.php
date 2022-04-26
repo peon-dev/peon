@@ -2,15 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Peon\Domain\PhpApplication\Value;
+namespace Peon\Domain\Application\Value;
 
-use Peon\Domain\Application\Value\WorkingDirectory;
-use Peon\Domain\Job\Value\JobId;
-
-final class TemporaryApplication
+final class ApplicationGitRepositoryClone
 {
     public function __construct(
-        public readonly JobId $jobId,
         public readonly WorkingDirectory $workingDirectory,
         public readonly string $mainBranch,
         public readonly string $jobBranch

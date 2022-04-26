@@ -12,6 +12,7 @@ final class WorkingDirectory
         public readonly string $localPath,
         public readonly string $hostPath,
     ) {
+        // TODO: maybe check that local path exists?
     }
 
 

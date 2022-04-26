@@ -8,7 +8,7 @@ use Doctrine\DBAL\Connection;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use Peon\Domain\Cookbook\Value\RecipeName;
-use Peon\Domain\PhpApplication\Value\BuildConfiguration;
+use Peon\Domain\PhpApplication\Value\PhpApplicationBuildConfiguration;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
@@ -64,7 +64,7 @@ SQL;
         $buildConfiguration = Json::decode($row['buildConfiguration'], Json::FORCE_ARRAY);
 
         // TODO: i do not like this :-/ find better way
-        $row['skipComposerInstall'] = $buildConfiguration['skip_composer_install'] ?? BuildConfiguration::DEFAULT_SKIP_COMPOSER_INSTALL_VALUE;
+        $row['skipComposerInstall'] = $buildConfiguration['skip_composer_install'] ?? PhpApplicationBuildConfiguration::DEFAULT_SKIP_COMPOSER_INSTALL_VALUE;
 
         // TODO: Temporary fix until we have proper hydrator
         foreach ($enabledRecipesJson as $enabledRecipe) {

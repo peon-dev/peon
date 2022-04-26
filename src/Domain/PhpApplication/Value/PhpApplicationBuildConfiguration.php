@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Domain\PhpApplication\Value;
 
-final class BuildConfiguration
+final class PhpApplicationBuildConfiguration
 {
     public const DEFAULT_SKIP_COMPOSER_INSTALL_VALUE = false;
 

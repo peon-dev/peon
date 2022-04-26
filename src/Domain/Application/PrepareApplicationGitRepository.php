@@ -2,16 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Peon\Domain\PhpApplication;
+namespace Peon\Domain\Application;
 
+use Peon\Domain\Application\DetectApplicationLanguage;
+use Peon\Domain\Application\Value\ApplicationGitRepositoryClone;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\PhpApplication\Value\TemporaryApplication;
+use Peon\Domain\Application\Value\TemporaryApplication;
+use Peon\Domain\Application\ProvideApplicationDirectory;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
 use Psr\Http\Message\UriInterface;
 
-class PrepareApplicationGitRepository // TODO: better naming
+class PrepareApplicationGitRepository
 {
     public function __construct(
         private Git                         $git,
@@ -23,7 +26,7 @@ class PrepareApplicationGitRepository // TODO: better naming
     /**
      * @throws ProcessFailed
      */
-    public function prepare(JobId $jobId, UriInterface $repositoryUri, string $taskName): TemporaryApplication
+    public function forRemoteRepository(JobId $jobId, UriInterface $repositoryUri, string $taskName): ApplicationGitRepositoryClone
     {
         $workingDirectory = $this->projectDirectoryProvider->provide();
 
@@ -40,7 +43,11 @@ class PrepareApplicationGitRepository // TODO: better naming
             $this->syncWithHead($jobId, $workingDirectory->localPath, $mainBranch);
         }
 
-        return new TemporaryApplication($jobId, $workingDirectory, $mainBranch, $taskBranch);
+        return new ApplicationGitRepositoryClone(
+            $workingDirectory,
+            $mainBranch,
+            $taskBranch,
+        );
     }
 
 

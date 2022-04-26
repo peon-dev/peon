@@ -7,7 +7,7 @@ namespace Peon\Infrastructure\FileSystem;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Random;
 use Peon\Domain\Application\Value\WorkingDirectory;
-use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
+use Peon\Domain\Application\ProvideApplicationDirectory;
 
 final class TemporaryLocalFileSystemProvideApplicationDirectory implements ProvideApplicationDirectory
 {

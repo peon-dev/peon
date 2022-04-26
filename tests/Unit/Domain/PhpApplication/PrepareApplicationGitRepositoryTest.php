@@ -6,8 +6,8 @@ namespace Peon\Tests\Unit\Domain\PhpApplication;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\PhpApplication\ProvideApplicationDirectory;
-use Peon\Domain\PhpApplication\PrepareApplicationGitRepository;
+use Peon\Domain\Application\ProvideApplicationDirectory;
+use Peon\Domain\Application\PrepareApplicationGitRepository;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Tools\Git\ProvideBranchName;
@@ -43,7 +43,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->with($this->jobId, '/', 'task')
             ->willReturn(false);
 
-        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
+        $projectDirectoryProvider = $this->createMock(\Peon\Domain\Application\ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
@@ -60,7 +60,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             $branchNameProvider,
         );
 
-        $localApplication = $prepareApplicationGitRepository->prepare(
+        $localApplication = $prepareApplicationGitRepository->forRemoteRepository(
             $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
@@ -89,7 +89,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         $git->expects(self::once())
             ->method('forcePushWithLease');
 
-        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
+        $projectDirectoryProvider = $this->createMock(\Peon\Domain\Application\ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
@@ -102,7 +102,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             $branchNameProvider,
         );
 
-        $prepareApplicationGitRepository->prepare(
+        $prepareApplicationGitRepository->forRemoteRepository(
             $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
@@ -139,7 +139,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             $branchNameProvider,
         );
 
-        $prepareApplicationGitRepository->prepare(
+        $prepareApplicationGitRepository->forRemoteRepository(
             $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',
@@ -159,20 +159,20 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->method('trackRemoteBranch')
             ->with($this->jobId, '/', 'task');
 
-        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
+        $projectDirectoryProvider = $this->createMock(\Peon\Domain\Application\ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
 
         $branchNameProvider = $this->createBranchNameProvider();
 
-        $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
+        $prepareApplicationGitRepository = new \Peon\Domain\Application\PrepareApplicationGitRepository(
             $git,
             $projectDirectoryProvider,
             $branchNameProvider,
         );
 
-        $prepareApplicationGitRepository->prepare(
+        $prepareApplicationGitRepository->forRemoteRepository(
             $this->jobId,
             $this->getRemoteGitRepository()->getAuthenticatedUri(),
             'Task',

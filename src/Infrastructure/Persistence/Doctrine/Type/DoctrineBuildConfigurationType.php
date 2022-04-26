@@ -7,7 +7,7 @@ namespace Peon\Infrastructure\Persistence\Doctrine\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
-use Peon\Domain\PhpApplication\Value\BuildConfiguration;
+use Peon\Domain\PhpApplication\Value\PhpApplicationBuildConfiguration;
 
 final class DoctrineBuildConfigurationType extends JsonType
 {
@@ -33,33 +33,33 @@ final class DoctrineBuildConfigurationType extends JsonType
     /**
      * @throws ConversionException
      */
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): BuildConfiguration
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): PhpApplicationBuildConfiguration
     {
         if ($value === null || $value === '[]' || $value === '{}}') {
-            return BuildConfiguration::createDefault();
+            return PhpApplicationBuildConfiguration::createDefault();
         }
 
         $jsonData = parent::convertToPHPValue($value, $platform);
         assert(is_array($jsonData));
 
         if (empty($jsonData)) {
-            return BuildConfiguration::createDefault();
+            return PhpApplicationBuildConfiguration::createDefault();
         }
 
         // TODO: what about some hydrator instead of doing it manually?
-        return new BuildConfiguration(
-            $jsonData['skip_composer_install'] ?? BuildConfiguration::DEFAULT_SKIP_COMPOSER_INSTALL_VALUE,
+        return new PhpApplicationBuildConfiguration(
+            $jsonData['skip_composer_install'] ?? PhpApplicationBuildConfiguration::DEFAULT_SKIP_COMPOSER_INSTALL_VALUE,
         );
     }
 
     /**
-     * @param BuildConfiguration $value
+     * @param PhpApplicationBuildConfiguration $value
      * @throws ConversionException
      */
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): string
     {
-        if (!is_a($value, BuildConfiguration::class)) {
-            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [BuildConfiguration::class]);
+        if (!is_a($value, PhpApplicationBuildConfiguration::class)) {
+            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [PhpApplicationBuildConfiguration::class]);
         }
 
         // TODO: what about some hydrator instead of doing it manually?
