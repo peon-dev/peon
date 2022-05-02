@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Integration\Domain\PhpApplication;
 
+use Peon\Domain\Application\Value\ApplicationGitRepositoryClone;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Application\PrepareApplicationGitRepository;
 use Peon\Domain\Application\Value\TemporaryApplication;
@@ -88,10 +89,10 @@ class PrepareApplicationGitRepositoryIntegrationTest extends KernelTestCase
     }
 
 
-    private function assertTemporaryApplicationIsPrepared(TemporaryApplication $temporaryApplication, JobId $jobId, string $branchName): void
+    private function assertTemporaryApplicationIsPrepared(ApplicationGitRepositoryClone $temporaryApplication, JobId $jobId, string $branchName): void
     {
         self::assertSame(TestingRemoteGitRepository::MAIN_BRANCH, $temporaryApplication->mainBranch);
-        self::assertSame($branchName, $this->git->getCurrentBranch($jobId, $temporaryApplication->workingDirectory));
+        self::assertSame($branchName, $this->git->getCurrentBranch($jobId, $temporaryApplication->workingDirectory->localPath));
 
         // TODO: we should check the remote repository as well!
     }

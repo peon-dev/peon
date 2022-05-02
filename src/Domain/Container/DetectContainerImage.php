@@ -6,7 +6,10 @@ namespace Peon\Domain\Container;
 
 use Peon\Domain\Application\Value\ApplicationLanguage;
 
-interface DetectContainerImage
+class DetectContainerImage
 {
-    public function forLanguage(ApplicationLanguage $language): string;
+    public function forLanguage(ApplicationLanguage $language): string
+    {
+        return 'ghcr.io/peon-dev/peon:master';
+    }
 }

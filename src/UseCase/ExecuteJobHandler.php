@@ -9,6 +9,7 @@ use Peon\Domain\Application\DetectApplicationLanguage;
 use Peon\Domain\Application\Value\ApplicationLanguage;
 use Peon\Domain\Application\Value\TemporaryApplication;
 use Peon\Domain\Application\Value\WorkingDirectory;
+use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Job\Event\JobStatusChanged;
 use Peon\Domain\Job\Exception\JobExecutionFailed;
 use Peon\Domain\Job\Exception\JobHasFinishedAlready;
@@ -19,12 +20,14 @@ use Peon\Domain\Job\Job;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildPhpApplication;
 use Peon\Domain\Application\PrepareApplicationGitRepository;
+use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Tools\Composer\Exception\NoPSR4RootsDefined;
 use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
 
@@ -41,6 +44,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
         private ExecuteCommand                  $executeCommand,
         private DetectApplicationLanguage       $detectApplicationLanguage,
         private GetRecipeCommands               $getRecipeCommands,
+        private DetectContainerImage $detectContainerImage,
     ) {}
 
 
@@ -141,7 +145,7 @@ final class ExecuteJobHandler implements CommandHandlerInterface
     {
         $language = $this->detectApplicationLanguage->inDirectory($workingDirectory);
 
-        if ($project->language->isSameAs($language) === false) {
+        if ($language->isSameAs($project->language) === false) {
             $project->updateLanguage($language);
 
             $this->projects->save($project);
@@ -151,9 +155,13 @@ final class ExecuteJobHandler implements CommandHandlerInterface
     }
 
 
+    /**
+     * @throws ProcessFailed
+     * @throws NoPSR4RootsDefined
+     */
     private function executeJobCommandsInIsolation(Job $job, TemporaryApplication $application): void
     {
-        $image = 'peon';
+        $image = $this->detectContainerImage->forLanguage($application->language);
         $commands = [];
 
         if ($job->commands !== null) {

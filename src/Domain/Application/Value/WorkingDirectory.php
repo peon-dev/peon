@@ -18,6 +18,7 @@ final class WorkingDirectory
 
     public function __destruct()
     {
-        FileSystem::delete($this->localPath);
+        // TODO: too risky :(
+        // FileSystem::delete($this->localPath);
     }
 }

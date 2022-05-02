@@ -6,6 +6,8 @@ namespace Peon\Domain\Tools\Composer;
 
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
+use Peon\Domain\Application\Value\TemporaryApplication;
+use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\ExecuteCommand;
@@ -14,15 +16,22 @@ class Composer
 {
     public function __construct(
         private ExecuteCommand $executeCommand,
+        private DetectContainerImage $detectContainerImage,
     ) {}
 
 
     /**
      * @throws ProcessFailed
      */
-    public function install(JobId $jobId, string $directory): void
+    public function install(TemporaryApplication $application): void
     {
-        $this->executeCommand->inContainer($jobId, $directory,'composer install --no-interaction', 2 * 60);
+        $this->executeCommand->inContainer(
+            $application->jobId,
+            $this->detectContainerImage->forLanguage($application->language),
+            $application->gitRepository->workingDirectory->hostPath,
+            'composer install --no-interaction',
+            2 * 60,
+        );
     }
 
 

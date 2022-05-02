@@ -7,7 +7,10 @@ namespace Peon\Domain\Application;
 use Peon\Domain\Application\Value\ApplicationLanguage;
 use Peon\Domain\Application\Value\WorkingDirectory;
 
-interface DetectApplicationLanguage
+class DetectApplicationLanguage
 {
-    public function inDirectory(WorkingDirectory $directory): ApplicationLanguage;
+    public function inDirectory(WorkingDirectory $directory): ApplicationLanguage
+    {
+        return new ApplicationLanguage('PHP', '8.1');
+    }
 }
