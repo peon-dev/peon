@@ -35,6 +35,7 @@ jobs:
       -   env:
               TEST_GITLAB_PERSONAL_ACCESS_TOKEN: ${{ secrets.TEST_GITLAB_PERSONAL_ACCESS_TOKEN }}
               TEST_GITLAB_USERNAME: ${{ secrets.TEST_GITLAB_USERNAME }}
+              PEON_WORKING_DIRECTORIES_PATH: ${{ github.GITHUB_WORKSPACE }}
           run: vendor/bin/phpunit
 
 

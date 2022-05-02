@@ -38,10 +38,10 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->willReturn('main');
         $git->expects(self::once())
             ->method('switchToBranch')
-            ->with($this->jobId, '/', 'task');
+            ->with($this->jobId, '/local', 'task');
         $git->expects(self::once())
             ->method('remoteBranchExists')
-            ->with($this->jobId, '/', 'task')
+            ->with($this->jobId, '/local', 'task')
             ->willReturn(false);
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
@@ -84,17 +84,17 @@ class PrepareApplicationGitRepositoryTest extends TestCase
 
         $git->expects(self::once())
             ->method('pull')
-            ->with($this->jobId, '/');
+            ->with($this->jobId, '/local');
         $git->expects(self::once())
             ->method('rebaseBranchAgainstUpstream')
-            ->with($this->jobId, '/', 'main');
+            ->with($this->jobId, '/local', 'main');
         $git->expects(self::once())
             ->method('forcePushWithLease');
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
-            ->willReturn('/');
+            ->willReturn(new WorkingDirectory('/local', '/host'));
 
         $branchNameProvider = $this->createMock(ProvideBranchName::class);
 
@@ -126,12 +126,12 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->method('abortRebase');
         $git->expects(self::once())
             ->method('resetCurrentBranch')
-            ->with($this->jobId, '/', 'main');
+            ->with($this->jobId, '/local', 'main');
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
-            ->willReturn('/');
+            ->willReturn(new WorkingDirectory('/local', '/host'));
 
         $branchNameProvider = $this->createMock(ProvideBranchName::class);
 
@@ -159,12 +159,12 @@ class PrepareApplicationGitRepositoryTest extends TestCase
 
         $git->expects(self::once())
             ->method('trackRemoteBranch')
-            ->with($this->jobId, '/', 'task');
+            ->with($this->jobId, '/local', 'task');
 
         $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
-            ->willReturn('/');
+            ->willReturn(new WorkingDirectory('/local', '/host'));
 
         $branchNameProvider = $this->createBranchNameProvider();
 
