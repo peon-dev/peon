@@ -29,7 +29,7 @@ class Composer
             $application->jobId,
             $this->detectContainerImage->forLanguage($application->language),
             $application->gitRepository->workingDirectory->hostPath,
-            'composer install --no-interaction --iqnore-platform-reqs',
+            'composer install --no-interaction --ignore-platform-reqs]',
             2 * 60,
         );
     }
