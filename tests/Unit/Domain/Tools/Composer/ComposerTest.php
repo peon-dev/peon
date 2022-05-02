@@ -24,7 +24,7 @@ class ComposerTest extends TestCase
                 $application->jobId,
                 $image,
                 $application->gitRepository->workingDirectory->hostPath,
-                'composer install --no-interaction',
+                'composer install --no-interaction --ignore-platform-reqs',
                 2 * 60
             );
 
