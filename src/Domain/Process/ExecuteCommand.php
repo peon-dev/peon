@@ -36,7 +36,7 @@ class ExecuteCommand
         int $timeoutSeconds = 300,
     ): string
     {
-        $dockerCommand = sprintf('docker run --workdir=/app --rm --volume=%s:/app %s bash -c "%s"',
+        $dockerCommand = sprintf('docker run --user=$(id -u) --workdir=/app --rm --volume=%s:/app %s bash -c "%s"',
             $applicationHostPath,
             $image,
             $command,
