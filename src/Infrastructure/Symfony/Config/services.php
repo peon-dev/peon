@@ -55,7 +55,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $parameters->set(
         ConfigParameters::PEON_WORKING_DIRECTORIES_PATH,
-        realpath(__DIR__ . '/../../../../var/working_directories'),
+        dirname(__DIR__, 4) . '/var/working_directories',
     );
 
     $parameters->set(
