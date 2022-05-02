@@ -8,9 +8,8 @@ use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Job\UpdateMergeRequest;
-use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\Application\Value\TemporaryApplication;
 use Peon\Domain\Tools\Git\Git;
+use Peon\Tests\DataFixtures\TestDataFactory;
 use PHPUnit\Framework\TestCase;
 
 final class UpdateMergeRequestTest extends TestCase
@@ -41,11 +40,11 @@ final class UpdateMergeRequestTest extends TestCase
             ->method('remoteBranchExists');
 
         $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
-        $jobId = new JobId('');
+        $temporaryApplication = TestDataFactory::createTemporaryApplication();
 
         $mergeRequest = $updateMergeRequest->update(
-            $jobId,
-            $this->getTemporaryApplication($jobId),
+            $temporaryApplication->jobId,
+            $temporaryApplication->gitRepository,
             $this->getRemoteGitRepository(),
             'Title',
             true
@@ -80,11 +79,11 @@ final class UpdateMergeRequestTest extends TestCase
             ->method('remoteBranchExists');
 
         $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
-        $jobId = new JobId('');
+        $temporaryApplication = TestDataFactory::createTemporaryApplication();
 
         $mergeRequest = $updateMergeRequest->update(
-            $jobId,
-            $this->getTemporaryApplication($jobId),
+            $temporaryApplication->jobId,
+            $temporaryApplication->gitRepository,
             $this->getRemoteGitRepository(),
             'Title',
             true
@@ -116,11 +115,11 @@ final class UpdateMergeRequestTest extends TestCase
             ->willReturn(true);
 
         $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
-        $jobId = new JobId('');
+        $temporaryApplication = TestDataFactory::createTemporaryApplication();
 
         $mergeRequest = $updateMergeRequest->update(
-            $jobId,
-            $this->getTemporaryApplication($jobId),
+            $temporaryApplication->jobId,
+            $temporaryApplication->gitRepository,
             $this->getRemoteGitRepository(),
             'Title',
             true
@@ -153,11 +152,11 @@ final class UpdateMergeRequestTest extends TestCase
             ->willReturn(true);
 
         $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
-        $jobId = new JobId('');
+        $temporaryApplication = TestDataFactory::createTemporaryApplication();
 
         $mergeRequest = $updateMergeRequest->update(
-            $jobId,
-            $this->getTemporaryApplication($jobId),
+            $temporaryApplication->jobId,
+            $temporaryApplication->gitRepository,
             $this->getRemoteGitRepository(),
             'Title',
             true
@@ -184,28 +183,18 @@ final class UpdateMergeRequestTest extends TestCase
             ->willReturn(false);
 
         $updateMergeRequest = new UpdateMergeRequest($gitProvider, $git);
-        $jobId = new JobId('');
+
+        $temporaryApplication = TestDataFactory::createTemporaryApplication();
 
         $mergeRequest = $updateMergeRequest->update(
-            $jobId,
-            $this->getTemporaryApplication($jobId),
+            $temporaryApplication->jobId,
+            $temporaryApplication->gitRepository,
             $this->getRemoteGitRepository(),
             'Title',
             true
         );
 
         self::assertNull($mergeRequest);
-    }
-
-
-    private function getTemporaryApplication(JobId $jobId): TemporaryApplication
-    {
-        return new TemporaryApplication(
-            $jobId,
-            '/',
-            'main',
-            'job',
-        );
     }
 
 

@@ -3,30 +3,38 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Unit\Domain\Tools\Composer;
 
+use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\ExecuteCommand;
 use Peon\Domain\Tools\Composer\Composer;
+use Peon\Tests\DataFixtures\TestDataFactory;
 use PHPUnit\Framework\TestCase;
 
 class ComposerTest extends TestCase
 {
     public function testInstall(): void
     {
-        $projectDirectory = '/';
-        $jobId = new JobId('');
+        $application = TestDataFactory::createTemporaryApplication();
+        $image = '';
 
         $executeCommand = $this->createMock(ExecuteCommand::class);
         $executeCommand->expects(self::once())
-            ->method('inDirectory')
+            ->method('inContainer')
             ->with(
-                $jobId,
-                $projectDirectory,
+                $application->jobId,
+                $image,
+                $application->gitRepository->workingDirectory->hostPath,
                 'composer install --no-interaction',
                 2 * 60
             );
 
-        $composer = new Composer($executeCommand);
-        $composer->install($jobId, $projectDirectory);
+        $detectContainerImage = $this->createMock(DetectContainerImage::class);
+        $detectContainerImage->expects(self::once())
+            ->method('forLanguage')
+            ->willReturn($image);
+
+        $composer = new Composer($executeCommand, $detectContainerImage);
+        $composer->install($application);
     }
 
 

@@ -23,7 +23,7 @@ class BuildPhpApplication
     {
         // TODO: build application using buildpacks instead
         if ($configuration->skipComposerInstall === false) {
-            $this->composer->install($application->jobId, $workingDirectory->hostPath);
+            $this->composer->install($application);
         }
     }
 }

@@ -14,49 +14,22 @@ use PHPUnit\Framework\TestCase;
 class RectorTest extends TestCase
 {
     /**
-     * @dataProvider provideTestProcessData
+     * @dataProvider provideTestGetProcessCommand
      */
-    public function testProcess(RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
+    public function testGetProcessCommand(RectorProcessCommandConfiguration $commandConfiguration, string $expectedCommand): void
     {
-        $jobId = new JobId('');
-        $projectDirectory = '/';
+        $rector = new Rector();
 
-        $executeCommand = $this->createMock(ExecuteCommand::class);
-        $executeCommand->expects(self::once())
-            ->method('inDirectory')
-            ->with(
-                $jobId,
-                $projectDirectory,
-                $expectedCommand,
-                3600
-            );
+        $command = $rector->getProcessCommand($commandConfiguration);
 
-        $rector = new Rector($executeCommand);
-        $rector->process($jobId, $projectDirectory, $commandConfiguration);
-    }
-
-
-    public function testProcessThrowsExceptionOnNonZeroExitCode(): void
-    {
-        $this->expectException(ProcessFailed::class);
-
-        $jobId = new JobId('');
-        $projectDirectory = '/';
-
-        $executeCommand = $this->createMock(ExecuteCommand::class);
-        $executeCommand->expects(self::once())
-            ->method('inDirectory')
-            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
-
-        $rector = new Rector($executeCommand);
-        $rector->process($jobId, $projectDirectory, new RectorProcessCommandConfiguration());
+        self::assertSame($expectedCommand, $command);
     }
 
 
     /**
      * @return \Generator<array{RectorProcessCommandConfiguration, string}>
      */
-    public function provideTestProcessData(): \Generator
+    public function provideTestGetProcessCommand(): \Generator
     {
         yield [
             new RectorProcessCommandConfiguration(),

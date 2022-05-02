@@ -14,15 +14,7 @@ class Rector
 {
     public const BINARY_EXECUTABLE = '/peon/vendor-bin/rector/vendor/rector/rector/bin/rector'; // TODO must be dynamic, for non-standard installations
 
-
-    public function __construct(
-        private ExecuteCommand $executeCommand,
-    ) {}
-
-    /**
-     * @throws ProcessFailed
-     */
-    public function process(JobId $jobId, string $directory, RectorProcessCommandConfiguration $configuration): void
+    public function getProcessCommand(RectorProcessCommandConfiguration $configuration): string
     {
         $command = sprintf('%s process', realpath(self::BINARY_EXECUTABLE));
 
@@ -42,6 +34,6 @@ class Rector
             $command .= ' ' . implode(' ', $configuration->paths);
         }
 
-        $this->executeCommand->inContainer($jobId, $directory, $command, 60 * 60);
+        return $command;
     }
 }

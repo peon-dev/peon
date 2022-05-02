@@ -19,7 +19,7 @@ class Project
     public readonly string $name;
 
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
-    public null|ApplicationLanguage $language;
+    public null|ApplicationLanguage $language = null;
 
     /**
      * @var array<EnabledRecipe>

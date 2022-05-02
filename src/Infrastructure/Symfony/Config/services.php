@@ -8,14 +8,16 @@ use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
+use Peon\Domain\Application\DetectApplicationLanguage;
+use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Job\GetLongRunningJobs;
 use Peon\Domain\Job\GetPathsToProcess;
+use Peon\Domain\Job\GetRecipeCommands;
 use Peon\Domain\Job\JobsCollection;
-use Peon\Domain\Job\RunJobRecipe;
 use Peon\Domain\Job\UpdateMergeRequest;
 use Peon\Domain\PhpApplication\BuildPhpApplication;
 use Peon\Domain\Application\PrepareApplicationGitRepository;
@@ -134,11 +136,13 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
-    $services->set(RunJobRecipe::class); // TODO: think how to do it automatically, it is not interface
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
     $services->set(SanitizeProcessCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(SanitizeProcessOutput::class); // TODO: think how to do it automatically, it is not interface
     $services->set(GetPathsToProcess::class); // TODO: think how to do it automatically, it is not interface
+    $services->set(DetectApplicationLanguage::class);
+    $services->set(DetectContainerImage::class);
+    $services->set(GetRecipeCommands::class);
 
     $services->set(ShouldSchedule::class); // TODO: think how to do it automatically, it is not interface
     $services->set(GetRecipeSchedules::class, DoctrineGetRecipeSchedules::class);

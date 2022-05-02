@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Unit\Domain\PhpApplication;
 
+use Peon\Domain\Application\Value\WorkingDirectory;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Job\Value\JobId;
@@ -43,10 +44,11 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->with($this->jobId, '/', 'task')
             ->willReturn(false);
 
-        $projectDirectoryProvider = $this->createMock(\Peon\Domain\Application\ProvideApplicationDirectory::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
+        $workingDirectory = new WorkingDirectory('/local', '/host');
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
-            ->willReturn('/');
+            ->willReturn($workingDirectory);
 
         $branchNameProvider = $this->createMock(ProvideBranchName::class);
         $branchNameProvider->expects(self::once())
@@ -67,7 +69,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         );
 
         self::assertSame('main', $localApplication->mainBranch);
-        self::assertSame('/', $localApplication->workingDirectory);
+        self::assertSame($workingDirectory, $localApplication->workingDirectory);
         self::assertSame('task', $localApplication->jobBranch);
     }
 
@@ -89,7 +91,7 @@ class PrepareApplicationGitRepositoryTest extends TestCase
         $git->expects(self::once())
             ->method('forcePushWithLease');
 
-        $projectDirectoryProvider = $this->createMock(\Peon\Domain\Application\ProvideApplicationDirectory::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
@@ -159,14 +161,14 @@ class PrepareApplicationGitRepositoryTest extends TestCase
             ->method('trackRemoteBranch')
             ->with($this->jobId, '/', 'task');
 
-        $projectDirectoryProvider = $this->createMock(\Peon\Domain\Application\ProvideApplicationDirectory::class);
+        $projectDirectoryProvider = $this->createMock(ProvideApplicationDirectory::class);
         $projectDirectoryProvider->expects(self::once())
             ->method('provide')
             ->willReturn('/');
 
         $branchNameProvider = $this->createBranchNameProvider();
 
-        $prepareApplicationGitRepository = new \Peon\Domain\Application\PrepareApplicationGitRepository(
+        $prepareApplicationGitRepository = new PrepareApplicationGitRepository(
             $git,
             $projectDirectoryProvider,
             $branchNameProvider,
