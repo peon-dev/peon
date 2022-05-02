@@ -29,14 +29,7 @@ class Composer
             $application->jobId,
             $this->detectContainerImage->forLanguage($application->language),
             $application->gitRepository->workingDirectory->hostPath,
-            'ls -la && exit 1',
-            2 * 60,
-        );
-        $this->executeCommand->inContainer(
-            $application->jobId,
-            $this->detectContainerImage->forLanguage($application->language),
-            $application->gitRepository->workingDirectory->hostPath,
-            'composer install --no-interaction --ignore-platform-reqs',
+            'whoami && ls -la && composer install --no-interaction --ignore-platform-reqs',
             2 * 60,
         );
     }
