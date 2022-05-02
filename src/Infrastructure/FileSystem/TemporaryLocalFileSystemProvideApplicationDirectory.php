@@ -25,6 +25,7 @@ final class TemporaryLocalFileSystemProvideApplicationDirectory implements Provi
         $hostDirectory = $this->hostWorkingDirectoriesPath . '/' . $randomDirectoryName;
 
         FileSystem::createDir($localDirectory);
+        print_r(shell_exec('ls -la ' . $localDirectory));
 
         $this->registerShutdown($localDirectory);
 
