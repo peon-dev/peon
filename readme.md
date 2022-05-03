@@ -43,7 +43,7 @@ Inspiration for `docker-compose.yml`:
 version: "3.7"
 services:
     dashboard:
-        image: ghcr.io/peon-dev/peon:master
+        image: ghcr.io/peon-dev/peon:main
         environment:
             DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
             # Change to match your host:
@@ -59,7 +59,7 @@ services:
             - 8080:8080
 
     worker:
-        image: ghcr.io/peon-dev/peon:master
+        image: ghcr.io/peon-dev/peon:main
         depends_on:
             - dashboard
             - mercure
@@ -70,7 +70,7 @@ services:
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
     scheduler:
-        image: ghcr.io/peon-dev/peon:master
+        image: ghcr.io/peon-dev/peon:main
         depends_on:
             - dashboard
             - mercure
