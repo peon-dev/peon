@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     dashboard:
-        image: peon
+        image: ghcr.io/peon-dev/php:main
         volumes:
             - .:/peon
         working_dir: /peon
@@ -36,18 +36,19 @@ services:
 
     # Helper service
     composer:
-        image: peon
+        image: ghcr.io/peon-dev/php:main
         build:
             context: .
             target: dev
         volumes:
             - .:/peon
+            - .docker/entrypoints:/docker-entrypoint.d
         working_dir: /peon
         entrypoint: "composer"
         command: [ "install", "--no-interaction" ]
 
     worker:
-        image: peon
+        image: ghcr.io/peon-dev/php:main
         volumes:
             - .:/peon
             - /var/run/docker.sock:/var/run/docker.sock
@@ -61,7 +62,7 @@ services:
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
     scheduler:
-        image: peon
+        image: ghcr.io/peon-dev/php:main
         volumes:
             - .:/peon
         working_dir: /peon
