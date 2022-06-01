@@ -40,7 +40,7 @@ RUN yarn run build
 
 FROM composer as prod
 
-COPY .docker/entrypoints/*.sh /docker-entrypoint.d/
+COPY --chown=1000:1000 .docker/entrypoints/*.sh /docker-entrypoint.d/
 RUN chmod +x /docker-entrypoint.d/*.sh
 
 # Copy js build
