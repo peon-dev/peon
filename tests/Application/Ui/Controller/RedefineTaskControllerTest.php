@@ -8,10 +8,23 @@ use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Task\Value\TaskId;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class RedefineTaskControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomTaskId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/redefine-task/$randomTaskId");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNonExistingTaskWillShow404(): void
     {
         $client = self::createClient();

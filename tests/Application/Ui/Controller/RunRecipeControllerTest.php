@@ -6,10 +6,24 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class RunRecipeControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomProjectId = Uuid::uuid4()->toString();
+        $recipeName = RecipeName::TYPED_PROPERTIES;
+
+        $client->request('GET', "/projects/$randomProjectId/run-recipe/$recipeName->value");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

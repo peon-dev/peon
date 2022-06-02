@@ -6,10 +6,23 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProjectSettingsControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomProjectId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/projects/$randomProjectId/settings");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

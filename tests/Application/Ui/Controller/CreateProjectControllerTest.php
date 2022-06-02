@@ -4,10 +4,21 @@ declare(strict_types=1);
 namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Domain\Project\ProjectsCollection;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateProjectControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/add-project');
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testProjectWillBeAddedUsingForm(): void
     {
         $client = static::createClient();

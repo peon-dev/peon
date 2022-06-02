@@ -5,10 +5,23 @@ namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class CookbookControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomProjectId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/projects/$randomProjectId/cookbook");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
