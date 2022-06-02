@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Application\Ui\Controller;
 
+use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class RunTaskControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomTaskId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/task/run/$randomTaskId");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNonExistingTaskWillShow404(): void
     {
         $client = self::createClient();

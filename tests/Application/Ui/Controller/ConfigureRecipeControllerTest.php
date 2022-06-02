@@ -11,11 +11,24 @@ use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ConfigureRecipeControllerTest extends WebTestCase
+final class ConfigureRecipeControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomRecipeName = 'random-recipe-name';
+        $randomProjectId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/projects/$randomProjectId/configure-recipe/$randomRecipeName");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNotFoundProjectWillBe404(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
         $projectId = Uuid::uuid4()->toString();
 
@@ -27,7 +40,7 @@ class ConfigureRecipeControllerTest extends WebTestCase
 
     public function testUnknownRecipeWillRedirectToProjectOverview(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
         $projectId = DataFixtures::PROJECT_1_ID;
 
         $client->request('GET', "/projects/$projectId/configure-recipe/unknown-recipe");
@@ -38,7 +51,7 @@ class ConfigureRecipeControllerTest extends WebTestCase
 
     public function testDisabledRecipeWillRedirectToProjectOverview(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
         $projectId = DataFixtures::PROJECT_1_ID;
@@ -81,7 +94,7 @@ class ConfigureRecipeControllerTest extends WebTestCase
 
     public function testPageCanBeRenderedWithoutFormSubmission(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
 
         $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
@@ -94,7 +107,7 @@ class ConfigureRecipeControllerTest extends WebTestCase
 
     public function testRecipeCanBeConfigured(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
         $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
 

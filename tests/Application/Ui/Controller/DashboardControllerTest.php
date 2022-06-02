@@ -7,6 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DashboardControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/');
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();

@@ -7,10 +7,23 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DefineTaskControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $randomProjectId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/define-task/$randomProjectId");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

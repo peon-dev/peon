@@ -7,10 +7,24 @@ use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Tests\DataFixtures\DataFixtures;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 {
+    public function testPageIsProtectedWithLogin(): void
+    {
+        $client = self::createClient();
+
+        $recipeName = RecipeName::TYPED_PROPERTIES;
+        $randomProjectId = Uuid::uuid4()->toString();
+
+        $client->request('GET', "/projects/$randomProjectId/recipe/$recipeName->value/enable-with-baseline");
+
+        self::assertResponseRedirects('http://localhost/login');
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();
