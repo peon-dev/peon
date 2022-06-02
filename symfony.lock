@@ -163,6 +163,9 @@
     "mangoweb/monolog-tracy-handler": {
         "version": "v1.0.2"
     },
+    "masterminds/html5": {
+        "version": "2.7.5"
+    },
     "monolog/monolog": {
         "version": "2.3.2"
     },
@@ -597,30 +600,6 @@
     },
     "symfony/password-hasher": {
         "version": "v5.3.4"
-    },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.23.1"
-    },
-    "symfony/polyfill-intl-icu": {
-        "version": "v1.23.0"
-    },
-    "symfony/polyfill-intl-idn": {
-        "version": "v1.23.0"
-    },
-    "symfony/polyfill-intl-normalizer": {
-        "version": "v1.23.0"
-    },
-    "symfony/polyfill-mbstring": {
-        "version": "v1.23.1"
-    },
-    "symfony/polyfill-php80": {
-        "version": "v1.23.1"
-    },
-    "symfony/polyfill-php81": {
-        "version": "v1.23.0"
-    },
-    "symfony/polyfill-uuid": {
-        "version": "v1.24.0"
     },
     "symfony/process": {
         "version": "v5.3.4"
