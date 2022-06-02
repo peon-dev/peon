@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Peon\Domain\Task\Value;
 
-use JetBrains\PhpStorm\Immutable;
-
-#[Immutable]
 final class TaskId implements \Stringable
 {
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {}
 
 
