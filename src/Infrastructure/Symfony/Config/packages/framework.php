@@ -8,7 +8,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('framework', [
         'secret' => '%env(APP_SECRET)%',
         'http_method_override' => false,
-        'csrf_protection' => false,
+        'csrf_protection' => true,
         'session' => [
             'handler_id' => null,
             'cookie_secure' => 'auto',
