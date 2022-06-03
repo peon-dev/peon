@@ -28,6 +28,7 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();
+
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::SWITCH_TO_MATCH;
 
