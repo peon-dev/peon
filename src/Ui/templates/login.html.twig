@@ -2,21 +2,26 @@
 
 {% block title %}Login{% endblock %}
 
+{% block nav_panel %}{% endblock %}
+
 {% block content %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form class="login-form" action="{{ path('login') }}" method="post">
+        {% if error %}
+            <div class="alert alert-danger mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
+        <div class="mb-4">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}">
+        </div>
+        <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="_password">
+        </div>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button type="submit">login</button>
+        <button type="submit" class="btn btn-primary">Log in</button>
     </form>
 {% endblock %}
 

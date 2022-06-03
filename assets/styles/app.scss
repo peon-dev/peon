@@ -312,3 +312,24 @@ textarea.code {
         margin-left: 10px;
     }
 }
+
+.login-form {
+    margin: 20vh auto 20px;
+    max-width: 370px;
+    padding: 30px;
+    box-shadow: rgba(0, 0, 0, .3) 1px 1px 30px;
+    background: #fff;
+    border-radius: 15px;
+
+    label {
+        font-weight: bold;
+    }
+}
+
+body {
+    min-height: 100vh;
+}
+
+body.page-login {
+    @include gradient-directional(lighten($primary, 32%), $primary, -135deg);
+}
