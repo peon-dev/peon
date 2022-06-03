@@ -35,6 +35,8 @@ use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\Application\ProvideApplicationDirectory;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
+use Peon\Domain\User\HashPlainTextPassword;
+use Peon\Domain\User\UsersCollection;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
@@ -44,10 +46,12 @@ use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProcessesCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineUsersCollection;
 use Peon\Infrastructure\Process\Symfony\SymfonyProcessRunProcess;
 use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
 use Peon\Infrastructure\Scheduler\DoctrineGetTaskSchedules;
 use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
+use Peon\Infrastructure\User\SymfonyHashPlainTextPassword;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -134,6 +138,8 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->alias(ProcessesCollection::class, DoctrineProcessesCollection::class);
 
+    $services->alias(UsersCollection::class, DoctrineUsersCollection::class);
+
     $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(UpdateMergeRequest::class); // TODO: think how to do it automatically, it is not interface
@@ -151,4 +157,7 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(DoctrineGetLongRunningJobs::class);
     $services->alias(GetLongRunningJobs::class, DoctrineGetLongRunningJobs::class);
+
+    $services->set(SymfonyHashPlainTextPassword::class);
+    $services->alias(HashPlainTextPassword::class, SymfonyHashPlainTextPassword::class);
 };
