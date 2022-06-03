@@ -5,6 +5,6 @@
     <entity name="Peon\Domain\User\User" table="users">
         <id name="userId" type="user_id" />
         <field name="username" unique="true" />
-        <field name="hashedPassword" nullable="true" />
+        <field name="hashedPassword" />
     </entity>
 </doctrine-mapping>
