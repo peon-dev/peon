@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Application\Ui\Controller;
 
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
+use Peon\Tests\DataFixtures\DataFixtures;
+use Peon\Tests\TestHelpers;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class DashboardControllerTest extends WebTestCase
+final class DashboardControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -20,6 +23,8 @@ final class DashboardControllerTest extends WebTestCase
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $crawler = $client->request('GET', '/');
 

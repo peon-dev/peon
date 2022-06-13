@@ -14,9 +14,7 @@ final class RegisterUserHandler implements CommandHandlerInterface
     public function __construct(
         private UsersCollection $usersCollection,
         private HashPlainTextPassword $hashPlainTextPassword,
-    )
-    {
-    }
+    ) {}
 
 
     public function __invoke(RegisterUser $command): void
