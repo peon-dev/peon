@@ -7,11 +7,12 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Task\Value\TaskId;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class RedefineTaskControllerTest extends WebTestCase
+final class RedefineTaskControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -30,6 +31,8 @@ final class RedefineTaskControllerTest extends WebTestCase
         $client = self::createClient();
         $taskId = '00000000-0000-0000-0000-000000000000';
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/redefine-task/$taskId");
 
         self::assertResponseStatusCodeSame(404);
@@ -43,6 +46,8 @@ final class RedefineTaskControllerTest extends WebTestCase
         $tasksCollection = $container->get(TasksCollection::class);
         $taskId = DataFixtures::TASK_ID;
         $projectId = DataFixtures::PROJECT_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $crawler = $client->request('GET', "/redefine-task/$taskId");
 
@@ -77,6 +82,8 @@ STRING;
         $taskId = DataFixtures::TASK_ID;
         $jobsCollection = $container->get(JobsCollection::class);
         $jobsCountBeforeScenario = count($jobsCollection->all());
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $crawler = $client->request('GET', "/redefine-task/$taskId");
 

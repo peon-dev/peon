@@ -6,11 +6,12 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class DisableRecipeForProjectControllerTest extends WebTestCase
+final class DisableRecipeForProjectControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -31,6 +32,8 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::TYPED_PROPERTIES;
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/disable");
 
         self::assertResponseStatusCodeSame(404);
@@ -42,6 +45,8 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
         $client = self::createClient();
         $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = 'something-not-existing';
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName/disable");
 
@@ -59,6 +64,8 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/disable");
 
@@ -79,6 +86,8 @@ final class DisableRecipeForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesCountBeforeScenario = $project->enabledRecipes;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/disable");
 

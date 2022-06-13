@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class JobDetailControllerTest extends WebTestCase
+final class JobDetailControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -28,6 +29,8 @@ final class JobDetailControllerTest extends WebTestCase
         $client = self::createClient();
         $jobId = '00000000-0000-0000-0000-000000000000';
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/job/$jobId");
 
         self::assertResponseStatusCodeSame(404);
@@ -38,6 +41,8 @@ final class JobDetailControllerTest extends WebTestCase
     {
         $client = self::createClient();
         $jobId = DataFixtures::JOB_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/job/$jobId");
 

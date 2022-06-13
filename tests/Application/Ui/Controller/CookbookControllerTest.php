@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class CookbookControllerTest extends WebTestCase
+final class CookbookControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -25,6 +26,8 @@ final class CookbookControllerTest extends WebTestCase
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $projectId = DataFixtures::PROJECT_1_ID;
         $crawler = $client->request('GET', "/projects/$projectId/cookbook");

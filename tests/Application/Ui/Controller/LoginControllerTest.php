@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Application\Ui\Controller;
 
-use Peon\Ui\Controller\LoginController;
-use PHPUnit\Framework\TestCase;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 
-class LoginControllerTest extends TestCase
+class LoginControllerTest extends AbstractPeonApplicationTestCase
 {
     // TODO: when logged in, will be redirected
 }

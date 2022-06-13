@@ -7,11 +7,12 @@ use Peon\Domain\Cookbook\Exception\RecipeNotEnabled;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class ConfigureRecipeControllerTest extends WebTestCase
+final class ConfigureRecipeControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -29,6 +30,9 @@ final class ConfigureRecipeControllerTest extends WebTestCase
     public function testNotFoundProjectWillBe404(): void
     {
         $client = self::createClient();
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
         $projectId = Uuid::uuid4()->toString();
 
@@ -41,6 +45,9 @@ final class ConfigureRecipeControllerTest extends WebTestCase
     public function testUnknownRecipeWillRedirectToProjectOverview(): void
     {
         $client = self::createClient();
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $projectId = DataFixtures::PROJECT_1_ID;
 
         $client->request('GET', "/projects/$projectId/configure-recipe/unknown-recipe");
@@ -57,6 +64,8 @@ final class ConfigureRecipeControllerTest extends WebTestCase
         $projectId = DataFixtures::PROJECT_1_ID;
         $project = $projectsCollection->get(new ProjectId($projectId));
         $recipeName = RecipeName::OBJECT_MAGIC_CLASS_CONSTANT->value;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $exception = null;
         $enabledRecipe = null;
@@ -99,6 +108,8 @@ final class ConfigureRecipeControllerTest extends WebTestCase
         $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/projects/$projectId/configure-recipe/$recipeName");
 
         self::assertResponseIsSuccessful();
@@ -110,6 +121,8 @@ final class ConfigureRecipeControllerTest extends WebTestCase
         $client = self::createClient();
         $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = RecipeName::TYPED_PROPERTIES->value;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $crawler = $client->request('GET', "/projects/$projectId/configure-recipe/$recipeName");
 
