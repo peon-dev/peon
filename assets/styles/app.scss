@@ -314,7 +314,7 @@ textarea.code {
 }
 
 .login-form {
-    margin: 20vh auto 20px;
+    margin: 5vh auto 20px;
     max-width: 370px;
     padding: 30px;
     box-shadow: rgba(0, 0, 0, .3) 1px 1px 30px;
@@ -332,4 +332,14 @@ body {
 
 body.page-login {
     @include gradient-directional(lighten($primary, 32%), $primary, -135deg);
+
+    .peon-logo {
+        background: url('../images/peon-dev-logo.png') center center no-repeat;
+        background-size: contain;
+        display: block;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+        border-radius: 5px;
+    }
 }
