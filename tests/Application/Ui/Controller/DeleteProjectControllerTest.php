@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class DeleteProjectControllerTest extends WebTestCase
+final class DeleteProjectControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -28,6 +29,8 @@ final class DeleteProjectControllerTest extends WebTestCase
         $client = self::createClient();
         $projectId = '00000000-0000-0000-0000-000000000000';
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/delete-project/$projectId");
 
         self::assertResponseStatusCodeSame(404);
@@ -40,6 +43,8 @@ final class DeleteProjectControllerTest extends WebTestCase
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
         $projectsCountBeforeScenario = count($projectsCollection->all());
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $projectId = DataFixtures::PROJECT_1_ID;
         $client->request('GET', "/delete-project/$projectId");

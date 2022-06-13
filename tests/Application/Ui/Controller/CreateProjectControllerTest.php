@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CreateProjectControllerTest extends WebTestCase
+class CreateProjectControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -25,6 +27,8 @@ class CreateProjectControllerTest extends WebTestCase
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
         $projectsCountBeforeScenario = count($projectsCollection->all());
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $crawler = $client->request('GET', '/add-project');
 

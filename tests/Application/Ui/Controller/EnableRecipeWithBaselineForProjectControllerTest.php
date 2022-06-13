@@ -6,11 +6,12 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
+final class EnableRecipeWithBaselineForProjectControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -32,6 +33,8 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $projectId = '00000000-0000-0000-0000-000000000000';
         $recipeName = RecipeName::SWITCH_TO_MATCH;
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
         self::assertResponseStatusCodeSame(404);
@@ -43,6 +46,8 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $client = self::createClient();
         $projectId = DataFixtures::PROJECT_1_ID;
         $recipeName = 'something-not-existing';
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName/enable-with-baseline");
 
@@ -60,6 +65,8 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
@@ -81,6 +88,8 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 
         self::assertResponseRedirects("/projects/$projectId/cookbook");
@@ -100,6 +109,8 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends WebTestCase
 
         $project = $projectsCollection->get(new ProjectId($projectId));
         $enabledRecipesBeforeScenario = $project->enabledRecipes;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/recipe/$recipeName->value/enable-with-baseline");
 

@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Application\Ui\Controller;
 
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class ProjectOverviewControllerTest extends WebTestCase
+final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -26,6 +27,8 @@ final class ProjectOverviewControllerTest extends WebTestCase
         $client = self::createClient();
         $projectId = '00000000-0000-0000-0000-000000000000';
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/projects/$projectId");
 
         self::assertResponseStatusCodeSame(404);
@@ -38,6 +41,8 @@ final class ProjectOverviewControllerTest extends WebTestCase
     public function testPageCanBeRendered(string $projectId): void
     {
         $client = self::createClient();
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId");
 

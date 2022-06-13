@@ -5,11 +5,13 @@ namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
+use Rector\Testing\PHPUnit\AbstractTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class ProjectSettingsControllerTest extends WebTestCase
+final class ProjectSettingsControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testPageIsProtectedWithLogin(): void
     {
@@ -28,6 +30,8 @@ final class ProjectSettingsControllerTest extends WebTestCase
         $client = self::createClient();
         $projectId = '00000000-0000-0000-0000-000000000000';
 
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
         $client->request('GET', "/projects/$projectId/settings");
 
         self::assertResponseStatusCodeSame(404);
@@ -38,6 +42,8 @@ final class ProjectSettingsControllerTest extends WebTestCase
     {
         $client = self::createClient();
         $projectId = DataFixtures::PROJECT_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/projects/$projectId/settings");
 
@@ -55,6 +61,8 @@ final class ProjectSettingsControllerTest extends WebTestCase
         // Check it was false before
         $project = $projectsCollection->get(new ProjectId($projectId));
         self::assertFalse($project->buildConfiguration->skipComposerInstall);
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $crawler = $client->request('GET', "/projects/$projectId/settings");
 
