@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c37f4bb2ea93552d7102b8d30560b59",
+    "content-hash": "ad6da8d2455852a33b8d2fd553b6dd69",
     "packages": [
         {
             "name": "bamarni/composer-bin-plugin",
@@ -13337,16 +13337,16 @@
         },
         {
             "name": "symplify/config-transformer",
-            "version": "10.3.3",
+            "version": "11.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/config-transformer.git",
-                "reference": "b75a431721fba7fdea65de8ebac35aa10dc31328"
+                "reference": "1b730d94837b9662d13eb55fb6e56f5d532c84ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/config-transformer/zipball/b75a431721fba7fdea65de8ebac35aa10dc31328",
-                "reference": "b75a431721fba7fdea65de8ebac35aa10dc31328",
+                "url": "https://api.github.com/repos/symplify/config-transformer/zipball/1b730d94837b9662d13eb55fb6e56f5d532c84ab",
+                "reference": "1b730d94837b9662d13eb55fb6e56f5d532c84ab",
                 "shasum": ""
             },
             "require": {
@@ -13362,7 +13362,7 @@
             ],
             "description": "Prefixed version of Symfony YAML/XML to PHP/YAML config converter",
             "support": {
-                "source": "https://github.com/symplify/config-transformer/tree/10.3.3"
+                "source": "https://github.com/symplify/config-transformer/tree/11.0.1"
             },
             "funding": [
                 {
@@ -13374,7 +13374,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-13T14:01:52+00:00"
+            "time": "2022-06-13T21:31:13+00:00"
         },
         {
             "name": "theseer/tokenizer",
