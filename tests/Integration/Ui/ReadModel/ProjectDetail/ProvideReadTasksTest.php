@@ -27,14 +27,14 @@ final class ProvideReadTasksTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $readTasks = $this->provideReadTasksRecipes->provide(new ProjectId($projectId));
 
         self::assertCount(1, $readTasks);
 
         $task = $readTasks[0];
-        self::assertSame(DataFixtures::TASK_ID, $task->taskId);
+        self::assertSame(DataFixtures::USER_1_TASK_ID, $task->taskId);
         self::assertNotNull($task->lastJobMergeRequestUrl);
     }
 }

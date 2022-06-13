@@ -46,7 +46,7 @@ final class RunRecipeControllerTest extends AbstractPeonApplicationTestCase
         $jobsCollection = $container->get(JobsCollection::class);
         $jobsCountBeforeScenario = count($jobsCollection->all());
         $recipeName = RecipeName::UNUSED_PRIVATE_METHODS;
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 

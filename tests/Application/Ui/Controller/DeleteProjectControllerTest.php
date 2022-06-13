@@ -46,7 +46,7 @@ final class DeleteProjectControllerTest extends AbstractPeonApplicationTestCase
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
         $client->request('GET', "/delete-project/$projectId");
 
         self::assertResponseRedirects('/');

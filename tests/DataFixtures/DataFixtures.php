@@ -34,20 +34,30 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class DataFixtures extends Fixture
 {
-    public const PROJECT_1_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
-    public const PROJECT_2_ID = '4a05eef8-4127-472f-915a-c69eb59341b1';
-    public const TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
     public const TASK_SCHEDULE = '8 * * * *';
-    public const JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
-    public const JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
     public const JOB_2_DATETIME = '2021-01-01 13:00:00';
-    public const JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
     public const JOB_3_DATETIME = '2021-01-01 14:00:00';
-    public const JOB_4_ID = 'a92e7e2d-6073-474f-9d4b-75dda88b352c';
     public const JOB_4_DATETIME = '2021-01-01 15:00:00';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
+
     public const USER_1_ID = 'a26d6d92-eb4d-11ec-ac9e-1266a710edb4';
+    public const USER_1_PROJECT_1_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
+    public const USER_1_PROJECT_2_ID = '4a05eef8-4127-472f-915a-c69eb59341b1';
+    public const USER_1_TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
+    public const USER_1_JOB_1_ID = '6bcede0c-21de-4472-b6a4-853d287ed16b';
+    public const USER_1_JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
+    public const USER_1_JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
+    public const USER_1_JOB_4_ID = 'a92e7e2d-6073-474f-9d4b-75dda88b352c';
+
+    public const USER_2_ID = 'e6b281f4-eb66-11ec-8907-1266a710edb4';
+    public const USER_2_PROJECT_1_ID = '3ed46136-eb67-11ec-a60e-1266a710edb4';
+    public const USER_2_PROJECT_2_ID = '419dddd4-eb67-11ec-9f9f-1266a710edb4';
+    public const USER_2_TASK_ID = '4bcc7252-eb67-11ec-9752-1266a710edb4';
+    public const USER_2_JOB_1_ID = '6b03cf62-eb67-11ec-b9ca-1266a710edb4';
+    public const USER_2_JOB_2_ID = '6d7201b0-eb67-11ec-a82c-1266a710edb4';
+    public const USER_2_JOB_3_ID = '705ed7c2-eb67-11ec-8377-1266a710edb4';
+    public const USER_2_JOB_4_ID = '72e331b4-eb67-11ec-a1f8-1266a710edb4';
 
     public function __construct(
         private RecipesCollection $recipesCollection,
@@ -57,107 +67,8 @@ final class DataFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user1 = new User(
-            new UserId(self::USER_1_ID),
-            'peon-1',
-            $this->hashPlainTextPassword->hash('12345'),
-        );
-        $manager->persist($user1);
-
-        $remoteGitRepository = self::createRemoteGitRepository();
-
-        $projectId = new ProjectId(self::PROJECT_1_ID);
-        $project = new Project($projectId, $remoteGitRepository);
-        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
-        $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
-
-        $manager->persist($project);
-
-        $emptyProjectId = new ProjectId(self::PROJECT_2_ID);
-        $emptyProject = new Project($emptyProjectId, $remoteGitRepository);
-
-        $manager->persist($emptyProject);
-
-        $taskId = new TaskId(self::TASK_ID);
-        $task = new Task(
-            $taskId,
-            $projectId,
-            'task',
-            ['command1', 'command2'],
-            false,
-        );
-        $task->changeSchedule(new CronExpression(self::TASK_SCHEDULE));
-
-        $manager->persist($task);
-
-        $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
-        $job1Id = new JobId(self::JOB_1_ID);
-        $job1 = Job::scheduleFromTask(
-            $job1Id,
-            $projectId,
-            $task,
-            $job1Clock,
-        );
-
-        $job1->start($job1Clock);
-        $job1->succeeds($job1Clock, new MergeRequest('1', 'https://peon.dev'));
-
-        foreach ($task->commands as $sequence => $command) {
-            $process = $this->createProcess($job1Id, $sequence, $command);
-            $manager->persist($process);
-        }
-
-        $manager->persist($job1);
-
-        $job2Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_2_DATETIME));
-        $job2Id = new JobId(self::JOB_2_ID);
-        $job2 = Job::scheduleFromTask(
-            $job2Id,
-            $projectId,
-            $task,
-            $job2Clock,
-        );
-
-        $job2->start($job2Clock);
-        $job2->fails($job2Clock, new MergeRequest('2', 'https://peon.dev'));
-
-        foreach ($task->commands as $sequence => $command) {
-            $process = $this->createProcess($job2Id, $sequence, $command);
-            $manager->persist($process);
-        }
-
-        $manager->persist($job2);
-
-        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
-        $job3Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_3_DATETIME));
-        $job3Id = new JobId(self::JOB_3_ID);
-        $job3 = Job::scheduleFromRecipe(
-            $job3Id,
-            $projectId,
-            $job3Clock,
-            $recipe->title,
-            EnabledRecipe::withoutConfiguration($recipe->name, null),
-        );
-
-        $job3->start($job3Clock);
-        $job3->succeeds($job3Clock);
-
-        $manager->persist($job3);
-
-        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
-        $job4Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_4_DATETIME));
-        $job4Id = new JobId(self::JOB_4_ID);
-        $job4 = Job::scheduleFromRecipe(
-            $job4Id,
-            $projectId,
-            $job4Clock,
-            $recipe->title,
-            EnabledRecipe::withoutConfiguration($recipe->name, null),
-        );
-
-        $job4->start($job4Clock);
-
-        $manager->persist($job4);
+        $this->loadUser1Data($manager);
+        $this->loadUser2Data($manager);
 
         $manager->flush();
     }
@@ -193,5 +104,217 @@ final class DataFixtures extends Fixture
         });
 
         return $process;
+    }
+
+
+    private function loadUser1Data(ObjectManager $manager): void
+    {
+        $user = new User(
+            new UserId(self::USER_1_ID),
+            'peon-1',
+            $this->hashPlainTextPassword->hash('12345'),
+        );
+        $manager->persist($user);
+
+        $remoteGitRepository = self::createRemoteGitRepository();
+
+        $projectId = new ProjectId(self::USER_1_PROJECT_1_ID);
+        $project = new Project($projectId, $remoteGitRepository);
+        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
+
+        $manager->persist($project);
+
+        $emptyProjectId = new ProjectId(self::USER_1_PROJECT_2_ID);
+        $emptyProject = new Project($emptyProjectId, $remoteGitRepository);
+
+        $manager->persist($emptyProject);
+
+        $taskId = new TaskId(self::USER_1_TASK_ID);
+        $task = new Task(
+            $taskId,
+            $projectId,
+            'task',
+            ['command1', 'command2'],
+            false,
+        );
+        $task->changeSchedule(new CronExpression(self::TASK_SCHEDULE));
+
+        $manager->persist($task);
+
+        $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
+        $job1Id = new JobId(self::USER_1_JOB_1_ID);
+        $job1 = Job::scheduleFromTask(
+            $job1Id,
+            $projectId,
+            $task,
+            $job1Clock,
+        );
+
+        $job1->start($job1Clock);
+        $job1->succeeds($job1Clock, new MergeRequest('1', 'https://peon.dev'));
+
+        foreach ($task->commands as $sequence => $command) {
+            $process = $this->createProcess($job1Id, $sequence, $command);
+            $manager->persist($process);
+        }
+
+        $manager->persist($job1);
+
+        $job2Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_2_DATETIME));
+        $job2Id = new JobId(self::USER_1_JOB_2_ID);
+        $job2 = Job::scheduleFromTask(
+            $job2Id,
+            $projectId,
+            $task,
+            $job2Clock,
+        );
+
+        $job2->start($job2Clock);
+        $job2->fails($job2Clock, new MergeRequest('2', 'https://peon.dev'));
+
+        foreach ($task->commands as $sequence => $command) {
+            $process = $this->createProcess($job2Id, $sequence, $command);
+            $manager->persist($process);
+        }
+
+        $manager->persist($job2);
+
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
+        $job3Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_3_DATETIME));
+        $job3Id = new JobId(self::USER_1_JOB_3_ID);
+        $job3 = Job::scheduleFromRecipe(
+            $job3Id,
+            $projectId,
+            $job3Clock,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
+        );
+
+        $job3->start($job3Clock);
+        $job3->succeeds($job3Clock);
+
+        $manager->persist($job3);
+
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
+        $job4Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_4_DATETIME));
+        $job4Id = new JobId(self::USER_1_JOB_4_ID);
+        $job4 = Job::scheduleFromRecipe(
+            $job4Id,
+            $projectId,
+            $job4Clock,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
+        );
+
+        $job4->start($job4Clock);
+
+        $manager->persist($job4);
+    }
+
+
+    private function loadUser2Data(ObjectManager $manager): void
+    {
+        $user = new User(
+            new UserId(self::USER_2_ID),
+            'peon-2',
+            $this->hashPlainTextPassword->hash('12345'),
+        );
+        $manager->persist($user);
+
+        $remoteGitRepository = self::createRemoteGitRepository();
+
+        $projectId = new ProjectId(self::USER_2_PROJECT_1_ID);
+        $project = new Project($projectId, $remoteGitRepository);
+        $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
+        $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
+
+        $manager->persist($project);
+
+        $emptyProjectId = new ProjectId(self::USER_2_PROJECT_2_ID);
+        $emptyProject = new Project($emptyProjectId, $remoteGitRepository);
+
+        $manager->persist($emptyProject);
+
+        $taskId = new TaskId(self::USER_2_TASK_ID);
+        $task = new Task(
+            $taskId,
+            $projectId,
+            'task',
+            ['command1', 'command2'],
+            false,
+        );
+        $task->changeSchedule(new CronExpression(self::TASK_SCHEDULE));
+
+        $manager->persist($task);
+
+        $job1Clock = new FrozenClock(new \DateTimeImmutable('2021-01-01 12:00:00'));
+        $job1Id = new JobId(self::USER_2_JOB_1_ID);
+        $job1 = Job::scheduleFromTask(
+            $job1Id,
+            $projectId,
+            $task,
+            $job1Clock,
+        );
+
+        $job1->start($job1Clock);
+        $job1->succeeds($job1Clock, new MergeRequest('1', 'https://peon.dev'));
+
+        foreach ($task->commands as $sequence => $command) {
+            $process = $this->createProcess($job1Id, $sequence, $command);
+            $manager->persist($process);
+        }
+
+        $manager->persist($job1);
+
+        $job2Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_2_DATETIME));
+        $job2Id = new JobId(self::USER_2_JOB_2_ID);
+        $job2 = Job::scheduleFromTask(
+            $job2Id,
+            $projectId,
+            $task,
+            $job2Clock,
+        );
+
+        $job2->start($job2Clock);
+        $job2->fails($job2Clock, new MergeRequest('2', 'https://peon.dev'));
+
+        foreach ($task->commands as $sequence => $command) {
+            $process = $this->createProcess($job2Id, $sequence, $command);
+            $manager->persist($process);
+        }
+
+        $manager->persist($job2);
+
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
+        $job3Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_3_DATETIME));
+        $job3Id = new JobId(self::USER_2_JOB_3_ID);
+        $job3 = Job::scheduleFromRecipe(
+            $job3Id,
+            $projectId,
+            $job3Clock,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
+        );
+
+        $job3->start($job3Clock);
+        $job3->succeeds($job3Clock);
+
+        $manager->persist($job3);
+
+        $recipe = $this->recipesCollection->get(RecipeName::UNUSED_PRIVATE_METHODS);
+        $job4Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_4_DATETIME));
+        $job4Id = new JobId(self::USER_2_JOB_4_ID);
+        $job4 = Job::scheduleFromRecipe(
+            $job4Id,
+            $projectId,
+            $job4Clock,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
+        );
+
+        $job4->start($job4Clock);
+
+        $manager->persist($job4);
     }
 }

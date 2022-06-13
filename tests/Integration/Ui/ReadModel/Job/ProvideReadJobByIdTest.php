@@ -28,7 +28,7 @@ class ProvideReadJobByIdTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readJob = $this->provideReadJobById->provide(new JobId(DataFixtures::JOB_1_ID));
+        $readJob = $this->provideReadJobById->provide(new JobId(DataFixtures::USER_1_JOB_1_ID));
 
         self::assertFalse($readJob->isRecipe());
         self::assertNull($readJob->recipeName);

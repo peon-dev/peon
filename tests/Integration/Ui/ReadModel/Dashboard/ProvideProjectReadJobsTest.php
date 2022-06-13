@@ -27,29 +27,29 @@ final class ProvideProjectReadJobsTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $readJobs = $this->provideProjectReadJobs->provide(new ProjectId($projectId), 10);
 
         self::assertCount(4, $readJobs);
 
         $job = $readJobs[0];
-        self::assertSame(DataFixtures::JOB_4_ID, $job->jobId);
+        self::assertSame(DataFixtures::USER_1_JOB_4_ID, $job->jobId);
         self::assertNull($job->executionTime);
         self::assertNull($job->mergeRequestUrl);
 
         $job = $readJobs[1];
-        self::assertSame(DataFixtures::JOB_3_ID, $job->jobId);
+        self::assertSame(DataFixtures::USER_1_JOB_3_ID, $job->jobId);
         self::assertNull($job->executionTime);
         self::assertNull($job->mergeRequestUrl);
 
         $job = $readJobs[2];
-        self::assertSame(DataFixtures::JOB_2_ID, $job->jobId);
+        self::assertSame(DataFixtures::USER_1_JOB_2_ID, $job->jobId);
         self::assertNotNull($job->executionTime);
         self::assertNotNull($job->mergeRequestUrl);
 
         $job = $readJobs[3];
-        self::assertSame(DataFixtures::JOB_1_ID, $job->jobId);
+        self::assertSame(DataFixtures::USER_1_JOB_1_ID, $job->jobId);
         self::assertNotNull($job->executionTime);
         self::assertNotNull($job->mergeRequestUrl);
     }

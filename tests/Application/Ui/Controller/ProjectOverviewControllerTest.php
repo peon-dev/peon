@@ -55,7 +55,7 @@ final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCas
      */
     public function provideTestPageCanBeRenderedData(): \Generator
     {
-        yield [DataFixtures::PROJECT_1_ID];
-        yield [DataFixtures::PROJECT_2_ID];
+        yield [DataFixtures::USER_1_PROJECT_1_ID];
+        yield [DataFixtures::USER_1_PROJECT_2_ID];
     }
 }

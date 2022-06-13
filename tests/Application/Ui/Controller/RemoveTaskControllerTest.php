@@ -43,8 +43,8 @@ final class RemoveTaskControllerTest extends AbstractPeonApplicationTestCase
         $container = self::getContainer();
         $tasksCollection = $container->get(TasksCollection::class);
         $tasksCountBeforeScenario = count($tasksCollection->all());
-        $taskId = DataFixtures::TASK_ID;
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $taskId = DataFixtures::USER_1_TASK_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 

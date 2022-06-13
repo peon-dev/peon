@@ -27,7 +27,7 @@ class CountJobsOfProjectTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $jobsCount = $this->countJobsOfProject->count(new ProjectId(DataFixtures::PROJECT_1_ID));
+        $jobsCount = $this->countJobsOfProject->count(new ProjectId(DataFixtures::USER_1_PROJECT_1_ID));
 
         self::assertSame(4, $jobsCount);
     }

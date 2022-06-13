@@ -43,7 +43,7 @@ final class EnableRecipeForProjectControllerTest extends AbstractPeonApplication
     public function testNonExistingRecipeWillShow404(): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
         $recipeName = 'something-not-existing';
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
@@ -59,7 +59,7 @@ final class EnableRecipeForProjectControllerTest extends AbstractPeonApplication
         $client = self::createClient();
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
         $recipeName = RecipeName::TYPED_PROPERTIES;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
@@ -81,7 +81,7 @@ final class EnableRecipeForProjectControllerTest extends AbstractPeonApplication
         $client = self::createClient();
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
         $recipeName = RecipeName::SWITCH_TO_MATCH;
 
         $project = $projectsCollection->get(new ProjectId($projectId));
