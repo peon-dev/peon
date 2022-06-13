@@ -25,8 +25,12 @@ use Peon\Domain\Task\Task;
 use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\User\HashPlainTextPassword;
+use Peon\Domain\User\User;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class DataFixtures extends Fixture
 {
@@ -43,14 +47,23 @@ final class DataFixtures extends Fixture
     public const JOB_4_DATETIME = '2021-01-01 15:00:00';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
+    public const USER_1_ID = 'a26d6d92-eb4d-11ec-ac9e-1266a710edb4';
 
     public function __construct(
-        private RecipesCollection $recipesCollection
+        private RecipesCollection $recipesCollection,
+        private HashPlainTextPassword $hashPlainTextPassword,
     ) {}
 
 
     public function load(ObjectManager $manager): void
     {
+        $user1 = new User(
+            new UserId(self::USER_1_ID),
+            'peon-1',
+            $this->hashPlainTextPassword->hash('12345'),
+        );
+        $manager->persist($user1);
+
         $remoteGitRepository = self::createRemoteGitRepository();
 
         $projectId = new ProjectId(self::PROJECT_1_ID);
@@ -90,7 +103,7 @@ final class DataFixtures extends Fixture
         $job1->succeeds($job1Clock, new MergeRequest('1', 'https://peon.dev'));
 
         foreach ($task->commands as $sequence => $command) {
-            $process = $this->getProcess($job1Id, $sequence, $command);
+            $process = $this->createProcess($job1Id, $sequence, $command);
             $manager->persist($process);
         }
 
@@ -109,7 +122,7 @@ final class DataFixtures extends Fixture
         $job2->fails($job2Clock, new MergeRequest('2', 'https://peon.dev'));
 
         foreach ($task->commands as $sequence => $command) {
-            $process = $this->getProcess($job2Id, $sequence, $command);
+            $process = $this->createProcess($job2Id, $sequence, $command);
             $manager->persist($process);
         }
 
@@ -158,7 +171,7 @@ final class DataFixtures extends Fixture
         );
     }
 
-    private function getProcess(JobId $job, int $sequence, string $command): Process
+    private function createProcess(JobId $job, int $sequence, string $command): Process
     {
         $process = new Process(
             new ProcessId(Uuid::uuid4()->toString()),
