@@ -35,6 +35,6 @@ class DoctrineGetLongRunningJobsTest extends KernelTestCase
         $jobs = $this->getLongRunningJobs->olderThanHours(1);
 
         self::assertCount(1, $jobs);
-        self::assertSame(DataFixtures::JOB_4_ID, $jobs[0]->jobId->id);
+        self::assertSame(DataFixtures::USER_1_JOB_4_ID, $jobs[0]->jobId->id);
     }
 }

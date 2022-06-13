@@ -40,7 +40,7 @@ final class JobDetailControllerTest extends AbstractPeonApplicationTestCase
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
-        $jobId = DataFixtures::JOB_1_ID;
+        $jobId = DataFixtures::USER_1_JOB_1_ID;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 

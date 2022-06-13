@@ -19,7 +19,7 @@ class ConfigureRecipeForProjectHandlerIntegrationTest extends KernelTestCase
         $container = self::getContainer();
         $entityManager = $container->get(EntityManagerInterface::class);
         $bus = $container->get(CommandBus::class);
-        $projectId = new ProjectId(DataFixtures::PROJECT_1_ID);
+        $projectId = new ProjectId(DataFixtures::USER_1_PROJECT_1_ID);
 
         $bus->dispatch(
             new ConfigureRecipeForProject(

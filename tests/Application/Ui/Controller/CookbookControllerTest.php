@@ -29,7 +29,7 @@ final class CookbookControllerTest extends AbstractPeonApplicationTestCase
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
         $crawler = $client->request('GET', "/projects/$projectId/cookbook");
 
         self::assertResponseIsSuccessful();

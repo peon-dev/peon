@@ -44,13 +44,13 @@ final class RunTaskControllerTest extends AbstractPeonApplicationTestCase
         $container = self::getContainer();
         $jobsCollection = $container->get(JobsCollection::class);
         $jobsCountBeforeScenario = count($jobsCollection->all());
-        $taskId = DataFixtures::TASK_ID;
+        $taskId = DataFixtures::USER_1_TASK_ID;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
         $client->request('GET', "/task/run/$taskId");
 
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
         self::assertResponseRedirects("/projects/$projectId");
 
         self::assertCount(1 + $jobsCountBeforeScenario, $jobsCollection->all());

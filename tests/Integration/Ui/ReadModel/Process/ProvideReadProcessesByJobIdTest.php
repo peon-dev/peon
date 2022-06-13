@@ -27,12 +27,12 @@ class ProvideReadProcessesByJobIdTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readProcesses = $this->provideReadProcessesByJobId->provide(new JobId(DataFixtures::JOB_1_ID));
+        $readProcesses = $this->provideReadProcessesByJobId->provide(new JobId(DataFixtures::USER_1_JOB_1_ID));
 
         self::assertCount(2, $readProcesses);
 
         foreach ($readProcesses as $readProcess) {
-            self::assertSame(DataFixtures::JOB_1_ID, $readProcess->jobId);
+            self::assertSame(DataFixtures::USER_1_JOB_1_ID, $readProcess->jobId);
             self::assertNotNull($readProcess->executionTime);
             self::assertNotNull($readProcess->output);
             self::assertNotNull($readProcess->exitCode);

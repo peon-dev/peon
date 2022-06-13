@@ -44,8 +44,8 @@ final class RedefineTaskControllerTest extends AbstractPeonApplicationTestCase
         $client = self::createClient();
         $container = self::getContainer();
         $tasksCollection = $container->get(TasksCollection::class);
-        $taskId = DataFixtures::TASK_ID;
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $taskId = DataFixtures::USER_1_TASK_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
@@ -79,7 +79,7 @@ STRING;
         $client = self::createClient();
         $container = self::getContainer();
         $tasksCollection = $container->get(TasksCollection::class);
-        $taskId = DataFixtures::TASK_ID;
+        $taskId = DataFixtures::USER_1_TASK_ID;
         $jobsCollection = $container->get(JobsCollection::class);
         $jobsCountBeforeScenario = count($jobsCollection->all());
 

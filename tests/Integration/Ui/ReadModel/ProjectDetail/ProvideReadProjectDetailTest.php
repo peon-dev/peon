@@ -27,12 +27,12 @@ final class ProvideReadProjectDetailTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $readProject = $this->provideReadTasksRecipes->provide(new ProjectId($projectId));
 
         self::assertSame(DataFixtures::PROJECT_NAME, $readProject->name);
-        self::assertSame(DataFixtures::PROJECT_1_ID, $readProject->projectId);
+        self::assertSame(DataFixtures::USER_1_PROJECT_1_ID, $readProject->projectId);
         self::assertCount(2, $readProject->enabledRecipes);
         self::assertFalse($readProject->skipComposerInstall);
     }

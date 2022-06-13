@@ -41,7 +41,7 @@ final class ProjectSettingsControllerTest extends AbstractPeonApplicationTestCas
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
@@ -56,7 +56,7 @@ final class ProjectSettingsControllerTest extends AbstractPeonApplicationTestCas
         $client = self::createClient();
         $container = self::getContainer();
         $projectsCollection = $container->get(ProjectsCollection::class);
-        $projectId = DataFixtures::PROJECT_1_ID;
+        $projectId = DataFixtures::USER_1_PROJECT_1_ID;
 
         // Check it was false before
         $project = $projectsCollection->get(new ProjectId($projectId));
