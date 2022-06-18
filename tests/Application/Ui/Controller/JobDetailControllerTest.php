@@ -24,6 +24,11 @@ final class JobDetailControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotAccessForeignJob(): void
+    {
+    }
+
+
     public function testNonExistingJobWillShow404(): void
     {
         $client = self::createClient();

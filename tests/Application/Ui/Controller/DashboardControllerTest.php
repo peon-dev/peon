@@ -5,8 +5,6 @@ namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
-use Peon\Tests\TestHelpers;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DashboardControllerTest extends AbstractPeonApplicationTestCase
 {
@@ -37,5 +35,7 @@ final class DashboardControllerTest extends AbstractPeonApplicationTestCase
 
         self::assertCount(2, $crawler->filter('.dashboard-projects > div'));
         self::assertCount(4, $crawler->filter('.jobs-list-table tbody tr'));
+
+        // TODO: assert exact numbers to ensure we do not see data of other users
     }
 }

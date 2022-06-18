@@ -26,6 +26,11 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends AbstractPeo
     }
 
 
+    public function testCanNotEnableRecipeForForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

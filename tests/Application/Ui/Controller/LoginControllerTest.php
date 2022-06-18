@@ -7,5 +7,17 @@ use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 
 class LoginControllerTest extends AbstractPeonApplicationTestCase
 {
-    // TODO: when logged in, will be redirected
+    public function testInvalidCredentials(): void
+    {
+    }
+
+
+    public function testUserCanLogIn(): void
+    {
+    }
+
+
+    public function testAlreadyLoggedInUserWillBeRedirectedToDashboard(): void
+    {
+    }
 }

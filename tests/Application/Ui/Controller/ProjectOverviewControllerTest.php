@@ -22,6 +22,11 @@ final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCas
     }
 
 
+    public function testCanNotAccessForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();
