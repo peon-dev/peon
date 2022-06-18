@@ -20,8 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ProjectSettingsController extends AbstractController
 {
     public function __construct(
-        private ProvideReadProjectDetail $provideReadProjectDetail,
-        private CommandBus $commandBus,
+        private readonly ProvideReadProjectDetail $provideReadProjectDetail,
+        private readonly CommandBus $commandBus,
     ) {}
 
 

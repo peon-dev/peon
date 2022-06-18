@@ -10,7 +10,7 @@ use Peon\Domain\Project\Value\ProjectId;
 final class CountJobsOfProject
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {}
 
 

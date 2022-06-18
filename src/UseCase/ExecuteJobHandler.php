@@ -34,17 +34,17 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class ExecuteJobHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private JobsCollection                  $jobsCollection,
-        private ProjectsCollection              $projects,
-        private PrepareApplicationGitRepository $prepareApplicationGitRepository,
-        private BuildPhpApplication             $buildApplication,
-        private Clock                           $clock,
-        private UpdateMergeRequest              $updateMergeRequest,
-        private EventBus                        $eventBus,
-        private ExecuteCommand                  $executeCommand,
-        private DetectApplicationLanguage       $detectApplicationLanguage,
-        private GetRecipeCommands               $getRecipeCommands,
-        private DetectContainerImage $detectContainerImage,
+        private readonly JobsCollection                  $jobsCollection,
+        private readonly ProjectsCollection              $projects,
+        private readonly PrepareApplicationGitRepository $prepareApplicationGitRepository,
+        private readonly BuildPhpApplication             $buildApplication,
+        private readonly Clock                           $clock,
+        private readonly UpdateMergeRequest              $updateMergeRequest,
+        private readonly EventBus                        $eventBus,
+        private readonly ExecuteCommand                  $executeCommand,
+        private readonly DetectApplicationLanguage       $detectApplicationLanguage,
+        private readonly GetRecipeCommands               $getRecipeCommands,
+        private readonly DetectContainerImage $detectContainerImage,
     ) {}
 
 

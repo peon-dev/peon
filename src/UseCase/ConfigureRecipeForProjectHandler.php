@@ -13,7 +13,7 @@ use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 final class ConfigureRecipeForProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
+        private readonly ProjectsCollection $projectsCollection,
     ) {}
 
 

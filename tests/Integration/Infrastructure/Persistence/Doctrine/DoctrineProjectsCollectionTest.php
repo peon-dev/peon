@@ -6,6 +6,7 @@ namespace Peon\Tests\Integration\Infrastructure\Persistence\Doctrine;
 use Peon\Domain\Project\Project;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -36,7 +37,8 @@ final class DoctrineProjectsCollectionTest extends KernelTestCase
 
         $project = new Project(
             $projectId,
-            $remoteGitRepository
+            $remoteGitRepository,
+            new UserId(DataFixtures::USER_1_ID),
         );
 
         $this->doctrineProjectsCollection->save($project);

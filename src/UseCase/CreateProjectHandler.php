@@ -16,9 +16,9 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class CreateProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private CheckWriteAccessToRemoteRepository $checkWriteAccessToRemoteRepository,
-        private EventBus $eventBus,
+        private readonly ProjectsCollection $projectsCollection,
+        private readonly CheckWriteAccessToRemoteRepository $checkWriteAccessToRemoteRepository,
+        private readonly EventBus $eventBus,
     ) {}
 
     /**
@@ -36,6 +36,7 @@ final class CreateProjectHandler implements CommandHandlerInterface
         $project = new Project(
             $this->projectsCollection->nextIdentity(),
             $remoteGitRepository,
+            $createProject->ownerUserId,
         );
 
         $this->projectsCollection->save($project);

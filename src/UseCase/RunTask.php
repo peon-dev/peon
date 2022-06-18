@@ -8,11 +8,10 @@ use JetBrains\PhpStorm\Immutable;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Task\Value\TaskId;
 
-#[Immutable]
 final class RunTask
 {
     public function __construct(
-        public TaskId $taskId,
-        public JobId $jobId,
+        public readonly TaskId $taskId,
+        public readonly JobId $jobId,
     ) {}
 }

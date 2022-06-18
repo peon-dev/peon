@@ -17,10 +17,10 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class EnableRecipeWithBaselineForProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private RecipesCollection $recipesCollection,
-        private GetLastCommitOfDefaultBranch $getLastCommitOfDefaultBranch,
-        private EventBus $eventBus,
+        private readonly ProjectsCollection $projectsCollection,
+        private readonly RecipesCollection $recipesCollection,
+        private readonly GetLastCommitOfDefaultBranch $getLastCommitOfDefaultBranch,
+        private readonly EventBus $eventBus,
     )
     {
     }

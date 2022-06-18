@@ -109,8 +109,10 @@ final class DataFixtures extends Fixture
 
     private function loadUser1Data(ObjectManager $manager): void
     {
+        $userId = new UserId(self::USER_1_ID);
+
         $user = new User(
-            new UserId(self::USER_1_ID),
+            $userId,
             'peon-1',
             $this->hashPlainTextPassword->hash('12345'),
         );
@@ -119,14 +121,14 @@ final class DataFixtures extends Fixture
         $remoteGitRepository = self::createRemoteGitRepository();
 
         $projectId = new ProjectId(self::USER_1_PROJECT_1_ID);
-        $project = new Project($projectId, $remoteGitRepository);
+        $project = new Project($projectId, $remoteGitRepository, $userId);
         $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
         $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
 
         $manager->persist($project);
 
         $emptyProjectId = new ProjectId(self::USER_1_PROJECT_2_ID);
-        $emptyProject = new Project($emptyProjectId, $remoteGitRepository);
+        $emptyProject = new Project($emptyProjectId, $remoteGitRepository, $userId);
 
         $manager->persist($emptyProject);
 
@@ -215,8 +217,10 @@ final class DataFixtures extends Fixture
 
     private function loadUser2Data(ObjectManager $manager): void
     {
+        $userId = new UserId(self::USER_2_ID);
+
         $user = new User(
-            new UserId(self::USER_2_ID),
+            $userId,
             'peon-2',
             $this->hashPlainTextPassword->hash('12345'),
         );
@@ -225,14 +229,14 @@ final class DataFixtures extends Fixture
         $remoteGitRepository = self::createRemoteGitRepository();
 
         $projectId = new ProjectId(self::USER_2_PROJECT_1_ID);
-        $project = new Project($projectId, $remoteGitRepository);
+        $project = new Project($projectId, $remoteGitRepository, $userId);
         $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
         $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
 
         $manager->persist($project);
 
         $emptyProjectId = new ProjectId(self::USER_2_PROJECT_2_ID);
-        $emptyProject = new Project($emptyProjectId, $remoteGitRepository);
+        $emptyProject = new Project($emptyProjectId, $remoteGitRepository, $userId);
 
         $manager->persist($emptyProject);
 

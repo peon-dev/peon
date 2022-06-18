@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CreateProjectController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus
+        private readonly CommandBus $commandBus,
     ) {}
 
 

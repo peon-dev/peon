@@ -12,24 +12,22 @@ use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use Peon\Ui\ReadModel\JobStatus;
 
-#[Immutable]
 final class ReadTask
 {
-    private string $lastJobStatus = JobStatus::SCHEDULED;
-
+    private readonly string $lastJobStatus;
 
     public function __construct(
-        public string $taskId,
-        public string $name,
-        public string|null $schedule,
-        public string $commands,
-        public string|null $lastJobId,
-        public DateTimeImmutable|null $lastJobScheduledAt,
-        public DateTimeImmutable|null $lastJobStartedAt,
-        public DateTimeImmutable|null $lastJobSucceededAt,
-        public DateTimeImmutable|null $lastJobFailedAt,
-        public DateTimeImmutable|null $lastJobCanceledAt,
-        public string|null $lastJobMergeRequestUrl,
+        public readonly string $taskId,
+        public readonly string $name,
+        public readonly string|null $schedule,
+        public readonly string $commands,
+        public readonly string|null $lastJobId,
+        public readonly DateTimeImmutable|null $lastJobScheduledAt,
+        public readonly DateTimeImmutable|null $lastJobStartedAt,
+        public readonly DateTimeImmutable|null $lastJobSucceededAt,
+        public readonly DateTimeImmutable|null $lastJobFailedAt,
+        public readonly DateTimeImmutable|null $lastJobCanceledAt,
+        public readonly string|null $lastJobMergeRequestUrl,
     ) {
         if ($lastJobFailedAt !== null) {
             $this->lastJobStatus = JobStatus::FAILED;
@@ -39,6 +37,8 @@ final class ReadTask
             $this->lastJobStatus = JobStatus::SUCCEEDED;
         } elseif ($lastJobStartedAt !== null) {
             $this->lastJobStatus = JobStatus::IN_PROGRESS;
+        } else {
+            $this->lastJobStatus = JobStatus::SCHEDULED;
         }
     }
 

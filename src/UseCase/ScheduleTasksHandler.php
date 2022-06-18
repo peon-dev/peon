@@ -14,10 +14,10 @@ use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 final class ScheduleTasksHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private CommandBus $commandBus,
-        private GetTaskSchedules $getTaskSchedules,
-        private ShouldSchedule $shouldSchedule,
-        private JobsCollection $jobsCollection,
+        private readonly CommandBus $commandBus,
+        private readonly GetTaskSchedules $getTaskSchedules,
+        private readonly ShouldSchedule $shouldSchedule,
+        private readonly JobsCollection $jobsCollection,
     ) {}
 
 

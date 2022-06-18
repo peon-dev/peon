@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RemoveTaskController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus,
-        private TasksCollection $tasksCollection
+        private readonly CommandBus $commandBus,
+        private readonly TasksCollection $tasksCollection,
     ) {}
 
 

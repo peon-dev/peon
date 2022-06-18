@@ -10,6 +10,7 @@ use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Task\Task;
 use Peon\Domain\Task\Value\TaskId;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
@@ -40,6 +41,7 @@ final class RunRecipeHandlerTest extends TestCase
             ->with(new IsInstanceOf(JobScheduled::class));
 
         $projectId = new ProjectId('0');
+        $ownerUserId = new UserId('0');
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
         $project = new Project($projectId, $remoteGitRepository);

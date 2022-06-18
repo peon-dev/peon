@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class DeleteProjectController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus
+        private readonly CommandBus $commandBus,
     ) {}
 
 

@@ -13,8 +13,8 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class DeleteProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private EventBus $eventBus,
+        private readonly ProjectsCollection $projectsCollection,
+        private readonly EventBus $eventBus,
     ) {}
 
 

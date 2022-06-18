@@ -27,10 +27,10 @@ use Symfony\Component\Routing\Annotation\Route;
 final class DefineTaskController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus,
-        private ProvideReadProjectDetail $provideReadProjectDetail,
-        private TasksCollection $tasksCollection,
-        private JobsCollection $jobsCollection,
+        private readonly CommandBus $commandBus,
+        private readonly ProvideReadProjectDetail $provideReadProjectDetail,
+        private readonly TasksCollection $tasksCollection,
+        private readonly JobsCollection $jobsCollection,
     ) {}
 
 

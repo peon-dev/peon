@@ -14,10 +14,10 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class CancelLongRunningJobsHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private GetLongRunningJobs $getLongRunningJobs,
-        private EventBus $eventBus,
-        private Clock $clock,
-        private JobsCollection $jobsCollection,
+        private readonly GetLongRunningJobs $getLongRunningJobs,
+        private readonly EventBus $eventBus,
+        private readonly Clock $clock,
+        private readonly JobsCollection $jobsCollection,
     ) {
     }
 

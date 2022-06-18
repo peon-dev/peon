@@ -18,8 +18,10 @@ use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
 use Peon\Infrastructure\GitLab\GitLab;
+use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\Ui\ReadModel\Process\ProvideReadProcessesByJobId;
 use Peon\UseCase\ExecuteJob;
 use Peon\UseCase\ExecuteJobHandler;
@@ -241,9 +243,11 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
     {
         $projectId = new ProjectId(self::PROJECT_ID);
         $taskId = new TaskId(self::TASK_ID);
+        $ownerUserId = new UserId(DataFixtures::USER_1_ID);
         $project = new Project(
             $projectId,
-            $this->gitlabRepository
+            $this->gitlabRepository,
+            $ownerUserId,
         );
 
         $this->projectsCollection->save($project);

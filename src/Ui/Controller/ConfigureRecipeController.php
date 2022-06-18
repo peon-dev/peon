@@ -23,9 +23,9 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ConfigureRecipeController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus,
-        private ProvideReadProjectDetail $provideReadProjectDetail,
-        private RecipesCollection $recipesCollection,
+        private readonly CommandBus $commandBus,
+        private readonly ProvideReadProjectDetail $provideReadProjectDetail,
+        private readonly RecipesCollection $recipesCollection,
     ) {
     }
 

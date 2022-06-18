@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RunRecipeController extends AbstractController
 {
     public function __construct(
-        private CommandBus $commandBus,
+        private readonly CommandBus $commandBus,
     ) {}
 
 

@@ -6,14 +6,13 @@ namespace Peon\Ui\ReadModel\Dashboard;
 
 use JetBrains\PhpStorm\Immutable;
 
-#[Immutable]
 final class ReadProject
 {
     public function __construct(
-        public string $projectId,
-        public string $name,
-        public int $tasksCount,
-        public int $jobsCount,
-        public int $recipesCount,
+        public readonly string $projectId,
+        public readonly string $name,
+        public readonly int $tasksCount,
+        public readonly int $jobsCount,
+        public readonly int $recipesCount,
     ) {}
 }
