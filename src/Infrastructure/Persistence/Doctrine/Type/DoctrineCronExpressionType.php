@@ -8,6 +8,7 @@ use Cron\CronExpression;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
+// TODO: maybe we can use the package type (needs to check out!!)
 final class DoctrineCronExpressionType extends Type
 {
     public const NAME = 'cron_expression';
