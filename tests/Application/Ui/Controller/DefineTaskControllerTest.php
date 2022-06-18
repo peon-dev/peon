@@ -25,6 +25,11 @@ final class DefineTaskControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotAccessForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

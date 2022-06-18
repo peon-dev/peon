@@ -24,6 +24,11 @@ final class DeleteProjectControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotDeleteForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

@@ -26,6 +26,11 @@ final class RedefineTaskControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotRedefineTaskForForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingTaskWillShow404(): void
     {
         $client = self::createClient();

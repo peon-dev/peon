@@ -23,6 +23,11 @@ final class CookbookControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotAccessCookbookForForeignProject(): void
+    {
+    }
+
+
     public function testPageCanBeRendered(): void
     {
         $client = self::createClient();

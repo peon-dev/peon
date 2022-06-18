@@ -25,6 +25,11 @@ final class RunRecipeControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotRunRecipeForForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

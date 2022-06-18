@@ -26,6 +26,11 @@ final class DisableRecipeForProjectControllerTest extends AbstractPeonApplicatio
     }
 
 
+    public function testCanNotDisableRecipeForForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingProjectWillShow404(): void
     {
         $client = self::createClient();

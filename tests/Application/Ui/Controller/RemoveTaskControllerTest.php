@@ -24,6 +24,11 @@ final class RemoveTaskControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testCanNotRemoveTaskForForeignProject(): void
+    {
+    }
+
+
     public function testNonExistingTaskWillShow404(): void
     {
         $client = self::createClient();
