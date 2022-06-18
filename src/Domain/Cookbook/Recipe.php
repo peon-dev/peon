@@ -7,12 +7,11 @@ namespace Peon\Domain\Cookbook;
 use JetBrains\PhpStorm\Immutable;
 use Peon\Domain\Cookbook\Value\RecipeName;
 
-#[Immutable]
 final class Recipe
 {
     public function __construct(
-        public RecipeName $name,
-        public string $title,
-        public ?string $exampleCodeDiff,
+        public readonly RecipeName $name,
+        public readonly string $title,
+        public readonly ?string $exampleCodeDiff,
     ) {}
 }

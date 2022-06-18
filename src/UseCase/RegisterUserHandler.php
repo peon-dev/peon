@@ -12,8 +12,8 @@ use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 final class RegisterUserHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private UsersCollection $usersCollection,
-        private HashPlainTextPassword $hashPlainTextPassword,
+        private readonly UsersCollection $usersCollection,
+        private readonly HashPlainTextPassword $hashPlainTextPassword,
     ) {}
 
 

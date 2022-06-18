@@ -13,9 +13,9 @@ use UXF\Hydrator\ObjectHydrator;
 final class ProvideProjectReadRecipes
 {
     public function __construct(
-        private Connection $connection,
-        private ObjectHydrator $hydrator,
-        private RecipesCollection $recipesCollection,
+        private readonly Connection $connection,
+        private readonly ObjectHydrator $hydrator,
+        private readonly RecipesCollection $recipesCollection,
     ) {}
 
 

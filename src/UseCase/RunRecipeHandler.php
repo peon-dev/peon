@@ -24,12 +24,12 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class RunRecipeHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private RecipesCollection $recipesCollection,
-        private JobsCollection $jobsCollection,
-        private Clock $clock,
-        private CommandBus $commandBus,
-        private EventBus $eventBus,
+        private readonly ProjectsCollection $projectsCollection,
+        private readonly RecipesCollection $recipesCollection,
+        private readonly JobsCollection $jobsCollection,
+        private readonly Clock $clock,
+        private readonly CommandBus $commandBus,
+        private readonly EventBus $eventBus,
     ) {
     }
 

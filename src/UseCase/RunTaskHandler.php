@@ -24,12 +24,12 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class RunTaskHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private TasksCollection $tasks,
-        private JobsCollection $jobs,
-        private ProjectsCollection $projects,
-        private Clock $clock,
-        private CommandBus $commandBus,
-        private EventBus $eventBus,
+        private readonly TasksCollection $tasks,
+        private readonly JobsCollection $jobs,
+        private readonly ProjectsCollection $projects,
+        private readonly Clock $clock,
+        private readonly CommandBus $commandBus,
+        private readonly EventBus $eventBus,
     ) {}
 
 

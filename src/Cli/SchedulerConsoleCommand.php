@@ -17,8 +17,8 @@ use Throwable;
 final class SchedulerConsoleCommand extends Command
 {
     public function __construct(
-        private CommandBus $commandBus,
-        private LoggerInterface $logger
+        private readonly CommandBus $commandBus,
+        private readonly LoggerInterface $logger
     ) {
         parent::__construct('peon:scheduler:run');
     }

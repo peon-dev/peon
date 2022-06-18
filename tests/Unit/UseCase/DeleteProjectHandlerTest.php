@@ -10,6 +10,7 @@ use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\Tests\DataFixtures\DataFixtures;
@@ -25,7 +26,7 @@ final class DeleteProjectHandlerTest extends TestCase
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
         $projectsCollection = new InMemoryProjectsCollection();
         $projectId = new ProjectId('1');
-
+        $ownerUserId = new UserId('0');
 
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
@@ -33,7 +34,7 @@ final class DeleteProjectHandlerTest extends TestCase
             ->with(new IsInstanceOf(ProjectDeleted::class));
 
         $projectsCollection->save(
-            new Project($projectId, $remoteGitRepository)
+            new Project($projectId, $remoteGitRepository, $ownerUserId)
         );
 
         self::assertCount(1, $projectsCollection->all());

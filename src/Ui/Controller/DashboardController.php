@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 final class DashboardController extends AbstractController
 {
     public function __construct(
-        private ProvideReadJobs $provideReadJobs,
-        private ProvideReadProjects $provideReadProjects,
+        private readonly ProvideReadJobs $provideReadJobs,
+        private readonly ProvideReadProjects $provideReadProjects,
     ) {}
 
 

@@ -13,8 +13,8 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class RedefineTaskHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private TasksCollection $tasks,
-        private EventBus $eventBus,
+        private readonly TasksCollection $tasks,
+        private readonly EventBus $eventBus,
     ) {}
 
 

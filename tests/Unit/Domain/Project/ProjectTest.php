@@ -8,6 +8,7 @@ use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Project\Value\RecipeJobConfiguration;
+use Peon\Domain\User\Value\UserId;
 use Peon\Tests\DataFixtures\DataFixtures;
 use PHPUnit\Framework\TestCase;
 
@@ -94,7 +95,8 @@ class ProjectTest extends TestCase
     {
         return new Project(
             new ProjectId(''),
-            DataFixtures::createRemoteGitRepository()
+            DataFixtures::createRemoteGitRepository(),
+            new UserId(''),
         );
     }
 }

@@ -11,8 +11,8 @@ use UXF\Hydrator\ObjectHydrator;
 final class ProvideReadProcessesByJobId
 {
     public function __construct(
-        private Connection $connection,
-        private ObjectHydrator $hydrator,
+        private readonly Connection $connection,
+        private readonly ObjectHydrator $hydrator,
     ) {}
 
 

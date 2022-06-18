@@ -15,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CookbookController extends AbstractController
 {
     public function __construct(
-        private RecipesCollection $recipesCollection,
-        private ProvideReadProjectDetail $provideReadProjectDetail,
+        private readonly RecipesCollection $recipesCollection,
+        private readonly ProvideReadProjectDetail $provideReadProjectDetail,
     ) {}
 
 

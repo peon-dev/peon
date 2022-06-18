@@ -18,10 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ProjectOverviewController extends AbstractController
 {
     public function __construct(
-        private ProvideReadProjectDetail $provideReadProjectDetail,
-        private ProvideReadTasks          $provideReadTasks,
-        private ProvideProjectReadJobs    $provideProjectReadJobs,
-        private ProvideProjectReadRecipes $provideProjectReadRecipes,
+        private readonly ProvideReadProjectDetail $provideReadProjectDetail,
+        private readonly ProvideReadTasks          $provideReadTasks,
+        private readonly ProvideProjectReadJobs    $provideProjectReadJobs,
+        private readonly ProvideProjectReadRecipes $provideProjectReadRecipes,
     ) {}
 
 

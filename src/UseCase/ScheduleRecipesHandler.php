@@ -12,9 +12,9 @@ use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 final class ScheduleRecipesHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private CommandBus         $commandBus,
-        private GetRecipeSchedules $getRecipeSchedules,
-        private ShouldSchedule     $shouldSchedule,
+        private readonly CommandBus         $commandBus,
+        private readonly GetRecipeSchedules $getRecipeSchedules,
+        private readonly ShouldSchedule     $shouldSchedule,
     ) {}
 
 

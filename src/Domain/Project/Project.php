@@ -13,6 +13,7 @@ use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Application\Value\ApplicationLanguage;
 use Peon\Domain\Project\Value\RecipeJobConfiguration;
+use Peon\Domain\User\Value\UserId;
 
 class Project
 {
@@ -32,7 +33,8 @@ class Project
 
     public function __construct(
         public readonly ProjectId $projectId,
-        public readonly RemoteGitRepository $remoteGitRepository
+        public readonly RemoteGitRepository $remoteGitRepository,
+        public readonly UserId $ownerUserId,
     ) {
         $this->name = $this->remoteGitRepository->getProject();
         $this->buildConfiguration = PhpApplicationBuildConfiguration::createDefault();

@@ -15,6 +15,7 @@ use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\Task\Exception\TaskNotFound;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryJobsCollection;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryTasksCollection;
@@ -44,12 +45,13 @@ final class RunTaskHandlerTest extends TestCase
             ->with(new IsInstanceOf(JobScheduled::class));
 
         $projectId = new ProjectId('0');
+        $ownerUserId = new UserId('0');
         $taskId = new TaskId('0');
         $jobId = new JobId('0');
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
 
         $projectsCollection->save(
-            new Project($projectId, $remoteGitRepository)
+            new Project($projectId, $remoteGitRepository, $ownerUserId)
         );
 
         $tasksCollection->save(

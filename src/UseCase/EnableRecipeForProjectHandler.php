@@ -15,9 +15,9 @@ use Peon\Packages\MessageBus\Event\EventBus;
 final class EnableRecipeForProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private ProjectsCollection $projectsCollection,
-        private RecipesCollection $recipesCollection,
-        private EventBus $eventBus,
+        private readonly ProjectsCollection $projectsCollection,
+        private readonly RecipesCollection $recipesCollection,
+        private readonly EventBus $eventBus,
     ) {}
 
 

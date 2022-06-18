@@ -17,7 +17,7 @@ final class RegisterUserConsoleCommand extends Command
     const ARGUMENT_PASSWORD = 'plainTextPassword';
 
     public function __construct(
-        private CommandBus $commandBus,
+        private readonly CommandBus $commandBus,
     ) {
         parent::__construct('peon:user:register');
     }

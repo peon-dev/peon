@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 final class JobDetailController extends AbstractController
 {
     public function __construct(
-        private ProvideReadProjectDetail $provideReadProjectDetail,
-        private ProvideReadJobById $provideReadJobById,
-        private ProvideReadProcessesByJobId $provideReadProcessesByJobId,
+        private readonly ProvideReadProjectDetail $provideReadProjectDetail,
+        private readonly ProvideReadJobById $provideReadJobById,
+        private readonly ProvideReadProcessesByJobId $provideReadProcessesByJobId,
     ) {}
 
 
