@@ -29,17 +29,7 @@ final class ReadTask
         public readonly DateTimeImmutable|null $lastJobCanceledAt,
         public readonly string|null $lastJobMergeRequestUrl,
     ) {
-        if ($lastJobFailedAt !== null) {
-            $this->lastJobStatus = JobStatus::FAILED;
-        } elseif ($this->lastJobCanceledAt !== null) {
-            $this->lastJobStatus = JobStatus::CANCELED;
-        } elseif ($lastJobSucceededAt !== null) {
-            $this->lastJobStatus = JobStatus::SUCCEEDED;
-        } elseif ($lastJobStartedAt !== null) {
-            $this->lastJobStatus = JobStatus::IN_PROGRESS;
-        } else {
-            $this->lastJobStatus = JobStatus::SCHEDULED;
-        }
+        $this->lastJobStatus = $this->determineJobStatus($lastJobFailedAt, $lastJobCanceledAt, $lastJobSucceededAt, $lastJobStartedAt);
     }
 
 
@@ -118,5 +108,31 @@ final class ReadTask
         $nextRun = $cronExpression->getNextRunDate();
 
         return \DateTimeImmutable::createFromMutable($nextRun);
+    }
+
+
+    private function determineJobStatus(
+        null|DateTimeImmutable $failedAt,
+        null|DateTimeImmutable $canceledAt,
+        null|DateTimeImmutable $succeededAt,
+        null|DateTimeImmutable $startedAt,
+    ): string {
+        if ($failedAt !== null) {
+            return JobStatus::FAILED;
+        }
+
+        if ($canceledAt !== null) {
+            return JobStatus::CANCELED;
+        }
+
+        if ($succeededAt !== null) {
+            return JobStatus::SUCCEEDED;
+        }
+
+        if ($startedAt !== null) {
+            return JobStatus::IN_PROGRESS;
+        }
+
+        return JobStatus::SCHEDULED;
     }
 }
