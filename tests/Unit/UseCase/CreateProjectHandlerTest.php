@@ -9,6 +9,7 @@ use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\Project\Event\ProjectAdded;
 use Peon\Domain\Task\Event\TaskAdded;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\Tests\DataFixtures\DataFixtures;
@@ -33,8 +34,9 @@ final class CreateProjectHandlerTest extends TestCase
 
         $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository, $eventBusSpy);
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
+        $ownerUserId = new UserId(DataFixtures::USER_1_ID);
 
-        $handler->__invoke(new CreateProject($remoteGitRepository));
+        $handler->__invoke(new CreateProject($remoteGitRepository, $ownerUserId));
 
         self::assertCount(1, $projectsCollection->all());
     }
@@ -51,8 +53,9 @@ final class CreateProjectHandlerTest extends TestCase
 
         $handler = new CreateProjectHandler($projectsCollection, $checkWriteAccessToRemoteRepository, $dummyEventBus);
         $remoteGitRepository = DataFixtures::createRemoteGitRepository();
+        $ownerUserId = new UserId(DataFixtures::USER_1_ID);
 
-        $handler->__invoke(new CreateProject($remoteGitRepository));
+        $handler->__invoke(new CreateProject($remoteGitRepository, $ownerUserId));
     }
 
 

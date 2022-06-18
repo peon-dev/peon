@@ -9,6 +9,7 @@ use Peon\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Exception\InvalidRemoteUri;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\Ui\Form\CreateProjectFormData;
 use Peon\Ui\Form\CreateProjectFormType;
@@ -18,6 +19,8 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class CreateProjectController extends AbstractController
 {
@@ -27,8 +30,11 @@ final class CreateProjectController extends AbstractController
 
 
     #[Route(path: '/add-project', name: 'add_project')]
-    public function __invoke(Request $request): Response
-    {
+    public function __invoke(
+        Request $request,
+        #[CurrentUser]
+        UserInterface $user,
+    ): Response {
         $form = $this->createForm(CreateProjectFormType::class);
         $form->handleRequest($request);
 
@@ -41,9 +47,10 @@ final class CreateProjectController extends AbstractController
                     new CreateProject(
                         new RemoteGitRepository(
                             $data->remoteRepositoryUri,
-                            GitRepositoryAuthentication::fromPersonalAccessToken($data->personalAccessToken)
-                        )
-                    )
+                            GitRepositoryAuthentication::fromPersonalAccessToken($data->personalAccessToken),
+                        ),
+                        new UserId($user->getUserIdentifier()),
+                    ),
                 );
 
                 return $this->redirectToRoute('dashboard');
