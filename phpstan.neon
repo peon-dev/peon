@@ -56,6 +56,11 @@ parameters:
             message: '#^Missing \@throws \\Peon\\Domain\\Job\\Exception\\Job#'
             path: src/Ui/Controller/RedefineTaskController.php
 
+        # Ignore missing throws annotations for data diffs
+        -
+            message: '#^Missing \@throws #'
+            path: src/Infrastructure/Persistence/Doctrine/Migrations
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false
