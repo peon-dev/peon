@@ -4,6 +4,8 @@
 
 For development, clone repository and run it via `docker-compose up`
 
+When running for the first time, user will be automatically created for you, with username and password `peon`. 
+
 To get into Docker container (etc for development or debugging):
 
 ```shell
