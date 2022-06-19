@@ -5,6 +5,7 @@
     <entity name="Peon\Domain\Project\Project">
         <id name="projectId" type="project_id" />
         <field name="name" />
+        <field name="ownerUserId" type="user_id" />
         <field name="buildConfiguration" type="build_configuration">
             <options>
                 <option name="default">{}</option>

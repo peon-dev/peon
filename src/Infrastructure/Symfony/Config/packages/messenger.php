@@ -11,7 +11,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (FrameworkConfig $framework, ContainerConfigurator $configurator) {
     $configurator->services()->set(CommandBus::class)
-        ->arg('$bus', service('command.bus'));
+        ->arg('$bus', service('command.bus'))
+        ->public();
 
     $configurator->services()->set(EventBus::class)
         ->arg('$bus', service('event.bus'));
