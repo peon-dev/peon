@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
+use Peon\Domain\User\Value\UserId;
 use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadProjects
@@ -18,7 +19,7 @@ final class ProvideReadProjects
     /**
      * @return array<ReadProject>
      */
-    public function provide(): array
+    public function provide(string $userId): array
     {
         $sql = <<<SQL
 SELECT
@@ -30,11 +31,12 @@ SELECT
 FROM project
 LEFT JOIN job ON job.project_id = project.project_id
 LEFT JOIN task ON task.project_id = project.project_id
+WHERE project.owner_user_id = :ownerUserId
 GROUP BY project.project_id
 ORDER BY project.name
 SQL;
 
-        $resultSet = $this->connection->executeQuery($sql);
+        $resultSet = $this->connection->executeQuery($sql, [$userId]);
 
         return $this->hydrator->hydrateArrays($resultSet->fetchAllAssociative(), ReadProject::class);
     }

@@ -26,7 +26,7 @@ final class ProvideReadProjectsTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readProjects = $this->provideReadProjects->provide();
+        $readProjects = $this->provideReadProjects->provide(DataFixtures::USER_1_ID);
 
         self::assertCount(2, $readProjects);
 
