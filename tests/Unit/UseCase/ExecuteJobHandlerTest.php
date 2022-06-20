@@ -31,6 +31,7 @@ use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\Tests\DataFixtures\TestDataFactory;
 use Peon\UseCase\ExecuteJob;
@@ -510,6 +511,7 @@ final class ExecuteJobHandlerTest extends TestCase
         return $this->createTestProxy(Project::class, [
                 new ProjectId(''),
                 new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
+                new UserId(''),
             ]);
     }
 
