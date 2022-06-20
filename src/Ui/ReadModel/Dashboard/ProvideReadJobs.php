@@ -18,7 +18,7 @@ final class ProvideReadJobs
     /**
      * @return array<ReadJob>
      */
-    public function provide(int $maxJobsLimit): array
+    public function provide(string $userId, int $maxJobsLimit): array
     {
         $sql = <<<SQL
 SELECT 
@@ -39,12 +39,13 @@ FROM job
 JOIN project ON project.project_id = job.project_id
 LEFT JOIN task ON task.task_id = job.task_id
 LEFT JOIN process ON job.job_id = process.job_id
+WHERE project.owner_user_id = :ownerUserId
 GROUP BY job.job_id, process.job_id, project.name, job.scheduled_at
 ORDER BY job.scheduled_at DESC
-LIMIT ?
+LIMIT :maxJobs
 SQL;
 
-        $resultSet = $this->connection->executeQuery($sql, [$maxJobsLimit], ['integer']);
+        $resultSet = $this->connection->executeQuery($sql, [$userId, $maxJobsLimit], ['string', 'integer']);
 
         return $this->hydrator->hydrateArrays($resultSet->fetchAllAssociative(), ReadJob::class);
     }

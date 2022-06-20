@@ -26,7 +26,7 @@ final class ProvideReadJobsTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readJobs = $this->provideReadJobs->provide(10);
+        $readJobs = $this->provideReadJobs->provide(DataFixtures::USER_1_ID, 10);
 
         self::assertCount(4, $readJobs);
 
@@ -49,5 +49,17 @@ final class ProvideReadJobsTest extends KernelTestCase
         self::assertSame(DataFixtures::USER_1_JOB_1_ID, $job->jobId);
         self::assertNotNull($job->executionTime);
         self::assertNotNull($job->mergeRequestUrl);
+    }
+
+
+    public function testLimit(): void
+    {
+        /**
+         * Data are populated from data fixtures
+         * @see \Peon\Tests\DataFixtures\DataFixtures
+         */
+        $readJobs = $this->provideReadJobs->provide(DataFixtures::USER_1_ID, 1);
+
+        self::assertCount(1, $readJobs);
     }
 }

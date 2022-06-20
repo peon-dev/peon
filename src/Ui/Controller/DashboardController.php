@@ -23,7 +23,7 @@ final class DashboardController extends AbstractController
     public function __invoke(UserInterface $user): Response
     {
         return $this->render('dashboard.html.twig', [
-            'jobs' => $this->provideReadJobs->provide(10),
+            'jobs' => $this->provideReadJobs->provide($user->getUserIdentifier(), 10),
             'projects' => $this->provideReadProjects->provide($user->getUserIdentifier()),
         ]);
     }
