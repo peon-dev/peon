@@ -10,7 +10,7 @@ use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
 use Peon\Domain\User\Value\UserId;
 use SplObjectStorage;
 
-class CheckUserAccess
+final class CheckUserAccess
 {
     /**
      * @var SplObjectStorage<UserId, array<ProjectId>>

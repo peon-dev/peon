@@ -6,7 +6,6 @@ namespace Peon\Tests\Application\Ui\Controller;
 use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCase
 {
@@ -22,8 +21,17 @@ final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCas
     }
 
 
-    public function testCanNotAccessForeignProject(): void
+    public function testCanNotAccessForeignUserProject(): void
     {
+        $client = self::createClient();
+        $anotherUserProjectId = DataFixtures::USER_2_PROJECT_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/projects/$anotherUserProjectId");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 
