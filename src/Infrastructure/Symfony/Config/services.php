@@ -26,10 +26,12 @@ use Peon\Domain\Process\ProcessesCollection;
 use Peon\Domain\Process\RunProcess;
 use Peon\Domain\Process\SanitizeProcessCommand;
 use Peon\Domain\Process\SanitizeProcessOutput;
+use Peon\Domain\Project\GetProjectIdentifiers;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Scheduler\GetRecipeSchedules;
 use Peon\Domain\Scheduler\GetTaskSchedules;
 use Peon\Domain\Scheduler\ShouldSchedule;
+use Peon\Domain\Security\CheckUserAccess;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Domain\Tools\Composer\Composer;
 use Peon\Domain\Application\ProvideApplicationDirectory;
@@ -48,6 +50,7 @@ use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineUsersCollection;
 use Peon\Infrastructure\Process\Symfony\SymfonyProcessRunProcess;
+use Peon\Infrastructure\Project\DoctrineGetProjectIdentifiers;
 use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
 use Peon\Infrastructure\Scheduler\DoctrineGetTaskSchedules;
 use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
@@ -160,4 +163,8 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->set(SymfonyHashPlainTextPassword::class);
     $services->alias(HashPlainTextPassword::class, SymfonyHashPlainTextPassword::class);
+
+    $services->alias(GetProjectIdentifiers::class, DoctrineGetProjectIdentifiers::class);
+
+    $services->set(CheckUserAccess::class); // TODO: think how to do it automatically, it is not interface
 };

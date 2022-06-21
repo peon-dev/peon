@@ -28,9 +28,11 @@ WHERE owner_user_id = :userId
 SQL;
 
         $resultSet = $this->connection->executeQuery($query, [$userId->id]);
+
+        /** @var array<string> $identifiers */
         $identifiers = $resultSet->fetchFirstColumn();
 
-        return array_map(static function(string $projectId) {
+        return array_map(static function(string $projectId): ProjectId {
             return new ProjectId($projectId);
         }, $identifiers);
     }
