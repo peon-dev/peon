@@ -15,4 +15,10 @@ final class ProjectId implements \Stringable
     {
         return $this->id;
     }
+
+
+    public function isSameAs(ProjectId $other): bool
+    {
+        return $other->id === $this->id;
+    }
 }
