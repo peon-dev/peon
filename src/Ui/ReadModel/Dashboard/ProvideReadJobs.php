@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
+use Peon\Domain\Project\Value\ProjectId;
 use UXF\Hydrator\ObjectHydrator;
 
 final class ProvideReadJobs
@@ -16,9 +17,10 @@ final class ProvideReadJobs
 
 
     /**
+     * @param array<ProjectId> $projectIdentifiers
      * @return array<ReadJob>
      */
-    public function provide(string $userId, int $maxJobsLimit): array
+    public function provide(array $projectIdentifiers, int $maxJobsLimit): array
     {
         $sql = <<<SQL
 SELECT 
@@ -39,13 +41,19 @@ FROM job
 JOIN project ON project.project_id = job.project_id
 LEFT JOIN task ON task.task_id = job.task_id
 LEFT JOIN process ON job.job_id = process.job_id
-WHERE project.owner_user_id = :ownerUserId
+WHERE project.project_id IN (:projectIdentifiers)
 GROUP BY job.job_id, process.job_id, project.name, job.scheduled_at
 ORDER BY job.scheduled_at DESC
 LIMIT :maxJobs
 SQL;
 
-        $resultSet = $this->connection->executeQuery($sql, [$userId, $maxJobsLimit], ['string', 'integer']);
+        $resultSet = $this->connection->executeQuery($sql, [
+            'projectIdentifiers' => $projectIdentifiers,
+            'maxJobs' => $maxJobsLimit,
+        ], [
+            'projectIdentifiers' => Connection::PARAM_STR_ARRAY,
+            'maxJobs' => 'integer',
+        ]);
 
         return $this->hydrator->hydrateArrays($resultSet->fetchAllAssociative(), ReadJob::class);
     }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Integration\Ui\ReadModel\Dashboard;
 
+use Peon\Domain\Project\Value\ProjectId;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\Ui\ReadModel\Dashboard\ProvideReadJobs;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -26,7 +27,10 @@ final class ProvideReadJobsTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readJobs = $this->provideReadJobs->provide(DataFixtures::USER_1_ID, 10);
+        $readJobs = $this->provideReadJobs->provide([
+            new ProjectId(DataFixtures::USER_1_PROJECT_1_ID),
+            new ProjectId(DataFixtures::USER_1_PROJECT_2_ID),
+        ], 10);
 
         self::assertCount(4, $readJobs);
 
@@ -58,7 +62,9 @@ final class ProvideReadJobsTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readJobs = $this->provideReadJobs->provide(DataFixtures::USER_1_ID, 1);
+        $readJobs = $this->provideReadJobs->provide([
+            new ProjectId(DataFixtures::USER_1_PROJECT_1_ID)
+        ], 1);
 
         self::assertCount(1, $readJobs);
     }

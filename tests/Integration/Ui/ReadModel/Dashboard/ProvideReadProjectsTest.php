@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Integration\Ui\ReadModel\Dashboard;
 
+use Peon\Domain\Project\Value\ProjectId;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\Ui\ReadModel\Dashboard\ProvideReadProjects;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -26,7 +27,10 @@ final class ProvideReadProjectsTest extends KernelTestCase
          * Data are populated from data fixtures
          * @see \Peon\Tests\DataFixtures\DataFixtures
          */
-        $readProjects = $this->provideReadProjects->provide(DataFixtures::USER_1_ID);
+        $readProjects = $this->provideReadProjects->provide([
+            new ProjectId(DataFixtures::USER_1_PROJECT_1_ID),
+            new ProjectId(DataFixtures::USER_1_PROJECT_2_ID),
+        ]);
 
         self::assertCount(2, $readProjects);
 
