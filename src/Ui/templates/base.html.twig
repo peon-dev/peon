@@ -34,7 +34,9 @@
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <span class="navbar-text">
-                        <i class="far fa-user"></i> {{ app.user.username }}
+                        <a class="user-link {% if app.request.pathInfo == path('user_settings') %}active{% endif %}" href="{{ path('user_settings') }}">
+                            <i class="far fa-user"></i> {{ app.user.username }}
+                        </a>
 
                         <span style="padding-left: 15px;">
                             <a href="{{ path('logout') }}">
@@ -79,7 +81,7 @@
     <div class="container" style="padding-top: 20px; padding-bottom: 40px;">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="flash flash-{{ label }}">
+                <div class="flash-alert alert alert-{{ label }}" role="alert">
                     {{ message }}
                 </div>
             {% endfor %}
