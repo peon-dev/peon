@@ -343,3 +343,16 @@ body.page-login {
         border-radius: 5px;
     }
 }
+
+.text-version {
+    position: absolute;
+    left: 10px;
+    top: 9px;
+    font-size: 11px;
+    line-height: 20px;
+
+    svg {
+        float: left;
+        margin-right: 5px;
+    }
+}
