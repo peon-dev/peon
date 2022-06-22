@@ -28,6 +28,17 @@ final class RedefineTaskControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotRedefineTaskForForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserTaskId = DataFixtures::USER_2_TASK_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        foreach (['GET', 'POST'] as $method) {
+            $client->request($method, "/redefine-task/$anotherUserTaskId");
+
+            // Intentionally 404, and not 401/403
+            self::assertResponseStatusCodeSame(404);
+        }
     }
 
 

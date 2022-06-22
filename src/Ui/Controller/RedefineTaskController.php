@@ -6,10 +6,14 @@ namespace Peon\Ui\Controller;
 
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Exception\ProjectNotFound;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Security\CheckUserAccess;
+use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
 use Peon\Domain\Task\Exception\InvalidCronExpression;
 use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\Task\Exception\TaskNotFound;
 use Peon\Domain\Task\TasksCollection;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\Ui\Form\DefineTaskFormData;
 use Peon\Ui\Form\DefineTaskFormType;
@@ -22,6 +26,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class RedefineTaskController extends AbstractController
 {
@@ -30,14 +35,20 @@ final class RedefineTaskController extends AbstractController
         private readonly CommandBus $commandBus,
         private readonly ProvideReadProjectDetail $provideReadProjectDetail,
         private readonly JobsCollection $jobsCollection,
+        private readonly CheckUserAccess $checkUserAccess,
     ) {}
 
 
     #[Route(path: '/redefine-task/{taskId}', name: 'redefine_task')]
-    public function __invoke(string $taskId, Request $request): Response
+    public function __invoke(string $taskId, Request $request, UserInterface $user): Response
     {
+        $userId = new UserId($user->getUserIdentifier());
+
         try {
             $task = $this->tasks->get(new TaskId($taskId));
+
+            $this->checkUserAccess->toProject($userId, $task->projectId);
+
             $project = $this->provideReadProjectDetail->provide($task->projectId);
             // TODO: domain task should not be available in controller
             $form = $this->createForm(DefineTaskFormType::class, DefineTaskFormData::fromTask($task));
@@ -75,7 +86,7 @@ final class RedefineTaskController extends AbstractController
             } catch (InvalidCronExpression $invalidCronExpression) { // TODO this could be handled better way by custom validation rule
                 $form->get('schedule')->addError(new FormError($invalidCronExpression->getMessage()));
             }
-        } catch (TaskNotFound | ProjectNotFound) {
+        } catch (TaskNotFound | ProjectNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
 

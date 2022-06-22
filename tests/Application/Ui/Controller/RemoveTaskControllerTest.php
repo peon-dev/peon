@@ -26,6 +26,15 @@ final class RemoveTaskControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotRemoveTaskForForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserTaskId = DataFixtures::USER_2_TASK_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/remove-task/$anotherUserTaskId");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 

@@ -28,6 +28,16 @@ final class DisableRecipeForProjectControllerTest extends AbstractPeonApplicatio
 
     public function testCanNotDisableRecipeForForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserProjectId = DataFixtures::USER_2_PROJECT_1_ID;
+        $recipeName = RecipeName::TYPED_PROPERTIES;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/projects/$anotherUserProjectId/recipe/$recipeName->value/disable");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 

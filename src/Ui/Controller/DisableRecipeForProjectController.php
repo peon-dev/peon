@@ -8,30 +8,39 @@ use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Security\CheckUserAccess;
+use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\UseCase\DisableRecipeForProject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class DisableRecipeForProjectController extends AbstractController
 {
     public function __construct(
         private readonly CommandBus $commandBus,
+        private readonly CheckUserAccess $checkUserAccess,
     ) {}
 
 
     #[Route(path: '/projects/{projectId}/recipe/{recipeName}/disable', name: 'project_disable_recipe')]
-    public function __invoke(string $projectId, string $recipeName): Response
+    public function __invoke(string $projectId, string $recipeName, UserInterface $user): Response
     {
+        $userId = new UserId($user->getUserIdentifier());
+
         try {
+            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+
             $this->commandBus->dispatch(
                 new DisableRecipeForProject(
                     RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
                     new ProjectId($projectId)
                 )
             );
-        } catch (ProjectNotFound | RecipeNotFound) {
+        } catch (ProjectNotFound | RecipeNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
 

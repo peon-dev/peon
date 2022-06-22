@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Application\Ui\Controller;
 
+use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Task\TasksCollection;
 use Peon\Tests\Application\AbstractPeonApplicationTestCase;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Ramsey\Uuid\Uuid;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DefineTaskControllerTest extends AbstractPeonApplicationTestCase
 {
@@ -27,6 +27,17 @@ final class DefineTaskControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotAccessForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserProjectId = DataFixtures::USER_2_PROJECT_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        foreach (['GET', 'POST'] as $method) {
+            $client->request($method, "/define-task/$anotherUserProjectId");
+
+            // Intentionally 404, and not 401/403
+            self::assertResponseStatusCodeSame(404);
+        }
     }
 
 

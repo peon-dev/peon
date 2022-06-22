@@ -10,6 +10,9 @@ use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Security\CheckUserAccess;
+use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\Ui\Form\ConfigureRecipeFormData;
 use Peon\Ui\Form\ConfigureRecipeFormType;
@@ -19,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class ConfigureRecipeController extends AbstractController
 {
@@ -26,17 +30,26 @@ final class ConfigureRecipeController extends AbstractController
         private readonly CommandBus $commandBus,
         private readonly ProvideReadProjectDetail $provideReadProjectDetail,
         private readonly RecipesCollection $recipesCollection,
+        private readonly CheckUserAccess $checkUserAccess,
     ) {
     }
 
 
     #[Route(path: '/projects/{projectId}/configure-recipe/{recipeName}', name: 'configure_recipe')]
-    public function __invoke(string $projectId, string $recipeName, Request $request): Response
-    {
+    public function __invoke(
+        string $projectId,
+        string $recipeName,
+        Request $request,
+        UserInterface $user,
+    ): Response {
+        $userId = new UserId($user->getUserIdentifier());
+
         try {
             if (RecipeName::tryFrom($recipeName) === null) {
                 throw new RecipeNotFound();
             }
+
+            $this->checkUserAccess->toProject($userId,  new ProjectId($projectId));
 
             $project = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
             $configureRecipeForm = $this->createForm(ConfigureRecipeFormType::class, ConfigureRecipeFormData::fromReadProjectDetail(
@@ -68,7 +81,7 @@ final class ConfigureRecipeController extends AbstractController
             ]);
         } catch (RecipeNotFound | RecipeNotEnabled) {
             return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
-        } catch (ProjectNotFound) {
+        } catch (ProjectNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
     }

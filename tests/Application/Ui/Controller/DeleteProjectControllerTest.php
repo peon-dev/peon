@@ -26,6 +26,15 @@ final class DeleteProjectControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotDeleteForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserProjectId = DataFixtures::USER_2_PROJECT_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/delete-project/$anotherUserProjectId");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 
