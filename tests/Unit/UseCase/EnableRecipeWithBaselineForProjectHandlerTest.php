@@ -15,6 +15,7 @@ use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\UseCase\EnableRecipeWithBaselineForProject;
@@ -35,7 +36,8 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 
         $project = $this->createTestProxy(Project::class, [
                 new ProjectId(''),
-                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT'))
+                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
+                new UserId(''),
             ]);
         $project->expects(self::once())
             ->method('enableRecipe')

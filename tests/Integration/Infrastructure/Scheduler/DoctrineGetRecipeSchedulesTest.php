@@ -30,15 +30,25 @@ class DoctrineGetRecipeSchedulesTest extends KernelTestCase
          */
         $taskSchedules = $this->doctrineGetRecipeSchedules->all();
 
-        self::assertCount(2, $taskSchedules);
+        // This is supposed to return results for all users
+        self::assertCount(4, $taskSchedules);
 
-        self::assertSame(DataFixtures::USER_1_PROJECT_1_ID, $taskSchedules[0]->projectId->id);
-        self::assertSame(RecipeName::UNUSED_PRIVATE_METHODS, $taskSchedules[0]->recipeName);
-        self::assertNotNull($taskSchedules[0]->lastTimeScheduledAt);
-        self::assertSame(DataFixtures::JOB_4_DATETIME, $taskSchedules[0]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
+        self::assertSame(DataFixtures::USER_2_PROJECT_1_ID, $taskSchedules[0]->projectId->id);
+        self::assertSame(RecipeName::TYPED_PROPERTIES, $taskSchedules[0]->recipeName);
+        self::assertNull($taskSchedules[0]->lastTimeScheduledAt);
 
-        self::assertSame(DataFixtures::USER_1_PROJECT_1_ID, $taskSchedules[1]->projectId->id);
-        self::assertSame(RecipeName::TYPED_PROPERTIES, $taskSchedules[1]->recipeName);
-        self::assertNull($taskSchedules[1]->lastTimeScheduledAt);
+        self::assertSame(DataFixtures::USER_2_PROJECT_1_ID, $taskSchedules[1]->projectId->id);
+        self::assertSame(RecipeName::UNUSED_PRIVATE_METHODS, $taskSchedules[1]->recipeName);
+        self::assertNotNull($taskSchedules[1]->lastTimeScheduledAt);
+        self::assertSame(DataFixtures::JOB_4_DATETIME, $taskSchedules[1]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
+
+        self::assertSame(DataFixtures::USER_1_PROJECT_1_ID, $taskSchedules[2]->projectId->id);
+        self::assertSame(RecipeName::UNUSED_PRIVATE_METHODS, $taskSchedules[2]->recipeName);
+        self::assertNotNull($taskSchedules[2]->lastTimeScheduledAt);
+        self::assertSame(DataFixtures::JOB_4_DATETIME, $taskSchedules[2]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
+
+        self::assertSame(DataFixtures::USER_1_PROJECT_1_ID, $taskSchedules[3]->projectId->id);
+        self::assertSame(RecipeName::TYPED_PROPERTIES, $taskSchedules[3]->recipeName);
+        self::assertNull($taskSchedules[3]->lastTimeScheduledAt);
     }
 }
