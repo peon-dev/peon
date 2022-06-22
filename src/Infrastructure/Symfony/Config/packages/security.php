@@ -20,13 +20,18 @@ return static function (SecurityConfig $securityConfig): void {
         ->pattern('^/(_(profiler|wdt)|css|images|js|build)/')
         ->security(false);
 
-    $securityConfig->firewall('main')
+    $mainFirewall = $securityConfig->firewall('main');
+    $mainFirewall
         ->lazy(true)
         ->provider('doctrine_user_provider')
         ->formLogin()
             ->loginPath('login')
             ->checkPath('login')
             ->enableCsrf(true);
+    $mainFirewall
+        ->logout()
+            ->path('logout');
+
 
     $securityConfig->accessControl()
         ->path('^/login$')
