@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{% block title %}Change password{% endblock %}</h1>
+
+    {{ form_start(change_password_form) }}
+    {{ form_widget(change_password_form) }}
+
+    <input type="submit" name="submit" value="Change" class="btn btn-primary" />
+
+    {{ form_end(change_password_form) }}
+
+{% endblock %}

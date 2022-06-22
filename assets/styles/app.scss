@@ -356,3 +356,16 @@ body.page-login {
         margin-right: 5px;
     }
 }
+
+.navbar-text a.user-link {
+    text-decoration: none;
+    color: #aaa;
+
+    &.active {
+        color: #fff;
+    }
+
+    &:hover {
+        color: #fff;
+    }
+}
