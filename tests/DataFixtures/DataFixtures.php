@@ -40,6 +40,7 @@ final class DataFixtures extends Fixture
     public const JOB_4_DATETIME = '2021-01-01 15:00:00';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
+    public const USER_PASSWORD = '12345';
 
     public const USER_1_ID = 'a26d6d92-eb4d-11ec-ac9e-1266a710edb4';
     public const USER_1_PROJECT_1_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
@@ -114,7 +115,7 @@ final class DataFixtures extends Fixture
         $user = new User(
             $userId,
             'peon-1',
-            $this->hashPlainTextPassword->hash('12345'),
+            $this->hashPlainTextPassword->hash(self::USER_PASSWORD),
         );
         $manager->persist($user);
 
@@ -222,7 +223,7 @@ final class DataFixtures extends Fixture
         $user = new User(
             $userId,
             'peon-2',
-            $this->hashPlainTextPassword->hash('12345'),
+            $this->hashPlainTextPassword->hash(self::USER_PASSWORD),
         );
         $manager->persist($user);
 
