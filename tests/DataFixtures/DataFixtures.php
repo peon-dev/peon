@@ -43,6 +43,7 @@ final class DataFixtures extends Fixture
     public const USER_PASSWORD = '12345';
 
     public const USER_1_ID = 'a26d6d92-eb4d-11ec-ac9e-1266a710edb4';
+    public const USER_1_USERNAME = 'peon-1';
     public const USER_1_PROJECT_1_ID = '5cc4892e-ad6c-4e7b-b861-f73c7ddbab28';
     public const USER_1_PROJECT_2_ID = '4a05eef8-4127-472f-915a-c69eb59341b1';
     public const USER_1_TASK_ID = '57fa7f60-8992-4060-ba05-f617d32f053e';
@@ -52,6 +53,7 @@ final class DataFixtures extends Fixture
     public const USER_1_JOB_4_ID = 'a92e7e2d-6073-474f-9d4b-75dda88b352c';
 
     public const USER_2_ID = 'e6b281f4-eb66-11ec-8907-1266a710edb4';
+    public const USER_2_USERNAME = 'peon-2';
     public const USER_2_PROJECT_1_ID = '3ed46136-eb67-11ec-a60e-1266a710edb4';
     public const USER_2_PROJECT_2_ID = '419dddd4-eb67-11ec-9f9f-1266a710edb4';
     public const USER_2_TASK_ID = '4bcc7252-eb67-11ec-9752-1266a710edb4';
@@ -114,7 +116,7 @@ final class DataFixtures extends Fixture
 
         $user = new User(
             $userId,
-            'peon-1',
+            self::USER_1_USERNAME,
             $this->hashPlainTextPassword->hash(self::USER_PASSWORD),
         );
         $manager->persist($user);
@@ -222,7 +224,7 @@ final class DataFixtures extends Fixture
 
         $user = new User(
             $userId,
-            'peon-2',
+            self::USER_2_USERNAME,
             $this->hashPlainTextPassword->hash(self::USER_PASSWORD),
         );
         $manager->persist($user);

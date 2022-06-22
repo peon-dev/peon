@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Ui\Controller;
 
+use Peon\Domain\User\Exception\UserNotFound;
 use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\Ui\Form\ChangePasswordFormData;
@@ -27,7 +28,7 @@ final class UserSettingsController extends AbstractController
 
 
     #[Route(path: '/user-settings', name: 'user_settings')]
-    public function __invoke(Request $request, UserInterface $user,): Response
+    public function __invoke(Request $request, UserInterface $user): Response
     {
         $changePasswordForm = $this->createForm(ChangePasswordFormType::class);
 
@@ -43,16 +44,17 @@ final class UserSettingsController extends AbstractController
                 $changePasswordForm->get('oldPassword')->addError(
                     new FormError('This is not your current password!'),
                 );
-            }
-
-            // Let's recheck if form is valid, there could be original password error
-            if ($changePasswordForm->isValid()) {
-                $this->commandBus->dispatch(
-                    new ChangeUserPassword(
-                        new UserId($user->getUserIdentifier()),
-                        $data->newPassword,
-                    )
-                );
+            } else {
+                try {
+                    $this->commandBus->dispatch(
+                        new ChangeUserPassword(
+                            new UserId($user->getUserIdentifier()),
+                            $data->newPassword,
+                        )
+                    );
+                } catch (UserNotFound) {
+                    return $this->redirectToRoute('dashboard');
+                }
 
                 $this->addFlash(
                     'success',

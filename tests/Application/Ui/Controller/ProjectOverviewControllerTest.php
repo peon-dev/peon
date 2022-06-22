@@ -17,7 +17,7 @@ final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCas
 
         $client->request('GET', "/projects/$randomProjectId");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 

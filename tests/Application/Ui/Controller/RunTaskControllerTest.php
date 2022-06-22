@@ -21,7 +21,7 @@ final class RunTaskControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/task/run/$randomTaskId");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 

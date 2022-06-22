@@ -20,7 +20,7 @@ final class JobDetailControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/job/$randomJobId");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 

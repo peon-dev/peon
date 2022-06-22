@@ -20,7 +20,7 @@ final class RemoveTaskControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/remove-task/$randomTaskId");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 

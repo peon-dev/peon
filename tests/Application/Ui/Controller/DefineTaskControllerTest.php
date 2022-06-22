@@ -21,7 +21,7 @@ final class DefineTaskControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/define-task/$randomProjectId");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 

@@ -19,7 +19,7 @@ final class CookbookControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/projects/$randomProjectId/cookbook");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 

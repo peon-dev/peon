@@ -14,7 +14,7 @@ final class DashboardControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', '/');
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 
