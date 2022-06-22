@@ -42,6 +42,24 @@ final class StaticRecipesCollection implements RecipesCollection
             'Magic ::class constant for objects',
             file_get_contents(__DIR__ . '/CodeSnippets/getclass-to-object-constant.diff'), // TODO: delete, we do not really need this in domain
         );
+
+        $this->recipes[] = new Recipe(
+            RecipeName::CONSTRUCTOR_PROPERTY_PROMOTION,
+            'Constructor property promotion',
+            file_get_contents(__DIR__ . '/CodeSnippets/constructor-property-promotion.diff'), // TODO: delete, we do not really need this in domain
+        );
+
+        $this->recipes[] = new Recipe(
+            RecipeName::USELESS_VARIABLE_IN_CATCH,
+            'Useless variable in catch',
+            file_get_contents(__DIR__ . '/CodeSnippets/useless-variable-in-catch.diff'), // TODO: delete, we do not really need this in domain
+        );
+
+        $this->recipes[] = new Recipe(
+            RecipeName::VOID_RETURN,
+            'Void return type',
+            file_get_contents(__DIR__ . '/CodeSnippets/void-return.diff'), // TODO: delete, we do not really need this in domain
+        );
     }
 
 

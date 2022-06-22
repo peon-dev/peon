@@ -1,0 +1,10 @@
+ final class Magician
+ {
+     public function doMagic(): void
+     {
+         try {
+-        } catch (Throwable $exception) {
++        } catch (Throwable) {
+         }
+     }
+ }
