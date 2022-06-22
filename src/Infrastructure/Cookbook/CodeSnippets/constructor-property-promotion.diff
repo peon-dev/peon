@@ -1,0 +1,11 @@
+ class Person
+ {
+-    public string $name
+-
+     public function __construct(
+-        string $name = ''
++        public string $name = ''
+     ) {
+-        $this->name = $name;
+     }
+ }
