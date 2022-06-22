@@ -15,7 +15,7 @@ final class UserSettingsControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/user-settings");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

@@ -22,7 +22,7 @@ final class DisableRecipeForProjectControllerTest extends AbstractPeonApplicatio
 
         $client->request('GET', "/projects/$randomProjectId/recipe/$recipeName->value/disable");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

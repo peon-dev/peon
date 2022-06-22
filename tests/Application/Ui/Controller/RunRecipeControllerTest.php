@@ -21,7 +21,7 @@ final class RunRecipeControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/projects/$randomProjectId/run-recipe/$recipeName->value");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

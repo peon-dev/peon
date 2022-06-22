@@ -23,7 +23,7 @@ final class ConfigureRecipeControllerTest extends AbstractPeonApplicationTestCas
 
         $client->request('GET', "/projects/$randomProjectId/configure-recipe/$randomRecipeName");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

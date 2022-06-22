@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Peon\Tests\Application\Ui\Controller;
 
 use Peon\Tests\Application\AbstractPeonApplicationTestCase;
+use Peon\Tests\DataFixtures\DataFixtures;
 
 class LoginControllerTest extends AbstractPeonApplicationTestCase
 {
@@ -21,6 +22,12 @@ class LoginControllerTest extends AbstractPeonApplicationTestCase
 
     public function testAlreadyLoggedInUserWillBeRedirectedToDashboard(): void
     {
-        $this->markTestIncomplete('todo');
+        $client = self::createClient();
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', '/login');
+
+        self::assertResponseRedirects('/');
     }
 }

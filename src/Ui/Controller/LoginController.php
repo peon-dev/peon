@@ -7,6 +7,7 @@ namespace Peon\Ui\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class LoginController extends AbstractController
@@ -19,8 +20,12 @@ final class LoginController extends AbstractController
 
 
     #[Route('/login', name: 'login')]
-    public function __invoke(): Response
+    public function __invoke(null|UserInterface $user): Response
     {
+        if ($user !== null) {
+            return $this->redirectToRoute('dashboard');
+        }
+
         $error = $this->authenticationUtils->getLastAuthenticationError();
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
