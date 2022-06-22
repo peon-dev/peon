@@ -22,7 +22,7 @@ final class RedefineTaskControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/redefine-task/$randomTaskId");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

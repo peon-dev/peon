@@ -20,7 +20,7 @@ final class DeleteProjectControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', "/delete-project/$randomProjectId");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

@@ -22,7 +22,7 @@ final class EnableRecipeForProjectControllerTest extends AbstractPeonApplication
 
         $client->request('GET', "/projects/$randomProjectId/recipe/$recipeName->value/enable");
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 

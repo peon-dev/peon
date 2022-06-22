@@ -17,7 +17,7 @@ class CreateProjectControllerTest extends AbstractPeonApplicationTestCase
 
         $client->request('GET', '/add-project');
 
-        self::assertResponseRedirects('http://localhost/login');
+        self::assertResponseRedirects('/login');
     }
 
 
