@@ -66,6 +66,6 @@ final class RemoveTaskControllerTest extends AbstractPeonApplicationTestCase
 
         self::assertResponseRedirects("/projects/$projectId");
 
-        self::assertCount(1 - $tasksCountBeforeScenario, $tasksCollection->all());
+        self::assertCount($tasksCountBeforeScenario - 1, $tasksCollection->all());
     }
 }
