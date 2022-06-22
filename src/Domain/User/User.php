@@ -43,4 +43,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // This is here just to satisfy the interface 🤦
         return $this->hashedPassword;
     }
+
+
+    public function changePassword(string $hashedPassword): void
+    {
+        $this->hashedPassword = $hashedPassword;
+    }
 }
