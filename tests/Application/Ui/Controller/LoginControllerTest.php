@@ -10,13 +10,29 @@ class LoginControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testInvalidCredentials(): void
     {
-        $this->markTestIncomplete('todo');
+        $client = self::createClient();
+
+        $client->request('GET', '/login');
+        $client->submitForm('Log in', [
+            '_username' => 'totally-invalid',
+            '_password' => 'totally-invalid',
+        ]);
+
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 
     public function testUserCanLogIn(): void
     {
-        $this->markTestIncomplete('todo');
+        $client = self::createClient();
+
+        $client->request('GET', '/login');
+        $client->submitForm('Log in', [
+            '_username' => DataFixtures::USER_1_USERNAME,
+            '_password' => DataFixtures::USER_PASSWORD,
+        ]);
+
+        self::assertResponseRedirects('http://localhost/');
     }
 
 

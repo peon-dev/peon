@@ -22,7 +22,7 @@ final class EnableRecipeWithBaselineForProjectControllerTest extends AbstractPeo
 
         $client->request('GET', "/projects/$randomProjectId/recipe/$recipeName->value/enable-with-baseline");
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
 
 
