@@ -27,6 +27,15 @@ final class RunTaskControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotRunTaskForForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserTaskId = DataFixtures::USER_2_TASK_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/task/run/$anotherUserTaskId");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 

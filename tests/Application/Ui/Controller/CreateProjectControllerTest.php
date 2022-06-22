@@ -21,6 +21,12 @@ class CreateProjectControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    public function testDuplicateProjectCanNotBeAdded(): void
+    {
+        $this->markTestIncomplete('To be implemented');
+    }
+
+
     public function testProjectWillBeAddedUsingForm(): void
     {
         $client = static::createClient();

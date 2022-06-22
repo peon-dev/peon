@@ -9,15 +9,18 @@ class LoginControllerTest extends AbstractPeonApplicationTestCase
 {
     public function testInvalidCredentials(): void
     {
+        $this->markTestIncomplete('todo');
     }
 
 
     public function testUserCanLogIn(): void
     {
+        $this->markTestIncomplete('todo');
     }
 
 
     public function testAlreadyLoggedInUserWillBeRedirectedToDashboard(): void
     {
+        $this->markTestIncomplete('todo');
     }
 }

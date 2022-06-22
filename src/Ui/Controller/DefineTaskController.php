@@ -7,15 +7,16 @@ namespace Peon\Ui\Controller;
 use Peon\Domain\Job\JobsCollection;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Project\Exception\ProjectNotFound;
-use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Security\CheckUserAccess;
+use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
 use Peon\Domain\Task\Exception\InvalidCronExpression;
 use Peon\Domain\Task\TasksCollection;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\Ui\Form\DefineTaskFormData;
 use Peon\Ui\Form\DefineTaskFormType;
 use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Peon\UseCase\DefineTask;
-use Peon\UseCase\DefineTaskHandler;
 use Peon\UseCase\RunTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
@@ -23,6 +24,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class DefineTaskController extends AbstractController
 {
@@ -31,15 +33,20 @@ final class DefineTaskController extends AbstractController
         private readonly ProvideReadProjectDetail $provideReadProjectDetail,
         private readonly TasksCollection $tasksCollection,
         private readonly JobsCollection $jobsCollection,
+        private readonly CheckUserAccess $checkUserAccess,
     ) {}
 
 
     #[Route(path: '/define-task/{projectId}', name: 'define_task')]
-    public function __invoke(string $projectId, Request $request): Response
+    public function __invoke(string $projectId, Request $request, UserInterface $user): Response
     {
+        $userId = new UserId($user->getUserIdentifier());
+
         try {
+            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+
             $activeProject = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
-        } catch (ProjectNotFound) {
+        } catch (ProjectNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
 

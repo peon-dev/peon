@@ -26,6 +26,15 @@ final class JobDetailControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotAccessForeignJob(): void
     {
+        $client = self::createClient();
+        $anotherUserJobId = DataFixtures::USER_2_JOB_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/job/$anotherUserJobId");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 

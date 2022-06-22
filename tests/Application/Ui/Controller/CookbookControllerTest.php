@@ -25,6 +25,15 @@ final class CookbookControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotAccessCookbookForForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserProjectId = DataFixtures::USER_2_PROJECT_1_ID;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/projects/$anotherUserProjectId/cookbook");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 

@@ -14,16 +14,21 @@ use Peon\Domain\Job\Exception\JobHasStartedAlready;
 use Peon\Domain\Job\Exception\JobNotFound;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Security\CheckUserAccess;
+use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
+use Peon\Domain\User\Value\UserId;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\UseCase\RunRecipe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class RunRecipeController extends AbstractController
 {
     public function __construct(
         private readonly CommandBus $commandBus,
+        private readonly CheckUserAccess $checkUserAccess,
     ) {}
 
 
@@ -35,9 +40,13 @@ final class RunRecipeController extends AbstractController
      * @throws JobNotFound
      */
     #[Route(path: '/projects/{projectId}/run-recipe/{recipeName}', name: 'run_recipe')]
-    public function __invoke(string $projectId, string $recipeName): Response
+    public function __invoke(string $projectId, string $recipeName, UserInterface $user): Response
     {
+        $userId = new UserId($user->getUserIdentifier());
+
         try {
+            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+
             $this->commandBus->dispatch(
                 new RunRecipe(
                     new ProjectId($projectId),
@@ -46,7 +55,7 @@ final class RunRecipeController extends AbstractController
             );
 
             return $this->redirectToRoute('project_overview', ['projectId' => $projectId]);
-        } catch (ProjectNotFound | RecipeNotFound | RecipeNotEnabled) {
+        } catch (ProjectNotFound | RecipeNotFound | RecipeNotEnabled | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
     }

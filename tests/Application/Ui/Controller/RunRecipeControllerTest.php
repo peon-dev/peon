@@ -27,6 +27,16 @@ final class RunRecipeControllerTest extends AbstractPeonApplicationTestCase
 
     public function testCanNotRunRecipeForForeignProject(): void
     {
+        $client = self::createClient();
+        $anotherUserProjectId = DataFixtures::USER_2_PROJECT_1_ID;
+        $recipeName = RecipeName::UNUSED_PRIVATE_METHODS;
+
+        $this->loginUserWithId($client, DataFixtures::USER_1_ID);
+
+        $client->request('GET', "/projects/$anotherUserProjectId/run-recipe/$recipeName->value");
+
+        // Intentionally 404, and not 401/403
+        self::assertResponseStatusCodeSame(404);
     }
 
 
