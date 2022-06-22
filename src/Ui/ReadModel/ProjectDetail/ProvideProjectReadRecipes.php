@@ -39,7 +39,7 @@ FROM (
     FROM project
     WHERE project_id = :projectId
     ) project
-LEFT JOIN job ON job.enabled_recipe->>'recipe_name' = project.recipe_name AND job.scheduled_at = (
+LEFT JOIN job ON job.enabled_recipe->>'recipe_name' = project.recipe_name AND job.project_id = :projectId AND job.scheduled_at = (
     SELECT MAX(latest_job.scheduled_at)
     FROM job latest_job
     WHERE

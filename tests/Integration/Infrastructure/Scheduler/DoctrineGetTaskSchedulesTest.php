@@ -29,11 +29,17 @@ class DoctrineGetTaskSchedulesTest extends KernelTestCase
          */
         $taskSchedules = $this->doctrineGetTaskSchedules->all();
 
-        self::assertCount(1, $taskSchedules);
+        // It is supposed to return tasks of all users
+        self::assertCount(2, $taskSchedules);
 
         self::assertSame(DataFixtures::USER_1_TASK_ID, $taskSchedules[0]->taskId->id);
         self::assertSame(DataFixtures::TASK_SCHEDULE, $taskSchedules[0]->cronExpression->getExpression());
         self::assertNotNull($taskSchedules[0]->lastTimeScheduledAt);
         self::assertSame(DataFixtures::JOB_2_DATETIME, $taskSchedules[0]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
+
+        self::assertSame(DataFixtures::USER_2_TASK_ID, $taskSchedules[1]->taskId->id);
+        self::assertSame(DataFixtures::TASK_SCHEDULE, $taskSchedules[1]->cronExpression->getExpression());
+        self::assertNotNull($taskSchedules[1]->lastTimeScheduledAt);
+        self::assertSame(DataFixtures::JOB_2_DATETIME, $taskSchedules[1]->lastTimeScheduledAt->format('Y-m-d H:i:s'));
     }
 }
