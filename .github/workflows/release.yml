@@ -70,7 +70,7 @@ jobs:
                     username: ${{ secrets.DEPLOY_USERNAME }}
                     key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
                     port: ${{ secrets.DEPLOY_PORT }}
-                script_stop: true
+                    script_stop: true
                 script: |
                     docker pull ghcr.io/peon-dev/php-recipes:main
                     cd /peon/app
