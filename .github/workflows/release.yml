@@ -1,17 +1,19 @@
 # https://github.com/docker/build-push-action/blob/master/docs/advanced/tags-labels.md
 
-name: Release docker
+name: Release
 
 on:
-    push:
+    workflow_run:
+        workflows: [Tests]
+        types:
+            - completed
         branches:
-            - 'main'
-        tags:
-            - 'v*.*.*'
+            - main
 
 jobs:
-    docker:
+    docker images:
         runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         steps:
             -   name: Checkout
                 uses: actions/checkout@v2
@@ -26,10 +28,6 @@ jobs:
                     # generate Docker tags based on the following events/attributes
                     tags: |
                         type=ref,event=branch
-                        type=ref,event=pr
-                        type=semver,pattern={{version}}
-                        type=semver,pattern={{major}}.{{minor}}
-                        type=semver,pattern={{major}}
                         type=sha
 
             -   name: Set up QEMU
@@ -56,3 +54,25 @@ jobs:
                     platforms: linux/amd64,linux/arm64
                     cache-from: type=gha, scope=${{ github.workflow }}
                     cache-to: type=gha, scope=${{ github.workflow }}
+
+    deploy:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        needs:
+            - "docker images"
+        environment:
+            name: prod
+            url: https://app.peon.dev
+        steps:
+            -   uses: appleboy/ssh-action@master
+                with:
+                    host: ${{ secrets.DEPLOY_HOST }}
+                    username: ${{ secrets.DEPLOY_USERNAME }}
+                    key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+                    port: ${{ secrets.DEPLOY_PORT }}
+                script_stop: true
+                script: |
+                    docker pull ghcr.io/peon-dev/php-recipes:main
+                    cd /peon/app
+                    docker-compose pull
+                    docker-compose up -d
