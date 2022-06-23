@@ -30,6 +30,7 @@ use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Tools\Composer\Exception\NoPSR4RootsDefined;
 use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class ExecuteJobHandler implements CommandHandlerInterface
 {
@@ -134,6 +135,15 @@ final class ExecuteJobHandler implements CommandHandlerInterface
                     $job->projectId,
                 )
             );
+
+            // 6. Post-job working directory cleanup - delete and maybe cache in the future
+            if (isset($localGitRepository)) {
+                // TODO: this is really just an hot fix and should be handled in a better way
+                $filesystem = new Filesystem();
+                if ($filesystem->exists($localGitRepository->workingDirectory->localPath)) {
+                    $filesystem->remove($localGitRepository->workingDirectory->localPath);
+                }
+            }
         }
     }
 

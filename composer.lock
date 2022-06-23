@@ -9964,16 +9964,16 @@
         },
         {
             "name": "uxf/hydrator",
-            "version": "3.0.4",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.com/uxf/hydrator.git",
-                "reference": "ca308b98d972ddc9e7476bcc8162eec28335afd2"
+                "url": "git@gitlab.com:uxf/hydrator.git",
+                "reference": "0381f247c8c1e26f6c44bea8d82f85d85ac759a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/uxf%2Fhydrator/repository/archive.zip?sha=ca308b98d972ddc9e7476bcc8162eec28335afd2",
-                "reference": "ca308b98d972ddc9e7476bcc8162eec28335afd2",
+                "url": "https://gitlab.com/api/v4/projects/uxf%2Fhydrator/repository/archive.zip?sha=0381f247c8c1e26f6c44bea8d82f85d85ac759a4",
+                "reference": "0381f247c8c1e26f6c44bea8d82f85d85ac759a4",
                 "shasum": ""
             },
             "require": {
@@ -9997,11 +9997,7 @@
                     "email": "dev@uxf.cz"
                 }
             ],
-            "support": {
-                "issues": "https://gitlab.com/uxf/hydrator/-/issues",
-                "source": "https://gitlab.com/uxf/hydrator/-/tree/3.0.4"
-            },
-            "time": "2022-03-02T15:22:34+00:00"
+            "time": "2022-06-20T17:40:32+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -11469,12 +11465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "421c87fea10ccffa30d647dcda20e3f9f7cacef8"
+                "reference": "a66635bf19583447f296db28180762367690ac5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/421c87fea10ccffa30d647dcda20e3f9f7cacef8",
-                "reference": "421c87fea10ccffa30d647dcda20e3f9f7cacef8",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a66635bf19583447f296db28180762367690ac5a",
+                "reference": "a66635bf19583447f296db28180762367690ac5a",
                 "shasum": ""
             },
             "conflict": {
@@ -11697,7 +11693,7 @@
                 "nette/nette": ">=2,<2.0.19|>=2.1,<2.1.13",
                 "nilsteampassnet/teampass": "<=2.1.27.36",
                 "noumo/easyii": "<=0.9",
-                "nukeviet/nukeviet": "<4.3.4",
+                "nukeviet/nukeviet": "<4.5.2",
                 "nystudio107/craft-seomatic": "<3.4.12",
                 "nzo/url-encryptor-bundle": ">=4,<4.3.2|>=5,<5.0.1",
                 "october/backend": "<1.1.2",
@@ -11963,7 +11959,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-22T19:04:00+00:00"
+            "time": "2022-06-23T07:04:20+00:00"
         },
         {
             "name": "sebastian/cli-parser",
