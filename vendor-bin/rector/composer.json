@@ -1,9 +1,0 @@
-{
-    "require": {
-        "php": "^8.0",
-        "rector/rector": "^0.12.5"
-    },
-    "config": {
-        "preferred-install": "dist"
-    }
-}

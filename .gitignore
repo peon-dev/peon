@@ -2,8 +2,6 @@
 /var/
 /public/bundles/
 
-/vendor-bin/**/vendor
-
 .env.local
 .env.local.php
 .env.*.local

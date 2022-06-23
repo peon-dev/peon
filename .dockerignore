@@ -19,5 +19,4 @@ docker-compose.override.yml
 phpstan.neon
 Dockerfile
 
-projects-bin/
 .docker-data/

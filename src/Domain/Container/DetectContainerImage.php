@@ -10,6 +10,6 @@ class DetectContainerImage
 {
     public function forLanguage(ApplicationLanguage $language): string
     {
-        return 'ghcr.io/peon-dev/peon:main';
+        return 'ghcr.io/peon-dev/php-recipes:main';
     }
 }
