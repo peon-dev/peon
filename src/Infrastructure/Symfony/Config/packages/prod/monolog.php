@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Sentry\State\HubInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -25,14 +26,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'process_psr_3_messages' => false,
                 'channels' => ['!event', '!doctrine'],
             ],
+            'sentry' => [
+                'type' => 'sentry',
+                'level' => 'warning',
+                'hub_id' => HubInterface::class,
+            ],
         ],
     ]);
 };
-
-/**
-handlers:
-sentry:
-type: sentry
-level: !php/const Monolog\Logger::ERROR
-hub_id: Sentry\State\HubInterface
- */

@@ -8,6 +8,7 @@ use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
+use Monolog\Processor\PsrLogMessageProcessor;
 use Peon\Domain\Application\DetectApplicationLanguage;
 use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Cookbook\RecipesCollection;
@@ -76,6 +77,9 @@ return static function(ContainerConfigurator $configurator): void
         ->autoconfigure()
         ->autowire()
         ->public();
+
+    $services->set(PsrLogMessageProcessor::class)
+        ->tag('monolog.processor');
 
     // Controllers
     $services->load('Peon\\Ui\\Controller\\', __DIR__ . '/../../../Ui/Controller/{*Controller.php}');

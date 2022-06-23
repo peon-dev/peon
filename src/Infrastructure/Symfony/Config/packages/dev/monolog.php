@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Mangoweb\MonologTracyHandler\TracyHandler;
+use Monolog\Level;
+use Sentry\State\HubInterface;
 use Symfony\Config\MonologConfig;
 
 return static function (MonologConfig $monologConfig): void {
@@ -23,4 +25,9 @@ return static function (MonologConfig $monologConfig): void {
         ->processPsr3Messages(false)
         ->channels()
             ->elements(['!event', '!doctrine', '!console']);
+
+    $monologConfig->handler('sentry')
+        ->type('sentry')
+        ->level(Level::Warning->value)
+        ->hubId(HubInterface::class);
 };
