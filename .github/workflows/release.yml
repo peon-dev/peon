@@ -11,7 +11,8 @@ on:
             - main
 
 jobs:
-    docker images:
+    docker:
+        name: "Docker images"
         runs-on: ubuntu-latest
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         steps:
@@ -59,7 +60,7 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         needs:
-            - "docker images"
+            - docker
         environment:
             name: prod
             url: https://app.peon.dev
