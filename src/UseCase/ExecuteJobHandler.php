@@ -30,7 +30,6 @@ use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Tools\Composer\Exception\NoPSR4RootsDefined;
 use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
 use Peon\Packages\MessageBus\Event\EventBus;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class ExecuteJobHandler implements CommandHandlerInterface
@@ -56,7 +55,6 @@ final class ExecuteJobHandler implements CommandHandlerInterface
      * @throws JobHasNotStartedYet
      * @throws JobHasFinishedAlready
      * @throws JobExecutionFailed
-     * @throws IOException
      */
     public function __invoke(ExecuteJob $command): void
     {
