@@ -12,8 +12,8 @@ use Peon\Domain\Application\ProvideApplicationDirectory;
 final class TemporaryLocalFileSystemProvideApplicationDirectory implements ProvideApplicationDirectory
 {
     public function __construct(
-        private string $peonWorkingDirectoriesPath,
-        private string $hostWorkingDirectoriesPath,
+        private readonly string $peonWorkingDirectoriesPath,
+        private readonly string $hostWorkingDirectoriesPath,
     ) {}
 
 
