@@ -73,6 +73,7 @@ parameters:
             - Doctrine\DBAL\Exception
             - Twig\Error\Error
             - Nette\Utils\JsonException
+            - Symfony\Component\Filesystem\Exception\IOException
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'
         methodThrowTypeDeclarations:
