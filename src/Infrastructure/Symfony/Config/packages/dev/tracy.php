@@ -17,5 +17,3 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TracyHandler::class)
         ->args(['$localBlueScreenDirectory' => '%kernel.logs_dir%']);
 };
-
-
