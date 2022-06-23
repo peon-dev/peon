@@ -14,15 +14,12 @@ parameters:
         - src
         - bin
         - tests
-        - vendor-bin/rector/config
     # checkUninitializedProperties: true # TODO: enable later
     excludePaths:
         - tests/bootstrap.php
         - tests/object-manager.php
         - tests/GitRepository/
         - src/Infrastructure/Symfony/Config
-    bootstrapFiles:
-        - vendor-bin/rector/vendor/autoload.php
     symfony:
         container_xml_path: var/cache/dev/Peon_Infrastructure_Symfony_PeonKernelDevDebugContainer.xml
     doctrine:

@@ -8,14 +8,11 @@ use Peon\Domain\Application\Value\TemporaryApplication;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Tools\Composer\Exception\NoPSR4RootsDefined;
-use Peon\Domain\Tools\Rector\Rector;
-use Peon\Domain\Tools\Rector\Value\RectorProcessCommandConfiguration;
 
 class GetRecipeCommands
 {
     public function __construct(
         private GetPathsToProcess $getPathsToProcess,
-        private Rector $rector,
     ) {}
 
 
@@ -34,12 +31,14 @@ class GetRecipeCommands
         );
 
         if (count($paths) > 0) {
-            $configuration = new RectorProcessCommandConfiguration(
-                config: '/peon/vendor-bin/rector/config/' . $enabledRecipe->recipeName->value . '.php', // TODO: this is weirdo, think about better
-                paths: $paths,
+            // It will run in different docker container
+            $command = sprintf(
+                '/peon/bin/run-recipe %s %s',
+                $enabledRecipe->recipeName->value,
+                implode(' ', $paths),
             );
 
-            return [$this->rector->getProcessCommand($configuration)];
+            return [$command];
         }
 
         return [];

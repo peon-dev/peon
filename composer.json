@@ -25,7 +25,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-uuid": "*",
-        "bamarni/composer-bin-plugin": "^1.4",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
@@ -130,12 +129,10 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts",
-            "@composer bin all install --ansi"
+            "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts",
-            "@composer bin all update --ansi"
+            "@auto-scripts"
         ]
     },
     "conflict": {
@@ -169,7 +166,6 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "bamarni/composer-bin-plugin": true,
             "symfony/flex": true,
             "symfony/runtime": true
         }

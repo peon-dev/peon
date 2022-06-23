@@ -1,7 +1,4 @@
 {
-    "bamarni/composer-bin-plugin": {
-        "version": "1.4.1"
-    },
     "brick/math": {
         "version": "0.9.3"
     },
