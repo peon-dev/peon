@@ -3,5 +3,53 @@
 {% block content %}
     <h1>{% block title %}Workers{% endblock %}</h1>
 
+    <p>Runners shared among all users:</p>
 
+    <p>Currently there are <strong>54 queued</strong> jobs.</p>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="col">
+            <div class="card card-worker">
+                <div class="card-body">
+                    <h5 class="card-title mb-0">
+                        Shared worker #1
+                        <span class="badge rounded-pill bg-success float-end">Active</span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-worker">
+                <div class="card-body">
+                    <h5 class="card-title mb-0">
+                        Shared worker #2
+                        <span class="badge rounded-pill bg-success float-end">Active</span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-worker">
+                <div class="card-body">
+                    <h5 class="card-title mb-0">
+                        Shared worker #3
+                        <span class="badge rounded-pill bg-danger float-end">Paused</span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="mt-5 mb-4">Dedicated workers</h2>
+
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">No dedicated workers registered</h4>
+        <p>Boost Peon's performance by providing dedicated workers, allowing more parallel jobs at the same time.<br>Dedicated worker is private, not shared with anyone else.</p>
+        <hr>
+        <p class="mb-0">For dedicated workers please contact <a href="mailto:jan@peon.dev">jan@peon.dev</a>.</p>
+    </div>
 {% endblock %}
