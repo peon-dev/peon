@@ -29,6 +29,9 @@
                         <a class="nav-link {% if app.request.pathInfo == path('dashboard') %}active{% endif %}" href="{{ path('dashboard') }}">
                             Projects
                         </a>
+                        <a class="nav-link {% if app.request.pathInfo == path('workers') %}active{% endif %}" href="{{ path('workers') }}">
+                            Workers
+                        </a>
                     </div>
                 </div>
 
