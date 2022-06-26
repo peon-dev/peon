@@ -22,7 +22,6 @@ use Peon\UseCase\RunTask;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class RunTaskController extends AbstractController
 {
@@ -42,10 +41,8 @@ final class RunTaskController extends AbstractController
      * @throws JobNotFound
      */
     #[Route(path: '/task/run/{taskId}', name: 'run_task')]
-    public function __invoke(string $taskId, UserInterface $user): Response
+    public function __invoke(string $taskId, UserId $userId): Response
     {
-        $userId = new UserId($user->getUserIdentifier());
-
         try {
             $task = $this->tasksCollection->get(new TaskId($taskId));
 

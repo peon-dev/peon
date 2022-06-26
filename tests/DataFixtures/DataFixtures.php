@@ -28,9 +28,7 @@ use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\User\HashPlainTextPassword;
 use Peon\Domain\User\User;
 use Peon\Domain\User\Value\UserId;
-use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class DataFixtures extends Fixture
 {
