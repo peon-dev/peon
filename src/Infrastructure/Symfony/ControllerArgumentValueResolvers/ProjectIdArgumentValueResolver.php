@@ -16,11 +16,15 @@ final class ProjectIdArgumentValueResolver implements ArgumentValueResolverInter
         return $argument->getType() === ProjectId::class;
     }
 
+
+    /**
+     * @return \Generator<ProjectId>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
+        $attributeValue = $request->attributes->get($argument->getName());
+        assert(is_string($attributeValue));
 
-        yield new ProjectId(
-            $request->attributes->get($argument->getName()),
-        );
+        yield new ProjectId($attributeValue);
     }
 }
