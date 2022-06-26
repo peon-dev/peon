@@ -27,6 +27,10 @@ final class UserIdArgumentValueResolver implements ArgumentValueResolverInterfac
 
     /**
      * @see UserValueResolver
+     *
+     * @return \Generator<null|UserId>
+     *
+     * @throws AccessDeniedException
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {

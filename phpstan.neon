@@ -58,6 +58,10 @@ parameters:
             message: '#^Missing \@throws #'
             path: src/Infrastructure/Persistence/Doctrine/Migrations
 
+        -
+            message: '#^PHPDoc tag \@throws with type Symfony\\Component\\Security\\Core\\Exception\\AccessDeniedException is not compatible with parent#'
+            path: src/Infrastructure/Symfony/ControllerArgumentValueResolvers/UserIdArgumentValueResolver.php
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false
