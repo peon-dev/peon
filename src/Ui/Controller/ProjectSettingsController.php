@@ -31,14 +31,14 @@ final class ProjectSettingsController extends AbstractController
 
 
     #[Route(path: '/projects/{projectId}/settings', name: 'project_settings')]
-    public function __invoke(string $projectId, Request $request, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, Request $request, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId, $projectId);
 
-            $project = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
+            $project = $this->provideReadProjectDetail->provide($projectId);
             $configureBuildForm = $this->createForm(ConfigureBuildFormType::class, ConfigureBuildFormData::fromReadProjectDetail($project));
 
             $configureBuildForm->handleRequest($request);

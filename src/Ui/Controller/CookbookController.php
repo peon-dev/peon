@@ -26,14 +26,14 @@ final class CookbookController extends AbstractController
 
 
     #[Route(path: '/projects/{projectId}/cookbook', name: 'cookbook')]
-    public function __invoke(string $projectId, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId,  new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId,  $projectId);
 
-            $project = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
+            $project = $this->provideReadProjectDetail->provide($projectId);
 
             return $this->render('cookbook.html.twig', [
                 'recipes' => $this->recipesCollection->all(),

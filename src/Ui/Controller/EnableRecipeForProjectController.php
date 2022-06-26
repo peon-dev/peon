@@ -27,17 +27,17 @@ final class EnableRecipeForProjectController extends AbstractController
 
 
     #[Route(path: '/projects/{projectId}/recipe/{recipeName}/enable', name: 'project_enable_recipe')]
-    public function __invoke(string $projectId, string $recipeName, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, string $recipeName, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId, $projectId);
 
             $this->commandBus->dispatch(
                 new EnableRecipeForProject(
                     RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
-                    new ProjectId($projectId)
+                    $projectId
                 )
             );
         } catch (ProjectNotFound | RecipeNotFound | ForbiddenUserAccessToProject) {
