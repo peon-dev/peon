@@ -31,21 +31,20 @@ final class ProjectOverviewController extends AbstractController
 
 
     #[Route(path: '/projects/{projectId}', name: 'project_overview')]
-    public function __invoke(string $projectId, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, UserInterface $user): Response
     {
-        $id = new ProjectId($projectId);
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId,  $id);
+            $this->checkUserAccess->toProject($userId,  $projectId);
 
-            $project = $this->provideReadProjectDetail->provide($id);
+            $project = $this->provideReadProjectDetail->provide($projectId);
 
             return $this->render('project_overview.html.twig', [
                 'activeProject' => $project,
-                'tasks' => $this->provideReadTasks->provide($id),
-                'jobs' => $this->provideProjectReadJobs->provide($id, 20),
-                'recipes' => $this->provideProjectReadRecipes->provide($id),
+                'tasks' => $this->provideReadTasks->provide($projectId),
+                'jobs' => $this->provideProjectReadJobs->provide($projectId, 20),
+                'recipes' => $this->provideProjectReadRecipes->provide($projectId),
             ]);
         } catch (ProjectNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();

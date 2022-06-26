@@ -37,7 +37,7 @@ final class ConfigureRecipeController extends AbstractController
 
     #[Route(path: '/projects/{projectId}/configure-recipe/{recipeName}', name: 'configure_recipe')]
     public function __invoke(
-        string $projectId,
+        ProjectId $projectId,
         string $recipeName,
         Request $request,
         UserInterface $user,
@@ -49,9 +49,9 @@ final class ConfigureRecipeController extends AbstractController
                 throw new RecipeNotFound();
             }
 
-            $this->checkUserAccess->toProject($userId,  new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId,  $projectId);
 
-            $project = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
+            $project = $this->provideReadProjectDetail->provide($projectId);
             $configureRecipeForm = $this->createForm(ConfigureRecipeFormType::class, ConfigureRecipeFormData::fromReadProjectDetail(
                 $project,
                 RecipeName::from($recipeName),
@@ -65,7 +65,7 @@ final class ConfigureRecipeController extends AbstractController
 
                 $this->commandBus->dispatch(
                     new ConfigureRecipeForProject(
-                        new ProjectId($projectId),
+                        $projectId,
                         RecipeName::from($recipeName),
                         $data->mergeAutomatically,
                     )

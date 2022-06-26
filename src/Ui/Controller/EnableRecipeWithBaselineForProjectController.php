@@ -31,17 +31,17 @@ final class EnableRecipeWithBaselineForProjectController extends AbstractControl
      * @throws GitProviderCommunicationFailed
      */
     #[Route(path: '/projects/{projectId}/recipe/{recipeName}/enable-with-baseline', name: 'project_enable_recipe_with_baseline')]
-    public function __invoke(string $projectId, string $recipeName, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, string $recipeName, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId, $projectId);
 
             $this->commandBus->dispatch(
                 new EnableRecipeWithBaselineForProject(
                     RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
-                    new ProjectId($projectId)
+                    $projectId
                 )
             );
         } catch (ProjectNotFound | RecipeNotFound | ForbiddenUserAccessToProject) {

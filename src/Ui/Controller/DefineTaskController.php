@@ -38,14 +38,14 @@ final class DefineTaskController extends AbstractController
 
 
     #[Route(path: '/define-task/{projectId}', name: 'define_task')]
-    public function __invoke(string $projectId, Request $request, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, Request $request, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId, $projectId);
 
-            $activeProject = $this->provideReadProjectDetail->provide(new ProjectId($projectId));
+            $activeProject = $this->provideReadProjectDetail->provide($projectId);
         } catch (ProjectNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
@@ -64,7 +64,7 @@ final class DefineTaskController extends AbstractController
                 $this->commandBus->dispatch(
                     new DefineTask(
                         $taskId,
-                        new ProjectId($projectId),
+                        $projectId,
                         $data->name,
                         $data->getCommandsAsArray(),
                         $data->getSchedule(),

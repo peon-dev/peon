@@ -40,16 +40,16 @@ final class RunRecipeController extends AbstractController
      * @throws JobNotFound
      */
     #[Route(path: '/projects/{projectId}/run-recipe/{recipeName}', name: 'run_recipe')]
-    public function __invoke(string $projectId, string $recipeName, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, string $recipeName, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId, $projectId);
 
             $this->commandBus->dispatch(
                 new RunRecipe(
-                    new ProjectId($projectId),
+                    $projectId,
                     RecipeName::tryFrom($recipeName) ?? throw new RecipeNotFound(),
                 )
             );

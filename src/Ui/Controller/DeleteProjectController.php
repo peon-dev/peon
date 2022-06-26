@@ -29,16 +29,16 @@ final class DeleteProjectController extends AbstractController
 
 
     #[Route(path: '/delete-project/{projectId}', name: 'delete_project')]
-    public function __invoke(string $projectId, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, UserInterface $user): Response
     {
         $userId = new UserId($user->getUserIdentifier());
 
         try {
-            $this->checkUserAccess->toProject($userId, new ProjectId($projectId));
+            $this->checkUserAccess->toProject($userId, $projectId);
 
             $this->commandBus->dispatch(
                 new DeleteProject(
-                    new ProjectId($projectId)
+                    $projectId
                 )
             );
         } catch (ProjectNotFound | ForbiddenUserAccessToProject) {

@@ -9,5 +9,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'router' => [
             'annotations' => false,
         ],
+        'request' => [
+            'converters' => true,
+            'auto_convert' => false,
+        ],
     ]);
 };
