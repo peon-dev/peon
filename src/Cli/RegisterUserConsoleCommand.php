@@ -6,20 +6,22 @@ namespace Peon\Cli;
 
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\UseCase\RegisterUser;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'peon:user:register')]
 final class RegisterUserConsoleCommand extends Command
 {
-    const ARGUMENT_USERNAME = 'username';
-    const ARGUMENT_PASSWORD = 'plainTextPassword';
+    private const ARGUMENT_USERNAME = 'username';
+    private const ARGUMENT_PASSWORD = 'plainTextPassword';
 
     public function __construct(
         private readonly CommandBus $commandBus,
     ) {
-        parent::__construct('peon:user:register');
+        parent::__construct();
     }
 
 

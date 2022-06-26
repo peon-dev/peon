@@ -9,18 +9,20 @@ use Peon\UseCase\CancelLongRunningJobs;
 use Peon\UseCase\ScheduleRecipes;
 use Peon\UseCase\ScheduleTasks;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+#[AsCommand(name: 'peon:scheduler:run')]
 final class SchedulerConsoleCommand extends Command
 {
     public function __construct(
         private readonly CommandBus $commandBus,
         private readonly LoggerInterface $logger
     ) {
-        parent::__construct('peon:scheduler:run');
+        parent::__construct();
     }
 
 
