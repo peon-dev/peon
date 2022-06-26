@@ -19,7 +19,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class CreateProjectController extends AbstractController
 {
@@ -29,7 +28,7 @@ final class CreateProjectController extends AbstractController
 
 
     #[Route(path: '/add-project', name: 'add_project')]
-    public function __invoke(Request $request, UserInterface $user): Response {
+    public function __invoke(Request $request, UserId $userId): Response {
         $form = $this->createForm(CreateProjectFormType::class);
         $form->handleRequest($request);
 
@@ -44,7 +43,7 @@ final class CreateProjectController extends AbstractController
                             $data->remoteRepositoryUri,
                             GitRepositoryAuthentication::fromPersonalAccessToken($data->personalAccessToken),
                         ),
-                        new UserId($user->getUserIdentifier()),
+                        $userId,
                     ),
                 );
 

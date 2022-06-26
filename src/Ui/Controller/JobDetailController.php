@@ -18,7 +18,6 @@ use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class JobDetailController extends AbstractController
 {
@@ -31,10 +30,8 @@ final class JobDetailController extends AbstractController
 
 
     #[Route(path: '/job/{jobId}', name: 'job_detail')]
-    public function __invoke(string $jobId, UserInterface $user): Response
+    public function __invoke(string $jobId, UserId $userId): Response
     {
-        $userId = new UserId($user->getUserIdentifier());
-
         try {
             $job = $this->provideReadJobById->provide(new JobId($jobId));
 

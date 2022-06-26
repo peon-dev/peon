@@ -22,7 +22,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class ConfigureRecipeController extends AbstractController
 {
@@ -40,10 +39,8 @@ final class ConfigureRecipeController extends AbstractController
         ProjectId $projectId,
         string $recipeName,
         Request $request,
-        UserInterface $user,
+        UserId $userId,
     ): Response {
-        $userId = new UserId($user->getUserIdentifier());
-
         try {
             if (RecipeName::tryFrom($recipeName) === null) {
                 throw new RecipeNotFound();

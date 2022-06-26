@@ -6,7 +6,6 @@ namespace Peon\Ui\Controller;
 
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\Project\Exception\ProjectNotFound;
-use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Security\CheckUserAccess;
 use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
 use Peon\Domain\User\Value\UserId;
@@ -17,7 +16,6 @@ use Peon\Ui\ReadModel\ProjectDetail\ProvideReadTasks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class ProjectOverviewController extends AbstractController
 {
@@ -31,10 +29,8 @@ final class ProjectOverviewController extends AbstractController
 
 
     #[Route(path: '/projects/{projectId}', name: 'project_overview')]
-    public function __invoke(ProjectId $projectId, UserInterface $user): Response
+    public function __invoke(ProjectId $projectId, UserId $userId): Response
     {
-        $userId = new UserId($user->getUserIdentifier());
-
         try {
             $this->checkUserAccess->toProject($userId,  $projectId);
 

@@ -55,6 +55,7 @@ use Peon\Infrastructure\Project\DoctrineGetProjectIdentifiers;
 use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
 use Peon\Infrastructure\Scheduler\DoctrineGetTaskSchedules;
 use Peon\Infrastructure\Symfony\ControllerArgumentValueResolvers\ProjectIdArgumentValueResolver;
+use Peon\Infrastructure\Symfony\ControllerArgumentValueResolvers\UserIdArgumentValueResolver;
 use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use Peon\Infrastructure\User\SymfonyHashPlainTextPassword;
 
@@ -105,6 +106,9 @@ return static function(ContainerConfigurator $configurator): void
         ]);
 
     $services->set(ProjectIdArgumentValueResolver::class)
+        ->tag('controller.argument_value_resolver', ['priority' => 110]);
+
+    $services->set(UserIdArgumentValueResolver::class)
         ->tag('controller.argument_value_resolver', ['priority' => 110]);
 
     // Tools

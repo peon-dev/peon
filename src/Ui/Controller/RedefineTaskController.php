@@ -26,7 +26,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class RedefineTaskController extends AbstractController
 {
@@ -40,10 +39,8 @@ final class RedefineTaskController extends AbstractController
 
 
     #[Route(path: '/redefine-task/{taskId}', name: 'redefine_task')]
-    public function __invoke(string $taskId, Request $request, UserInterface $user): Response
+    public function __invoke(string $taskId, Request $request, UserId $userId): Response
     {
-        $userId = new UserId($user->getUserIdentifier());
-
         try {
             $task = $this->tasks->get(new TaskId($taskId));
 
