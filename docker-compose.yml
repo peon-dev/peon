@@ -37,9 +37,6 @@ services:
     # Helper service
     composer:
         image: ghcr.io/peon-dev/php:main
-        build:
-            context: .
-            target: dev
         volumes:
             - .:/peon
             - .docker/entrypoints:/docker-entrypoint.d
