@@ -37,6 +37,6 @@ final class DashboardControllerTest extends AbstractPeonApplicationTestCase
         self::assertCount(2, $crawler->filter('.dashboard-projects > div'));
 
         // Jobs
-        self::assertCount(4, $crawler->filter('.jobs-list-table tbody tr'));
+        self::assertCount(5, $crawler->filter('.jobs-list-table tbody tr'));
     }
 }
