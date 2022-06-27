@@ -3,7 +3,7 @@
 {% block content %}
     <h1>{% block title %}Workers{% endblock %}</h1>
 
-    <p>Currently there are <strong>54 queued</strong> jobs.</p>
+    <p>Currently there are <strong><span id="queued-jobs-count">{{ queued_jobs_count }}</span> queued</strong> jobs.</p>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
 

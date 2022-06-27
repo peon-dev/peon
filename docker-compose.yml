@@ -4,6 +4,7 @@ services:
         image: ghcr.io/peon-dev/php:main
         volumes:
             - .:/peon
+            - .docker/entrypoints:/docker-entrypoint.d
         working_dir: /peon
         depends_on:
             - composer

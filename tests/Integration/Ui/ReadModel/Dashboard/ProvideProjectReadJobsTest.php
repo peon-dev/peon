@@ -31,24 +31,29 @@ final class ProvideProjectReadJobsTest extends KernelTestCase
 
         $readJobs = $this->provideProjectReadJobs->provide(new ProjectId($projectId), 10);
 
-        self::assertCount(4, $readJobs);
+        self::assertCount(5, $readJobs);
 
         $job = $readJobs[0];
-        self::assertSame(DataFixtures::USER_1_JOB_4_ID, $job->jobId);
+        self::assertSame(DataFixtures::USER_1_JOB_5_ID, $job->jobId);
         self::assertNull($job->executionTime);
         self::assertNull($job->mergeRequestUrl);
 
         $job = $readJobs[1];
-        self::assertSame(DataFixtures::USER_1_JOB_3_ID, $job->jobId);
+        self::assertSame(DataFixtures::USER_1_JOB_4_ID, $job->jobId);
         self::assertNull($job->executionTime);
         self::assertNull($job->mergeRequestUrl);
 
         $job = $readJobs[2];
+        self::assertSame(DataFixtures::USER_1_JOB_3_ID, $job->jobId);
+        self::assertNull($job->executionTime);
+        self::assertNull($job->mergeRequestUrl);
+
+        $job = $readJobs[3];
         self::assertSame(DataFixtures::USER_1_JOB_2_ID, $job->jobId);
         self::assertNotNull($job->executionTime);
         self::assertNotNull($job->mergeRequestUrl);
 
-        $job = $readJobs[3];
+        $job = $readJobs[4];
         self::assertSame(DataFixtures::USER_1_JOB_1_ID, $job->jobId);
         self::assertNotNull($job->executionTime);
         self::assertNotNull($job->mergeRequestUrl);
