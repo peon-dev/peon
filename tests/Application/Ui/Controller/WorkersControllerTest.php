@@ -24,8 +24,9 @@ final class WorkersControllerTest extends AbstractPeonApplicationTestCase
 
         $this->loginUserWithId($client, DataFixtures::USER_1_ID);
 
-        $client->request('GET', '/workers');
+        $crawler = $client->request('GET', '/workers');
 
         self::assertResponseIsSuccessful();
+        self::assertSame('2', $crawler->filter('#queued-jobs-count')->innerText());
     }
 }

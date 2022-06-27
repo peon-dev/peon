@@ -36,6 +36,7 @@ final class DataFixtures extends Fixture
     public const JOB_2_DATETIME = '2021-01-01 13:00:00';
     public const JOB_3_DATETIME = '2021-01-01 14:00:00';
     public const JOB_4_DATETIME = '2021-01-01 15:00:00';
+    public const JOB_5_DATETIME = '2021-01-01 16:00:00';
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
     public const USER_PASSWORD = '12345';
@@ -49,6 +50,7 @@ final class DataFixtures extends Fixture
     public const USER_1_JOB_2_ID = '7a779f13-e3ce-4dc4-bf53-04f06096b70f';
     public const USER_1_JOB_3_ID = '892e7e2d-6073-474f-9d4b-75dda88b352c';
     public const USER_1_JOB_4_ID = 'a92e7e2d-6073-474f-9d4b-75dda88b352c';
+    public const USER_1_JOB_5_ID = '73a3909e-f63e-11ec-a727-1266a710edb4';
 
     public const USER_2_ID = 'e6b281f4-eb66-11ec-8907-1266a710edb4';
     public const USER_2_USERNAME = 'peon-2';
@@ -59,6 +61,7 @@ final class DataFixtures extends Fixture
     public const USER_2_JOB_2_ID = '6d7201b0-eb67-11ec-a82c-1266a710edb4';
     public const USER_2_JOB_3_ID = '705ed7c2-eb67-11ec-8377-1266a710edb4';
     public const USER_2_JOB_4_ID = '72e331b4-eb67-11ec-a1f8-1266a710edb4';
+    public const USER_2_JOB_5_ID = '77c6a260-f63e-11ec-ad3a-1266a710edb4';
 
     public function __construct(
         private RecipesCollection $recipesCollection,
@@ -213,6 +216,19 @@ final class DataFixtures extends Fixture
         $job4->start($job4Clock);
 
         $manager->persist($job4);
+
+        $recipe = $this->recipesCollection->get(RecipeName::VOID_RETURN);
+        $job5Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_5_DATETIME));
+        $job5Id = new JobId(self::USER_1_JOB_5_ID);
+        $job5 = Job::scheduleFromRecipe(
+            $job5Id,
+            $projectId,
+            $job5Clock,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
+        );
+
+        $manager->persist($job5);
     }
 
 
@@ -321,5 +337,18 @@ final class DataFixtures extends Fixture
         $job4->start($job4Clock);
 
         $manager->persist($job4);
+
+        $recipe = $this->recipesCollection->get(RecipeName::VOID_RETURN);
+        $job5Clock = new FrozenClock(new \DateTimeImmutable(self::JOB_5_DATETIME));
+        $job5Id = new JobId(self::USER_2_JOB_5_ID);
+        $job5 = Job::scheduleFromRecipe(
+            $job5Id,
+            $projectId,
+            $job5Clock,
+            $recipe->title,
+            EnabledRecipe::withoutConfiguration($recipe->name, null),
+        );
+
+        $manager->persist($job5);
     }
 }
