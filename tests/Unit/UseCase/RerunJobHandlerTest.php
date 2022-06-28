@@ -44,9 +44,6 @@ final class RerunJobHandlerTest extends TestCase
         $jobsCollection->expects(self::once())
             ->method('get')
             ->willReturn($jobWithRecipe);
-        $jobsCollection->expects(self::once())
-            ->method('nextIdentity')
-            ->willReturn($newJobId);
 
         $commandBusSpy = $this->createMock(CommandBus::class);
         $commandBusSpy->expects(self::once())
@@ -77,7 +74,7 @@ final class RerunJobHandlerTest extends TestCase
         );
 
         $handler->__invoke(
-            new RerunJob($originalJobId)
+            new RerunJob($originalJobId, $newJobId)
         );
     }
 
@@ -101,9 +98,6 @@ final class RerunJobHandlerTest extends TestCase
         $jobsCollection->expects(self::once())
             ->method('get')
             ->willReturn($jobWithTask);
-        $jobsCollection->expects(self::once())
-            ->method('nextIdentity')
-            ->willReturn($newJobId);
 
         $commandBusSpy = $this->createMock(CommandBus::class);
         $commandBusSpy->expects(self::never())->method('dispatch');
@@ -130,7 +124,7 @@ final class RerunJobHandlerTest extends TestCase
         $this->expectException(TaskNotFound::class);
 
         $handler->__invoke(
-            new RerunJob($originalJobId)
+            new RerunJob($originalJobId, $newJobId)
         );
     }
 
@@ -155,9 +149,6 @@ final class RerunJobHandlerTest extends TestCase
         $jobsCollection->expects(self::once())
             ->method('get')
             ->willReturn($jobWithTask);
-        $jobsCollection->expects(self::once())
-            ->method('nextIdentity')
-            ->willReturn($newJobId);
 
         $task = new Task(
             $taskId,
@@ -197,7 +188,7 @@ final class RerunJobHandlerTest extends TestCase
         );
 
         $handler->__invoke(
-            new RerunJob($originalJobId)
+            new RerunJob($originalJobId, $newJobId)
         );
     }
 }

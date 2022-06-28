@@ -41,7 +41,6 @@ final class RerunJobController extends AbstractController
      * @throws JobHasFinishedAlready
      * @throws JobHasNotStartedYet
      * @throws JobHasStartedAlready
-     * @throws JobNotFound
      */
     #[Route(path: '/rerun-job/{jobId}', name: 'rerun_job')]
     #[Route(path: '/projects/rerun-job/{jobId}', name: 'project_rerun_job')]
@@ -67,7 +66,7 @@ final class RerunJobController extends AbstractController
                 return $this->redirectToRoute('project_overview', ['projectId' => $job->projectId]);
             }
             return $this->redirectToRoute('job_detail', ['jobId' => $newJobId]);
-        } catch (TaskNotFound | ProjectNotFound | ForbiddenUserAccessToProject) {
+        } catch (JobNotFound | TaskNotFound | ForbiddenUserAccessToProject) {
             throw $this->createNotFoundException();
         }
     }
