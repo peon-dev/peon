@@ -40,6 +40,8 @@ RUN yarn run build
 
 FROM composer as prod
 
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
+
 COPY --chown=peon .docker/entrypoints/*.sh /docker-entrypoint.d/
 RUN chmod +x /docker-entrypoint.d/*.sh
 

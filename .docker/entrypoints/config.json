@@ -1,0 +1,48 @@
+{
+    "listeners": {
+        "*:8080": {
+            "pass": "routes"
+        }
+    },
+
+    "routes": [
+        {
+            "match": {
+                "uri": [
+                    "*.php",
+                    "*.php/*"
+                ]
+            },
+
+            "action": {
+                "pass": "applications/php/direct"
+            }
+        },
+        {
+            "action": {
+                "share": "/peon/public$uri",
+                "fallback": {
+                    "pass": "applications/php/index"
+                }
+            }
+        }
+    ],
+
+    "applications": {
+        "php": {
+            "type": "php",
+            "targets": {
+                "direct": {
+                    "root": "/peon/public/"
+                },
+
+                "index": {
+                    "root": "/peon/public/",
+                    "script": "index.php"
+                }
+            }
+        }
+    },
+
+    "access_log": "/var/log/access.log"
+}
