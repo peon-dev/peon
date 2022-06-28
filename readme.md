@@ -65,9 +65,13 @@ services:
         depends_on:
             - dashboard
             - mercure
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - $PWD/var/working_directories:/peon/var/working_directories
         environment:
             DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
             MERCURE_JWT_SECRET: '!ChangeMe!'
+            HOST_WORKING_DIRECTORIES_PATH: $PWD/var/working_directories
         restart: unless-stopped
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
 
