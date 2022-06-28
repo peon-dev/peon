@@ -21,7 +21,7 @@ final class DoctrineWorkerIdType extends Type
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getGuidTypeDeclarationSQL($column);
+        return $platform->getVarcharTypeDeclarationSQL($column);
     }
 
 

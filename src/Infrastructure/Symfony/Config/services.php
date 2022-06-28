@@ -41,6 +41,7 @@ use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\Tools\Git\Git;
 use Peon\Domain\User\HashPlainTextPassword;
 use Peon\Domain\User\UsersCollection;
+use Peon\Domain\Worker\WorkerStatusesCollection;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
@@ -51,6 +52,7 @@ use Peon\Infrastructure\Persistence\Doctrine\DoctrineProcessesCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProjectsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineTasksCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineUsersCollection;
+use Peon\Infrastructure\Persistence\Doctrine\DoctrineWorkerStatusesCollection;
 use Peon\Infrastructure\Process\Symfony\SymfonyProcessRunProcess;
 use Peon\Infrastructure\Project\DoctrineGetProjectIdentifiers;
 use Peon\Infrastructure\Scheduler\DoctrineGetRecipeSchedules;
@@ -155,6 +157,8 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(ProcessesCollection::class, DoctrineProcessesCollection::class);
 
     $services->alias(UsersCollection::class, DoctrineUsersCollection::class);
+
+    $services->alias(WorkerStatusesCollection::class, DoctrineWorkerStatusesCollection::class);
 
     $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
     $services->set(ExecuteCommand::class); // TODO: think how to do it automatically, it is not interface
