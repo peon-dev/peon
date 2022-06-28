@@ -13,6 +13,7 @@ use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineEnabledRecipesArrayTyp
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineRecipeNameType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineTaskIdType;
 use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineUserIdType;
+use Peon\Infrastructure\Persistence\Doctrine\Type\DoctrineWorkerIdType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -31,6 +32,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 DoctrineMergeRequestType::NAME => DoctrineMergeRequestType::class,
                 DoctrineProcessIdType::NAME => DoctrineProcessIdType::class,
                 DoctrineUserIdType::NAME => DoctrineUserIdType::class,
+                DoctrineWorkerIdType::NAME => DoctrineWorkerIdType::class,
             ],
         ],
         'orm' => [
