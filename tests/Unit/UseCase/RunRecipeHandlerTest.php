@@ -34,11 +34,11 @@ final class RunRecipeHandlerTest extends TestCase
         $commandBusSpy = $this->createMock(CommandBus::class);
         $commandBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(ExecuteJob::class));
+            ->with($this->isInstanceOf(ExecuteJob::class));
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobScheduled::class));
+            ->with($this->isInstanceOf(JobScheduled::class));
 
         $projectId = new ProjectId('0');
         $ownerUserId = new UserId('0');

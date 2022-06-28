@@ -95,7 +95,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $handler = new ExecuteJobHandler(
             $jobsCollection,
@@ -142,7 +142,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $handler = new ExecuteJobHandler(
             $jobsCollection,
@@ -195,7 +195,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $handler = new ExecuteJobHandler(
             $jobsCollection,
@@ -263,7 +263,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $getRecipeCommands = $this->createMock(GetRecipeCommands::class);
         $getRecipeCommands->method('forApplication')->willReturn(['command']);
@@ -321,7 +321,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $handler = new ExecuteJobHandler(
             $jobsCollection,
@@ -380,7 +380,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $detectContainerImage = $this->createMock(DetectContainerImage::class);
         $detectContainerImage->expects(self::once())->method('forLanguage');
@@ -447,7 +447,7 @@ final class ExecuteJobHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::exactly(2))
             ->method('dispatch')
-            ->with(new IsInstanceOf(JobStatusChanged::class));
+            ->with($this->isInstanceOf(JobStatusChanged::class));
 
         $getRecipeCommands = $this->createMock(GetRecipeCommands::class);
         $getRecipeCommands->expects(self::once())

@@ -23,7 +23,7 @@ final class RemoveTaskHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(TaskDeleted::class));
+            ->with($this->isInstanceOf(TaskDeleted::class));
         $taskId = new TaskId('1');
         $tasksCollection->save(
             new Task($taskId, new ProjectId(''), 'Task', [], false)

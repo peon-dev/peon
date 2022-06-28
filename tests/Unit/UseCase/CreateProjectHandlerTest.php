@@ -28,7 +28,7 @@ final class CreateProjectHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(ProjectAdded::class));
+            ->with($this->isInstanceOf(ProjectAdded::class));
 
         self::assertCount(0, $projectsCollection->all());
 

@@ -49,7 +49,7 @@ final class EnableRecipeForProjectHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(RecipeEnabled::class));
+            ->with($this->isInstanceOf(RecipeEnabled::class));
 
         $handler = new EnableRecipeForProjectHandler(
             $projectsCollection,

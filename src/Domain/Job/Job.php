@@ -56,7 +56,7 @@ class Job
             $clock,
             $originalJob->enabledRecipe,
             $originalJob->taskId,
-        );;
+        );
     }
 
 

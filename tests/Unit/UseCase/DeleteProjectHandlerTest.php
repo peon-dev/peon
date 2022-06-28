@@ -31,7 +31,7 @@ final class DeleteProjectHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(ProjectDeleted::class));
+            ->with($this->isInstanceOf(ProjectDeleted::class));
 
         $projectsCollection->save(
             new Project($projectId, $remoteGitRepository, $ownerUserId)
