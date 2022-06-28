@@ -40,12 +40,11 @@ final class RerunJobHandler implements CommandHandlerInterface
      */
     public function __invoke(RerunJob $command): void
     {
-        $originalJob = $this->jobsCollection->get($command->jobId);
-        $newJobId = $this->jobsCollection->nextIdentity();
+        $originalJob = $this->jobsCollection->get($command->originalJobId);
 
         $newJob = Job::scheduleRerun(
             $originalJob,
-            $newJobId,
+            $command->newJobId,
             $this->clock,
         );
 
@@ -60,12 +59,12 @@ final class RerunJobHandler implements CommandHandlerInterface
 
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
-            new ExecuteJob($newJobId, $mergeAutomatically)
+            new ExecuteJob($command->newJobId, $mergeAutomatically)
         );
 
         // TODO: this event could be dispatched in entity
         $this->eventBus->dispatch(
-            new JobScheduled($newJobId, $originalJob->projectId)
+            new JobScheduled($command->newJobId, $originalJob->projectId)
         );
     }
 }
