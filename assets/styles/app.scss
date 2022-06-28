@@ -94,16 +94,23 @@ $primary: #643cfe;
     background-color: #d8efdd;
 }
 
-/*
-.jobs-list-table .btn.btn-primary {
+.jobs-list-table .btn.btn-outline-primary {
     background-color: #fff;
-    color: #0a58ca;
+    color: $primary;
 }
 
-.jobs-list-table .btn.btn-primary:hover {
-    background-color: #d2e2f8;
+.jobs-list-table .btn.btn-outline-primary:hover {
+    background-color: #e1ddf5;
 }
-*/
+
+.jobs-list-table .btn.btn-outline-secondary {
+    background-color: #fff;
+    color: $secondary;
+}
+
+.jobs-list-table .btn.btn-outline-secondary:hover {
+    background-color: #dfdfdf;
+}
 
 
 .jobs-list-table .btn.btn-outline-danger {
