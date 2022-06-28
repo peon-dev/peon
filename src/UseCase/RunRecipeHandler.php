@@ -61,14 +61,14 @@ final class RunRecipeHandler implements CommandHandlerInterface
 
         $this->jobsCollection->save($job);
 
-        // TODO: this event could be dispatched in entity
-        $this->eventBus->dispatch(
-            new JobScheduled($jobId, $project->projectId)
-        );
-
         // TODO: should be event instead, because this is handled asynchronously
         $this->commandBus->dispatch(
             new ExecuteJob($jobId, $enabledRecipe->configuration->mergeAutomatically)
+        );
+
+        // TODO: this event could be dispatched in entity
+        $this->eventBus->dispatch(
+            new JobScheduled($jobId, $project->projectId)
         );
     }
 }
