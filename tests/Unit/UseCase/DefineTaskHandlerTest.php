@@ -21,7 +21,7 @@ final class DefineTaskHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(TaskAdded::class));
+            ->with($this->isInstanceOf(TaskAdded::class));
 
         $tasksCollection = new InMemoryTasksCollection();
 

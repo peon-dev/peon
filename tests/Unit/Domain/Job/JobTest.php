@@ -148,6 +148,25 @@ final class JobTest extends TestCase
     }
 
 
+    public function testRerun(): void
+    {
+        $clock = FrozenClock::fromUTC();
+        $job = $this->createJob($clock);
+
+        $newId = new JobId('2');
+        $newClock = FrozenClock::fromUTC();
+        $newJob = Job::scheduleRerun($job, $newId, $newClock);
+
+        self::assertSame($job->projectId, $newJob->projectId);
+        self::assertSame($job->enabledRecipe, $newJob->enabledRecipe);
+        self::assertSame($job->commands, $newJob->commands);
+        self::assertSame($job->taskId, $newJob->taskId);
+        self::assertSame($job->title, $newJob->title);
+        self::assertNotSame($job->scheduledAt, $newJob->scheduledAt);
+        self::assertNotSame($job->jobId, $newJob->jobId);
+    }
+
+
     private function createJob(FrozenClock $clock): Job
     {
         return new Job(

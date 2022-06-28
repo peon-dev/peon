@@ -50,7 +50,7 @@ final class DisableRecipeForProjectHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(RecipeDisabled::class));
+            ->with($this->isInstanceOf(RecipeDisabled::class));
 
         $handler = new DisableRecipeForProjectHandler($projectsCollection, $recipesCollection, $eventBusSpy);
         $handler->__invoke($command);

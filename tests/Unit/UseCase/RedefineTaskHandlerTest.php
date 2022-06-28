@@ -24,7 +24,7 @@ final class RedefineTaskHandlerTest extends TestCase
         $eventBusSpy = $this->createMock(EventBus::class);
         $eventBusSpy->expects(self::once())
             ->method('dispatch')
-            ->with(new IsInstanceOf(TaskChanged::class));
+            ->with($this->isInstanceOf(TaskChanged::class));
         $taskId = new TaskId('1');
         $tasksCollection->save(
             new Task($taskId, new ProjectId(''), 'Task', [], true)
