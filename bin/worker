@@ -1,2 +1,11 @@
 #!/bin/bash
-bin/console messenger:consume -vv
+set -e
+
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
+
+while true; do
+    echo 'tick'   # Will be something like bin/console messenger:consume
+    sleep 1
+done &
+
+bin/console peon:worker:run -vv
