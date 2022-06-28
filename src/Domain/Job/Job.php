@@ -46,6 +46,20 @@ class Job
     }
 
 
+    public static function scheduleRerun(Job $originalJob, JobId $newJobId, Clock $clock): self
+    {
+        return new self(
+            $newJobId,
+            $originalJob->projectId,
+            $originalJob->title,
+            $originalJob->commands,
+            $clock,
+            $originalJob->enabledRecipe,
+            $originalJob->taskId,
+        );;
+    }
+
+
     public static function scheduleFromRecipe(
         JobId $jobId,
         ProjectId $projectId,
