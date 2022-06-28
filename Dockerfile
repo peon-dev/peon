@@ -8,13 +8,13 @@ USER root
 # Unload xdebug extension by deleting config
 RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN mkdir -p /peon/var/cache && chown -R 1000:1000 /peon
+RUN mkdir -p /peon/var/cache && chown -R peon /peon
 
-USER 1000:1000
+USER peon
 WORKDIR /peon
 
 # Intentionally split into multiple steps to leverage docker layer caching
-COPY --chown=1000:1000 composer.json composer.lock symfony.lock ./
+COPY --chown=peon composer.json composer.lock symfony.lock ./
 
 RUN composer install --no-interaction --no-scripts
 
@@ -40,14 +40,14 @@ RUN yarn run build
 
 FROM composer as prod
 
-COPY --chown=1000:1000 .docker/entrypoints/*.sh /docker-entrypoint.d/
+COPY --chown=peon .docker/entrypoints/*.sh /docker-entrypoint.d/
 RUN chmod +x /docker-entrypoint.d/*.sh
 
 # Copy js build
-COPY --chown=1000:1000 --from=js-builder /build .
+COPY --chown=peon --from=js-builder /build .
 
 # Copy application source code
-COPY --chown=1000:1000 . .
+COPY --chown=peon . .
 
 # Need to run again to trigger scripts with application code present
 RUN composer install --no-interaction
