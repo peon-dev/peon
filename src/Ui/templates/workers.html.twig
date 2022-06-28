@@ -5,42 +5,27 @@
 
     <p>Currently there are <strong><span id="queued-jobs-count">{{ queued_jobs_count }}</span> queued</strong> jobs.</p>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% if workers %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
 
-        <div class="col">
-            <div class="card card-worker">
-                <div class="card-body">
-                    <h5 class="card-title mb-0">
-                        Shared worker #1
-                        <span class="badge rounded-pill bg-success float-end">Active</span>
-                    </h5>
+            {% for worker in workers %}
+                <div class="col">
+                    <div class="card card-worker">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">
+                                Shared worker #{{ loop.index }}
+                                <span class="badge rounded-pill bg-success float-end">Active</span>
+                            </h5>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-
-        <div class="col">
-            <div class="card card-worker">
-                <div class="card-body">
-                    <h5 class="card-title mb-0">
-                        Shared worker #2
-                        <span class="badge rounded-pill bg-success float-end">Active</span>
-                    </h5>
-                </div>
-            </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <h5 class="alert-heading mb-0">No active shared workers</h5>
         </div>
-
-        <div class="col">
-            <div class="card card-worker">
-                <div class="card-body">
-                    <h5 class="card-title mb-0">
-                        Shared worker #3
-                        <span class="badge rounded-pill bg-danger float-end">Paused</span>
-                    </h5>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    {% endif %}
 
     <h2 class="mt-5 mb-4">Dedicated workers</h2>
 
