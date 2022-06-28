@@ -9,6 +9,7 @@ use Peon\Domain\Job\Value\JobId;
 final class RerunJob
 {
     public function __construct(
-        public readonly JobId $jobId,
+        public readonly JobId $originalJobId,
+        public readonly JobId $newJobId,
     ) {}
 }

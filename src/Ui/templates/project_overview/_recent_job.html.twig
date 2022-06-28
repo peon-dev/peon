@@ -84,6 +84,12 @@
     </td>
 
     <td class="text-end">
+        {% if job.succeededAt or job.failedAt or job.canceledAt %}
+            <a href="{{ path('project_rerun_job', {'jobId': job.jobId}) }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Rerun">
+                <i class="fas fa-redo"></i>
+            </a>
+        {% endif %}
+
         {% if job.mergeRequestUrl %}
             <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
                 <i class="fa fa-code-branch"></i>

@@ -69,9 +69,11 @@
             </a>
         {% endif %}
 
-        <a href="#" class="btn btn-sm btn-outline-secondary">
-            <i class="fas fa-redo"></i> Rerun
-        </a>
+        {% if activeJob.succeededAt or activeJob.failedAt or activeJob.canceledAt %}
+            <a href="{{ path('rerun_job', {'jobId': activeJob.jobId}) }}" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-redo"></i> Rerun
+            </a>
+        {% endif %}
     </div>
 
     <h2>
