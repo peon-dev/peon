@@ -54,7 +54,6 @@ services:
         environment:
             HOST_WORKING_DIRECTORIES_PATH: $PWD/var/working_directories
         working_dir: /peon
-        user: root
         depends_on:
             - dashboard
         command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
