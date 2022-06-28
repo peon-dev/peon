@@ -9,7 +9,7 @@ use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
 use Monolog\Processor\PsrLogMessageProcessor;
-use Peon\Cli\WorkerConsoleCommand;
+use Peon\Cli\ReportWorkerLivenessConsoleCommand;
 use Peon\Domain\Application\DetectApplicationLanguage;
 use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Cookbook\RecipesCollection;
@@ -184,7 +184,4 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(GetProjectIdentifiers::class, DoctrineGetProjectIdentifiers::class);
 
     $services->set(CheckUserAccess::class); // TODO: think how to do it automatically, it is not interface
-
-    $services->set(WorkerConsoleCommand::class)
-        ->arg('$consumeMessagesCommand', service('console.command.messenger_consume_messages'));
 };

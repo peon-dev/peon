@@ -4,8 +4,8 @@ set -e
 trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 
 while true; do
-    echo 'tick'   # Will be something like bin/console messenger:consume
-    sleep 1
+    bin/console peon:worker:report-liveness
+    sleep 15
 done &
 
-bin/console peon:worker:run -vv
+bin/console messenger:consume -vv
