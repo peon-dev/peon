@@ -28,6 +28,8 @@ use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 use Peon\Domain\User\HashPlainTextPassword;
 use Peon\Domain\User\User;
 use Peon\Domain\User\Value\UserId;
+use Peon\Domain\Worker\Value\WorkerId;
+use Peon\Domain\Worker\WorkerStatus;
 use Ramsey\Uuid\Uuid;
 
 final class DataFixtures extends Fixture
@@ -40,6 +42,7 @@ final class DataFixtures extends Fixture
     public const REMOTE_REPOSITORY_URI = 'https://gitlab.com/peon/peon.git';
     public const PROJECT_NAME = 'peon/peon';
     public const USER_PASSWORD = '12345';
+    public const WORKER_LAST_SEEN_AT = '2021-01-01 12:00:00';
 
     public const USER_1_ID = 'a26d6d92-eb4d-11ec-ac9e-1266a710edb4';
     public const USER_1_USERNAME = 'peon-1';
@@ -73,6 +76,12 @@ final class DataFixtures extends Fixture
     {
         $this->loadUser1Data($manager);
         $this->loadUser2Data($manager);
+
+        $workerStatus = new WorkerStatus(
+            new WorkerId('fixture'),
+            new FrozenClock(new \DateTimeImmutable(self::WORKER_LAST_SEEN_AT)),
+        );
+        $manager->persist($workerStatus);
 
         $manager->flush();
     }
