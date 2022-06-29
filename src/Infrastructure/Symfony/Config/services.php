@@ -66,6 +66,9 @@ return static function(ContainerConfigurator $configurator): void
 {
     $parameters = $configurator->parameters();
 
+    # https://symfony.com/doc/current/performance.html#dump-the-service-container-into-a-single-file
+    $parameters->set('container.dumper.inline_factories', true);
+
     $parameters->set(
         ConfigParameters::PEON_WORKING_DIRECTORIES_PATH,
         dirname(__DIR__, 4) . '/var/working_directories',
