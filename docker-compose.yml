@@ -1,13 +1,33 @@
 version: "3.7"
 services:
+    # Helper service to always have latest composer.lock changes installed
+    composer:
+        image: ghcr.io/peon-dev/php:main
+        volumes:
+            - .:/peon
+        working_dir: /peon
+        command: "composer install --no-interaction"
+
+    # Helper service to run database migrations
+    db-migrations:
+        image: ghcr.io/peon-dev/php:main
+        depends_on:
+            - postgres
+        volumes:
+            - .:/peon
+        working_dir: /peon
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/console doctrine:migrations:migrate --no-interaction'"
+
     dashboard:
         image: ghcr.io/peon-dev/php:main
         volumes:
             - .:/peon
-            - .docker/entrypoints:/docker-entrypoint.d
+            - .docker/nginx-unit:/docker-entrypoint.d
+            - ./var/nginx-unit:/var/lib/unit
         working_dir: /peon
         depends_on:
             - composer
+            - db-migrations
             - postgres
             - mercure
         ports:
@@ -33,16 +53,6 @@ services:
         ports:
             - "${PEON_POSTGRES_PORT:-5432}:5432"
 
-    # Helper service
-    composer:
-        image: ghcr.io/peon-dev/php:main
-        volumes:
-            - .:/peon
-            - .docker/entrypoints:/docker-entrypoint.d
-        working_dir: /peon
-        entrypoint: "composer"
-        command: [ "install", "--no-interaction" ]
-
     worker:
         image: ghcr.io/peon-dev/php:main
         volumes:
@@ -53,8 +63,9 @@ services:
             HOST_WORKING_DIRECTORIES_PATH: $PWD/var/working_directories
         working_dir: /peon
         depends_on:
-            - dashboard
-        command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
+            - composer
+            - db-migrations
+        command: "wait-for-it postgres:5432 -- bin/worker"
 
     scheduler:
         image: ghcr.io/peon-dev/php:main
@@ -62,8 +73,9 @@ services:
             - .:/peon
         working_dir: /peon
         depends_on:
-            - dashboard
-        command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
+            - composer
+            - db-migrations
+        command: "wait-for-it postgres:5432 -- bin/scheduler"
 
     adminer:
         image: adminer:4.8.0
