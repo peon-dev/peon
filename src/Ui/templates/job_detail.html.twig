@@ -3,6 +3,8 @@
 {% block title %}Job detail{% endblock %}
 
 {% block content %}
+<div {{ turbo_stream_listen('event-stream') }}></div>
+
 <div class="clearfix">
     <div class="float-end">
         {% if activeJob.pending %}
@@ -93,6 +95,12 @@
             <div class="dot-pulse"></div>
         </div>
     {% endif %}
+
+    <div style="color: #fff;font-family: monospace;" id="event-stream"></div>
+
+    <div class="job-in-progress-animation-wrap">
+        <div class="dot-pulse"></div>
+    </div>
 
     {% for process in processes %}
         {# @var process \Peon\Domain\Process\JobProcess #}

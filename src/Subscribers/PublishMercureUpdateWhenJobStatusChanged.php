@@ -44,6 +44,15 @@ final class PublishMercureUpdateWhenJobStatusChanged implements EventHandlerInte
                     ])
                 )
             );
+
+            $this->hub->publish(
+                new Update(
+                    'event-stream',
+                    $this->twig->render('job/job_status_changed.stream.html.twig', [
+                        'status' => $job->status,
+                    ])
+                )
+            );
         } catch (\Throwable $throwable) {
             $this->logger->warning($throwable->getMessage(), [
                 'exception' => $throwable,
