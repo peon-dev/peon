@@ -52,3 +52,5 @@ COPY --chown=peon . .
 
 # Need to run again to trigger scripts with application code present
 RUN composer install --no-dev --no-interaction --classmap-authoritative
+
+COPY --chown=peon .docker/opcache-preload.ini /usr/local/etc/php/conf.d/98-opcache-preload.ini
