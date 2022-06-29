@@ -11,6 +11,7 @@ return static function (SentryConfig $sentryConfig, ContainerConfigurator $conta
             [
                 'ignore_exceptions' => [
                     Symfony\Component\Security\Core\Exception\AccessDeniedException::class,
+                    Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
                 ],
             ],
         ]);

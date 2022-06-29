@@ -10,7 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'handlers' => [
             'main' => [
                 'type' => 'fingers_crossed',
-                'action_level' => 'error',
+                'action_level' => 'warning',
                 'handler' => 'nested',
                 'excluded_http_codes' => [404, 405],
                 'buffer_size' => 50,
