@@ -23,7 +23,7 @@ services:
         volumes:
             - .:/peon
         working_dir: /peon
-        command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/console doctrine:migrations:migrate --no-interaction'"
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 3 && bin/console doctrine:migrations:migrate --no-interaction'"
 
     dashboard:
         image: ghcr.io/peon-dev/php:main
@@ -55,6 +55,7 @@ services:
         environment:
             POSTGRES_USER: peon
             POSTGRES_PASSWORD: peon
+            POSTGRES_DB: peon
         volumes:
             - postgres-data:/var/lib/postgresql/data
         ports:
@@ -72,7 +73,7 @@ services:
         depends_on:
             - composer
             - db-migrations
-        command: "wait-for-it postgres:5432 -- bin/worker"
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/worker'"
 
     scheduler:
         image: ghcr.io/peon-dev/php:main
@@ -82,7 +83,7 @@ services:
         depends_on:
             - composer
             - db-migrations
-        command: "wait-for-it postgres:5432 -- bin/scheduler"
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/scheduler'"
 
     adminer:
         image: adminer:4.8.0

@@ -50,23 +50,28 @@ volumes:
     caddy_data:
     caddy_config:
 
+# Reusable variables for php services to not repeat yourself
+# Make sure that credentials in DATABASE_URL matches credentials in postgres service
+x-php-common-variables: &php-common-variables
+    DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
+    MERCURE_JWT_SECRET: '!ChangeMe!'
+
 services:
     # Helper service to run database migrations
     db-migrations:
         image: ghcr.io/peon-dev/peon:main
         environment:
-            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
+            <<: *php-common-variables
         depends_on:
             - postgres
-        command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/console doctrine:migrations:migrate --no-interaction'"
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 3 && bin/console doctrine:migrations:migrate --no-interaction'"
 
     dashboard:
         image: ghcr.io/peon-dev/peon:main
         environment:
-            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
+            <<: *php-common-variables
             # Change to match your host:
             MERCURE_PUBLIC_URL: "http://localhost:8180/.well-known/mercure"
-            MERCURE_JWT_SECRET: '!ChangeMe!'
         volumes:
           - unit-state:/var/lib/unit
         restart: unless-stopped
@@ -75,7 +80,7 @@ services:
             - postgres
             - mercure
         ports:
-            - 8080:8080
+            - "8080:8080"
 
     worker:
         image: ghcr.io/peon-dev/peon:main
@@ -85,27 +90,26 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
             - $PWD/working_directories:/peon/var/working_directories
         environment:
-            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
-            MERCURE_JWT_SECRET: '!ChangeMe!'
+            <<: *php-common-variables
             HOST_WORKING_DIRECTORIES_PATH: $PWD/working_directories
         restart: unless-stopped
-        command: "wait-for-it postgres:5432 -- bin/worker"
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 6 && bin/worker'"
 
     scheduler:
         image: ghcr.io/peon-dev/peon:main
         depends_on:
             - db-migrations
         environment:
-            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
-            MERCURE_JWT_SECRET: '!ChangeMe!'
+            <<: *php-common-variables
         restart: unless-stopped
-        command: "wait-for-it postgres:5432 -- bin/scheduler"
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 6 && bin/scheduler'"
 
     postgres:
         image: postgres:13
         environment:
             POSTGRES_USER: peon
             POSTGRES_PASSWORD: peon
+            POSTGRES_DB: peon
         volumes:
             - postgres-data:/var/lib/postgresql/data
 
@@ -120,10 +124,10 @@ services:
             MERCURE_EXTRA_DIRECTIVES: |
                 cors_origins *
         volumes:
-            - caddy_data/data:/data
-            - caddy_config/config:/config
+            - caddy_data:/data
+            - caddy_config:/config
         ports:
-            - 8180:80
+            - "8180:80"
 ```
 
 Then run `docker-compose up`
