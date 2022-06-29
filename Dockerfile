@@ -16,7 +16,7 @@ WORKDIR /peon
 # Intentionally split into multiple steps to leverage docker layer caching
 COPY --chown=peon composer.json composer.lock symfony.lock ./
 
-RUN composer install --no-interaction --no-scripts
+RUN composer install --no-dev --no-interaction --no-scripts
 
 
 
@@ -42,8 +42,7 @@ FROM composer as prod
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
 
-COPY --chown=peon .docker/entrypoints/*.sh /docker-entrypoint.d/
-RUN chmod +x /docker-entrypoint.d/*.sh
+COPY --chown=peon .docker/nginx-unit /docker-entrypoint.d/
 
 # Copy js build
 COPY --chown=peon --from=js-builder /build .
@@ -52,4 +51,4 @@ COPY --chown=peon --from=js-builder /build .
 COPY --chown=peon . .
 
 # Need to run again to trigger scripts with application code present
-RUN composer install --no-interaction
+RUN composer install --no-dev --no-interaction --classmap-authoritative
