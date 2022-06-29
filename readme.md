@@ -73,7 +73,7 @@ services:
             # Change to match your host:
             MERCURE_PUBLIC_URL: "http://localhost:8180/.well-known/mercure"
         volumes:
-          - unit-state:/var/lib/unit
+          - unit-state:/var/lib/unit/state
         restart: unless-stopped
         depends_on:
             - db-migrations

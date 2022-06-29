@@ -30,7 +30,7 @@ services:
         volumes:
             - .:/peon
             - .docker/nginx-unit:/docker-entrypoint.d
-            - unit-state:/var/lib/unit
+            - unit-state:/var/lib/unit/state
         working_dir: /peon
         depends_on:
             - composer
