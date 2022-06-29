@@ -2,11 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
-use Lcobucci\Clock\SystemClock;
 use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\Tools\Git\ProvideBranchName;
@@ -14,6 +11,7 @@ use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
 use Peon\Infrastructure\GitProvider\DummyCheckWriteAccessToRemoteRepository;
 use Peon\Infrastructure\GitProvider\DummyGetLastCommitOfDefaultBranch;
 use Peon\Infrastructure\Mercure\DummyHub;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Mercure\HubInterface;
 
 return static function(ContainerConfigurator $configurator): void
