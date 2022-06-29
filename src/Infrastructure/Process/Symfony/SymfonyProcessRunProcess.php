@@ -7,11 +7,24 @@ namespace Peon\Infrastructure\Process\Symfony;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\RunProcess;
 use Peon\Domain\Process\Value\ProcessResult;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Twig\Environment;
 
 final class SymfonyProcessRunProcess implements RunProcess
 {
+    public function __construct(
+        private HubInterface $hub,
+        private readonly Environment $twig,
+        private readonly LoggerInterface $logger,
+    )
+    {
+    }
+
+
     /**
      * @throws ProcessFailed
      */
@@ -23,10 +36,47 @@ final class SymfonyProcessRunProcess implements RunProcess
     {
         try {
             $process = Process::fromShellCommandline($command, $workingDirectory, ['SHELL_VERBOSITY' => 0], timeout: $timeoutSeconds);
-            $process->mustRun();
+            $shouldSkipRealtimeLogging = false;
+            $this->hub->publish(
+                new Update(
+                    'event-stream',
+                    $this->twig->render('job/process_started.stream.html.twig', [
+                        'process' => $command,
+                    ])
+                )
+            );
+            $process->mustRun(function ($type, $buffer) use (&$shouldSkipRealtimeLogging) {
+                if ($shouldSkipRealtimeLogging === false) {
+                    try {
+                        $this->hub->publish(
+                            new Update(
+                                'event-stream',
+                                $this->twig->render('job/process_output_buffer.stream.html.twig', [
+                                    'buffer' => $buffer,
+                                ])
+                            )
+                        );
+                    } catch (\Throwable $throwable) {
+                        $this->logger->warning($throwable->getMessage(), [
+                            'exception' => $throwable,
+                        ]);
+
+                        $shouldSkipRealtimeLogging = true;
+                    }
+                }
+            });
         } catch (ProcessFailedException $processFailedException) {
             $processResult = $this->createProcessResultFromProcess($processFailedException->getProcess());
             throw new ProcessFailed($processResult, previous: $processFailedException);
+        } finally {
+            $this->hub->publish(
+                new Update(
+                    'event-stream',
+                    $this->twig->render('job/process_finished.stream.html.twig', [
+                        'process' => $command,
+                    ])
+                )
+            );
         }
 
         return $this->createProcessResultFromProcess($process);
