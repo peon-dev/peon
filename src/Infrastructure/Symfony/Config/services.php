@@ -188,6 +188,5 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(PdoSessionHandler::class)
         ->args([
             env('DATABASE_URL'),
-        ])
-    ;
+        ]);
 };
