@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use DateTimeZone;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
@@ -60,6 +57,10 @@ use Peon\Infrastructure\Symfony\ControllerArgumentValueResolvers\DomainIdArgumen
 use Peon\Infrastructure\Symfony\ControllerArgumentValueResolvers\UserIdArgumentValueResolver;
 use Peon\Infrastructure\Symfony\DependencyInjection\ConfigParameters;
 use Peon\Infrastructure\User\SymfonyHashPlainTextPassword;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -183,4 +184,10 @@ return static function(ContainerConfigurator $configurator): void
     $services->alias(GetProjectIdentifiers::class, DoctrineGetProjectIdentifiers::class);
 
     $services->set(CheckUserAccess::class); // TODO: think how to do it automatically, it is not interface
+
+    $services->set(PdoSessionHandler::class)
+        ->args([
+            env('DATABASE_URL'),
+        ])
+    ;
 };
