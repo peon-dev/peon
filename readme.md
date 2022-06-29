@@ -44,14 +44,11 @@ Inspiration for `docker-compose.yml`:
 ```yaml
 version: "3.7"
 services:
-    # Helper service to always have latest composer.lock changes installed
-    composer:
-        image: ghcr.io/peon-dev/peon:main
-        command: "composer install --no-interaction"
-
     # Helper service to run database migrations
     db-migrations:
         image: ghcr.io/peon-dev/peon:main
+        environment:
+            DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
         depends_on:
             - postgres
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/console doctrine:migrations:migrate --no-interaction'"
@@ -67,7 +64,6 @@ services:
           - ./nginx-unit-state:/var/lib/unit
         restart: unless-stopped
         depends_on:
-            - composer
             - db-migrations
             - postgres
             - mercure
@@ -77,7 +73,6 @@ services:
     worker:
         image: ghcr.io/peon-dev/peon:main
         depends_on:
-            - composer
             - db-migrations
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
@@ -92,7 +87,6 @@ services:
     scheduler:
         image: ghcr.io/peon-dev/peon:main
         depends_on:
-            - composer
             - db-migrations
         environment:
             DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"

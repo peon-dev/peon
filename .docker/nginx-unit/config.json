@@ -44,5 +44,5 @@
         }
     },
 
-    "access_log": "/var/log/access.log"
+    "access_log": "/var/lib/unit/access.log"
 }
