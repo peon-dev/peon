@@ -44,6 +44,18 @@ Inspiration for `docker-compose.yml`:
 ```yaml
 version: "3.7"
 services:
+    # Helper service to always have latest composer.lock changes installed
+    composer:
+        image: ghcr.io/peon-dev/peon:main
+        command: "composer install --no-interaction"
+
+    # Helper service to run database migrations
+    db-migrations:
+        image: ghcr.io/peon-dev/peon:main
+        depends_on:
+            - postgres
+        command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/console doctrine:migrations:migrate --no-interaction'"
+
     dashboard:
         image: ghcr.io/peon-dev/peon:main
         environment:
@@ -51,20 +63,22 @@ services:
             # Change to match your host:
             MERCURE_PUBLIC_URL: "http://localhost:8180/.well-known/mercure"
             MERCURE_JWT_SECRET: '!ChangeMe!'
+        volumes:
+          - ./nginx-unit-state:/var/lib/unit
         restart: unless-stopped
         depends_on:
+            - composer
+            - db-migrations
             - postgres
             - mercure
-        entrypoint: [ "bash", "/docker-entrypoint.sh" ]
-        command: [ "php", "-S", "0.0.0.0:8080", "-t", "public" ]
         ports:
             - 8080:8080
 
     worker:
         image: ghcr.io/peon-dev/peon:main
         depends_on:
-            - dashboard
-            - mercure
+            - composer
+            - db-migrations
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - $PWD/working_directories:/peon/var/working_directories
@@ -73,18 +87,18 @@ services:
             MERCURE_JWT_SECRET: '!ChangeMe!'
             HOST_WORKING_DIRECTORIES_PATH: $PWD/working_directories
         restart: unless-stopped
-        command: [ "wait-for-it", "dashboard:8080", "--", "bin/worker" ]
+        command: "wait-for-it postgres:5432 -- bin/worker"
 
     scheduler:
         image: ghcr.io/peon-dev/peon:main
         depends_on:
-            - dashboard
-            - mercure
+            - composer
+            - db-migrations
         environment:
             DATABASE_URL: "postgresql://peon:peon@postgres:5432/peon?serverVersion=13&charset=utf8"
             MERCURE_JWT_SECRET: '!ChangeMe!'
         restart: unless-stopped
-        command: [ "wait-for-it", "dashboard:8080", "--", "bin/scheduler" ]
+        command: "wait-for-it postgres:5432 -- bin/scheduler"
 
     postgres:
         image: postgres:13
