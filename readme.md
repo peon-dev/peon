@@ -43,6 +43,13 @@ Inspiration for `docker-compose.yml`:
 
 ```yaml
 version: "3.7"
+
+volumes:
+    unit-state:
+    postgres-data:
+    caddy_data:
+    caddy_config:
+
 services:
     # Helper service to run database migrations
     db-migrations:
@@ -61,7 +68,7 @@ services:
             MERCURE_PUBLIC_URL: "http://localhost:8180/.well-known/mercure"
             MERCURE_JWT_SECRET: '!ChangeMe!'
         volumes:
-          - ./nginx-unit-state:/var/lib/unit
+          - unit-state:/var/lib/unit
         restart: unless-stopped
         depends_on:
             - db-migrations
@@ -100,7 +107,7 @@ services:
             POSTGRES_USER: peon
             POSTGRES_PASSWORD: peon
         volumes:
-            - ./db-data:/var/lib/postgresql/data
+            - postgres-data:/var/lib/postgresql/data
 
     mercure:
         image: dunglas/mercure
@@ -113,8 +120,8 @@ services:
             MERCURE_EXTRA_DIRECTIVES: |
                 cors_origins *
         volumes:
-            - ./mercure-data/data:/data
-            - ./mercure-data/config:/config
+            - caddy_data/data:/data
+            - caddy_config/config:/config
         ports:
             - 8180:80
 ```

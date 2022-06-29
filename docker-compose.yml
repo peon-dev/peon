@@ -1,4 +1,11 @@
 version: "3.7"
+
+volumes:
+    unit-state:
+    postgres-data:
+    caddy_data:
+    caddy_config:
+
 services:
     # Helper service to always have latest composer.lock changes installed
     composer:
@@ -23,7 +30,7 @@ services:
         volumes:
             - .:/peon
             - .docker/nginx-unit:/docker-entrypoint.d
-            - ./var/nginx-unit:/var/lib/unit
+            - unit-state:/var/lib/unit
         working_dir: /peon
         depends_on:
             - composer
@@ -49,7 +56,7 @@ services:
             POSTGRES_USER: peon
             POSTGRES_PASSWORD: peon
         volumes:
-            - .docker-data/postgres:/var/lib/postgresql/data
+            - postgres-data:/var/lib/postgresql/data
         ports:
             - "${PEON_POSTGRES_PORT:-5432}:5432"
 
@@ -99,7 +106,7 @@ services:
         # Comment the following line to disable the development mode
         command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
         volumes:
-            - .docker-data/mercure_data:/data
-            - .docker-data/mercure_config:/config
+            - caddy_data:/data
+            - caddy_config:/config
         ports:
           - "${PEON_MERCURE_PORT:-8180}:80"
