@@ -1,10 +1,10 @@
 <tr class="{{ isNew|default(false) ? ' new-item' }}" id="recent-job-{{ job.jobId }}">
     <td>
         {% if job.pending %}
-            <span class="btn btn-outline-secondary btn-sm">
+            <a class="btn btn-outline-secondary btn-sm" href="{{ path('job_detail', {jobId: job.jobId}) }}">
                 <span class="spinner-border spinner-border-sm" style="border-width: .1em" role="status"></span>
                 Pending
-            </span>
+            </a>
         {% endif %}
 
         {% if job.inProgress %}

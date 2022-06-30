@@ -3,79 +3,13 @@
 {% block title %}Job detail{% endblock %}
 
 {% block content %}
-<div {{ turbo_stream_listen('event-stream') }}></div>
+<div {{ turbo_stream_listen('job-' ~ activeJob.jobId ~ '-detail') }}></div>
 
 <div class="clearfix">
     <div class="float-end">
-        {% if activeJob.pending %}
-            <span class="btn btn-outline-secondary btn-sm">
-                <span class="spinner-border spinner-border-sm" style="border-width: .1em" role="status"></span>
-                Pending
-            </span>
-        {% endif %}
-
-        {% if activeJob.inProgress %}
-            <span class="btn btn-outline-primary btn-sm">
-                <span class="spinner-border text-primary spinner-border-sm" style="border-width: .1em" role="status"></span>
-                In progress
-            </span>
-        {% endif %}
-
-        {% if activeJob.succeededAt %}
-            <span class="btn btn-outline-success btn-sm">
-                <i class="far fa-check-circle"></i>
-                Succeeded
-            </span>
-        {% endif %}
-
-        {% if activeJob.failed %}
-            <span class="btn btn-outline-danger btn-sm">
-                <i class="far fa-times-circle"></i>
-                Failed
-            </span>
-        {% endif %}
-
-        {% if activeJob.canceled %}
-            <span class="btn btn-outline-warning btn-sm">
-                <i class="fas fa-exclamation-triangle"></i>
-                Canceled
-            </span>
-        {% endif %}
-
-        <span style="padding: 0 15px;">
-            {% if activeJob.startedAt %}
-                <i class="far fa-calendar-alt"></i>
-                {% if activeJob.succeeded %}
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.succeededAt|date('j.n.Y H:i') }}">
-                        {{ activeJob.succeededAt|ago }}
-                    </span>
-                {% elseif activeJob.canceled %}
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.canceledAt|date('j.n.Y H:i') }}">
-                        {{ activeJob.canceledAt|ago }}
-                    </span>
-                {% elseif activeJob.failed %}
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.failedAt|date('j.n.Y H:i') }}">
-                        {{ activeJob.failedAt|ago }}
-                    </span>
-                {% elseif activeJob.inProgress %}
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ activeJob.startedAt|date('j.n.Y H:i') }}">
-                        {{ activeJob.startedAt|ago }}
-                    </span>
-                {% endif %}
-            {% endif %}
-        </span>
-
-        {% if activeJob.mergeRequestUrl %}
-            <a href="{{ activeJob.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
-                <i class="fa fa-code-branch"></i>
-            </a>
-        {% endif %}
-
-        {% if activeJob.succeededAt or activeJob.failedAt or activeJob.canceledAt %}
-            <a href="{{ path('rerun_job', {'jobId': activeJob.jobId}) }}" class="btn btn-sm btn-outline-secondary">
-                <i class="fas fa-redo"></i> Rerun
-            </a>
-        {% endif %}
+        {{ include('job/_job_status.html.twig', {
+            job: activeJob
+        }) }}
     </div>
 
     <h2>

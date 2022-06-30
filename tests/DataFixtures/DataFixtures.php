@@ -106,7 +106,7 @@ final class DataFixtures extends Fixture
         );
 
         $process->runInDirectory('/', new class implements RunProcess {
-            public function inDirectory(string|null $workingDirectory, string $command, int $timeoutSeconds): ProcessResult
+            public function inDirectory(string|null $workingDirectory, string $command, int $timeoutSeconds, JobId $jobId): ProcessResult
             {
                 return new ProcessResult(
                     0,

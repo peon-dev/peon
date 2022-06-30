@@ -1,5 +1,5 @@
-<turbo-stream action="append" target="event-stream">
+<turbo-stream action="replace" target="job-status-{{ job.jobId }}">
     <template>
-        <div>JOB STATUS CHANGED: {{ status }}</div>
+        {{ include('job/_job_status.html.twig') }}
     </template>
 </turbo-stream>
