@@ -24,39 +24,22 @@
 </div>
 
 <div style="background: rgb(36, 41, 46);padding: 1.5em 1.5em;border-radius: 4px;">
-    {% if activeJob.inProgress %}
-        <div class="job-in-progress-animation-wrap">
+    {% if activeJob.pending %}
+        <div class="job-in-progress-animation-wrap" id="job-{{ activeJob.jobId }}-pending-spinner">
             <div class="dot-pulse"></div>
         </div>
     {% endif %}
 
     <div style="color: #fff;font-family: monospace;" id="event-stream"></div>
 
-    <div class="job-in-progress-animation-wrap">
-        <div class="dot-pulse"></div>
+    <div id="job-{{ activeJob.jobId }}-processes">
+        {% for process in processes %}
+            {{ include('job/_process.html.twig', {
+                'process': process
+            }) }}
+        {% endfor %}
     </div>
 
-    {% for process in processes %}
-        {# @var process \Peon\Domain\Process\JobProcess #}
-        <div style="margin: 1.5em 0;color: #fff;">
-            {% if process.output %}
-                <a style="color: #fff;" data-bs-toggle="collapse" href="#process-{{ loop.index }}" role="button" aria-expanded="false" aria-controls="process-{{ loop.index }}">
-            {% endif %}
-                <code style="color: #fff;">
-                    <b>{{ process.command }}</b>
-                </code>
-                <span>({{ process.executionTime }}s)</span>
-            {% if process.output %}
-                </a>
-            {% endif %}
-
-            {% if process.output %}
-            <div class="collapse show" id="process-{{ loop.index }}">
-                <pre style="margin: 0;">{{ process.output }}</pre>
-            </div>
-            {% endif %}
-        </div>
-    {% endfor %}
 </div>
 
 {% endblock %}

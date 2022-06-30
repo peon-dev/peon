@@ -1,5 +1,3 @@
-<turbo-stream action="append" target="event-stream">
-    <template>
-        <br>{{ buffer|nl2br }}
-    </template>
+<turbo-stream action="append" target="process-{{ processId }}-output-stream">
+    <template>{{ buffer }}</template>
 </turbo-stream>

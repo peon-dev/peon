@@ -34,8 +34,8 @@
         </span>
     {% endif %}
 
-    <span style="padding: 0 15px;">
-        {% if job.startedAt %}
+    {% if job.startedAt %}
+        <span style="padding: 0 15px;">
             <i class="far fa-calendar-alt"></i>
             {% if job.succeeded %}
                 <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ job.succeededAt|date('j.n.Y H:i') }}">
@@ -54,13 +54,13 @@
                     {{ job.startedAt|ago }}
                 </span>
             {% endif %}
-        {% endif %}
-    </span>
+        </span>
+    {% endif %}
 
     {% if job.mergeRequestUrl %}
-    <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
-        <i class="fa fa-code-branch"></i>
-    </a>
+        <a href="{{ job.mergeRequestUrl }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Merge request">
+            <i class="fa fa-code-branch"></i>
+        </a>
     {% endif %}
 
     {% if job.succeededAt or job.failedAt or job.canceledAt %}

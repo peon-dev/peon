@@ -1,0 +1,9 @@
+<turbo-stream action="replace" target="process-status-{{ processId }}">
+    <template>
+        {{ include('job/_process_status.html.twig') }}
+    </template>
+</turbo-stream>
+
+<turbo-stream action="update" target="process-execution-time-{{ processId }}">
+    <template>{{ executionTime }}s</template>
+</turbo-stream>

@@ -1,0 +1,22 @@
+{# @var process \Peon\Domain\Process\JobProcess #}
+<div style="margin: 1.5em 0;color: #fff;position: relative;padding-left: 35px" id="process-{{ process.processId }}">
+    {{ include('job/_process_status.html.twig', {
+        'processId': process.processId,
+        'succeeded': process.succeeded,
+        'failed': process.failed,
+    }) }}
+
+    <a class="process-title" style="color: #fff;" data-bs-toggle="collapse" href="#process-{{ process.processId }}-output" role="button" aria-expanded="false" aria-controls="process-{{ process.processId }}-output">
+        <span class="process-command">{{ process.command }}</span>
+
+        <span class="process-duration" id="process-execution-time-{{ process.processId }}">
+            {% if process.executionTime is not null %}
+                {{ process.executionTime }}s
+            {% endif %}
+        </span>
+    </a>
+
+    <div class="collapse show process-output" id="process-{{ process.processId }}-output">
+        <pre id="process-{{ process.processId }}-output-stream" style="margin: 0;">{{ process.output }}</pre>
+    </div>
+</div>
