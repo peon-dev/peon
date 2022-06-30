@@ -137,3 +137,27 @@ It is recommended to set up daily cron that will pull newer Docker images:
 0 0 * * *    docker-compose -f /path/to/docker-compose.yml pull
 ```
 It is good idea to restart containers after pulling new image as well.
+
+## Troubleshooting
+
+#### Process failing with docker permission error:
+```
+docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/create": dial unix /var/run/docker.sock: connect: permission denied.
+See 'docker run --help'.
+```
+
+#### Possible fix:
+
+Check out who owns the Docker socket, for example by running `ls -l /var/run/docker.sock` and set the group id to the `worker` process:
+
+Overwrite `worker` service group/user in `docker-compose.override.yml`: 
+```yaml
+version: "3.7"
+services:
+    worker:
+        user: "peon:<docker group id>" 
+        
+        # in safe environment, you can use root user
+        # be aware of it can mess with ownership of the peon source code (for example cache files owned by root)
+        user: "root"
+```
