@@ -37,7 +37,14 @@ class Process
     public function runInDirectory(string|null $directory, RunProcess $runProcess): ProcessResult
     {
         try {
-            $result = $runProcess->inDirectory($directory, $this->command, $this->timeoutSeconds, $this->jobId);
+            $result = $runProcess->inDirectory(
+                $directory,
+                $this->command,
+                $this->timeoutSeconds,
+                $this->jobId,
+                $this->processId,
+            );
+
             $this->exitCode = $result->exitCode;
             $this->executionTime = $result->executionTime;
             $this->output = $result->output;

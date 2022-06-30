@@ -25,7 +25,6 @@ final class ProvideReadProcessesByJobId
 SELECT
     process_id AS "processId",
     job_id AS "jobId",
-    sequence,
     command,
     timeout_seconds AS "timeoutSeconds",
     execution_time AS "executionTime",

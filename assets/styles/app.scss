@@ -397,3 +397,35 @@ body.page-login {
         color: #000;
     }
 }
+
+.fa-circle-notch {
+    animation: $spinner-animation-speed linear infinite spinner-border;
+}
+
+.process-status {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 1px;
+}
+
+.process-title {
+    font-family: $font-family-code;
+    text-decoration: none;
+    position: relative;
+    padding-right: 30px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.process-duration {
+    float: right;
+    color: #aaaaaa;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.process-output {
+    color: #9f9f9f;
+}

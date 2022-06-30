@@ -3,3 +3,5 @@
         {{ include('job/_job_status.html.twig') }}
     </template>
 </turbo-stream>
+
+<turbo-stream action="remove" target="job-{{ job.jobId }}-pending-spinner"></turbo-stream>

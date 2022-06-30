@@ -11,7 +11,6 @@ final class ReadProcess
     public function __construct(
         public readonly string $processId,
         public readonly string $jobId,
-        public readonly int $sequence,
         public readonly string $command,
         public readonly int $timeoutSeconds,
         float|null $executionTime,
@@ -19,5 +18,17 @@ final class ReadProcess
         public string|null $output,
     ) {
         $this->executionTime = $executionTime ? (int) $executionTime : null;
+    }
+
+
+    public function hasSucceeded(): bool
+    {
+        return $this->exitCode === 0;
+    }
+
+
+    public function hasFailed(): bool
+    {
+        return $this->exitCode > 0;
     }
 }
