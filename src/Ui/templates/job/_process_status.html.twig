@@ -1,9 +1,9 @@
 <span class="process-status" id="process-status-{{ processId }}">
     {% if succeeded %}
-        <i class="far fa-check-circle"></i>
+        <i class="text-success far fa-check-circle"></i>
     {% elseif failed %}
-        <i class="far fa-times-circle"></i>
+        <i class="text-danger far fa-times-circle"></i>
     {% else %}
-        <i class="fas fa-circle-notch"></i>
+        <i class="text-warning fas fa-circle-notch"></i>
     {% endif %}
 </span>
