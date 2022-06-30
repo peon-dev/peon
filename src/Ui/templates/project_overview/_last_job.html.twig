@@ -1,10 +1,10 @@
 {% if jobId %}
     <span id="last-job-{{ jobId}}">
         {% if jobPending %}
-            <span class="btn btn-outline-secondary btn-sm">
+            <a class="btn btn-outline-secondary btn-sm" href="{{ path('job_detail', {jobId: jobId}) }}">
                 <span class="spinner-border spinner-border-sm" style="border-width: .1em" role="status"></span>
                 Pending
-            </span>
+            </a>
         {% endif %}
 
         {% if jobInProgress %}

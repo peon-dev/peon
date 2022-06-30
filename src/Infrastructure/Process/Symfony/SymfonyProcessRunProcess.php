@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Infrastructure\Process\Symfony;
 
+use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\RunProcess;
 use Peon\Domain\Process\Value\ProcessResult;
@@ -32,6 +33,7 @@ final class SymfonyProcessRunProcess implements RunProcess
         string|null $workingDirectory,
         string $command,
         int $timeoutSeconds,
+        JobId $jobId,
     ): ProcessResult
     {
         try {
@@ -39,18 +41,18 @@ final class SymfonyProcessRunProcess implements RunProcess
             $shouldSkipRealtimeLogging = false;
             $this->hub->publish(
                 new Update(
-                    'event-stream',
+                    'job-' . $jobId->id . '-detail',
                     $this->twig->render('job/process_started.stream.html.twig', [
                         'process' => $command,
                     ])
                 )
             );
-            $process->mustRun(function ($type, $buffer) use (&$shouldSkipRealtimeLogging) {
+            $process->mustRun(function ($type, $buffer) use (&$shouldSkipRealtimeLogging, $jobId) {
                 if ($shouldSkipRealtimeLogging === false) {
                     try {
                         $this->hub->publish(
                             new Update(
-                                'event-stream',
+                                'job-' . $jobId->id . '-detail',
                                 $this->twig->render('job/process_output_buffer.stream.html.twig', [
                                     'buffer' => $buffer,
                                 ])
@@ -71,7 +73,7 @@ final class SymfonyProcessRunProcess implements RunProcess
         } finally {
             $this->hub->publish(
                 new Update(
-                    'event-stream',
+                    'job-' . $jobId->id . '-detail',
                     $this->twig->render('job/process_finished.stream.html.twig', [
                         'process' => $command,
                     ])
