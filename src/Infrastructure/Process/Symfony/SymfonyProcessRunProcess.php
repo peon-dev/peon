@@ -4,27 +4,23 @@ declare(strict_types=1);
 
 namespace Peon\Infrastructure\Process\Symfony;
 
+use Peon\Domain\Job\Event\JobProcessFinished;
+use Peon\Domain\Job\Event\JobProcessOutputReceived;
+use Peon\Domain\Job\Event\JobProcessStarted;
 use Peon\Domain\Job\Value\JobId;
 use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\RunProcess;
 use Peon\Domain\Process\Value\ProcessId;
 use Peon\Domain\Process\Value\ProcessResult;
-use Peon\Ui\ReadModel\Process\ReadProcess;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Update;
+use Peon\Packages\MessageBus\Event\EventBus;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use Twig\Environment;
 
 final class SymfonyProcessRunProcess implements RunProcess
 {
     public function __construct(
-        private HubInterface $hub,
-        private readonly Environment $twig,
-        private readonly LoggerInterface $logger,
-    )
-    {
+        private readonly EventBus $eventBus,
+    ) {
     }
 
 
@@ -42,98 +38,48 @@ final class SymfonyProcessRunProcess implements RunProcess
         try {
             $process = Process::fromShellCommandline($command, $workingDirectory, ['SHELL_VERBOSITY' => 0], timeout: $timeoutSeconds);
 
-            // Process starting
-            $shouldSkipRealtimeLogging = false;
+            $this->eventBus->dispatch(
+                new JobProcessStarted(
+                    $jobId,
+                    $processId,
+                    $command,
+                )
+            );
 
-            try {
-                $this->hub->publish(
-                    new Update(
-                        'job-' . $jobId->id . '-detail',
-                        $this->twig->render('job/process_started.stream.html.twig', [
-                            'process' => new ReadProcess(
-                                $processId->id,
-                                $jobId->id,
-                                $command,
-                                $timeoutSeconds,
-                                null,
-                                null,
-                                null,
-                            ),
-                        ])
-                    )
+            $process->mustRun(function ($type, $buffer) use ($jobId, $processId) {
+                $this->eventBus->dispatch(
+                    new JobProcessOutputReceived(
+                        $jobId,
+                        $processId,
+                        $buffer,
+                    ),
                 );
-            } catch (\Throwable $throwable) {
-                $shouldSkipRealtimeLogging = true;
-
-                $this->logger->warning($throwable->getMessage(), [
-                    'exception' => $throwable,
-                ]);
-            }
-
-            $process->mustRun(function ($type, $buffer) use (&$shouldSkipRealtimeLogging, $jobId, $processId) {
-                if ($shouldSkipRealtimeLogging === false) {
-                    try {
-                        $this->hub->publish(
-                            new Update(
-                                'job-' . $jobId->id . '-detail',
-                                $this->twig->render('job/process_output_buffer.stream.html.twig', [
-                                    'buffer' => $buffer,
-                                    'processId' => $processId,
-                                ])
-                            )
-                        );
-                    } catch (\Throwable $throwable) {
-                        $this->logger->warning($throwable->getMessage(), [
-                            'exception' => $throwable,
-                        ]);
-
-                        $shouldSkipRealtimeLogging = true;
-                    }
-                }
             });
         } catch (ProcessFailedException $processFailedException) {
             $processResult = $this->createProcessResultFromProcess($processFailedException->getProcess());
 
-            try {
-                $this->hub->publish(
-                    new Update(
-                        'job-' . $jobId->id . '-detail',
-                        $this->twig->render('job/process_status_changed.stream.html.twig', [
-                            'processId' => $processId->id,
-                            'succeeded' => false,
-                            'failed' => true,
-                            'executionTime' => (int) $processResult->executionTime,
-                        ])
-                    )
-                );
-            } catch (\Throwable $throwable) {
-                $this->logger->warning($throwable->getMessage(), [
-                    'exception' => $throwable,
-                ]);
-            }
+            $this->eventBus->dispatch(
+                new JobProcessFinished(
+                    $jobId,
+                    $processId,
+                    false,
+                    (int) $processResult->executionTime,
+                ),
+            );
 
             throw new ProcessFailed($processResult, previous: $processFailedException);
         }
 
         $processResult = $this->createProcessResultFromProcess($process);
 
-        try {
-            $this->hub->publish(
-                new Update(
-                    'job-' . $jobId->id . '-detail',
-                    $this->twig->render('job/process_status_changed.stream.html.twig', [
-                        'processId' => $processId->id,
-                        'succeeded' => true,
-                        'failed' => false,
-                        'executionTime' => (int) $processResult->executionTime,
-                    ])
-                )
-            );
-        } catch (\Throwable $throwable) {
-            $this->logger->warning($throwable->getMessage(), [
-                'exception' => $throwable,
-            ]);
-        }
+        $this->eventBus->dispatch(
+            new JobProcessFinished(
+                $jobId,
+                $processId,
+                true,
+                (int) $processResult->executionTime,
+            ),
+        );
 
         return $processResult;
     }
