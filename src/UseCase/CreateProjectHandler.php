@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Peon\UseCase;
 
-use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Project\Event\ProjectAdded;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\ProjectsCollection;
@@ -17,7 +17,7 @@ final class CreateProjectHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly ProjectsCollection $projectsCollection,
-        private readonly CheckWriteAccessToRemoteRepository $checkWriteAccessToRemoteRepository,
+        private readonly GitProvider $gitProvider,
         private readonly EventBus $eventBus,
     ) {}
 
@@ -29,7 +29,7 @@ final class CreateProjectHandler implements CommandHandlerInterface
     {
         $remoteGitRepository = $createProject->remoteGitRepository;
 
-        if (!$this->checkWriteAccessToRemoteRepository->hasWriteAccess($remoteGitRepository)) {
+        if (!$this->gitProvider->hasWriteAccessToRepository($remoteGitRepository)) {
             throw new InsufficientAccessToRemoteRepository();
         }
 

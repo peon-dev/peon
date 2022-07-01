@@ -8,7 +8,7 @@ use Peon\Domain\Cookbook\Event\RecipeEnabled;
 use Peon\Domain\Cookbook\Exception\RecipeNotFound;
 use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
-use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Packages\MessageBus\Command\CommandHandlerInterface;
@@ -19,7 +19,7 @@ final class EnableRecipeWithBaselineForProjectHandler implements CommandHandlerI
     public function __construct(
         private readonly ProjectsCollection $projectsCollection,
         private readonly RecipesCollection $recipesCollection,
-        private readonly GetLastCommitOfDefaultBranch $getLastCommitOfDefaultBranch,
+        private readonly GitProvider $gitProvider,
         private readonly EventBus $eventBus,
     )
     {
@@ -38,7 +38,7 @@ final class EnableRecipeWithBaselineForProjectHandler implements CommandHandlerI
         }
 
         $project = $this->projectsCollection->get($command->projectId);
-        $lastCommit = $this->getLastCommitOfDefaultBranch->forRemoteGitRepository($project->remoteGitRepository);
+        $lastCommit = $this->gitProvider->getLastCommitOfDefaultBranch($project->remoteGitRepository);
 
         $project->enableRecipe($command->recipeName, $lastCommit->hash);
 

@@ -9,8 +9,6 @@ use Monolog\Processor\PsrLogMessageProcessor;
 use Peon\Domain\Application\DetectApplicationLanguage;
 use Peon\Domain\Container\DetectContainerImage;
 use Peon\Domain\Cookbook\RecipesCollection;
-use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Job\GetLongRunningJobs;
 use Peon\Domain\Job\GetPathsToProcess;
@@ -146,8 +144,6 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(PrepareApplicationGitRepository::class);
 
     $services->alias(GitProvider::class, GitLab::class);
-    $services->alias(CheckWriteAccessToRemoteRepository::class, GitLab::class);
-    $services->alias(GetLastCommitOfDefaultBranch::class, GitLab::class);
 
     $services->alias(JobsCollection::class, DoctrineJobsCollection::class);
 
