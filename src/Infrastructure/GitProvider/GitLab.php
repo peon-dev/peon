@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Peon\Infrastructure\GitLab;
+namespace Peon\Infrastructure\GitProvider;
 
 use Gitlab\Client;
 use Peon\Domain\GitProvider\GitProvider;

@@ -39,7 +39,7 @@ use Peon\Domain\Worker\WorkerStatusesCollection;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
-use Peon\Infrastructure\GitLab\GitLab;
+use Peon\Infrastructure\GitProvider\GitLab;
 use Peon\Infrastructure\Job\DoctrineGetLongRunningJobs;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProcessesCollection;

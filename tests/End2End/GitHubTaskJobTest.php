@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Peon\Tests\End2End;
@@ -7,29 +8,26 @@ use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Lcobucci\Clock\Clock;
 use Peon\Domain\GitProvider\GitProvider;
-use Peon\Domain\Job\Job;
-use Peon\Domain\Job\Exception\JobExecutionFailed;
-use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\Job\JobsCollection;
-use Peon\Domain\Process\Exception\ProcessFailed;
-use Peon\Domain\Project\Project;
-use Peon\Domain\Project\Value\ProjectId;
-use Peon\Domain\Project\ProjectsCollection;
-use Peon\Domain\Task\Value\TaskId;
-use Peon\Domain\Tools\Git\ProvideBranchName;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
+use Peon\Domain\Job\Exception\JobExecutionFailed;
+use Peon\Domain\Job\Job;
+use Peon\Domain\Job\JobsCollection;
+use Peon\Domain\Job\Value\JobId;
+use Peon\Domain\Project\Project;
+use Peon\Domain\Project\ProjectsCollection;
+use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\User\Value\UserId;
 use Peon\Infrastructure\Git\StatefulRandomPostfixProvideBranchName;
-use Peon\Infrastructure\GitProvider\GitLab;
+use Peon\Infrastructure\GitProvider\GitHub;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\Ui\ReadModel\Process\ProvideReadProcessesByJobId;
 use Peon\UseCase\ExecuteJob;
 use Peon\UseCase\ExecuteJobHandler;
-use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class GitLabTaskJobTest extends KernelTestCase
+final class GitHubTaskJobTest extends KernelTestCase
 {
     // Just some random ids for test purposes
     private const JOB_ID = '00000000-0000-0000-0000-000000000000';
@@ -50,14 +48,14 @@ final class GitLabTaskJobTest extends KernelTestCase
     protected function setUp(): void
     {
         // Populate values in `.env.test.local`
-        $repositoryUri = $_SERVER['TEST_GITLAB_REPOSITORY'];
-        $username = $_SERVER['TEST_GITLAB_USERNAME'];
-        $personalAccessToken = $_SERVER['TEST_GITLAB_PERSONAL_ACCESS_TOKEN'];
+        $repositoryUri = $_SERVER['TEST_GITHUB_REPOSITORY'];
+        $username = $_SERVER['TEST_GITHUB_USERNAME'];
+        $personalAccessToken = $_SERVER['TEST_GITHUB_PERSONAL_ACCESS_TOKEN'];
 
         $container = self::getContainer();
 
-        // Force to use GitLab provider over default DummyProvider for tests
-        $gitLab = $container->get(GitLab::class);
+        // Force to use GitHub provider over default DummyProvider for tests
+        $gitLab = $container->get(GitHub::class);
         $container->set(GitProvider::class, $gitLab);
 
         $this->useCase = $container->get(ExecuteJobHandler::class);
