@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Peon\Tests\Unit\UseCase;
 
 use Peon\Domain\Cookbook\Event\RecipeEnabled;
-use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
+use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\Commit;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
@@ -20,7 +20,6 @@ use Peon\Infrastructure\Persistence\InMemory\InMemoryProjectsCollection;
 use Peon\Packages\MessageBus\Event\EventBus;
 use Peon\UseCase\EnableRecipeWithBaselineForProject;
 use Peon\UseCase\EnableRecipeWithBaselineForProjectHandler;
-use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\TestCase;
 
 final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
@@ -55,9 +54,9 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $recipesCollection = $this->createMock(RecipesCollection::class);
         $recipesCollection->method('hasRecipeWithName')->willReturn(true);
 
-        $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
-        $getLastCommitOfDefaultBranch->expects(self::once())
-            ->method('forRemoteGitRepository')
+        $gitProvider = $this->createMock(GitProvider::class);
+        $gitProvider->expects(self::once())
+            ->method('getLastCommitOfDefaultBranch')
             ->willReturn(new Commit('abcd'));
 
         $eventBusSpy = $this->createMock(EventBus::class);
@@ -68,7 +67,7 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $handler = new EnableRecipeWithBaselineForProjectHandler(
             $projectsCollection,
             $recipesCollection,
-            $getLastCommitOfDefaultBranch,
+            $gitProvider,
             $eventBusSpy,
         );
         $handler->__invoke($command);
@@ -89,7 +88,7 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $recipesCollection = $this->createMock(RecipesCollection::class);
         $recipesCollection->method('hasRecipeWithName')->willReturn(true);
 
-        $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
+        $gitProvider = $this->createMock(GitProvider::class);
 
         $dummyEventBus = $this->createMock(EventBus::class);
 
@@ -97,7 +96,7 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
         $handler = new EnableRecipeWithBaselineForProjectHandler(
             $projectsCollection,
             $recipesCollection,
-            $getLastCommitOfDefaultBranch,
+            $gitProvider,
             $dummyEventBus
         );
 
@@ -122,14 +121,14 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
             ->with($recipeName)
             ->willReturn(false);
 
-        $getLastCommitOfDefaultBranch = $this->createMock(GetLastCommitOfDefaultBranch::class);
+        $gitProvider = $this->createMock(GitProvider::class);
 
         $dummyEventBus = $this->createMock(EventBus::class);
 
         $projectsCollection = new InMemoryProjectsCollection();
         $handler = new EnableRecipeWithBaselineForProjectHandler($projectsCollection,
             $recipesCollection,
-            $getLastCommitOfDefaultBranch,
+            $gitProvider,
             $dummyEventBus,
         );
 

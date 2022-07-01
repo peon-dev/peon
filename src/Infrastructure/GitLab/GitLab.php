@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Peon\Infrastructure\GitLab;
 
 use Gitlab\Client;
-use Peon\Domain\GitProvider\CheckWriteAccessToRemoteRepository;
-use Peon\Domain\GitProvider\GetLastCommitOfDefaultBranch;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\Value\Commit;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
 
-final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, GetLastCommitOfDefaultBranch
+final class GitLab implements GitProvider
 {
     /**
      * @throws GitProviderCommunicationFailed
@@ -98,7 +96,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
     /**
      * @throws GitProviderCommunicationFailed
      */
-    public function hasWriteAccess(RemoteGitRepository $gitRepository): bool
+    public function hasWriteAccessToRepository(RemoteGitRepository $gitRepository): bool
     {
         $client = $this->createHttpClient($gitRepository);
 
@@ -117,7 +115,7 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
      * @throws GitProviderCommunicationFailed
      *
      */
-    public function forRemoteGitRepository(RemoteGitRepository $gitRepository): Commit
+    public function getLastCommitOfDefaultBranch(RemoteGitRepository $gitRepository): Commit
     {
         $client = $this->createHttpClient($gitRepository);
 
@@ -154,5 +152,11 @@ final class GitLab implements GitProvider, CheckWriteAccessToRemoteRepository, G
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
+    }
+
+
+    public function isAutoMergeSupported(): bool
+    {
+        return true;
     }
 }
