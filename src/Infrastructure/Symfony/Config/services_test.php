@@ -18,7 +18,8 @@ return static function(ContainerConfigurator $configurator): void
 
     $services->defaults()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+        ->public();
 
     // Data fixtures
     $services->load('Peon\\Tests\\DataFixtures\\', __DIR__ . '/../../../../tests/DataFixtures/{*.php}');

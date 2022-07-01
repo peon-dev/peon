@@ -73,6 +73,7 @@ services:
         depends_on:
             - composer
             - db-migrations
+            - postgres
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/worker'"
 
     scheduler:
@@ -83,6 +84,7 @@ services:
         depends_on:
             - composer
             - db-migrations
+            - postgres
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/scheduler'"
 
     adminer:

@@ -6,6 +6,7 @@ namespace Peon\Tests\End2End;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Lcobucci\Clock\Clock;
+use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\Job\Job;
 use Peon\Domain\Job\Exception\JobExecutionFailed;
 use Peon\Domain\Job\Value\JobId;
@@ -25,13 +26,15 @@ use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\Ui\ReadModel\Process\ProvideReadProcessesByJobId;
 use Peon\UseCase\ExecuteJob;
 use Peon\UseCase\ExecuteJobHandler;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ExecuteTaskJobHandlerTest extends KernelTestCase
+class GitLabTaskJobTest extends KernelTestCase
 {
-    private const JOB_ID = 'a59be334-15e4-4b53-bc59-9900200af917';
-    private const TASK_ID = '67081fd2-3922-46ef-82b1-df5d02ad6f3e';
-    private const PROJECT_ID = 'f969c281-65f4-46ff-b77d-aff33a7da07c';
+    // Just some random ids for test purposes
+    private const JOB_ID = '00000000-0000-0000-0000-000000000000';
+    private const TASK_ID = '00000000-0000-0000-0000-000000000000';
+    private const PROJECT_ID = '00000000-0000-0000-0000-000000000000';
 
     private string $branchName;
     private RemoteGitRepository $gitlabRepository;
@@ -53,6 +56,10 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
 
         $container = self::getContainer();
 
+        // Force to use GitLab provider over default DummyProvider for tests
+        $gitLab = $container->get(GitLab::class);
+        $container->set(GitProvider::class, $gitLab);
+
         $this->useCase = $container->get(ExecuteJobHandler::class);
         $this->branchNameProvider = $container->get(StatefulRandomPostfixProvideBranchName::class);
         $this->branchName = $this->branchNameProvider->forTask('test');
@@ -61,7 +68,6 @@ class ExecuteTaskJobHandlerTest extends KernelTestCase
         $this->clock = $container->get(Clock::class);
         $this->provideReadProcessesByJobId = $container->get(ProvideReadProcessesByJobId::class);
 
-        $gitLab = $container->get(GitLab::class);
         $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
         $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
         $this->gitlabHttpClient = $gitLab->createHttpClient($this->gitlabRepository);
