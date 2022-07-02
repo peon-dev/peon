@@ -61,6 +61,15 @@ class RemoteGitRepositoryTest extends TestCase
     }
 
 
+    public function testProjectUsernameAndRepository(): void
+    {
+        $repository = self::createRemoteGitRepository('https://github.com/peon-dev/peon');
+
+        self::assertSame('peon-dev', $repository->getProjectUsername());
+        self::assertSame('peon', $repository->getProjectRepository());
+    }
+
+
     /**
      * @return \Generator<string[]>
      */

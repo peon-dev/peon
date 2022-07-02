@@ -57,6 +57,18 @@ class RemoteGitRepository
     }
 
 
+    public function getProjectUsername(): string
+    {
+        return explode('/', $this->getProject())[0];
+    }
+
+
+    public function getProjectRepository(): string
+    {
+        return explode('/', $this->getProject())[1];
+    }
+
+
     public function getInstanceUrl(): string
     {
         return $this->getUri()->getScheme() . '://' . $this->getUri()->getHost();

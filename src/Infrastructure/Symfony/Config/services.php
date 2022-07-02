@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Github\HttpClient\Builder;
+use Http\Client\HttpClient;
+use Http\Message\RequestFactory;
+use Http\Message\StreamFactory;
 use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\FrozenClock;
 use Lcobucci\Clock\SystemClock;
@@ -59,6 +63,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function(ContainerConfigurator $configurator): void
 {
@@ -187,5 +192,12 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(PdoSessionHandler::class)
         ->args([
             env('DATABASE_URL'),
+        ]);
+
+    $services->set(Builder::class)
+        ->args([
+            service(HttpClient::class)->nullOnInvalid(),
+            service(RequestFactory::class)->nullOnInvalid(),
+            service(StreamFactory::class)->nullOnInvalid(),
         ]);
 };
