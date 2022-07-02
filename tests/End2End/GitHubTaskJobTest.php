@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\End2End;
 
-use Gitlab\Client;
-use Gitlab\Exception\RuntimeException;
+use Github\Client;
 use Lcobucci\Clock\Clock;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
@@ -35,9 +34,9 @@ final class GitHubTaskJobTest extends KernelTestCase
     private const PROJECT_ID = '00000000-0000-0000-0000-000000000000';
 
     private string $branchName;
-    private RemoteGitRepository $gitlabRepository;
+    private RemoteGitRepository $remoteGitRepository;
     private ExecuteJobHandler $useCase;
-    private Client $gitlabHttpClient;
+    private Client $gitHubClient;
     private JobsCollection $jobsCollection;
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
@@ -55,8 +54,10 @@ final class GitHubTaskJobTest extends KernelTestCase
         $container = self::getContainer();
 
         // Force to use GitHub provider over default DummyProvider for tests
-        $gitLab = $container->get(GitHub::class);
-        $container->set(GitProvider::class, $gitLab);
+        $gitHub = $container->get(GitHub::class);
+        if ($container->initialized(GitProvider::class) === false) {
+            $container->set(GitProvider::class, $gitHub);
+        }
 
         $this->useCase = $container->get(ExecuteJobHandler::class);
         $this->branchNameProvider = $container->get(StatefulRandomPostfixProvideBranchName::class);
@@ -67,8 +68,9 @@ final class GitHubTaskJobTest extends KernelTestCase
         $this->provideReadProcessesByJobId = $container->get(ProvideReadProcessesByJobId::class);
 
         $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
-        $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
-        $this->gitlabHttpClient = $gitLab->createHttpClient($this->gitlabRepository);
+        $this->remoteGitRepository = new RemoteGitRepository($repositoryUri, $authentication);
+        $gitHub = $container->get(GitHub::class);
+        $this->gitHubClient = $gitHub->createClient($this->remoteGitRepository);
 
         $this->prepareData();
     }
@@ -76,8 +78,10 @@ final class GitHubTaskJobTest extends KernelTestCase
 
     protected function tearDown(): void
     {
-        $this->deleteRemoteBranch($this->gitlabRepository->getProject(), $this->branchName);
+        $this->deleteRemoteBranch($this->branchName);
         $this->branchNameProvider->resetState();
+
+        self::getContainer()->reset();
 
         parent::tearDown();
     }
@@ -93,7 +97,7 @@ final class GitHubTaskJobTest extends KernelTestCase
 
         $this->useCase->__invoke(new ExecuteJob($jobId, false));
 
-        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
@@ -113,12 +117,12 @@ final class GitHubTaskJobTest extends KernelTestCase
     {
         $this->duplicateBranch('already-processed', $this->branchName);
 
-        $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertMergeRequestNotExists($this->branchName);
 
         $jobId = new JobId(self::JOB_ID);
         $this->useCase->__invoke(new ExecuteJob($jobId, false));
 
-        $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertNonEmptyMergeRequestExists($this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
@@ -136,6 +140,12 @@ final class GitHubTaskJobTest extends KernelTestCase
      *  - new changes committed
      */
     public function testRemoteBranchAlreadyExistsRebaseFails(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+
+    public function testMergeRequestAlreadyExists(): void
     {
         $this->markTestIncomplete();
     }
@@ -177,68 +187,81 @@ final class GitHubTaskJobTest extends KernelTestCase
         $this->assertJobHasFailed($job);
         $this->assertJobProcessesExists($jobId);
         self::assertInstanceOf(JobExecutionFailed::class, $exception);
-        $this->assertMergeRequestNotExists($this->gitlabRepository->getProject(), $this->branchName);
+        $this->assertMergeRequestNotExists($this->branchName);
         self::assertNull($job->mergeRequest);
     }
 
 
-    private function assertNonEmptyMergeRequestExists(string $project, string $branchName): void
+    private function assertNonEmptyMergeRequestExists(string $branchName): void
     {
-        $mergeRequests = $this->findMergeRequests($project, $branchName);
+        $repositoryOwner = $this->remoteGitRepository->getProjectUsername();
+        $mergeRequests = $this->findMergeRequests($branchName);
 
         self::assertCount(1, $mergeRequests, 'Merge request should be opened!');
-        self::assertSame('master', $mergeRequests[0]['target_branch']);
+        self::assertSame('main', $mergeRequests[0]['base']['ref']);
         self::assertSame('[Peon] End2End Test', $mergeRequests[0]['title']);
 
-        $commits = $this->gitlabHttpClient->mergeRequests()->commits($project,$mergeRequests[0]['iid']);
+        $commits = $this->gitHubClient->pullRequests()->commits(
+            $repositoryOwner,
+            $this->remoteGitRepository->getProjectRepository(),
+            $mergeRequests[0]['number'],
+        );
 
         self::assertNotEmpty($commits, 'Merge request should contain commits!');
     }
 
 
-    private function assertMergeRequestNotExists(string $project, string $branchName): void
+    private function assertMergeRequestNotExists(string $branchName): void
     {
-        $mergeRequests = $this->findMergeRequests($project, $branchName);
+        $mergeRequests = $this->findMergeRequests($branchName);
 
         self::assertCount(0, $mergeRequests, 'Merge request should not be opened!');
     }
 
 
-    private function deleteRemoteBranch(string $project, string $branchName): void
+    private function deleteRemoteBranch(string $branchName): void
     {
-        try {
-            $this->gitlabHttpClient->repositories()->deleteBranch($project, $branchName);
-        } catch (RuntimeException $runtimeException) {
-            // To not escalate 404 errors
-            if ($runtimeException->getCode() !== 404) {
-                throw $runtimeException;
-            }
-        }
+        $this->gitHubClient->git()->references()->remove(
+            $this->remoteGitRepository->getProjectUsername(),
+            $this->remoteGitRepository->getProjectRepository(),
+            'heads/' . $branchName,
+        );
     }
 
 
     private function duplicateBranch(string $sourceBranch, string $targetBranch): void
     {
-        $this->gitlabHttpClient->repositories()->createBranch(
-            $this->gitlabRepository->getProject(),
-            $targetBranch,
-            $sourceBranch
+        $sourceBranchResponse = $this->gitHubClient->git()->references()->show(
+            $this->remoteGitRepository->getProjectUsername(),
+            $this->remoteGitRepository->getProjectRepository(),
+            'heads/' . $sourceBranch,
+        );
+
+        $this->gitHubClient->git()->references()->create(
+            $this->remoteGitRepository->getProjectUsername(),
+            $this->remoteGitRepository->getProjectRepository(),
+            [
+                'ref' => 'refs/heads/' . $targetBranch,
+                'sha' => $sourceBranchResponse['object']['sha'],
+            ],
         );
     }
 
 
-    /**
-     * @return array<array{target_branch: string, title: string, iid: int}>
-     */
-    private function findMergeRequests(string $project, string $sourceBranch): array
+    private function findMergeRequests(string $sourceBranch): array
     {
-        /** @var array<array{target_branch: string, title: string, iid: int}> $mergeRequests */
-        $mergeRequests = $this->gitlabHttpClient->mergeRequests()->all($project, [
-            'state' => 'opened',
-            'source_branch' => $sourceBranch,
-        ]);
+        $repositoryOwner = $this->remoteGitRepository->getProjectUsername();
 
-        return $mergeRequests;
+        $pullRequests = $this->gitHubClient->pullRequests()->all(
+            $repositoryOwner,
+            $this->remoteGitRepository->getProjectRepository(),
+            [
+                'state' => 'open',
+                'head' => $repositoryOwner . ':' . $sourceBranch,
+            ]
+        );
+
+        return $pullRequests;
     }
 
 
@@ -250,7 +273,7 @@ final class GitHubTaskJobTest extends KernelTestCase
         $ownerUserId = new UserId(DataFixtures::USER_1_ID);
         $project = new Project(
             $projectId,
-            $this->gitlabRepository,
+            $this->remoteGitRepository,
             $ownerUserId,
         );
 
@@ -262,6 +285,7 @@ final class GitHubTaskJobTest extends KernelTestCase
             'End2End Test',
             ['vendor/bin/rector process'],
             $this->clock,
+            taskId: $taskId,
         );
 
         $this->jobsCollection->save($job);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Domain\GitProvider;
 
 
+use Peon\Domain\GitProvider\Exception\AutoMergeNotSupported;
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\Value\Commit;
 use Peon\Domain\GitProvider\Value\MergeRequest;
@@ -32,6 +33,7 @@ interface GitProvider
 
     /**
      * @throws GitProviderCommunicationFailed
+     * @throws AutoMergeNotSupported
      */
     public function mergeAutomatically(RemoteGitRepository $gitRepository, MergeRequest $mergeRequest): void;
 

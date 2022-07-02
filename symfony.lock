@@ -136,6 +136,18 @@
     "jetbrains/phpstorm-attributes": {
         "version": "1.0"
     },
+    "knplabs/github-api": {
+        "version": "3.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.6",
+            "ref": "a7d5781e4a8e84f1c238c43e4c9bb806f01d8a3f"
+        },
+        "files": [
+            "src/Infrastructure/Symfony/Config/packages/github_api.yaml"
+        ]
+    },
     "knplabs/knp-time-bundle": {
         "version": "v1.16.1"
     },
