@@ -78,6 +78,7 @@ parameters:
             - Twig\Error\Error
             - Nette\Utils\JsonException
             - Symfony\Component\Filesystem\Exception\IOException
+            - Github\Exception\MissingArgumentException
         methodWhitelist:
             PHPUnit\Framework\TestCase: '#.*#i'
         methodThrowTypeDeclarations:

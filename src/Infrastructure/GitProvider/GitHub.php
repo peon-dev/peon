@@ -21,6 +21,9 @@ final class GitHub implements GitProvider
     ) {}
 
 
+    /**
+     * @throws GitProviderCommunicationFailed
+     */
     public function openMergeRequest(RemoteGitRepository $gitRepository, string $targetBranch, string $branchWithChanges, string $title, string $description): MergeRequest
     {
         $repositoryOwner = $gitRepository->getProjectUsername();

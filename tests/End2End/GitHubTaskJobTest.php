@@ -248,6 +248,9 @@ final class GitHubTaskJobTest extends KernelTestCase
     }
 
 
+    /**
+     * @return array<array{number: int, title: string, base: array{ref: string}}>
+     */
     private function findMergeRequests(string $sourceBranch): array
     {
         $repositoryOwner = $this->remoteGitRepository->getProjectUsername();
