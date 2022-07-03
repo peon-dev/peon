@@ -195,7 +195,7 @@ final class GitLabTaskJobTest extends KernelTestCase
         $mergeRequests = $this->findMergeRequests($project, $branchName);
 
         self::assertCount(1, $mergeRequests, 'Merge request should be opened!');
-        self::assertSame('master', $mergeRequests[0]['target_branch']);
+        self::assertSame('main', $mergeRequests[0]['target_branch']);
         self::assertSame('[Peon] End2End Test', $mergeRequests[0]['title']);
 
         $commits = $this->gitlabHttpClient->mergeRequests()->commits($project,$mergeRequests[0]['iid']);
