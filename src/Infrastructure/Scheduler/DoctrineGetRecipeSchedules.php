@@ -28,7 +28,8 @@ SELECT project.project_id, recipe_name, MAX(scheduled_at) AS last_schedule
 FROM project
 CROSS JOIN LATERAL (SELECT json_array_elements(project.enabled_recipes)->>'recipe_name' AS recipe_name) enabled_recipe
 LEFT JOIN job ON job.project_id = project.project_id AND job.enabled_recipe->>'recipe_name' = recipe_name
-GROUP BY project.project_id, recipe_name;
+GROUP BY project.project_id, recipe_name
+ORDER BY project.owner_user_id, recipe_name
 SQL;
 
         $data = $this->connection->executeQuery($sql)->fetchAllAssociative();
