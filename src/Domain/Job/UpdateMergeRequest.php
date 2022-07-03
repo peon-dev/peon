@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Domain\Job;
 
 use Peon\Domain\Application\Value\ApplicationGitRepositoryClone;
+use Peon\Domain\GitProvider\Exception\AutoMergeNotSupported;
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\GitProvider;
 use Peon\Domain\GitProvider\Value\MergeRequest;
@@ -24,6 +25,7 @@ class UpdateMergeRequest
     /**
      * @throws GitProviderCommunicationFailed
      * @throws ProcessFailed
+     * @throws AutoMergeNotSupported
      */
     public function update(
         JobId                  $jobId,
