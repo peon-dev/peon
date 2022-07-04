@@ -202,7 +202,7 @@ final class UpdateMergeRequestTest extends TestCase
     {
         return new RemoteGitRepository(
             'https://gitlab.com/peon/peon.git',
-            GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
+            GitRepositoryAuthentication::fromGitLabPersonalAccessToken('PAT')
         );
     }
 }

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Peon\Domain\GitProvider\Value;
 
-use JetBrains\PhpStorm\Immutable;
-
 class GitRepositoryAuthentication
 {
+    public const GITHUB_PAT_USERNAME = 'oauth';
     public const GITLAB_PAT_USERNAME = 'gitlab-ci-token';
 
 
@@ -17,8 +16,14 @@ class GitRepositoryAuthentication
     ) {}
 
 
-    public static function fromPersonalAccessToken(string $personalAccessToken): self
+    public static function fromGitLabPersonalAccessToken(string $personalAccessToken): self
     {
         return new self(self::GITLAB_PAT_USERNAME, $personalAccessToken);
+    }
+
+
+    public static function fromGitHubPersonalAccessToken(string $personalAccessToken): self
+    {
+        return new self(self::GITHUB_PAT_USERNAME, $personalAccessToken);
     }
 }

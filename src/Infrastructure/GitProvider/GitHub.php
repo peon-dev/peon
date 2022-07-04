@@ -82,7 +82,7 @@ final class GitHub implements GitProvider
     }
 
 
-    public function isAutoMergeSupported(): bool
+    public function isAutoMergeSupported(RemoteGitRepository $gitRepository): bool
     {
         return false;
     }

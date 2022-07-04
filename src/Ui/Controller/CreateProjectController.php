@@ -41,7 +41,7 @@ final class CreateProjectController extends AbstractController
                     new CreateProject(
                         new RemoteGitRepository(
                             $data->remoteRepositoryUri,
-                            GitRepositoryAuthentication::fromPersonalAccessToken($data->personalAccessToken),
+                            GitRepositoryAuthentication::fromGitLabPersonalAccessToken($data->personalAccessToken),
                         ),
                         $userId,
                     ),

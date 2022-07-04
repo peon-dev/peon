@@ -166,7 +166,7 @@ final class GitLab implements GitProvider
     }
 
 
-    public function isAutoMergeSupported(): bool
+    public function isAutoMergeSupported(RemoteGitRepository $gitRepository): bool
     {
         return true;
     }
