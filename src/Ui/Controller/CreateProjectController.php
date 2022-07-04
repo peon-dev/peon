@@ -6,6 +6,8 @@ namespace Peon\Ui\Controller;
 
 use Peon\Domain\GitProvider\Exception\GitProviderCommunicationFailed;
 use Peon\Domain\GitProvider\Exception\InsufficientAccessToRemoteRepository;
+use Peon\Domain\GitProvider\Exception\UnknownGitProvider;
+use Peon\Domain\GitProvider\Value\GitProviderName;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
 use Peon\Domain\GitProvider\Exception\InvalidRemoteUri;
 use Peon\Domain\GitProvider\Value\RemoteGitRepository;
@@ -37,11 +39,16 @@ final class CreateProjectController extends AbstractController
             $data = $form->getData();
 
             try {
+                $authentication = match (GitProviderName::determineFromRepositoryUri($data->remoteRepositoryUri)) {
+                    GitProviderName::GitLab => GitRepositoryAuthentication::fromGitLabPersonalAccessToken($data->personalAccessToken),
+                    GitProviderName::GitHub => GitRepositoryAuthentication::fromGitHubPersonalAccessToken($data->personalAccessToken),
+                };
+
                 $this->commandBus->dispatch(
                     new CreateProject(
                         new RemoteGitRepository(
                             $data->remoteRepositoryUri,
-                            GitRepositoryAuthentication::fromGitLabPersonalAccessToken($data->personalAccessToken),
+                            $authentication,
                         ),
                         $userId,
                     ),
@@ -52,6 +59,8 @@ final class CreateProjectController extends AbstractController
                 $form->get('remoteRepositoryUri')->addError(new FormError($invalidRemoteUri->getMessage()));
             } catch (InsufficientAccessToRemoteRepository) {
                 $form->get('personalAccessToken')->addError(new FormError('Token does not have permission to open merge requests for the project!'));
+            } catch(UnknownGitProvider) {
+                $form->get('remoteRepositoryUri')->addError(new FormError('Unknown or unsupported git provider! Supported are: GitHub, GitLab.'));
             } catch (GitProviderCommunicationFailed $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
