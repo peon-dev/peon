@@ -8,6 +8,8 @@ use Doctrine\DBAL\Connection;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\GitProvider\Exception\UnknownGitProvider;
+use Peon\Domain\GitProvider\Value\GitProviderName;
 use Peon\Domain\PhpApplication\Value\PhpApplicationBuildConfiguration;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\EnabledRecipe;
@@ -78,6 +80,12 @@ SQL;
         }
 
         $row['enabledRecipes'] = $enabledRecipes;
+
+        try{
+            $row['gitProviderName'] = GitProviderName::determineFromRepositoryUri($row['remoteGitRepositoryUri']);
+        } catch (UnknownGitProvider) {
+            $row['gitProviderName'] = null;
+        }
 
         return $this->hydrator->hydrateArray($row, ReadProjectDetail::class);
     }

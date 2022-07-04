@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Peon\Domain\Cookbook\Value\RecipeName;
+use Peon\Domain\GitProvider\Value\GitProviderName;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\RecipeJobConfiguration;
 
@@ -22,6 +23,7 @@ final class ReadProjectDetail
         public readonly array $enabledRecipes,
         public readonly string $remoteGitRepositoryUri,
         public readonly bool $skipComposerInstall,
+        public readonly null|GitProviderName $gitProviderName,
     ) {}
 
 
