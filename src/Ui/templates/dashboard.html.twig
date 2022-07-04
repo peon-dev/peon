@@ -17,7 +17,12 @@
             <div class="col">
                 <a href="{{ path('project_overview', {projectId: project.projectId}) }}" class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="fab fa-gitlab"></i> {{ project.name }}</h5>
+                        <h5 class="card-title">
+                            {{ include('_git_provider_icon.html.twig', {
+                                'gitProviderName': project.gitProviderName,
+                            }) }}
+                            {{ project.name }}
+                        </h5>
                         <div class="card-text" id="project-{{ project.projectId }}-stats">
                             {{ include('dashboard/_project_stats.html.twig') }}
                         </div>

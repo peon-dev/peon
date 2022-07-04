@@ -56,7 +56,9 @@
 
                     <h2>
                         <a href="{{ path('project_overview', {projectId: activeProject.projectId}) }}">
-                            <i class="fab fa-gitlab"></i>
+                            {{ include('_git_provider_icon.html.twig', {
+                                'gitProviderName': activeProject.gitProviderName,
+                            }) }}
                             {{ activeProject.name }}
                         </a>
                     </h2>
