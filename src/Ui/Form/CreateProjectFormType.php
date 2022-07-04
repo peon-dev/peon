@@ -17,10 +17,12 @@ final class CreateProjectFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('remoteRepositoryUri', TextType::class, [
-            'label' => 'Gitlab git repository',
+            'label' => 'Git repository',
             'attr' => [
-                'placeholder' => 'https://gitlab.com/peon/peon.git',
+                'placeholder' => 'https://github.com/peon-dev/peon.git',
             ],
+            'help_html' => true,
+            'help' => 'Supported git providers: <strong>GitHub</strong>, <strong>GitLab</strong> (both cloud and self-hosted)',
         ]);
 
         $builder->add('personalAccessToken', TextType::class, [

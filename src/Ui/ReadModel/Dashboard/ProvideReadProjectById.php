@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
+use Peon\Domain\GitProvider\Exception\UnknownGitProvider;
+use Peon\Domain\GitProvider\Value\GitProviderName;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
 use UXF\Hydrator\ObjectHydrator;
@@ -26,6 +28,7 @@ final class ProvideReadProjectById // TODO: test
 SELECT
        project.project_id AS "projectId",
        project.name,
+       remote_git_repository_repository_uri AS "remoteGitRepositoryUri",
        count(DISTINCT task.task_id) AS "tasksCount",
        count(DISTINCT job.job_id) AS "jobsCount",
        json_array_length(project.enabled_recipes) AS "recipesCount"
@@ -42,6 +45,12 @@ SQL;
 
         if ($data === false) {
             throw new ProjectNotFound();
+        }
+
+        try{
+            $data['gitProviderName'] = GitProviderName::determineFromRepositoryUri($data['remoteGitRepositoryUri']);
+        } catch (UnknownGitProvider) {
+            $data['gitProviderName'] = null;
         }
 
         return $this->hydrator->hydrateArray($data, ReadProject::class);
