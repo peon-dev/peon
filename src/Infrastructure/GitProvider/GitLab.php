@@ -101,19 +101,21 @@ final class GitLab implements GitProvider
         $client = $this->createHttpClient($gitRepository);
 
         try {
-            /** @var array{can_create_merge_request_in?: int} $project */
+            /** @var array{permissions: array{project_access: null|array{access_level: int}, group_access: null|array{access_level: int}}} $project */
             $project = $client->projects()->show($gitRepository->getProject());
 
             // https://docs.gitlab.com/ee/api/access_requests.html
-            if (($project['permissions']['project_access']['access_level'] ?? 0) > 20) {
-                return true;
+            $availablePermissions = 0;
+
+            if (isset($project['permissions']['project_access']['access_level'])) {
+                $availablePermissions = max((int) $project['permissions']['project_access']['access_level'], $availablePermissions);
             }
 
-            if (($project['permissions']['group_access']['access_level'] ?? 0) > 20) {
-                return true;
+            if (isset($project['permissions']['group_access']['access_level'])) {
+                $availablePermissions = max((int) $project['permissions']['group_access']['access_level'], $availablePermissions);
             }
 
-            return false;
+            return $availablePermissions > 20;
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
