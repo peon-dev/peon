@@ -91,7 +91,7 @@ final class DataFixtures extends Fixture
     {
         return new RemoteGitRepository(
             self::REMOTE_REPOSITORY_URI,
-            GitRepositoryAuthentication::fromPersonalAccessToken('PAT')
+            GitRepositoryAuthentication::fromGitLabPersonalAccessToken('PAT')
         );
     }
 

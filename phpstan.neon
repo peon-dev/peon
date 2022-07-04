@@ -62,6 +62,10 @@ parameters:
             message: '#^PHPDoc tag \@throws with type Symfony\\Component\\Security\\Core\\Exception\\AccessDeniedException is not compatible with parent#'
             path: src/Infrastructure/Symfony/ControllerArgumentValueResolvers/UserIdArgumentValueResolver.php
 
+        -
+            message: '#^PHPDoc tag \@throws with type#'
+            path: src/Infrastructure/GitProvider/ProxyGitProvider.php
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false

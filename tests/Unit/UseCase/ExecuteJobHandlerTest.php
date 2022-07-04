@@ -510,7 +510,7 @@ final class ExecuteJobHandlerTest extends TestCase
     {
         return $this->createTestProxy(Project::class, [
                 new ProjectId(''),
-                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
+                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromGitLabPersonalAccessToken('PAT')),
                 new UserId(''),
             ]);
     }

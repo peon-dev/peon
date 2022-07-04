@@ -21,7 +21,7 @@ final class DummyGitProvider implements GitProvider
         return null;
     }
 
-    public function isAutoMergeSupported(): bool
+    public function isAutoMergeSupported(RemoteGitRepository $gitRepository): bool
     {
         return true;
     }

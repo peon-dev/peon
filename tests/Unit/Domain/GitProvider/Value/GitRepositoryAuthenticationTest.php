@@ -10,7 +10,7 @@ class GitRepositoryAuthenticationTest extends TestCase
 {
     public function testFromPersonalAccessToken(): void
     {
-        $authentication = GitRepositoryAuthentication::fromPersonalAccessToken('PAT');
+        $authentication = GitRepositoryAuthentication::fromGitLabPersonalAccessToken('PAT');
 
         self::assertSame(GitRepositoryAuthentication::GITLAB_PAT_USERNAME, $authentication->username);
         self::assertSame('PAT', $authentication->password);

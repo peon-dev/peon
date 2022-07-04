@@ -35,7 +35,7 @@ final class EnableRecipeWithBaselineForProjectHandlerTest extends TestCase
 
         $project = $this->createTestProxy(Project::class, [
                 new ProjectId(''),
-                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromPersonalAccessToken('PAT')),
+                new RemoteGitRepository('https://gitlab.com/peon/peon.git', GitRepositoryAuthentication::fromGitLabPersonalAccessToken('PAT')),
                 new UserId(''),
             ]);
         $project->expects(self::once())

@@ -43,7 +43,9 @@ use Peon\Domain\Worker\WorkerStatusesCollection;
 use Peon\Infrastructure\Cookbook\StaticRecipesCollection;
 use Peon\Infrastructure\FileSystem\TemporaryLocalFileSystemProvideApplicationDirectory;
 use Peon\Infrastructure\Git\PeonProvideBranchName;
+use Peon\Infrastructure\GitProvider\GitHub;
 use Peon\Infrastructure\GitProvider\GitLab;
+use Peon\Infrastructure\GitProvider\ProxyGitProvider;
 use Peon\Infrastructure\Job\DoctrineGetLongRunningJobs;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineJobsCollection;
 use Peon\Infrastructure\Persistence\Doctrine\DoctrineProcessesCollection;
@@ -148,7 +150,7 @@ return static function(ContainerConfigurator $configurator): void
     $services->set(BuildPhpApplication::class);
     $services->set(PrepareApplicationGitRepository::class);
 
-    $services->alias(GitProvider::class, GitLab::class);
+    $services->alias(GitProvider::class, ProxyGitProvider::class);
 
     $services->alias(JobsCollection::class, DoctrineJobsCollection::class);
 
