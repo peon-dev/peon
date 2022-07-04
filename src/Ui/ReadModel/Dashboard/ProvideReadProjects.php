@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Peon\Ui\ReadModel\Dashboard;
 
 use Doctrine\DBAL\Connection;
+use Peon\Domain\GitProvider\Exception\UnknownGitProvider;
+use Peon\Domain\GitProvider\Value\GitProviderName;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Domain\User\Value\UserId;
 use UXF\Hydrator\ObjectHydrator;
@@ -27,6 +29,7 @@ final class ProvideReadProjects
 SELECT
        project.project_id AS "projectId",
        project.name,
+       remote_git_repository_repository_uri AS "remoteGitRepositoryUri",
        count(DISTINCT task.task_id) AS "tasksCount",
        count(DISTINCT job.job_id) AS "jobsCount",
        json_array_length(project.enabled_recipes) AS "recipesCount"
@@ -44,6 +47,16 @@ SQL;
             'projectIdentifiers' => Connection::PARAM_STR_ARRAY,
         ]);
 
-        return $this->hydrator->hydrateArrays($resultSet->fetchAllAssociative(), ReadProject::class);
+        $rows = $resultSet->fetchAllAssociative();
+
+        foreach ($rows as $key => $row) {
+            try{
+                $rows[$key]['gitProviderName'] = GitProviderName::determineFromRepositoryUri($row['remoteGitRepositoryUri']);
+            } catch (UnknownGitProvider) {
+                $rows[$key]['gitProviderName'] = null;
+            }
+        }
+
+        return $this->hydrator->hydrateArrays($rows, ReadProject::class);
     }
 }
