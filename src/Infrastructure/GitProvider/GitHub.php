@@ -96,7 +96,13 @@ final class GitHub implements GitProvider
 
     public function getLastCommitOfDefaultBranch(RemoteGitRepository $gitRepository): Commit
     {
-        // TODO
+        $client = $this->createClient($gitRepository);
+
+        /*
+        $repository = $client->repository()->show(
+
+        );
+        */
 
         return new Commit('');
     }
@@ -104,9 +110,22 @@ final class GitHub implements GitProvider
 
     public function hasWriteAccessToRepository(RemoteGitRepository $gitRepository): bool
     {
-        // TODO
+        $client = $this->createClient($gitRepository);
 
-        return true;
+        $repository = $client->repository()->show(
+            $gitRepository->getProjectUsername(),
+            $gitRepository->getProjectRepository(),
+        );
+
+        $allowedPermissions = ['admin', 'maintain', 'push'];
+
+        foreach ($allowedPermissions as $permission) {
+            if ($repository['permissions'][$permission] === true) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

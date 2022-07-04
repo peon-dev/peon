@@ -104,7 +104,16 @@ final class GitLab implements GitProvider
             /** @var array{can_create_merge_request_in?: int} $project */
             $project = $client->projects()->show($gitRepository->getProject());
 
-            return (bool) ($project['can_create_merge_request_in'] ?? false);
+            // https://docs.gitlab.com/ee/api/access_requests.html
+            if (($project['permissions']['project_access']['access_level'] ?? 0) > 20) {
+                return true;
+            }
+
+            if (($project['permissions']['group_access']['access_level'] ?? 0) > 20) {
+                return true;
+            }
+
+            return false;
         } catch (\Throwable $throwable) {
             throw new GitProviderCommunicationFailed($throwable->getMessage(), previous: $throwable);
         }
