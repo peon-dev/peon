@@ -98,13 +98,18 @@ final class GitHub implements GitProvider
     {
         $client = $this->createClient($gitRepository);
 
-        /*
         $repository = $client->repository()->show(
-
+            $gitRepository->getProjectUsername(),
+            $gitRepository->getProjectRepository(),
         );
-        */
 
-        return new Commit('');
+        $ref = $client->git()->references()->show(
+            $gitRepository->getProjectUsername(),
+            $gitRepository->getProjectRepository(),
+            'heads/' . $repository['default_branch'],
+        );
+
+        return new Commit(substr($ref['object']['sha'], 0, 7));
     }
 
 
