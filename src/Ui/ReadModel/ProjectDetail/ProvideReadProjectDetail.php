@@ -82,6 +82,7 @@ SQL;
         $row['enabledRecipes'] = $enabledRecipes;
 
         try{
+            assert(is_string($row['remoteGitRepositoryUri']));
             $row['gitProviderName'] = GitProviderName::determineFromRepositoryUri($row['remoteGitRepositoryUri']);
         } catch (UnknownGitProvider) {
             $row['gitProviderName'] = null;

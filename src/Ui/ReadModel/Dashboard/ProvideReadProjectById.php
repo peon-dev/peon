@@ -48,6 +48,7 @@ SQL;
         }
 
         try{
+            assert(is_string($data['remoteGitRepositoryUri']));
             $data['gitProviderName'] = GitProviderName::determineFromRepositoryUri($data['remoteGitRepositoryUri']);
         } catch (UnknownGitProvider) {
             $data['gitProviderName'] = null;

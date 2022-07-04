@@ -34,7 +34,7 @@ final class DefineTaskFormType extends AbstractType
             'label' => 'Merge automatically if CI passes',
             'required' => false,
             'help_html' => true,
-            'help' => 'Auto-merge must be enabled in the repository settings.',
+            'help' => 'Auto-merge must be enabled in the repository settings.<br>This option has no effect if auto-merge is not configured properly in your git provider settings.',
         ]);
 
         $builder->add('commands', TextareaType::class, [

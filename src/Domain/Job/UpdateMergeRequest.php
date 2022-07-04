@@ -17,8 +17,8 @@ use Peon\Domain\Tools\Git\Git;
 class UpdateMergeRequest
 {
     public function __construct(
-        private GitProvider $gitProvider,
-        private Git $git,
+        private readonly GitProvider $gitProvider,
+        private readonly Git $git,
     ) {}
 
 
@@ -52,7 +52,7 @@ class UpdateMergeRequest
             $mergeRequest = $this->getOpenedMergeRequestOrOpenNewOne($remoteGitRepository, $gitRepositoryClone, $title);
         }
 
-        if ($mergeAutomatically === true && $mergeRequest !== null) {
+        if ($mergeAutomatically === true && $mergeRequest !== null && $this->gitProvider->isAutoMergeSupported($remoteGitRepository)) {
             // TODO: throwin exception here should not fail the job, maybe? mr exists, that is success, right?
             $this->gitProvider->mergeAutomatically($remoteGitRepository, $mergeRequest);
         }

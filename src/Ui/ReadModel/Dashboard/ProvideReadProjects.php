@@ -51,6 +51,7 @@ SQL;
 
         foreach ($rows as $key => $row) {
             try{
+                assert(is_string($row['remoteGitRepositoryUri']));
                 $rows[$key]['gitProviderName'] = GitProviderName::determineFromRepositoryUri($row['remoteGitRepositoryUri']);
             } catch (UnknownGitProvider) {
                 $rows[$key]['gitProviderName'] = null;
