@@ -26,6 +26,9 @@ final class UpdateMergeRequestTest extends TestCase
             ->method('openMergeRequest')
             ->willReturn($fakeMergeRequest);
         $gitProvider->expects(self::once())
+            ->method('isAutoMergeSupported')
+            ->willReturn(true);
+        $gitProvider->expects(self::once())
             ->method('mergeAutomatically');
 
         $git = $this->createMock(Git::class);
