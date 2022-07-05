@@ -68,6 +68,9 @@ final class UpdateMergeRequestTest extends TestCase
         $gitProvider->expects(self::never())
             ->method('openMergeRequest');
         $gitProvider->expects(self::once())
+            ->method('isAutoMergeSupported')
+            ->willReturn(false);
+        $gitProvider->expects(self::never())
             ->method('mergeAutomatically');
 
         $git = $this->createMock(Git::class);
@@ -107,6 +110,9 @@ final class UpdateMergeRequestTest extends TestCase
         $gitProvider->expects(self::never())
             ->method('openMergeRequest');
         $gitProvider->expects(self::once())
+            ->method('isAutoMergeSupported')
+            ->willReturn(true);
+        $gitProvider->expects(self::once())
             ->method('mergeAutomatically');
 
         $git = $this->createMock(Git::class);
@@ -143,6 +149,9 @@ final class UpdateMergeRequestTest extends TestCase
         $gitProvider->expects(self::once())
             ->method('openMergeRequest')
             ->willReturn($fakeMergeRequest);
+        $gitProvider->expects(self::once())
+            ->method('isAutoMergeSupported')
+            ->willReturn(true);
         $gitProvider->expects(self::once())
             ->method('mergeAutomatically');
 
