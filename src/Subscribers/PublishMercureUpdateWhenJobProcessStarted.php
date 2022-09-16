@@ -27,7 +27,7 @@ final class PublishMercureUpdateWhenJobProcessStarted implements EventHandlerInt
     public function __invoke(JobProcessStarted $event): void
     {
         // To prevent flooding in case of error
-        if ($this->shouldSkipMercurePublishing === true) {
+        if ($this->shouldSkipMercurePublishing === false) {
             try {
                 $this->hub->publish(
                     new Update(
