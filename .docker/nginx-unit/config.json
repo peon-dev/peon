@@ -7,15 +7,6 @@
 
     "routes": [
         {
-            "match": {
-                "uri": "/.well-known/mercure"
-            },
-
-            "action": {
-                "proxy": "http://mercure"
-            }
-        },
-        {
             "action": {
                 "share": "/peon/public$uri",
                 "fallback": {

@@ -71,7 +71,7 @@ services:
         environment:
             <<: *php-common-variables
             # Change to match your host:
-            MERCURE_PUBLIC_URL: "http://localhost:8180/.well-known/mercure"
+            MERCURE_PUBLIC_URL: "http://localhost:8081/.well-known/mercure"
         volumes:
           - unit-state:/var/lib/unit/state
         restart: unless-stopped
@@ -127,7 +127,7 @@ services:
             - caddy_data:/data
             - caddy_config:/config
         ports:
-            - "8180:80"
+            - "8081:80"
 ```
 
 Then run `docker-compose up`

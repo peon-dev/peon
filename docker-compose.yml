@@ -103,6 +103,8 @@ services:
             SERVER_NAME: ':80'
             MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
             MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+        ports:
+            - "${PEON_MERCURE_PORT:-8081}:80"
         command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
         volumes:
             - caddy_data:/data
