@@ -7,7 +7,7 @@ return static function (ContainerConfigurator $containerConfigurator) {
         'hubs' => [
             'default' => [
                 'url' => '%env(MERCURE_URL)%',
-                'public_url' => '%env(MERCURE_PUBLIC_URL)%',
+#                'public_url' => '%env(MERCURE_PUBLIC_URL)%',
                 'jwt' => [
                     'secret' => '%env(MERCURE_JWT_SECRET)%',
                     'publish' => '*',

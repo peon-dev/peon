@@ -8,14 +8,11 @@
     "routes": [
         {
             "match": {
-                "uri": [
-                    "*.php",
-                    "*.php/*"
-                ]
+                "uri": "/.well-known/mercure"
             },
 
             "action": {
-                "pass": "applications/php/direct"
+                "proxy": "http://mercure"
             }
         },
         {

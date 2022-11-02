@@ -103,13 +103,7 @@ services:
             SERVER_NAME: ':80'
             MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
             MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-            # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
-            MERCURE_EXTRA_DIRECTIVES: |
-                cors_origins *
-        # Comment the following line to disable the development mode
         command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
         volumes:
             - caddy_data:/data
             - caddy_config:/config
-        ports:
-          - "${PEON_MERCURE_PORT:-8180}:80"
