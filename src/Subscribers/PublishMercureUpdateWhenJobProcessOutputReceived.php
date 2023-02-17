@@ -13,19 +13,18 @@ use Twig\Environment;
 
 final class PublishMercureUpdateWhenJobProcessOutputReceived implements EventHandlerInterface
 {
-    private bool $shouldSkipMercurePublishing = false;
-
-
     public function __construct(
         private readonly HubInterface $hub,
         private readonly LoggerInterface $logger,
         private readonly Environment $twig,
+        private bool $shouldSkipMercurePublishing = false,
     ) {}
 
 
     public function __invoke(JobProcessOutputReceived $event): void
     {
-        if ($this->shouldSkipMercurePublishing === true) {
+        // To prevent spamming when mercure is off for example
+        if ($this->shouldSkipMercurePublishing === false) {
             try {
                 $this->hub->publish(
                     new Update(
