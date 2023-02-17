@@ -58,7 +58,8 @@ jobs:
 
     deploy:
         runs-on: ubuntu-latest
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        if: ${{ false }}  # disable for now, uncomment following line when re-enabling
+        # if: ${{ github.event.workflow_run.conclusion == 'success' }}
         needs:
             - docker
         environment:
