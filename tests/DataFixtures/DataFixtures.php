@@ -13,7 +13,6 @@ use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\GitProvider\Value\MergeRequest;
 use Peon\Domain\Job\Job;
 use Peon\Domain\Job\Value\JobId;
-use Peon\Domain\Process\Exception\ProcessFailed;
 use Peon\Domain\Process\Process;
 use Peon\Domain\Process\RunProcess;
 use Peon\Domain\Process\Value\ProcessId;

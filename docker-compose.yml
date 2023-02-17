@@ -14,6 +14,8 @@ services:
             - .:/peon
         working_dir: /peon
         command: "composer install --no-interaction"
+        environment:
+            XDEBUG_MODE: "off"
 
     # Helper service to run database migrations
     db-migrations:
@@ -24,6 +26,8 @@ services:
             - .:/peon
         working_dir: /peon
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 3 && bin/console doctrine:migrations:migrate --no-interaction'"
+        environment:
+            XDEBUG_MODE: "off"
 
     dashboard:
         image: ghcr.io/peon-dev/php:main
@@ -39,6 +43,9 @@ services:
             - mercure
         ports:
             - "${PEON_DASHBOARD_PORT:-8080}:8080"
+        environment:
+            XDEBUG_CONFIG: "${PEON_XDEBUG_CONFIG:-client_host=docker.host.internal}"
+            PHP_IDE_CONFIG: "serverName=peon"
 
     js-watch:
         image: node:14
@@ -75,6 +82,9 @@ services:
             - db-migrations
             - postgres
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/worker'"
+        environment:
+            XDEBUG_CONFIG: "${PEON_XDEBUG_CONFIG:-client_host=docker.host.internal}"
+            PHP_IDE_CONFIG: "serverName=peon"
 
     scheduler:
         image: ghcr.io/peon-dev/php:main
@@ -86,6 +96,9 @@ services:
             - db-migrations
             - postgres
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/scheduler'"
+        environment:
+            XDEBUG_CONFIG: "${PEON_XDEBUG_CONFIG:-client_host=docker.host.internal}"
+            PHP_IDE_CONFIG: "serverName=peon"
 
     adminer:
         image: adminer:4.8.0
@@ -105,7 +118,7 @@ services:
             MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
         ports:
             - "${PEON_MERCURE_PORT:-8081}:80"
-        command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+        command: /usr/bin/caddy run --config /etc/caddy/Caddyfile.dev
         volumes:
             - caddy_data:/data
             - caddy_config:/config

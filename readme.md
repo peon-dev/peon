@@ -24,14 +24,9 @@ In order to run end-to-end tests, you need to create `.env.test.local` and provi
 
 ### Xdebug
 
-To run with xdebug create `docker-compose.override.yml` and configure environment in:
-```yaml
-version: "3.7"
-services:
-    php:
-        environment:
-            XDEBUG_CONFIG: "client_host=192.168.64.1"
-            PHP_IDE_CONFIG: "serverName=peon"
+Xdebug extension is installed and enabled. If you need to overwrite defaults, please set `PEON_XDEBUG_CONFIG` which gets propagated into `XDEBUG_CONFIG` variable. Read more in the [xdebug documentation](https://xdebug.org/docs/all_settings#XDEBUG_CONFIG):
+```
+export SHARRY_XDEBUG_CONFIG="client_host=localhost log=/tmp/xdebug.log"
 ```
 
 
@@ -155,7 +150,7 @@ Overwrite `worker` service group/user in `docker-compose.override.yml`:
 version: "3.7"
 services:
     worker:
-        user: "peon:<docker group id>" 
+        user: "peon:<docker group id or name>"
         
         # in safe environment, you can use root user
         # be aware of it can mess with ownership of the peon source code (for example cache files owned by root)
