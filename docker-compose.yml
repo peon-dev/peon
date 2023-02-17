@@ -74,8 +74,6 @@ services:
             - .:/peon
             - /var/run/docker.sock:/var/run/docker.sock
             - $PWD/var/working_directories:/peon/var/working_directories
-        environment:
-            HOST_WORKING_DIRECTORIES_PATH: $PWD/var/working_directories
         working_dir: /peon
         depends_on:
             - composer
@@ -83,6 +81,7 @@ services:
             - postgres
         command: "bash -c 'wait-for-it postgres:5432 -- sleep 5 && bin/worker'"
         environment:
+            HOST_WORKING_DIRECTORIES_PATH: $PWD/var/working_directories
             XDEBUG_CONFIG: "${PEON_XDEBUG_CONFIG:-client_host=docker.host.internal}"
             PHP_IDE_CONFIG: "serverName=peon"
 
