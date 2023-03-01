@@ -58,8 +58,7 @@ jobs:
 
     deploy:
         runs-on: ubuntu-latest
-        if: ${{ false }}  # disable for now, uncomment following line when re-enabling
-        # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         needs:
             - docker
         environment:
@@ -75,6 +74,6 @@ jobs:
                     script_stop: true
                     script: |
                         docker pull ghcr.io/peon-dev/php-recipes:main
-                        cd /peon/app
+                        cd /app/peon
                         docker-compose pull
                         docker-compose up -d
