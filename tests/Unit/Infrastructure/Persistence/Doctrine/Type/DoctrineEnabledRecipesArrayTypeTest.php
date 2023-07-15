@@ -39,15 +39,15 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
                 [
                     EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a')
                 ],
-                '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false}}]',
+                '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false,"after_script":""}}]',
             ];
 
         yield [
             [
                 EnabledRecipe::withoutConfiguration(RecipeName::TYPED_PROPERTIES, 'a'),
-                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, 'b', new RecipeJobConfiguration(true)),
+                new EnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS, 'b', new RecipeJobConfiguration(true, 'ls -la')),
             ],
-            '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false}},{"recipe_name":"unused-private-methods","baseline_hash":"b","configuration":{"merge_automatically":true}}]',
+            '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":false,"after_script":""}},{"recipe_name":"unused-private-methods","baseline_hash":"b","configuration":{"merge_automatically":true,"after_script":"ls -la"}}]',
         ];
     }
 
@@ -84,12 +84,12 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
         ];
 
         yield [
-            '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":true}}]',
+            '[{"recipe_name":"typed-properties","baseline_hash":"a","configuration":{"merge_automatically":true,"after_script":"ls -la"}}]',
             [
                 new EnabledRecipe(
                     RecipeName::TYPED_PROPERTIES,
                     'a',
-                    new RecipeJobConfiguration(true)
+                    new RecipeJobConfiguration(true, 'ls -la')
                 ),
             ],
         ];
