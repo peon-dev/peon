@@ -30,6 +30,8 @@ class GetRecipeCommands
             $application->gitRepository->workingDirectory->localPath,
         );
 
+        $commands = [];
+
         if (count($paths) > 0) {
             // It will run in different docker container
             $command = sprintf(
@@ -38,9 +40,13 @@ class GetRecipeCommands
                 implode(' ', $paths),
             );
 
-            return [$command];
+            $commands[] = $command;
+
+            if ($enabledRecipe->configuration->afterScript !== '') {
+                $commands[] = $enabledRecipe->configuration->afterScript;
+            }
         }
 
-        return [];
+        return $commands;
     }
 }
