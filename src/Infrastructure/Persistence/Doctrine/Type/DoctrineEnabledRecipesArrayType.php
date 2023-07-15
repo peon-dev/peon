@@ -50,6 +50,7 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
             // TODO: what about some hydrator instead of doing it manually?
             $configuration = new RecipeJobConfiguration(
                 $enabledRecipeData['configuration']['merge_automatically'] ?? RecipeJobConfiguration::DEFAULT_MERGE_AUTOMATICALLY_VALUE,
+                $enabledRecipeData['configuration']['after_script'] ?? RecipeJobConfiguration::DEFAULT_AFTER_SCRIPT_VALUE,
             );
 
             $enabledRecipes[] = new EnabledRecipe(
@@ -84,6 +85,7 @@ final class DoctrineEnabledRecipesArrayType extends JsonType
                 'baseline_hash' => $enabledRecipe->baselineHash,
                 'configuration' => [
                     'merge_automatically' => $enabledRecipe->configuration->mergeAutomatically,
+                    'after_script' => $enabledRecipe->configuration->afterScript,
                 ],
             ];
         }
