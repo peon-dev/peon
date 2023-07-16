@@ -10,6 +10,7 @@ use Peon\Domain\Cookbook\RecipesCollection;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Exception\ProjectNotFound;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use Peon\Domain\Security\CheckUserAccess;
 use Peon\Domain\Security\Exception\ForbiddenUserAccessToProject;
 use Peon\Domain\User\Value\UserId;
@@ -64,7 +65,10 @@ final class ConfigureRecipeController extends AbstractController
                     new ConfigureRecipeForProject(
                         $projectId,
                         RecipeName::from($recipeName),
-                        $data->mergeAutomatically,
+                        new RecipeJobConfiguration(
+                            $data->mergeAutomatically,
+                            $data->afterScript,
+                        ),
                     )
                 );
 

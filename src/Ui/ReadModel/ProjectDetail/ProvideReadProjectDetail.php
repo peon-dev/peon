@@ -75,6 +75,7 @@ SQL;
                 $enabledRecipe['baseline_hash'],
                 new RecipeJobConfiguration(
                     $enabledRecipe['configuration']['merge_automatically'] ?? RecipeJobConfiguration::DEFAULT_MERGE_AUTOMATICALLY_VALUE,
+                    $enabledRecipe['configuration']['after_script'] ?? RecipeJobConfiguration::DEFAULT_AFTER_SCRIPT_VALUE,
                 ),
             );
         }

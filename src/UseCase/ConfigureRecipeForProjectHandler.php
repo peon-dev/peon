@@ -25,8 +25,7 @@ final class ConfigureRecipeForProjectHandler implements CommandHandlerInterface
     {
         $project = $this->projectsCollection->get($command->projectId);
 
-        $configuration = new RecipeJobConfiguration($command->mergeAutomatically);
-        $project->configureRecipe($command->recipeName, $configuration);
+        $project->configureRecipe($command->recipeName, $command->configuration);
 
         $this->projectsCollection->save($project);
     }
