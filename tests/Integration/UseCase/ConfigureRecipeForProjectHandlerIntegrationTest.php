@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\ProjectsCollection;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use Peon\Packages\MessageBus\Command\CommandBus;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\UseCase\ConfigureRecipeForProject;
@@ -25,8 +26,11 @@ class ConfigureRecipeForProjectHandlerIntegrationTest extends KernelTestCase
             new ConfigureRecipeForProject(
                 $projectId,
                 RecipeName::UNUSED_PRIVATE_METHODS,
-                true,
-            )
+                new RecipeJobConfiguration(
+                    true,
+                    'ls -la',
+                ),
+            ),
         );
 
         $projectsCollection = $container->get(ProjectsCollection::class);
@@ -36,5 +40,6 @@ class ConfigureRecipeForProjectHandlerIntegrationTest extends KernelTestCase
         $enabledRecipe = $project->getEnabledRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
 
         self::assertTrue($enabledRecipe->configuration->mergeAutomatically);
+        self::assertSame('ls -la', $enabledRecipe->configuration->afterScript);
     }
 }

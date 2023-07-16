@@ -56,7 +56,7 @@ SQL;
         $enabledRecipes = [];
 
         /**
-         * @var array<array{recipe_name: string, baseline_hash: string|null, configuration?: array{merge_automatically: bool}}> $enabledRecipesJson
+         * @var array<array{recipe_name: string, baseline_hash: string|null, configuration?: array{merge_automatically: bool, after_script: string}}> $enabledRecipesJson
          */
         $enabledRecipesJson = Json::decode($row['enabledRecipes'], Json::FORCE_ARRAY);
 
