@@ -86,6 +86,7 @@
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^10.0",
+        "rector/rector": "^0.17.6",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^6.0",
         "symfony/css-selector": "^6.0",

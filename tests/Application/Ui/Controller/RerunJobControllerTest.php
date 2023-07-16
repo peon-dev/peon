@@ -50,7 +50,7 @@ final class RerunJobControllerTest extends AbstractPeonApplicationTestCase
     /**
      * @return \Generator<array{string, string}>
      */
-    public function provideRoutesRedirectData(): \Generator
+    public static function provideRoutesRedirectData(): \Generator
     {
         $jobId = DataFixtures::USER_1_JOB_1_ID;
 
@@ -59,9 +59,7 @@ final class RerunJobControllerTest extends AbstractPeonApplicationTestCase
         yield ["/projects/rerun-job/$jobId", "/projects/"];
     }
 
-    /**
-     * @dataProvider provideRoutesRedirectData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideRoutesRedirectData')]
     public function testRedirectAfterSuccessfulRerunSchedule(string $requestUrl, string $expectedRedirectUrlStartsWith): void
     {
         $client = self::createClient();

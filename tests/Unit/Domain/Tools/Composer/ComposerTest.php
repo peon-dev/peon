@@ -38,6 +38,7 @@ class ComposerTest extends TestCase
     }
 
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testGetPsr4Roots(): void
     {
         $this->markTestIncomplete();

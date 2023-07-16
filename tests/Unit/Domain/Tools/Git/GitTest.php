@@ -53,9 +53,7 @@ class GitTest extends TestCase
     }
 
 
-    /**
-     * @dataProvider provideTestHasUncommittedChangesData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestHasUncommittedChangesData')]
     public function testHasUncommittedChanges(string $processOutput, bool $expected): void
     {
         $executeCommand = $this->createMock(ExecuteCommand::class);
@@ -74,7 +72,7 @@ class GitTest extends TestCase
     /**
      * @return Generator<array{string, bool}>
      */
-    public function provideTestHasUncommittedChangesData(): Generator
+    public static function provideTestHasUncommittedChangesData(): Generator
     {
         yield [
             ' M some/file.php',
@@ -114,9 +112,7 @@ class GitTest extends TestCase
     }
 
 
-    /**
-     * @dataProvider provideTestRemoteBranchExistsData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestRemoteBranchExistsData')]
     public function testRemoteBranchExists(string $processOutput, bool $expected): void
     {
         $executeCommand = $this->createMock(ExecuteCommand::class);
@@ -135,7 +131,7 @@ class GitTest extends TestCase
     /**
      * @return Generator<array{string, bool}>
      */
-    public function provideTestRemoteBranchExistsData(): Generator
+    public static function provideTestRemoteBranchExistsData(): Generator
     {
         yield [
             'a076d105a41bd46485eed50a5b5ffe2e20f43a4e	refs/heads/peon',
@@ -237,9 +233,9 @@ class GitTest extends TestCase
 
 
     /**
-     * @dataProvider provideTestGetChangedFilesSinceCommitData
      * @param array<string> $expectedChangedFiles
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestGetChangedFilesSinceCommitData')]
     public function testGetChangedFilesSinceCommit(string $processOutput, array $expectedChangedFiles): void
     {
         $executeCommand = $this->createMock(ExecuteCommand::class);
@@ -260,7 +256,7 @@ class GitTest extends TestCase
     /**
      * @return Generator<array{string, array<string>}>
      */
-    public function provideTestGetChangedFilesSinceCommitData(): Generator
+    public static function provideTestGetChangedFilesSinceCommitData(): Generator
     {
         yield [
             '',

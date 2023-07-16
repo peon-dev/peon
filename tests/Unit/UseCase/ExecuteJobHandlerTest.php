@@ -228,9 +228,7 @@ final class ExecuteJobHandlerTest extends TestCase
         yield [$this->createRecipeJobMock($jobId)];
     }
 
-    /**
-     * @dataProvider provideRecipeAndTaskJobs
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideRecipeAndTaskJobs')]
     public function testFailedRunningCommandWillFailJob(Job&MockObject $job): void
     {
         $temporaryApplication = TestDataFactory::createTemporaryApplication();

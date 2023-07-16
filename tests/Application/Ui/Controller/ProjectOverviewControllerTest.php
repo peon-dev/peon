@@ -48,9 +48,7 @@ final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCas
     }
 
 
-    /**
-     * @dataProvider provideTestPageCanBeRenderedData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestPageCanBeRenderedData')]
     public function testPageCanBeRendered(string $projectId): void
     {
         $client = self::createClient();
@@ -66,7 +64,7 @@ final class ProjectOverviewControllerTest extends AbstractPeonApplicationTestCas
     /**
      * @return \Generator<array<string>>
      */
-    public function provideTestPageCanBeRenderedData(): \Generator
+    public static function provideTestPageCanBeRenderedData(): \Generator
     {
         yield [DataFixtures::USER_1_PROJECT_1_ID];
         yield [DataFixtures::USER_1_PROJECT_2_ID];
