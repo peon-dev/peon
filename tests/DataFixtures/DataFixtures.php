@@ -20,6 +20,7 @@ use Peon\Domain\Process\Value\ProcessResult;
 use Peon\Domain\Project\Project;
 use Peon\Domain\Project\Value\EnabledRecipe;
 use Peon\Domain\Project\Value\ProjectId;
+use Peon\Domain\Project\Value\RecipeJobConfiguration;
 use Peon\Domain\Task\Task;
 use Peon\Domain\Task\Value\TaskId;
 use Peon\Domain\GitProvider\Value\GitRepositoryAuthentication;
@@ -136,6 +137,11 @@ final class DataFixtures extends Fixture
         $project = new Project($projectId, $remoteGitRepository, $userId);
         $project->enableRecipe(RecipeName::UNUSED_PRIVATE_METHODS);
         $project->enableRecipe(RecipeName::TYPED_PROPERTIES, 'abcde');
+
+        $project->configureRecipe(RecipeName::TYPED_PROPERTIES, new RecipeJobConfiguration(
+            false,
+            'ls -la'
+        ));
 
         $manager->persist($project);
 

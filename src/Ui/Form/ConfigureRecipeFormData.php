@@ -11,6 +11,7 @@ use Peon\Ui\ReadModel\ProjectDetail\ReadProjectDetail;
 final class ConfigureRecipeFormData
 {
     public bool $mergeAutomatically;
+    public string $afterScript;
 
 
     public static function fromReadProjectDetail(ReadProjectDetail $project, RecipeName $recipeName): self
@@ -18,6 +19,7 @@ final class ConfigureRecipeFormData
         $configuration = $project->getRecipeConfiguration($recipeName);
         $data = new self();
         $data->mergeAutomatically = $configuration?->mergeAutomatically ?? RecipeJobConfiguration::DEFAULT_MERGE_AUTOMATICALLY_VALUE;
+        $data->afterScript = $configuration?->afterScript ?? RecipeJobConfiguration::DEFAULT_AFTER_SCRIPT_VALUE;
 
         return $data;
     }

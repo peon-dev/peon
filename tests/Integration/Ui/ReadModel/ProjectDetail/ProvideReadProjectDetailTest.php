@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Peon\Tests\Integration\Ui\ReadModel\ProjectDetail;
 
+use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Domain\Project\Value\ProjectId;
 use Peon\Tests\DataFixtures\DataFixtures;
 use Peon\Ui\ReadModel\ProjectDetail\ProvideReadProjectDetail;
@@ -35,5 +36,7 @@ final class ProvideReadProjectDetailTest extends KernelTestCase
         self::assertSame(DataFixtures::USER_1_PROJECT_1_ID, $readProject->projectId);
         self::assertCount(2, $readProject->enabledRecipes);
         self::assertFalse($readProject->skipComposerInstall);
+        $configuration = $readProject->getRecipeConfiguration(RecipeName::TYPED_PROPERTIES);
+        self::assertSame('ls -la', $configuration->afterScript);
     }
 }

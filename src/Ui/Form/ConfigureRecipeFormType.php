@@ -7,6 +7,7 @@ namespace Peon\Ui\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,9 +25,12 @@ final class ConfigureRecipeFormType extends AbstractType
             'help' => 'Auto-merge must be enabled in the repository settings.<br>This option has no effect if auto-merge is not configured properly in your git provider settings.',
         ]);
 
-        // Workaround when all checkboxes are false values
-        $builder->add('workaround', HiddenType::class, [
-            'mapped' => false,
+        $builder->add('afterScript', TextType::class, [
+            'label' => 'After script',
+            'required' => false,
+            'help_html' => true,
+            'empty_data' => '',
+            'help' => 'Command that will be run after recipe is finished.',
         ]);
     }
 
