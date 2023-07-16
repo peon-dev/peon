@@ -21,7 +21,7 @@ class ConfigureRecipeForProjectHandlerTest extends TestCase
             ->method('configureRecipe')
             ->with(
                 RecipeName::TYPED_PROPERTIES,
-                new RecipeJobConfiguration(true),
+                new RecipeJobConfiguration(true, 'ls -la'),
             );
 
         $projectsCollection = $this->createMock(ProjectsCollection::class);
@@ -36,8 +36,11 @@ class ConfigureRecipeForProjectHandlerTest extends TestCase
             new ConfigureRecipeForProject(
                 new ProjectId(''),
                 RecipeName::TYPED_PROPERTIES,
-                true,
-            )
+                new RecipeJobConfiguration(
+                    true,
+                    'ls -la',
+                ),
+            ),
         );
     }
 }
