@@ -216,73 +216,64 @@ final class ExecuteJobHandlerTest extends TestCase
         $handler->__invoke($command);
     }
 
-
-    /**
-     * @return \Generator<array{Job&MockObject}>
-     */
-    public function provideRecipeAndTaskJobs(): \Generator
+    public function testFailedRunningCommandWillFailJob(): void
     {
         $jobId = TestDataFactory::createTemporaryApplication()->jobId;
 
-        yield [$this->createTaskJobMock($jobId)];
-        yield [$this->createRecipeJobMock($jobId)];
-    }
+        foreach ([$this->createTaskJobMock($jobId), $this->createRecipeJobMock($jobId)] as $job) {
+            $temporaryApplication = TestDataFactory::createTemporaryApplication();
+            $command = new ExecuteJob($temporaryApplication->jobId, false);
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('provideRecipeAndTaskJobs')]
-    public function testFailedRunningCommandWillFailJob(Job&MockObject $job): void
-    {
-        $temporaryApplication = TestDataFactory::createTemporaryApplication();
-        $command = new ExecuteJob($temporaryApplication->jobId, false);
+            $job->expects(self::once())
+                ->method('fails');
 
-        $job->expects(self::once())
-            ->method('fails');
+            $jobsCollection = $this->createMock(JobsCollection::class);
+            $jobsCollection->method('get')
+                ->willReturn($job);
+            $jobsCollection->expects(self::exactly(2))
+                ->method('save');
 
-        $jobsCollection = $this->createMock(JobsCollection::class);
-        $jobsCollection->method('get')
-            ->willReturn($job);
-        $jobsCollection->expects(self::exactly(2))
-            ->method('save');
+            $projectsCollection = $this->createMock(ProjectsCollection::class);
+            $projectsCollection->method('get')
+                ->willReturn($this->createProjectMock());
 
-        $projectsCollection = $this->createMock(ProjectsCollection::class);
-        $projectsCollection->method('get')
-            ->willReturn($this->createProjectMock());
+            $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
+            $prepareApplicationGitRepository->method('forRemoteRepository')
+                ->willReturn($temporaryApplication->gitRepository);
 
-        $prepareApplicationGitRepository = $this->createMock(PrepareApplicationGitRepository::class);
-        $prepareApplicationGitRepository->method('forRemoteRepository')
-            ->willReturn($temporaryApplication->gitRepository);
+            $buildApplication = $this->createMock(BuildPhpApplication::class);
 
-        $buildApplication = $this->createMock(BuildPhpApplication::class);
+            $executeCommand = $this->createMock(ExecuteCommand::class);
+            $executeCommand->expects(self::once())
+                ->method('inContainer')
+                ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
 
-        $executeCommand = $this->createMock(ExecuteCommand::class);
-        $executeCommand->expects(self::once())
-            ->method('inContainer')
-            ->willThrowException(new ProcessFailed(new ProcessResult(1, 0, '')));
+            $eventBusSpy = $this->createMock(EventBus::class);
+            $eventBusSpy->expects(self::exactly(2))
+                ->method('dispatch')
+                ->with($this->isInstanceOf(JobStatusChanged::class));
 
-        $eventBusSpy = $this->createMock(EventBus::class);
-        $eventBusSpy->expects(self::exactly(2))
-            ->method('dispatch')
-            ->with($this->isInstanceOf(JobStatusChanged::class));
+            $getRecipeCommands = $this->createMock(GetRecipeCommands::class);
+            $getRecipeCommands->method('forApplication')->willReturn(['command']);
 
-        $getRecipeCommands = $this->createMock(GetRecipeCommands::class);
-        $getRecipeCommands->method('forApplication')->willReturn(['command']);
+            $handler = new ExecuteJobHandler(
+                $jobsCollection,
+                $projectsCollection,
+                $prepareApplicationGitRepository,
+                $buildApplication,
+                $this->createMock(Clock::class),
+                $this->createMock(UpdateMergeRequest::class),
+                $eventBusSpy,
+                $executeCommand,
+                $this->createDetectApplicationLanguage(),
+                $getRecipeCommands,
+                $this->createMock(DetectContainerImage::class),
+            );
 
-        $handler = new ExecuteJobHandler(
-            $jobsCollection,
-            $projectsCollection,
-            $prepareApplicationGitRepository,
-            $buildApplication,
-            $this->createMock(Clock::class),
-            $this->createMock(UpdateMergeRequest::class),
-            $eventBusSpy,
-            $executeCommand,
-            $this->createDetectApplicationLanguage(),
-            $getRecipeCommands,
-            $this->createMock(DetectContainerImage::class),
-        );
+            $this->expectException(JobExecutionFailed::class);
 
-        $this->expectException(JobExecutionFailed::class);
-
-        $handler->__invoke($command);
+            $handler->__invoke($command);
+        }
     }
 
 
