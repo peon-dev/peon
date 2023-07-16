@@ -66,6 +66,18 @@ parameters:
             message: '#^PHPDoc tag \@throws with type#'
             path: src/Infrastructure/GitProvider/ProxyGitProvider.php
 
+        -
+            message: '#InvalidArgumentException is never thrown in the corresponding try block#'
+            path: src/Domain/GitProvider/Value/RemoteGitRepository.php
+
+        -
+            message: '#Unused @throws Peon\\Domain\\Process\\Exception\\ProcessFailed annotation#'
+            path: src/Domain/Process/Process.php
+
+        -
+            message: '#mixed given#'
+            path: src/Infrastructure/GitProvider/ProxyGitProvider.php
+
     exceptionRules:
         reportUnusedCatchesOfUncheckedExceptions: true
         reportUnusedCheckedThrowsInSubtypes: false

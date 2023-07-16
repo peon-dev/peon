@@ -7,6 +7,7 @@ namespace Peon\Ui\ReadModel\ProjectDetail;
 use Cron\CronExpression;
 use DateTimeImmutable;
 use JetBrains\PhpStorm\Immutable;
+use Lorisleiva\CronTranslator\CronParsingException;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
@@ -85,6 +86,9 @@ final class ReadTask
     }
 
 
+    /**
+     * @throws CronParsingException
+     */
     public function getHumanReadableCron(): string
     {
         if ($this->schedule === null) {

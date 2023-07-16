@@ -67,12 +67,6 @@ final class DoctrineBuildConfigurationType extends JsonType
             'skip_composer_install' => $value->skipComposerInstall,
         ];
 
-        $converted = parent::convertToDatabaseValue($data, $platform);
-
-        if (is_string($converted) === false) {
-            throw ConversionException::conversionFailedSerialization($value, 'json', 'Invalid json format');
-        }
-
-        return $converted;
+        return parent::convertToDatabaseValue($data, $platform);
     }
 }

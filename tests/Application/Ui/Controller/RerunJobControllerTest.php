@@ -73,6 +73,6 @@ final class RerunJobControllerTest extends AbstractPeonApplicationTestCase
         $currentLocation = $client->getResponse()->headers->get('Location');
         assert(is_string($currentLocation));
 
-        self::assertStringStartsWith($expectedRedirectUrlStartsWith, $currentLocation);
+        self::assertTrue(str_starts_with($currentLocation, $expectedRedirectUrlStartsWith));
     }
 }
