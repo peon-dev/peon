@@ -15,9 +15,8 @@ use Symfony\Component\Process\Process;
 
 class RunJobRecipeIntegrationTest extends KernelTestCase
 {
-    /**
-     * @dataProvider provideRecipeNames
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideRecipeNames')]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCodeIsChangedAsExpected(RecipeName $recipeName): void
     {
         $this->markTestSkipped('Needs to be re-implemented');
@@ -46,7 +45,7 @@ class RunJobRecipeIntegrationTest extends KernelTestCase
     /**
      * @return \Generator<array{RecipeName}>
      */
-    public function provideRecipeNames(): \Generator
+    public static function provideRecipeNames(): \Generator
     {
         foreach (RecipeName::cases() as $recipeName) {
             yield [

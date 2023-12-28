@@ -12,9 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ShouldScheduleTest extends TestCase
 {
-    /**
-     * @dataProvider provideTestCronExpressionNowData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestCronExpressionNowData')]
     public function testCronExpressionNow(DateTimeImmutable $now, CronExpression $cronExpression, DateTimeImmutable|null $lastTimeSchedule, bool $expected): void
     {
         $clock = new FrozenClock($now);
@@ -28,7 +26,7 @@ final class ShouldScheduleTest extends TestCase
     /**
      * @return Generator<array{DateTimeImmutable, CronExpression, DateTimeImmutable|null, bool}>
      */
-    public function provideTestCronExpressionNowData(): Generator
+    public static function provideTestCronExpressionNowData(): Generator
     {
         // Every hour at 0 minutes
         $cronExpression = new CronExpression('0 * * * *');

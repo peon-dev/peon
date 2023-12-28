@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class GitProviderNameTest extends TestCase
 {
-    public function provideData(): \Generator
+    public static function provideData(): \Generator
     {
         yield ['https://bitbucket.com/org/repo.git', null];
         yield ['https://user:pass@bitbucket.com/org/repo.git', null];
@@ -22,9 +22,7 @@ final class GitProviderNameTest extends TestCase
     }
 
 
-    /**
-     * @dataProvider provideData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideData')]
     public function test(string $repositoryUri, null|GitProviderName $expectedProvider): void
     {
         if ($expectedProvider === null) {

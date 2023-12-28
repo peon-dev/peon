@@ -72,12 +72,6 @@ final class DoctrineMergeRequestType extends JsonType
             'url' => $value->url,
         ];
 
-        $converted = parent::convertToDatabaseValue($data, $platform);
-
-        if (is_string($converted) === false && $converted !== null) {
-            throw ConversionException::conversionFailedSerialization($value, 'json', 'Invalid json format');
-        }
-
-        return $converted;
+        return parent::convertToDatabaseValue($data, $platform);
     }
 }

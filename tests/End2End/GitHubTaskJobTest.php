@@ -139,12 +139,14 @@ final class GitHubTaskJobTest extends KernelTestCase
      *  - resets branch HEAD to main branch
      *  - new changes committed
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testRemoteBranchAlreadyExistsRebaseFails(): void
     {
         $this->markTestIncomplete();
     }
 
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testMergeRequestAlreadyExists(): void
     {
         $this->markTestIncomplete();
@@ -158,6 +160,7 @@ final class GitHubTaskJobTest extends KernelTestCase
      *  - successfully rebase
      *  - new changes committed
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testRemoteBranchAlreadyExistsRebaseSuccessesAndHaveChanges(): void
     {
         $this->markTestIncomplete();

@@ -6,6 +6,7 @@ namespace Peon\Ui\ReadModel\ProjectDetail;
 
 use Cron\CronExpression;
 use DateTimeImmutable;
+use Lorisleiva\CronTranslator\CronParsingException;
 use Lorisleiva\CronTranslator\CronTranslator;
 use Peon\Domain\Cookbook\Value\RecipeName;
 use Peon\Ui\ReadModel\JobStatus;
@@ -87,6 +88,9 @@ final class ReadRecipe
     }
 
 
+    /**
+     * @throws CronParsingException
+     */
     public function getHumanReadableCron(): string
     {
         return CronTranslator::translate($this->schedule);

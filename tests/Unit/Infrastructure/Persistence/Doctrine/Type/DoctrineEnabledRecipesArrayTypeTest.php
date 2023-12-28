@@ -14,8 +14,8 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
 {
     /**
      * @param array<EnabledRecipe> $baselines
-     * @dataProvider provideConvertToDatabaseValueData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideConvertToDatabaseValueData')]
     public function testConvertToDatabaseValue(?array $baselines, ?string $expected): void
     {
         $platform = new PostgreSQL100Platform();
@@ -29,7 +29,7 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
     /**
      * @return \Generator<array<mixed>>
      */
-    public function provideConvertToDatabaseValueData(): \Generator
+    public static function provideConvertToDatabaseValueData(): \Generator
     {
         yield [null, null];
 
@@ -53,8 +53,8 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
 
     /**
      * @param array<EnabledRecipe> $expected
-     * @dataProvider provideConvertToPHPValueData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideConvertToPHPValueData')]
     public function testConvertToPHPValue(?string $value, ?array $expected): void
     {
         $platform = new PostgreSQL100Platform();
@@ -70,7 +70,7 @@ final class DoctrineEnabledRecipesArrayTypeTest extends TestCase
     /**
      * @return \Generator<array<mixed>>
      */
-    public function provideConvertToPHPValueData(): \Generator
+    public static function provideConvertToPHPValueData(): \Generator
     {
         yield [null, null];
 

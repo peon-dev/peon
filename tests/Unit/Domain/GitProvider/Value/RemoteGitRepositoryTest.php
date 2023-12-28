@@ -50,9 +50,7 @@ class RemoteGitRepositoryTest extends TestCase
     }
 
 
-    /**
-     * @dataProvider provideTestGetInstanceUrlData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestGetInstanceUrlData')]
     public function testGetInstanceUrl(string $expected, string $repositoryUri): void
     {
         $repository = self::createRemoteGitRepository($repositoryUri);
@@ -73,7 +71,7 @@ class RemoteGitRepositoryTest extends TestCase
     /**
      * @return \Generator<string[]>
      */
-    public function provideTestGetInstanceUrlData(): \Generator
+    public static function provideTestGetInstanceUrlData(): \Generator
     {
         yield ['https://gitlab.com', 'https://gitlab.com/peon/repository.git'];
         yield ['https://gitlab.server.com', 'https://gitlab.server.com/peon/repository.git'];

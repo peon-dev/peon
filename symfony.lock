@@ -17,18 +17,6 @@
             "src/Infrastructure/Symfony/Config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
-    "doctrine/annotations": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
-        },
-        "files": [
-            "config/routes/annotations.yaml"
-        ]
-    },
     "doctrine/cache": {
         "version": "2.1.1"
     },
@@ -363,26 +351,11 @@
     "sebastian/recursion-context": {
         "version": "4.0.4"
     },
-    "sebastian/resource-operations": {
-        "version": "3.0.3"
-    },
     "sebastian/type": {
         "version": "2.3.4"
     },
     "sebastian/version": {
         "version": "3.0.2"
-    },
-    "sensio/framework-extra-bundle": {
-        "version": "5.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.2",
-            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
-        },
-        "files": [
-            "config/packages/sensio_framework_extra.yaml"
-        ]
     },
     "sentry/sdk": {
         "version": "3.1.1"
@@ -401,9 +374,6 @@
         "files": [
             "src/Infrastructure/Symfony/Config/packages/sentry.yaml"
         ]
-    },
-    "stella-maris/clock": {
-        "version": "0.1.4"
     },
     "symfony/asset": {
         "version": "v5.3.4"
@@ -677,6 +647,15 @@
             "ref": "192bc241a3095c6861353e5a7a652ad35659ca92"
         }
     },
+    "symfony/stimulus-bundle": {
+        "version": "2.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.8",
+            "ref": "9e33a8a3794b603fb4be6c04ee5ecab901ce549e"
+        }
+    },
     "symfony/stopwatch": {
         "version": "v5.3.4"
     },
@@ -716,9 +695,6 @@
         ]
     },
     "symfony/ux-turbo": {
-        "version": "v2.0.1"
-    },
-    "symfony/ux-turbo-mercure": {
         "version": "v2.0.1"
     },
     "symfony/validator": {
