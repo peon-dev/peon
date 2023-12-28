@@ -30,7 +30,6 @@ final class UserSettingsController extends AbstractController
     public function __invoke(Request $request, #[CurrentUser] User $user): Response
     {
         $changePasswordForm = $this->createForm(ChangePasswordFormType::class);
-
         $changePasswordForm->handleRequest($request);
 
         if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
