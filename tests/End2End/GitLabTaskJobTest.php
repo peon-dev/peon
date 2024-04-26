@@ -97,12 +97,14 @@ final class GitLabTaskJobTest extends KernelTestCase
 
         $this->markTestIncomplete('Test failing and i do not know why, yet it works, fix later..');
 
+        /*
         $this->assertNonEmptyMergeRequestExists($this->gitlabRepository->getProject(), $this->branchName);
 
         $job = $this->jobsCollection->get($jobId);
         $this->assertJobHasSucceed($job);
         $this->assertJobProcessesExists($jobId);
         self::assertNotNull($job->mergeRequest);
+        */
     }
 
 
