@@ -41,7 +41,7 @@ final class GitLabTaskJobTest extends KernelTestCase
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
     private StatefulRandomPostfixProvideBranchName $branchNameProvider;
-    private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
+    //private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
 
 
     protected function setUp(): void
@@ -202,6 +202,7 @@ final class GitLabTaskJobTest extends KernelTestCase
     }
 
 
+    /*
     private function assertNonEmptyMergeRequestExists(string $project, string $branchName): void
     {
         $mergeRequests = $this->findMergeRequests($project, $branchName);
@@ -222,6 +223,7 @@ final class GitLabTaskJobTest extends KernelTestCase
 
         self::assertCount(0, $mergeRequests, 'Merge request should not be opened!');
     }
+    */
 
 
     private function deleteRemoteBranch(string $project, string $branchName): void
@@ -249,10 +251,9 @@ final class GitLabTaskJobTest extends KernelTestCase
 
     /**
      * @return array<array{target_branch: string, title: string, iid: int}>
-     */
     private function findMergeRequests(string $project, string $sourceBranch): array
     {
-        /** @var array<array{target_branch: string, title: string, iid: int}> $mergeRequests */
+        /** @var array<array{target_branch: string, title: string, iid: int}> $mergeRequests
         $mergeRequests = $this->gitlabHttpClient->mergeRequests()->all($project, [
             'state' => 'opened',
             'source_branch' => $sourceBranch,
@@ -260,6 +261,7 @@ final class GitLabTaskJobTest extends KernelTestCase
 
         return $mergeRequests;
     }
+    */
 
 
     // TODO: instead of directly persisting, we could use fixtures or handlers
@@ -289,6 +291,7 @@ final class GitLabTaskJobTest extends KernelTestCase
     }
 
 
+    /*
     private function assertJobHasSucceed(Job $job): void
     {
         self::assertNotNull($job->succeededAt, 'Job should be succeeded!');
@@ -307,4 +310,5 @@ final class GitLabTaskJobTest extends KernelTestCase
 
         self::assertNotEmpty($processes, 'No processes for job found!');
     }
+    */
 }
