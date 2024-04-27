@@ -41,7 +41,7 @@ final class GitLabTaskJobTest extends KernelTestCase
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
     private StatefulRandomPostfixProvideBranchName $branchNameProvider;
-    private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
+    //private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
 
 
     protected function setUp(): void
@@ -65,7 +65,7 @@ final class GitLabTaskJobTest extends KernelTestCase
         $this->jobsCollection = $container->get(JobsCollection::class);
         $this->projectsCollection = $container->get(ProjectsCollection::class);
         $this->clock = $container->get(Clock::class);
-        $this->provideReadProcessesByJobId = $container->get(ProvideReadProcessesByJobId::class);
+        // $this->provideReadProcessesByJobId = $container->get(ProvideReadProcessesByJobId::class);
 
         $authentication = new GitRepositoryAuthentication($username, $personalAccessToken);
         $this->gitlabRepository = new RemoteGitRepository($repositoryUri, $authentication);
