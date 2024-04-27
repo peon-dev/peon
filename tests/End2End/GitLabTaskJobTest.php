@@ -41,7 +41,7 @@ final class GitLabTaskJobTest extends KernelTestCase
     private ProjectsCollection $projectsCollection;
     private Clock $clock;
     private StatefulRandomPostfixProvideBranchName $branchNameProvider;
-    //private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
+    private ProvideReadProcessesByJobId $provideReadProcessesByJobId;
 
 
     protected function setUp(): void
@@ -239,6 +239,7 @@ final class GitLabTaskJobTest extends KernelTestCase
     }
 
 
+    /*
     private function duplicateBranch(string $sourceBranch, string $targetBranch): void
     {
         $this->gitlabHttpClient->repositories()->createBranch(
@@ -247,10 +248,11 @@ final class GitLabTaskJobTest extends KernelTestCase
             $sourceBranch
         );
     }
+    */
 
 
-    /**
-     * @return array<array{target_branch: string, title: string, iid: int}>
+    /*
+     // @return array<array{target_branch: string, title: string, iid: int}>
     private function findMergeRequests(string $project, string $sourceBranch): array
     {
         /** @var array<array{target_branch: string, title: string, iid: int}> $mergeRequests
