@@ -12,9 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 final class DoctrineEnabledRecipeTypeTest extends TestCase
 {
-    /**
-     * @dataProvider provideConvertToDatabaseValueData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideConvertToDatabaseValueData')]
     public function testConvertToDatabaseValue(?EnabledRecipe $enabledRecipe, ?string $expected): void
     {
         $platform = new PostgreSQL100Platform();
@@ -28,7 +26,7 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
     /**
      * @return \Generator<array<mixed>>
      */
-    public function provideConvertToDatabaseValueData(): \Generator
+    public static function provideConvertToDatabaseValueData(): \Generator
     {
         yield [null, null];
 
@@ -42,9 +40,7 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideConvertToPHPValueData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideConvertToPHPValueData')]
     public function testConvertToPHPValue(?string $value, ?EnabledRecipe $expected): void
     {
         $platform = new PostgreSQL100Platform();
@@ -60,7 +56,7 @@ final class DoctrineEnabledRecipeTypeTest extends TestCase
     /**
      * @return \Generator<array{string|null, EnabledRecipe|null}>
      */
-    public function provideConvertToPHPValueData(): \Generator
+    public static function provideConvertToPHPValueData(): \Generator
     {
         yield [null, null];
 

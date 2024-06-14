@@ -8,12 +8,14 @@ use PHPUnit\Framework\TestCase;
 
 final class DoctrineProjectIdTypeTest extends TestCase
 {
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testConvertToDatabaseValue(): void
     {
         $this->markTestIncomplete('todo');
     }
 
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testConvertToPHPValue(): void
     {
         $this->markTestIncomplete('todo');

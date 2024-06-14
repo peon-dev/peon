@@ -24,7 +24,7 @@ jobs:
       -   uses: actions/checkout@v2
       -   uses: shivammathur/setup-php@v2
           with:
-            php-version: 8.1
+            php-version: 8.2
             coverage: none # default is xdebug
             extensions: mbstring, uuid # needed by phpunit
 
@@ -47,7 +47,7 @@ jobs:
         -   uses: actions/checkout@v2
         -   uses: shivammathur/setup-php@v2
             with:
-              php-version: 8.1
+              php-version: 8.2
               coverage: none # default is xdebug
               extensions: mbstring, uuid # needed by phpunit
 
@@ -75,7 +75,7 @@ jobs:
         -   uses: actions/checkout@v2
         -   uses: shivammathur/setup-php@v2
             with:
-              php-version: 8.1
+              php-version: 8.2
               coverage: none # default is xdebug
               extensions: mbstring, uuid # needed by phpunit
 

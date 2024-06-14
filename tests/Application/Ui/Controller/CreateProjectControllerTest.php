@@ -21,6 +21,7 @@ class CreateProjectControllerTest extends AbstractPeonApplicationTestCase
     }
 
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testDuplicateProjectCanNotBeAdded(): void
     {
         $this->markTestIncomplete('To be implemented');
