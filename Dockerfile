@@ -1,4 +1,9 @@
-FROM ghcr.io/peon-dev/php:main as composer
+# Base pinned to the exact PHP 8.1.7 build the production image was built from
+# (2023-07-16). `php:main` moved to PHP 8.2 the same day and composer.lock pins
+# laminas/laminas-code 4.5.2, nette/utils 3.2.7 and nette/php-generator 4.0.2,
+# all `php <8.2` — so every build against `:main` fails at `composer install`.
+# Bump deliberately together with a `composer update` for PHP 8.2.
+FROM ghcr.io/peon-dev/php:sha-16c9d38@sha256:55f6780d79dd75200db651e42e885595b150fc488d089e3708afdb509a02a014 as composer
 
 ENV APP_ENV="prod"
 ENV APP_DEBUG=0
